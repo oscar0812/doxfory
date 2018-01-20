@@ -4,7 +4,7 @@
 
 <ul>
 <?php foreach ($users as $u) { ?>
-<li><?=$u['username']?></li>
+<li><?=$u?></li>
 <?php } ?>
 </ul>
 
