@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="job" idMethod="native" phpName="Job">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="is_completed" phpName="IsCompleted" type="BOOLEAN" size="1" required="true"/>
+    <column name="title" phpName="Title" type="VARCHAR" size="255" required="true"/>
+    <column name="description" phpName="Description" type="VARCHAR" size="4098" required="true"/>
+    <column name="images" phpName="Images" type="VARCHAR" size="4098" required="true"/>
+    <column name="payment" phpName="Payment" type="INTEGER" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="provider_id" phpName="ProviderId" type="INTEGER" required="true"/>
+    <index name="user_id">
+      <index-column name="user_id"/>
+    </index>
+    <index name="provider_id">
+      <index-column name="provider_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="user" idMethod="native" phpName="User">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="255" required="true"/>
+    <column name="profile_picture" phpName="ProfilePicture" type="VARCHAR" size="255" required="true"/>
+    <column name="about_me" phpName="AboutMe" type="VARCHAR" size="4098" required="true"/>
+    <column name="up_votes" phpName="UpVotes" type="INTEGER" required="true"/>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
