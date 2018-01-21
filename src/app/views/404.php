@@ -23,7 +23,7 @@
             Sorry, an error has occured, Requested page not found!
           </div>
           <div class="error-actions">
-            <a href="<?=$router->pathFor('home')?>" class="btn btn-primary btn-lg"><span class="fa fa-home"></span>Take Me Home
+            <a href="<?=$router->pathFor('home')?>" class="btn btn-primary btn-lg"><span class="fa fa-home"></span> Take Me Home
             </a><a href="#" class="btn btn-default btn-lg"><span class="fa fa-envelope"></span> Contact Support </a>
           </div>
         </div>

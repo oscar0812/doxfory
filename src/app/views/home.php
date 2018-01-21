@@ -99,7 +99,7 @@
 							<p class="white-text">Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl. Nullam sit amet magna in magna gravida vehicula. Mauris tincidunt sem sed arcu. Nunc posuere.
 							</p>
 							<button class="white-btn">Get Started!</button>
-							<button class="main-btn">Learn more</button>
+							<button class="main-btn scroll" href="#about">Learn more</button>
 						</div>
 					</div>
 					<!-- /home content -->
