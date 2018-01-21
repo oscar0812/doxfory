@@ -21,21 +21,9 @@ $app->get('/', function($request, $response, $args) {
 	return $response;
 });
 
-// basic GET route with named argument (tim)
-$app->get('/goodbye/{tim}', function($request, $response, $args) {
-
-	// query string access
-	$data = $request->getQueryParams();
-
-	// database access
-	$stmt = $this->db->prepare("select * from user");
-	$stmt->execute();
-	$users = $stmt->fetchall();
-
-	// template rendering, passing data (users) and router
-	$response = $this->view->render($response, "example.php", ['users' => $users, 'router' => $this->router]);
-
-	return $response;
+$app->get('/about', function($request, $response, $args) {
+  $response->getBody()->write(time());
+  return $response;
 });
 
 // basic POST route, named route
