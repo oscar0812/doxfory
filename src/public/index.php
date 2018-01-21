@@ -7,19 +7,25 @@ require '../data/generated-conf/config.php';
 
 $app = new \Slim\App(["settings" => $config]);
 
-// dependencies (php renderer and PDO db access)
 $container = $app->getContainer();
 $container['view'] = new \Slim\Views\PhpRenderer("../app/views/");
+
+// if url is not found (404)
+$container['notFoundHandler'] = function($c){
+  return function($request, $response) use ($c){
+    return $c['view']->render($response->withStatus(404), '404.php', ['router' => $c->router]);
+  };
+};
 
 $app->get('/', function($request, $response, $args) {
 
   $users = UserQuery::create()->find();
 
 	// template rendering, passing data (users) and router
-	$response = $this->view->render($response, "index.php", ['users' => $users, 'router' => $this->router]);
+	$response = $this->view->render($response, "home.php", ['users' => $users, 'router' => $this->router]);
 
 	return $response;
-});
+})->setName('home');
 
 $app->get('/about', function($request, $response, $args) {
   $response->getBody()->write(time());
