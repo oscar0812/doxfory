@@ -5,9 +5,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/logo.png" type="image/x-icon">
+	<link rel="icon" href="img/logo.png" type="image/x-icon">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>HTML Template</title>
+	<title><?=websiteName()?></title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
@@ -40,7 +42,7 @@
 	<!-- Header -->
 	<header id="home">
 		<!-- Background Image -->
-		<div class="bg-img" style="background-image: url('./img/background1.jpg');">
+		<div class="bg-img" style="background-image: url('img/backgrounds/1.jpg');">
 			<div class="overlay"></div>
 		</div>
 		<!-- /Background Image -->
@@ -52,7 +54,7 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="<?=$router->pathFor('home')?>">
 							<img class="logo" src="img/logo.png" alt="logo">
 							<img class="logo-alt" src="img/logo-alt.png" alt="logo">
 						</a>
@@ -98,8 +100,8 @@
 							<h1 class="white-text">We Are Creative Agency</h1>
 							<p class="white-text">Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl. Nullam sit amet magna in magna gravida vehicula. Mauris tincidunt sem sed arcu. Nunc posuere.
 							</p>
-							<button class="white-btn">Get Started!</button>
-							<button class="main-btn scroll" href="#about">Learn more</button>
+							<a class="white-btn" href="<?=$router->pathFor('register')?>">Get Started!</a>
+							<button class="main-btn scroll">Learn more</button>
 						</div>
 					</div>
 					<!-- /home content -->
@@ -187,14 +189,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work1.jpg" alt="">
+					<img class="img-responsive" src="img/work1.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work1.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work1.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -202,14 +204,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work2.jpg" alt="">
+					<img class="img-responsive" src="img/work2.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work2.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work2.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -217,14 +219,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work3.jpg" alt="">
+					<img class="img-responsive" src="img/work3.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work3.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work3.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -232,14 +234,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work4.jpg" alt="">
+					<img class="img-responsive" src="img/work4.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work4.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work4.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -247,14 +249,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work5.jpg" alt="">
+					<img class="img-responsive" src="img/work5.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work5.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work5.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -262,14 +264,14 @@
 
 				<!-- Work -->
 				<div class="col-md-4 col-xs-6 work">
-					<img class="img-responsive" src="./img/work6.jpg" alt="">
+					<img class="img-responsive" src="img/work6.jpg" alt="">
 					<div class="overlay"></div>
 					<div class="work-content">
 						<span>Category</span>
 						<h3>Lorem ipsum dolor</h3>
 						<div class="work-link">
 							<a href="#"><i class="fa fa-external-link"></i></a>
-							<a class="lightbox" href="./img/work6.jpg"><i class="fa fa-search"></i></a>
+							<a class="lightbox" href="img/work6.jpg"><i class="fa fa-search"></i></a>
 						</div>
 					</div>
 				</div>
@@ -406,10 +408,10 @@
 				<!-- About slider -->
 				<div class="col-md-6">
 					<div id="about-slider" class="owl-carousel owl-theme">
-						<img class="img-responsive" src="./img/about1.jpg" alt="">
-						<img class="img-responsive" src="./img/about2.jpg" alt="">
-						<img class="img-responsive" src="./img/about1.jpg" alt="">
-						<img class="img-responsive" src="./img/about2.jpg" alt="">
+						<img class="img-responsive" src="img/about1.jpg" alt="">
+						<img class="img-responsive" src="img/about2.jpg" alt="">
+						<img class="img-responsive" src="img/about1.jpg" alt="">
+						<img class="img-responsive" src="img/about2.jpg" alt="">
 					</div>
 				</div>
 				<!-- /About slider -->
@@ -428,7 +430,7 @@
 	<div id="numbers" class="section sm-padding">
 
 		<!-- Background Image -->
-		<div class="bg-img" style="background-image: url('./img/background2.jpg');">
+		<div class="bg-img" style="background-image: url('img/backgrounds/2.jpg');">
 			<div class="overlay"></div>
 		</div>
 		<!-- /Background Image -->
@@ -598,7 +600,7 @@
 	<div id="testimonial" class="section md-padding">
 
 		<!-- Background Image -->
-		<div class="bg-img" style="background-image: url('./img/background3.jpg');">
+		<div class="bg-img" style="background-image: url('img/backgrounds/3.jpg');">
 			<div class="overlay"></div>
 		</div>
 		<!-- /Background Image -->
@@ -616,7 +618,7 @@
 						<!-- testimonial -->
 						<div class="testimonial">
 							<div class="testimonial-meta">
-								<img src="./img/perso1.jpg" alt="">
+								<img src="img/perso1.jpg" alt="">
 								<h3 class="white-text">John Doe</h3>
 								<span>Web Designer</span>
 							</div>
@@ -627,7 +629,7 @@
 						<!-- testimonial -->
 						<div class="testimonial">
 							<div class="testimonial-meta">
-								<img src="./img/perso2.jpg" alt="">
+								<img src="img/perso2.jpg" alt="">
 								<h3 class="white-text">John Doe</h3>
 								<span>Web Designer</span>
 							</div>
@@ -667,7 +669,7 @@
 				<div class="col-sm-4">
 					<div class="team">
 						<div class="team-img">
-							<img class="img-responsive" src="./img/team1.jpg" alt="">
+							<img class="img-responsive" src="img/team1.jpg" alt="">
 							<div class="overlay">
 								<div class="team-social">
 									<a href="#"><i class="fa fa-facebook"></i></a>
@@ -688,7 +690,7 @@
 				<div class="col-sm-4">
 					<div class="team">
 						<div class="team-img">
-							<img class="img-responsive" src="./img/team2.jpg" alt="">
+							<img class="img-responsive" src="img/team2.jpg" alt="">
 							<div class="overlay">
 								<div class="team-social">
 									<a href="#"><i class="fa fa-facebook"></i></a>
@@ -709,7 +711,7 @@
 				<div class="col-sm-4">
 					<div class="team">
 						<div class="team-img">
-							<img class="img-responsive" src="./img/team3.jpg" alt="">
+							<img class="img-responsive" src="img/team3.jpg" alt="">
 							<div class="overlay">
 								<div class="team-social">
 									<a href="#"><i class="fa fa-facebook"></i></a>
@@ -754,7 +756,7 @@
 				<div class="col-md-4">
 					<div class="blog">
 						<div class="blog-img">
-							<img class="img-responsive" src="./img/blog1.jpg" alt="">
+							<img class="img-responsive" src="img/blog1.jpg" alt="">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
@@ -774,7 +776,7 @@
 				<div class="col-md-4">
 					<div class="blog">
 						<div class="blog-img">
-							<img class="img-responsive" src="./img/blog2.jpg" alt="">
+							<img class="img-responsive" src="img/blog2.jpg" alt="">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
@@ -794,7 +796,7 @@
 				<div class="col-md-4">
 					<div class="blog">
 						<div class="blog-img">
-							<img class="img-responsive"  src="./img/blog3.jpg" alt="">
+							<img class="img-responsive"  src="img/blog3.jpg" alt="">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
@@ -916,7 +918,7 @@
 
 					<!-- footer copyright -->
 					<div class="footer-copyright">
-						<p>Copyright © 2017. All Rights Reserved. Designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
+						<p><?=copyright()?></p>
 					</div>
 					<!-- /footer copyright -->
 

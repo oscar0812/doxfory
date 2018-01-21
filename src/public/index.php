@@ -10,6 +10,11 @@ $app = new \Slim\App(["settings" => $config]);
 $container = $app->getContainer();
 $container['view'] = new \Slim\Views\PhpRenderer("../app/views/");
 
+// link the controller calls to instances
+$container[HomeController::class] = function ($c) {
+    return new App\Controllers\HomeController($c);
+};
+
 // if url is not found (404)
 $container['notFoundHandler'] = function ($c) {
     return function ($request, $response) use ($c) {
@@ -17,21 +22,14 @@ $container['notFoundHandler'] = function ($c) {
     };
 };
 
+// -- set up routing --
+
 // root
-$app->get('/', function ($request, $response, $args) {
-    $users = UserQuery::create()->find();
+$app->get('/', HomeController::class.':index')->setName('home');
 
-    // template rendering, passing data (users) and router
-    $response = $this->view->render($response, "home.php", ['users' => $users, 'router' => $this->router]);
-
-    return $response;
-})->setName('home');
-
-$app->get('/register', function ($request, $response, $args) {
-    $response = $this->view->render($response, "register.php", ['router' => $this->router]);
-
-    return $response;
-});
+// register page
+$app->get('/register', HomeController::class.':showRegisterPage')->setName('register');
+$app->post('/register', HomeController::class.':registerUser')->setName('register-user');
 
 // basic POST route, named route
 $app->post('/color', function ($request, $response) {
