@@ -1,79 +1,15 @@
-jQuery(document).ready(function() {
+$(function() {
+  login_form = $(".login-form");
+  signup_form = $(".register-form");
 
   /*
       Fullscreen background
   */
   $.backstretch("img/backgrounds/4.jpg");
 
-  /*
-      Login form validation
-  */
-  $('.login-form input[type="text"], .login-form input[type="password"], .login-form textarea').on('focus', function() {
-    $(this).removeClass('input-error');
-  });
-
-  // login button clicked
-  $('.login-form').on('submit', function(e) {
-
-    has_errors = false;
-
-    $(this).find('input[type="text"], input[type="password"], textarea').each(function() {
-      if ($(this).val() == "") {
-        has_errors = true;
-        $(this).addClass('input-error');
-      } else {
-        $(this).removeClass('input-error');
-      }
-
-      e.preventDefault();
-    });
-
-    return false;
-
-  });
-
-  /*
-      Registration form validation
-  */
-  $('.registration-form input[type="text"], .registration-form textarea').on('focus', function() {
-    $(this).removeClass('input-error');
-  });
-
-  $('.registration-form').on('submit', function(e) {
-
-    $(this).find('input[type="text"], textarea').each(function() {
-      if ($(this).val() == "") {
-        $(this).addClass('input-error');
-      } else {
-        $(this).removeClass('input-error');
-      }
-      e.preventDefault();
-    });
-
-  });
-
-
-  // ajax calls to sign in or register a new account
-  function logIn(email, password) {
-    $.ajax({
-      type: "POST",
-      data: {
-        type: "login",
-        email: email,
-        password: password
-      },
-      url: window.location.href,
-      success: function(data) {
-        console.log(data);
-      }
-    });
-  }
-
-
-
   // form validation
 
-  $(".login-form").validate({
+  login_form.validate({
     // Specify validation rules
     rules: {
       email: {
@@ -95,18 +31,37 @@ jQuery(document).ready(function() {
     },
     submitHandler: function(form) {
       // once its successful
-      console.log(form);
+      email = login_form.find('input[name="email"]').val();
+      password = login_form.find('input[name="password"]').val();
+      logIn(email, password);
     }
   });
 
 
-  $(".registration-form").validate({
+  signup_form.validate({
     // Specify validation rules
     rules: {
 
-      username: "required",
+      username: {
+        required: true,
+        remote: {
+          url: window.location.href + "/username",
+          type: "POST",
+          data: {
+            username: $(login_form).find('input[name="username"]').val()
+          }
+        }
+      },
       email: {
         required: true,
+
+        remote: {
+          url: window.location.href + "/email",
+          type: "POST",
+          data: {
+            email: $(login_form).find('input[name="email"]').val()
+          }
+        },
         // Specify that email should be validated
         // by the built-in "email" rule
         email: true
@@ -123,7 +78,10 @@ jQuery(document).ready(function() {
     },
     // Specify validation error messages
     messages: {
-      username: "Please enter a username",
+      username: {
+        required: "Please enter a username",
+        remote: jQuery.validator.format("{0} is already taken.")
+      },
       password: {
         required: "Please provide a password",
         minlength: "Your password must be at least 5 characters long"
@@ -133,23 +91,27 @@ jQuery(document).ready(function() {
         minlength: "Your password must be at least 5 characters long",
         passwordMatch: "Your Passwords Must Match" // custom message for mismatched passwords
       },
-      email: "Please enter a valid email address"
+      email: {
+        required: "Please enter a valid email address",
+        remote: jQuery.validator.format("{0} is already taken.")
+      }
     },
     submitHandler: function(form) {
       // once its successful
-      console.log(form);
+
     }
   });
 
 
+  // helpful validation methods
   jQuery.validator.addMethod('passwordMatch', function(value, element) {
 
     // The two password inputs
-    var password = $('#pass').val();
-    var confirmPassword = $('#confirm').val();
+    var password = $(signup_form).find('input[name="password"]').val();
+    var confirm = $(signup_form).find('input[name="confirm"]').val();
 
     // Check for equality with the password inputs
-    if (password != confirmPassword) {
+    if (password != confirm) {
       return false;
     } else {
       return true;
@@ -158,8 +120,27 @@ jQuery(document).ready(function() {
   }, "Your Passwords Must Match");
 
   jQuery.validator.addMethod('passwordRegex', function(value, element) {
-    var pattern = /^(?=.*[a-z])(?=.*[@#$%&]).{5,}$/;
+    var pattern = /^(?=.*[a-z])(?=.*[@#$%&!+=]).{5,}$/;
     return pattern.test(value);
-  }, "Password must contain at least 1 special character (@#$%&)");
+  }, "Password must contain at least 1 special character (@#$%&!+=)");
+
+
+  // ajax calls to login or register a new account
+
+  function logIn(email, password) {
+    console.log(email + ", " + password);
+    $.ajax({
+      type: "POST",
+      data: {
+        type: "login",
+        email: email,
+        password: password
+      },
+      url: window.location.href,
+      success: function(data) {
+        console.log(data);
+      }
+    });
+  }
 
 });

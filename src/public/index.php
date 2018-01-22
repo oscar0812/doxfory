@@ -34,15 +34,52 @@ $app->get('/', function ($request, $response) {
 })->setName('home');
 
 // register page
-$app->map(['GET', 'POST'], '/register', function ($request, $response) {
-    if ($request->isGet()) {
-        return $this->view->render($response, "register.php", ['router' => $this->router]);
-    } elseif ($request->isPost()) {
-        $data = $request->getParsedBody();
-        return $response->withJson($data);
-    }
-    //return $response;
+// if get -> show register page if not signed in
+// if post -> trying to login or register for a new account
+$app->get('/register', function ($request, $response) {
+    return $this->view->render($response, "register.php", ['router' => $this->router]);
 })->setName('register');
+
+$app->post('/register', function ($request, $response) {
+    $post = $request->getParsedBody();
+    if ($post['type'] == 'login') {
+        // check if valid login credentials, if yes, sign in
+        $user = UserQuery::create()->findOneByEmail($post['email']);
+        $pass = $post['password'];
+
+        if ($user == null || !$user->login($pass)) {
+            // user doesn't exist or wrong password
+            $response = $response->withJson(['success'=>false]);
+        } else {
+            logUserIn($user->getPk());
+            $response = $response->withJson(['success'=>true]);
+        }
+    } else {
+        // register
+    }
+
+    return $response;
+});
+
+// helper calls for register, to check if email and username are available
+$app->group('/register', function () use ($app) {
+    // return "false" if already in use, "true" if not
+    $app->post('/username', function ($request, $response) {
+        $post = $request->getParsedBody();
+        $username = $post['username'];
+
+        if (UserQuery::create()->findOneByUsername() != null) {
+            echo "false";
+        } else {
+            echo "true";
+        }
+    });
+
+    $app->post('/email', function ($request, $response) {
+        $response->getBody()->write(date('Y-m-d H:i:s'));
+        return $response;
+    });
+});
 
 
 // routing group w/ middleware applied

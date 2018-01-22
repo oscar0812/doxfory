@@ -76,7 +76,7 @@
               <div class="form-top">
                 <div class="form-top-left">
                   <h3>Login to our site</h3>
-                  <p>Enter username and password to log on:</p>
+                  <p>Enter email and password to log on:</p>
                 </div>
                 <div class="form-top-right">
                   <i class="fa fa-key"></i>
@@ -85,12 +85,12 @@
               <div class="form-bottom">
                 <form role="form" action="" method="post" class="login-form">
                   <div class="form-group">
-                    <label class="sr-only" for="form-email">Email</label>
-                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control">
+                    <label class="sr-only" for="email">Email</label>
+                    <input type="text" name="email" placeholder="Email..." class="form-email form-control">
                   </div>
                   <div class="form-group">
-                    <label class="sr-only" for="form-password">Password</label>
-                    <input type="password" name="form-password" placeholder="Password..." class="form-password form-control" id="form-password">
+                    <label class="sr-only" for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password..." class="form-password form-control">
                   </div>
                   <button type="submit" class="btn">Sign in!</button>
                 </form>
@@ -115,25 +115,25 @@
                 </div>
               </div>
               <div class="form-bottom">
-                <form role="form" action="" method="post" class="registration-form">
+                <form role="form" class="register-form">
 
                   <div class="form-group">
-                    <label class="sr-only" for="form-username">Username</label>
-                    <input type="text" name="form-username" placeholder="Username..." class="form-username form-control">
+                    <label class="sr-only" for="username">Username</label>
+                    <input type="text" name="username" placeholder="Username..." class="form-username form-control">
                   </div>
                   <div class="form-group">
-                    <label class="sr-only" for="form-email">Email</label>
-                    <input type="text" name="form-email" placeholder="Email..." class="form-email form-control">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="sr-only" for="form-pass">Password</label>
-                    <input type="text" name="form-pass" placeholder="Password..." class="form-pass form-control">
+                    <label class="sr-only" for="email">Email</label>
+                    <input type="text" name="email" placeholder="Email..." class="form-email form-control">
                   </div>
 
                   <div class="form-group">
-                    <label class="sr-only" for="form-confirm-pass">Confirm Password</label>
-                    <input type="text" name="form-confirm-pass" placeholder="Confirm Password..." class="form-confirm-pass form-control">
+                    <label class="sr-only" for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password..." class="form-pass form-control">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="sr-only" for="confirm">Confirm Password</label>
+                    <input type="password" name="confirm" placeholder="Confirm Password..." class="form-confirm-pass form-control">
                   </div>
 
                   <!--div class="form-group">
@@ -175,6 +175,7 @@
   <script src="js/main/jquery.min.js"></script>
   <script src="js/main/jquery.backstretch.min.js"></script>
   <script src="js/main/bootstrap.min.js"></script>
+  <script src="js/main/jquery.validate.min.js"></script>
   <script src="js/user/register.js"></script>
 
   <!--[if lt IE 10]>
