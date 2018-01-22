@@ -35,7 +35,7 @@ CREATE TABLE `user`
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `name` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(255) NOT NULL,
     `profile_picture` VARCHAR(255) NOT NULL,
     `about_me` VARCHAR(4098) NOT NULL,
     `up_votes` INTEGER NOT NULL,

@@ -87,9 +87,9 @@ class UserTableMap extends TableMap
     const COL_PASSWORD = 'user.password';
 
     /**
-     * the column name for the name field
+     * the column name for the username field
      */
-    const COL_NAME = 'user.name';
+    const COL_USERNAME = 'user.username';
 
     /**
      * the column name for the profile_picture field
@@ -118,10 +118,10 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Email', 'Password', 'Name', 'ProfilePicture', 'AboutMe', 'UpVotes', ),
-        self::TYPE_CAMELNAME     => array('id', 'email', 'password', 'name', 'profilePicture', 'aboutMe', 'upVotes', ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_EMAIL, UserTableMap::COL_PASSWORD, UserTableMap::COL_NAME, UserTableMap::COL_PROFILE_PICTURE, UserTableMap::COL_ABOUT_ME, UserTableMap::COL_UP_VOTES, ),
-        self::TYPE_FIELDNAME     => array('id', 'email', 'password', 'name', 'profile_picture', 'about_me', 'up_votes', ),
+        self::TYPE_PHPNAME       => array('Id', 'Email', 'Password', 'Username', 'ProfilePicture', 'AboutMe', 'UpVotes', ),
+        self::TYPE_CAMELNAME     => array('id', 'email', 'password', 'username', 'profilePicture', 'aboutMe', 'upVotes', ),
+        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_EMAIL, UserTableMap::COL_PASSWORD, UserTableMap::COL_USERNAME, UserTableMap::COL_PROFILE_PICTURE, UserTableMap::COL_ABOUT_ME, UserTableMap::COL_UP_VOTES, ),
+        self::TYPE_FIELDNAME     => array('id', 'email', 'password', 'username', 'profile_picture', 'about_me', 'up_votes', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -132,10 +132,10 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Password' => 2, 'Name' => 3, 'ProfilePicture' => 4, 'AboutMe' => 5, 'UpVotes' => 6, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'profilePicture' => 4, 'aboutMe' => 5, 'upVotes' => 6, ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_EMAIL => 1, UserTableMap::COL_PASSWORD => 2, UserTableMap::COL_NAME => 3, UserTableMap::COL_PROFILE_PICTURE => 4, UserTableMap::COL_ABOUT_ME => 5, UserTableMap::COL_UP_VOTES => 6, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'name' => 3, 'profile_picture' => 4, 'about_me' => 5, 'up_votes' => 6, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Email' => 1, 'Password' => 2, 'Username' => 3, 'ProfilePicture' => 4, 'AboutMe' => 5, 'UpVotes' => 6, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'username' => 3, 'profilePicture' => 4, 'aboutMe' => 5, 'upVotes' => 6, ),
+        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_EMAIL => 1, UserTableMap::COL_PASSWORD => 2, UserTableMap::COL_USERNAME => 3, UserTableMap::COL_PROFILE_PICTURE => 4, UserTableMap::COL_ABOUT_ME => 5, UserTableMap::COL_UP_VOTES => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'email' => 1, 'password' => 2, 'username' => 3, 'profile_picture' => 4, 'about_me' => 5, 'up_votes' => 6, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -159,7 +159,7 @@ class UserTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('email', 'Email', 'VARCHAR', true, 255, null);
         $this->addColumn('password', 'Password', 'VARCHAR', true, 255, null);
-        $this->addColumn('name', 'Name', 'VARCHAR', true, 255, null);
+        $this->addColumn('username', 'Username', 'VARCHAR', true, 255, null);
         $this->addColumn('profile_picture', 'ProfilePicture', 'VARCHAR', true, 255, null);
         $this->addColumn('about_me', 'AboutMe', 'VARCHAR', true, 4098, null);
         $this->addColumn('up_votes', 'UpVotes', 'INTEGER', true, null, null);
@@ -316,7 +316,7 @@ class UserTableMap extends TableMap
             $criteria->addSelectColumn(UserTableMap::COL_ID);
             $criteria->addSelectColumn(UserTableMap::COL_EMAIL);
             $criteria->addSelectColumn(UserTableMap::COL_PASSWORD);
-            $criteria->addSelectColumn(UserTableMap::COL_NAME);
+            $criteria->addSelectColumn(UserTableMap::COL_USERNAME);
             $criteria->addSelectColumn(UserTableMap::COL_PROFILE_PICTURE);
             $criteria->addSelectColumn(UserTableMap::COL_ABOUT_ME);
             $criteria->addSelectColumn(UserTableMap::COL_UP_VOTES);
@@ -324,7 +324,7 @@ class UserTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.email');
             $criteria->addSelectColumn($alias . '.password');
-            $criteria->addSelectColumn($alias . '.name');
+            $criteria->addSelectColumn($alias . '.username');
             $criteria->addSelectColumn($alias . '.profile_picture');
             $criteria->addSelectColumn($alias . '.about_me');
             $criteria->addSelectColumn($alias . '.up_votes');

@@ -22,7 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildUserQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildUserQuery orderByPassword($order = Criteria::ASC) Order by the password column
- * @method     ChildUserQuery orderByName($order = Criteria::ASC) Order by the name column
+ * @method     ChildUserQuery orderByUsername($order = Criteria::ASC) Order by the username column
  * @method     ChildUserQuery orderByProfilePicture($order = Criteria::ASC) Order by the profile_picture column
  * @method     ChildUserQuery orderByAboutMe($order = Criteria::ASC) Order by the about_me column
  * @method     ChildUserQuery orderByUpVotes($order = Criteria::ASC) Order by the up_votes column
@@ -30,7 +30,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery groupById() Group by the id column
  * @method     ChildUserQuery groupByEmail() Group by the email column
  * @method     ChildUserQuery groupByPassword() Group by the password column
- * @method     ChildUserQuery groupByName() Group by the name column
+ * @method     ChildUserQuery groupByUsername() Group by the username column
  * @method     ChildUserQuery groupByProfilePicture() Group by the profile_picture column
  * @method     ChildUserQuery groupByAboutMe() Group by the about_me column
  * @method     ChildUserQuery groupByUpVotes() Group by the up_votes column
@@ -49,7 +49,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser findOneById(int $id) Return the first ChildUser filtered by the id column
  * @method     ChildUser findOneByEmail(string $email) Return the first ChildUser filtered by the email column
  * @method     ChildUser findOneByPassword(string $password) Return the first ChildUser filtered by the password column
- * @method     ChildUser findOneByName(string $name) Return the first ChildUser filtered by the name column
+ * @method     ChildUser findOneByUsername(string $username) Return the first ChildUser filtered by the username column
  * @method     ChildUser findOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column
  * @method     ChildUser findOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column
  * @method     ChildUser findOneByUpVotes(int $up_votes) Return the first ChildUser filtered by the up_votes column *
@@ -60,7 +60,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser requireOneById(int $id) Return the first ChildUser filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByEmail(string $email) Return the first ChildUser filtered by the email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByPassword(string $password) Return the first ChildUser filtered by the password column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildUser requireOneByName(string $name) Return the first ChildUser filtered by the name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUser requireOneByUsername(string $username) Return the first ChildUser filtered by the username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByUpVotes(int $up_votes) Return the first ChildUser filtered by the up_votes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -69,7 +69,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser[]|ObjectCollection findById(int $id) Return ChildUser objects filtered by the id column
  * @method     ChildUser[]|ObjectCollection findByEmail(string $email) Return ChildUser objects filtered by the email column
  * @method     ChildUser[]|ObjectCollection findByPassword(string $password) Return ChildUser objects filtered by the password column
- * @method     ChildUser[]|ObjectCollection findByName(string $name) Return ChildUser objects filtered by the name column
+ * @method     ChildUser[]|ObjectCollection findByUsername(string $username) Return ChildUser objects filtered by the username column
  * @method     ChildUser[]|ObjectCollection findByProfilePicture(string $profile_picture) Return ChildUser objects filtered by the profile_picture column
  * @method     ChildUser[]|ObjectCollection findByAboutMe(string $about_me) Return ChildUser objects filtered by the about_me column
  * @method     ChildUser[]|ObjectCollection findByUpVotes(int $up_votes) Return ChildUser objects filtered by the up_votes column
@@ -171,7 +171,7 @@ abstract class UserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, email, password, name, profile_picture, about_me, up_votes FROM user WHERE id = :p0';
+        $sql = 'SELECT id, email, password, username, profile_picture, about_me, up_votes FROM user WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -353,28 +353,28 @@ abstract class UserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the name column
+     * Filter the query on the username column
      *
      * Example usage:
      * <code>
-     * $query->filterByName('fooValue');   // WHERE name = 'fooValue'
-     * $query->filterByName('%fooValue%', Criteria::LIKE); // WHERE name LIKE '%fooValue%'
+     * $query->filterByUsername('fooValue');   // WHERE username = 'fooValue'
+     * $query->filterByUsername('%fooValue%', Criteria::LIKE); // WHERE username LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $name The value to use as filter.
+     * @param     string $username The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildUserQuery The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByUsername($username = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($name)) {
+            if (is_array($username)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(UserTableMap::COL_NAME, $name, $comparison);
+        return $this->addUsingAlias(UserTableMap::COL_USERNAME, $username, $comparison);
     }
 
     /**

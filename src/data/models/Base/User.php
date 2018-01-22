@@ -81,11 +81,11 @@ abstract class User implements ActiveRecordInterface
     protected $password;
 
     /**
-     * The value for the name field.
+     * The value for the username field.
      *
      * @var        string
      */
-    protected $name;
+    protected $username;
 
     /**
      * The value for the profile_picture field.
@@ -372,13 +372,13 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
-     * Get the [name] column value.
+     * Get the [username] column value.
      *
      * @return string
      */
-    public function getName()
+    public function getUsername()
     {
-        return $this->name;
+        return $this->username;
     }
 
     /**
@@ -472,24 +472,24 @@ abstract class User implements ActiveRecordInterface
     } // setPassword()
 
     /**
-     * Set the value of [name] column.
+     * Set the value of [username] column.
      *
      * @param string $v new value
      * @return $this|\User The current object (for fluent API support)
      */
-    public function setName($v)
+    public function setUsername($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->name !== $v) {
-            $this->name = $v;
-            $this->modifiedColumns[UserTableMap::COL_NAME] = true;
+        if ($this->username !== $v) {
+            $this->username = $v;
+            $this->modifiedColumns[UserTableMap::COL_USERNAME] = true;
         }
 
         return $this;
-    } // setName()
+    } // setUsername()
 
     /**
      * Set the value of [profile_picture] column.
@@ -596,8 +596,8 @@ abstract class User implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UserTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
             $this->password = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UserTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->name = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UserTableMap::translateFieldName('Username', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->username = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UserTableMap::translateFieldName('ProfilePicture', TableMap::TYPE_PHPNAME, $indexType)];
             $this->profile_picture = (null !== $col) ? (string) $col : null;
@@ -825,8 +825,8 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
             $modifiedColumns[':p' . $index++]  = 'password';
         }
-        if ($this->isColumnModified(UserTableMap::COL_NAME)) {
-            $modifiedColumns[':p' . $index++]  = 'name';
+        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
+            $modifiedColumns[':p' . $index++]  = 'username';
         }
         if ($this->isColumnModified(UserTableMap::COL_PROFILE_PICTURE)) {
             $modifiedColumns[':p' . $index++]  = 'profile_picture';
@@ -857,8 +857,8 @@ abstract class User implements ActiveRecordInterface
                     case 'password':
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
                         break;
-                    case 'name':
-                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
+                    case 'username':
+                        $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
                         break;
                     case 'profile_picture':
                         $stmt->bindValue($identifier, $this->profile_picture, PDO::PARAM_STR);
@@ -941,7 +941,7 @@ abstract class User implements ActiveRecordInterface
                 return $this->getPassword();
                 break;
             case 3:
-                return $this->getName();
+                return $this->getUsername();
                 break;
             case 4:
                 return $this->getProfilePicture();
@@ -984,7 +984,7 @@ abstract class User implements ActiveRecordInterface
             $keys[0] => $this->getId(),
             $keys[1] => $this->getEmail(),
             $keys[2] => $this->getPassword(),
-            $keys[3] => $this->getName(),
+            $keys[3] => $this->getUsername(),
             $keys[4] => $this->getProfilePicture(),
             $keys[5] => $this->getAboutMe(),
             $keys[6] => $this->getUpVotes(),
@@ -1037,7 +1037,7 @@ abstract class User implements ActiveRecordInterface
                 $this->setPassword($value);
                 break;
             case 3:
-                $this->setName($value);
+                $this->setUsername($value);
                 break;
             case 4:
                 $this->setProfilePicture($value);
@@ -1084,7 +1084,7 @@ abstract class User implements ActiveRecordInterface
             $this->setPassword($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setName($arr[$keys[3]]);
+            $this->setUsername($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setProfilePicture($arr[$keys[4]]);
@@ -1145,8 +1145,8 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
             $criteria->add(UserTableMap::COL_PASSWORD, $this->password);
         }
-        if ($this->isColumnModified(UserTableMap::COL_NAME)) {
-            $criteria->add(UserTableMap::COL_NAME, $this->name);
+        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
+            $criteria->add(UserTableMap::COL_USERNAME, $this->username);
         }
         if ($this->isColumnModified(UserTableMap::COL_PROFILE_PICTURE)) {
             $criteria->add(UserTableMap::COL_PROFILE_PICTURE, $this->profile_picture);
@@ -1245,7 +1245,7 @@ abstract class User implements ActiveRecordInterface
     {
         $copyObj->setEmail($this->getEmail());
         $copyObj->setPassword($this->getPassword());
-        $copyObj->setName($this->getName());
+        $copyObj->setUsername($this->getUsername());
         $copyObj->setProfilePicture($this->getProfilePicture());
         $copyObj->setAboutMe($this->getAboutMe());
         $copyObj->setUpVotes($this->getUpVotes());
@@ -1287,7 +1287,7 @@ abstract class User implements ActiveRecordInterface
         $this->id = null;
         $this->email = null;
         $this->password = null;
-        $this->name = null;
+        $this->username = null;
         $this->profile_picture = null;
         $this->about_me = null;
         $this->up_votes = null;
