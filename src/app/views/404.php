@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <title></title>
 
-  <link type="text/css" rel="stylesheet" href="<?=$router->pathFor('home')?>css/bootstrap.min.css" />
-  <link rel="stylesheet" href="<?=$router->pathFor('home')?>css/font-awesome.min.css">
-  <link type="text/css" rel="stylesheet" href="<?=$router->pathFor('home')?>css/404.css" />
+  <link type="text/css" rel="stylesheet" href="<?=$router->pathFor('home')?>css/main/bootstrap.min.css" />
+  <link rel="stylesheet" href="<?=$router->pathFor('home')?>css/main/font-awesome.min.css">
+  <link type="text/css" rel="stylesheet" href="<?=$router->pathFor('home')?>css/main/404.css" />
 </head>
 
 <body>

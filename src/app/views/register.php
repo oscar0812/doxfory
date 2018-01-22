@@ -12,11 +12,11 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/form-elements.css">
-  <link rel="stylesheet" href="css/register.css">
-  <link type="text/css" rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/main/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main/form-elements.css">
+  <link rel="stylesheet" href="css/user/register.css">
+  <link type="text/css" rel="stylesheet" href="css/user/agency.css" />
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
