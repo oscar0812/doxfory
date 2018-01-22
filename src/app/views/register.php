@@ -182,10 +182,10 @@
         </footer>
 
         <!-- Javascript -->
-        <script src="js/jquery.min.js"></script>
-        <script src="js/jquery.backstretch.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/register.js"></script>
+        <script src="js/main/jquery.min.js"></script>
+        <script src="js/main/jquery.backstretch.min.js"></script>
+        <script src="js/main/bootstrap.min.js"></script>
+        <script src="js/user/register.js"></script>
 
         <!--[if lt IE 10]>
             <script src="js/placeholder.js"></script>

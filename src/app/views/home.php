@@ -938,11 +938,11 @@
 	<!-- /Back to top -->
 
 	<!-- jQuery Plugins -->
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/owl.carousel.min.js"></script>
-	<script type="text/javascript" src="js/jquery.magnific-popup.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/main/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/main/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="js/main/jquery.magnific-popup.js"></script>
+	<script type="text/javascript" src="js/user/agency.js"></script>
 
 </body>
 
