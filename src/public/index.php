@@ -41,7 +41,7 @@ $app->map(['GET', 'POST'], '/register', function ($request, $response) {
         $data = $request->getParsedBody();
         return $response->withJson($data);
     }
-    return $response;
+    //return $response;
 })->setName('register');
 
 

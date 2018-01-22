@@ -12,16 +12,28 @@ jQuery(document).ready(function() {
     $(this).removeClass('input-error');
   });
 
+  // login button clicked
   $('.login-form').on('submit', function(e) {
+
+    has_errors = false;
 
     $(this).find('input[type="text"], input[type="password"], textarea').each(function() {
       if ($(this).val() == "") {
-        e.preventDefault();
+        has_errors = true;
         $(this).addClass('input-error');
       } else {
         $(this).removeClass('input-error');
       }
+
+      e.preventDefault();
     });
+
+    email = $(this).find('input[name=form-email]').val();
+    password = $(this).find('input[name=form-password]').val();
+
+    if (!has_errors) {
+      logIn(email, password);
+    }
 
   });
 
@@ -44,6 +56,22 @@ jQuery(document).ready(function() {
     });
 
   });
+
+
+  function logIn(email, password) {
+    $.ajax({
+      type: "POST",
+      data: {
+        type: "1",
+        id: "id",
+      },
+      url: window.location.href,
+      //dataType: "json",
+      success: function(data) {
+        console.log(data);
+      }
+    });
+  }
 
 
 });
