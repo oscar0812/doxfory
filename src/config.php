@@ -18,7 +18,7 @@ function session_start_safe()
     }
 }
 
-function currentPlayer()
+function currentUser()
 {
     session_start_safe();
     if (isset($_SESSION['user_id'])) {
