@@ -2,6 +2,12 @@
   "use strict"
 
   ///////////////////////////
+  // Sign out
+  $('#signout').on('click', function() {
+    window.location = $(this).attr('data-url');
+  });
+
+  ///////////////////////////
   // Scrollspy
   $('body').scrollspy({
     target: '#nav',

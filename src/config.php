@@ -32,3 +32,9 @@ function logUserIn($id)
     session_start_safe();
     $_SESSION['user_id'] = $id;
 }
+
+function logUserOut()
+{
+    session_start_safe();
+    unset($_SESSION['user_id']);
+}

@@ -74,7 +74,7 @@
 							<li><a href="#">8</a></li>
 						</ul>
 					</li>
-					<li><a href="#">Contact</a></li>
+					<li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
 				</ul>
 				<!-- /Main navigation -->
 

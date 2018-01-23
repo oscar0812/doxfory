@@ -168,7 +168,12 @@ $(function() {
       },
       url: window.location.href,
       success: function(data) {
-        console.log(data);
+        if (data['success']) {
+          window.location = data['path'];
+        } else {
+          // an error occured
+          signup_form.find('label').eq(0).removeClass('sr-only').text("An error occured.");
+        }
       }
     });
   }

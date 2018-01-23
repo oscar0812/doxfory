@@ -69,12 +69,17 @@ $app->post('/register', function ($request, $response) {
         $user->setEmail($email);
         $user->setUsername($username);
         $user->setPassword($password);
-        $user->save();
+        if (!$user->validate()) {
+            // an error occured
+            $response = $response->withJson(['success'=>false]);
+        } else {
+            // all good
+            $user->save();
+            logUserIn($user->getId());
 
-        logUserIn($user->getPk());
-
-        // change path from profile to confirm once confirm logic is finished
-        $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
+            // change path from profile to confirm once confirm logic is finished
+            $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
+        }
     }
 
     return $response;
@@ -106,11 +111,16 @@ $app->group('/register', function () use ($app) {
     return $response;
 });
 
-
+// profile page
 $app->get('/profile', function ($request, $response) {
     return $this->view->render($response, "profile.php", ['router' => $this->router]);
 })->setName('profile');
 
+// sign out url
+$app->get('/signout', function ($request, $response) {
+    logUserOut();
+    return $response->withRedirect($this->router->pathFor('home'));
+})->setName('signout');
 
 
 $app->run();
