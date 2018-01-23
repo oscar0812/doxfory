@@ -21,7 +21,6 @@ class User extends BaseUser
         // store the Hash
         parent::setPassword($hash);
     }
-
     public function login($password)
     {
         return PHPassLib\Hash\BCrypt::verify($password, $this->getPassword());

@@ -30,5 +30,11 @@
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
+
+    <behavior name="validate">
+      <parameter name="rule1" value="{column: email, validator: Email}"/>
+      <parameter name="rule2" value="{column: password, validator: Regex, options: {pattern: &quot;/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/&quot;}, match: false, message: Please enter a valid password}"/>
+      <parameter name="rule3" value="{column: username, validator: Length, options: {min: 2}}"/>
+    </behavior>
   </table>
 </database>

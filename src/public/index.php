@@ -33,14 +33,13 @@ $app->get('/', function ($request, $response) {
     return $this->view->render($response, "home.php", ['router' => $this->router]);
 })->setName('home');
 
-
-
 // register page
 // if get -> show register page if not signed in
 $app->get('/register', function ($request, $response) {
     if (currentUser() == null) {
         return $this->view->render($response, "register.php", ['router' => $this->router]);
     } else {
+        // if already signed in, send to profile
         return $response->withRedirect($this->router->pathFor('profile'));
     }
 })->setName('register');
@@ -102,7 +101,7 @@ $app->group('/register', function () use ($app) {
 
     // can only visit /register/{url} if not signed in
     if (currentUser() == null) {
-        return $next($request, $response);
+        $response = $next($request, $response);
     }
     return $response;
 });

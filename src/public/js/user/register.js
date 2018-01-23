@@ -129,7 +129,7 @@ $(function() {
   }, "Your Passwords Must Match");
 
   jQuery.validator.addMethod('passwordRegex', function(value, element) {
-    var pattern = /^(?=.*[a-z])(?=.*[@#$%&!+=]).{5,}$/;
+    var pattern = /^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/;
     return pattern.test(value);
   }, "Password must contain at least 1 special character (@#$%&!+=)");
 
