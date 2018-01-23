@@ -48,7 +48,7 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="<?=$router->pathFor('home')?>">
 							<img class="logo" src="img/logo.png" alt="logo">
 						</a>
 					</div>
@@ -63,18 +63,18 @@
 
 				<!--  Main navigation  -->
 				<ul class="main-nav nav navbar-nav navbar-right">
-					<li><a href="index.html#home">Home</a></li>
-					<li><a href="index.html#about">About</a></li>
-					<li><a href="index.html#portfolio">Portfolio</a></li>
-					<li><a href="index.html#service">Services</a></li>
-					<li><a href="index.html#pricing">Prices</a></li>
-					<li><a href="index.html#team">Team</a></li>
-					<li class="has-dropdown"><a>Blog</a>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">6</a></li>
+					<li class="has-dropdown"><a>7</a>
 						<ul class="dropdown">
-							<li><a href="#">blog post</a></li>
+							<li><a href="#">8</a></li>
 						</ul>
 					</li>
-					<li><a href="index.html#contact">Contact</a></li>
+					<li><a href="#">Contact</a></li>
 				</ul>
 				<!-- /Main navigation -->
 
