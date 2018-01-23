@@ -48,23 +48,28 @@ $(function() {
           url: window.location.href + "/username",
           type: "POST",
           data: {
-            username: $(login_form).find('input[name="username"]').val()
+            username: function() {
+              return $(signup_form).find('input[name="username"]').val();
+            }
           }
         }
       },
       email: {
         required: true,
 
+        // Specify that email should be validated
+        // by the built-in "email" rule
+        email: true,
+
         remote: {
           url: window.location.href + "/email",
           type: "POST",
           data: {
-            email: $(login_form).find('input[name="email"]').val()
+            email: function() {
+              return $(signup_form).find('input[name="email"]').val();
+            }
           }
-        },
-        // Specify that email should be validated
-        // by the built-in "email" rule
-        email: true
+        }
       },
       password: {
         required: true,
@@ -80,7 +85,7 @@ $(function() {
     messages: {
       username: {
         required: "Please enter a username",
-        remote: jQuery.validator.format("{0} is already taken.")
+        remote: jQuery.validator.format("Username is already taken.")
       },
       password: {
         required: "Please provide a password",
@@ -93,12 +98,16 @@ $(function() {
       },
       email: {
         required: "Please enter a valid email address",
-        remote: jQuery.validator.format("{0} is already taken.")
+        remote: jQuery.validator.format("Email is already in use.")
       }
     },
     submitHandler: function(form) {
       // once its successful
+      email = signup_form.find('input[name="email"]').val();
+      username = signup_form.find('input[name="username"]').val();
+      password = signup_form.find('input[name="password"]').val();
 
+      registerUser(email, username, password);
     }
   });
 
@@ -134,6 +143,27 @@ $(function() {
       data: {
         type: "login",
         email: email,
+        password: password
+      },
+      url: window.location.href,
+      success: function(data) {
+        if (data['success']) {
+          window.location = data['path'];
+        } else {
+          // show error on top of email box in login form
+          login_form.find('label').eq(0).removeClass('sr-only').text("Incorrect email or password");
+        }
+      }
+    });
+  }
+
+  function registerUser(email, username, password) {
+    $.ajax({
+      type: "POST",
+      data: {
+        type: "register",
+        email: email,
+        username: username,
         password: password
       },
       url: window.location.href,

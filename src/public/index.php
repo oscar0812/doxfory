@@ -33,13 +33,19 @@ $app->get('/', function ($request, $response) {
     return $this->view->render($response, "home.php", ['router' => $this->router]);
 })->setName('home');
 
+
+
 // register page
 // if get -> show register page if not signed in
-// if post -> trying to login or register for a new account
 $app->get('/register', function ($request, $response) {
-    return $this->view->render($response, "register.php", ['router' => $this->router]);
+    if (currentUser() == null) {
+        return $this->view->render($response, "register.php", ['router' => $this->router]);
+    } else {
+        return $response->withRedirect($this->router->pathFor('profile'));
+    }
 })->setName('register');
 
+// if post -> trying to login or register for a new account
 $app->post('/register', function ($request, $response) {
     $post = $request->getParsedBody();
     if ($post['type'] == 'login') {
@@ -51,55 +57,61 @@ $app->post('/register', function ($request, $response) {
             // user doesn't exist or wrong password
             $response = $response->withJson(['success'=>false]);
         } else {
-            logUserIn($user->getPk());
-            $response = $response->withJson(['success'=>true]);
+            logUserIn($user->getId());
+            $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
         }
     } else {
         // register
+        $email = $post['email'];
+        $username = $post['username'];
+        $password = $post['password'];
+
+        $user = new User();
+        $user->setEmail($email);
+        $user->setUsername($username);
+        $user->setPassword($password);
+        $user->save();
+
+        logUserIn($user->getPk());
+
+        // change path from profile to confirm once confirm logic is finished
+        $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
     }
 
     return $response;
 });
 
+// routing group w/ middleware applied
 // helper calls for register, to check if email and username are available
 $app->group('/register', function () use ($app) {
     // return "false" if already in use, "true" if not
     $app->post('/username', function ($request, $response) {
         $post = $request->getParsedBody();
-        $username = $post['username'];
+        $user = UserQuery::create()->findOneByUsername($post['username']);
 
-        if (UserQuery::create()->findOneByUsername() != null) {
-            echo "false";
-        } else {
-            echo "true";
-        }
+        echo ($user== null)?"true":"false";
     });
 
     $app->post('/email', function ($request, $response) {
-        $response->getBody()->write(date('Y-m-d H:i:s'));
-        return $response;
-    });
-});
+        $post = $request->getParsedBody();
+        $user = UserQuery::create()->findOneByEmail($post['email']);
 
-
-// routing group w/ middleware applied
-// (uses closure to maintain $app in scope)
-$app->group('/friends', function () use ($app) {
-    $app->get('/chandler', function ($request, $response) {
-        $response->getBody()->write(date('Y-m-d H:i:s'));
-        return $response;
-    });
-
-    $app->get('/phoebe', function ($request, $response) {
-        $response->getBody()->write(time());
-        return $response;
+        echo ($user== null)?"true":"false";
     });
 })->add(function ($request, $response, $next) {
-    $response->getBody()->write("<p>I AM A BIG TOP BANNER</p>");
-    $response = $next($request, $response);
-    $response->getBody()->write("<p>I AM A BIG BOTTOM BANNER</p>");
 
+    // can only visit /register/{url} if not signed in
+    if (currentUser() == null) {
+        return $next($request, $response);
+    }
     return $response;
 });
+
+
+$app->get('/profile', function ($request, $response) {
+    return $this->view->render($response, "profile.php", ['router' => $this->router]);
+})->setName('profile');
+
+
 
 $app->run();
