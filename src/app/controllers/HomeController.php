@@ -12,7 +12,7 @@ class HomeController
 
     // -- set up routing --
 
-    private static function index($app)
+    public function index($app)
     {
         $app->get('/', function ($request, $response, $args) {
             return $this->view->render($response, "home.php", ['router' => $this->router]);
@@ -21,20 +21,15 @@ class HomeController
 
     // register page
     // if get -> show register page if not signed in
-    private static function showRegisterPage($app)
+    public function showRegisterPage($app)
     {
         $app->get('/register', function ($request, $response, $args) {
-            if (currentUser() == null) {
-                return $this->view->render($response, "register.php", ['router' => $this->router]);
-            } else {
-                // if already signed in, send to profile
-                return $response->withRedirect($this->router->pathFor('profile'));
-            }
+            return $this->view->render($response, "register.php", ['router' => $this->router]);
         })->setName('register');
     }
 
     // if post -> trying to login or register for a new account
-    private static function registerUser($app)
+    public function registerUser($app)
     {
         $app->post('/register', function ($request, $response, $args) {
             $post = $request->getParsedBody();
@@ -79,7 +74,7 @@ class HomeController
 
     // routing group w/ middleware applied
     // helper calls for register, to check if email and username are available
-    private static function registerMethods($app)
+    public function registerMethods($app)
     {
         $app->group('/register', function () use ($app) {
             // return "false" if already in use, "true" if not
@@ -97,20 +92,26 @@ class HomeController
 
                 echo ($user== null)?"true":"false";
             });
-        })->add(function ($request, $response, $next) {
-            // can only visit /register/{url} if not signed in
-            if (currentUser() == null) {
-                $response = $next($request, $response);
-            }
-            return $response;
         });
     }
 
     public static function setUpRouting($app)
     {
-        HomeController::index($app);
-        HomeController::showRegisterPage($app);
-        HomeController::registerUser($app);
-        HomeController::registerMethods($app);
+        // apply middleware
+        $controller = new HomeController();
+        $app->group('', function () use ($app, $controller) {
+            $controller->index($app);
+            $controller->showRegisterPage($app);
+            $controller->registerUser($app);
+            $controller->registerMethods($app);
+        })->add(function ($request, $response, $next) {
+            // can only visit /{url} if not signed in
+            if (currentUser() == null) {
+                $response = $next($request, $response);
+            } else {
+                $response = $response->withRedirect($this->router->pathFor('profile'));
+            }
+            return $response;
+        });
     }
 }
