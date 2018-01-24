@@ -64,7 +64,7 @@
             <h1><strong>Login or Register</strong></h1>
             <div class="description">
               <p>
-
+                This step is neccessary to protect our users
               </p>
             </div>
           </div>
