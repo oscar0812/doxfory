@@ -18,18 +18,9 @@ $container['notFoundHandler'] = function ($c) {
 };
 
 // takes care of routing: /, and /register
-$home = new App\Controllers\HomeController($app);
+App\Controllers\HomeController::setUpRouting($app);
 
-// profile page
-$app->get('/profile', function ($request, $response) {
-    return $this->view->render($response, "profile.php", ['router' => $this->router]);
-})->setName('profile');
-
-// sign out url
-$app->get('/signout', function ($request, $response) {
-    logUserOut();
-    return $response->withRedirect($this->router->pathFor('home'));
-})->setName('signout');
-
+// takes care of routing /user/{url}: /user/profile, /user/signout
+App\Controllers\UserController::setUpRouting($app);
 
 $app->run();

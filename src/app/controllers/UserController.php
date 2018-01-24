@@ -8,10 +8,34 @@ use \User;
 
 class UserController
 {
-    protected $app;
-
-    public function __construct($app)
+    // profile page
+    public function profile($app)
     {
-        $this->app = $app;
+        $app->get('/profile', function ($request, $response) {
+            return $this->view->render($response, "profile.php", ['router' => $this->router]);
+        })->setName('profile');
+    }
+    // sign out route
+    public function signOut($app)
+    {
+        $app->get('/signout', function ($request, $response) {
+            logUserOut();
+            return $response->withRedirect($this->router->pathFor('home'));
+        })->setName('signout');
+    }
+
+    public static function setUpRouting($app)
+    {
+        $controller = new UserController();
+        $app->group('/user', function () use ($app, $controller) {
+            $controller->profile($app);
+            $controller->signOut($app);
+        })->add(function ($request, $response, $next) {
+            // can only visit /user/{url} if signed in
+            if (currentUser() != null) {
+                $response = $next($request, $response);
+            }
+            return $response;
+        });
     }
 }

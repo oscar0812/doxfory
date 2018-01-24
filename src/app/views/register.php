@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<? $home = $router->pathFor('home')?>
 <html lang="en">
 
 <head>
@@ -12,11 +13,11 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-  <link rel="stylesheet" href="css/main/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main/font-awesome.min.css">
-  <link rel="stylesheet" href="css/main/form-elements.css">
-  <link rel="stylesheet" href="css/user/register.css">
-  <link type="text/css" rel="stylesheet" href="css/user/agency.css" />
+  <link rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=$home?><?=$home?>css/main/font-awesome.min.css">
+  <link rel="stylesheet" href="<?=$home?><?=$home?>css/main/form-elements.css">
+  <link rel="stylesheet" href="<?=$home?><?=$home?>css/user/register.css">
+  <link type="text/css" rel="stylesheet" href="<?=$home?><?=$home?>css/user/agency.css" />
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -43,7 +44,7 @@
       <div class="navbar-header">
         <!-- Logo -->
         <div class="navbar-brand">
-          <a href="<?=$router->pathFor('home')?>">
+          <a href="<?=$home?>">
   							<img class="logo" src="img/logo.png" alt="logo">
   							<img class="logo-alt" src="img/logo-alt.png" alt="logo">
   						</a>
@@ -172,11 +173,11 @@
   </footer>
 
   <!-- Javascript -->
-  <script src="js/main/jquery.min.js"></script>
-  <script src="js/main/jquery.backstretch.min.js"></script>
-  <script src="js/main/bootstrap.min.js"></script>
-  <script src="js/main/jquery.validate.min.js"></script>
-  <script src="js/user/register.js"></script>
+  <script src="<?=$home?>js/main/jquery.min.js"></script>
+  <script src="<?=$home?>js/main/jquery.backstretch.min.js"></script>
+  <script src="<?=$home?>js/main/bootstrap.min.js"></script>
+  <script src="<?=$home?>js/main/jquery.validate.min.js"></script>
+  <script src="<?=$home?>js/user/register.js"></script>
 
   <!--[if lt IE 10]>
             <script src="js/placeholder.js"></script>

@@ -108,10 +108,10 @@ class HomeController
 
     public static function setUpRouting($app)
     {
-        $home = new HomeController();
-        $home->index($app);
-        $home->showRegisterPage($app);
-        $home->registerUser($app);
-        $home->registerMethods($app);
+        $controller = new HomeController();
+        $controller->index($app);
+        $controller->showRegisterPage($app);
+        $controller->registerUser($app);
+        $controller->registerMethods($app);
     }
 }

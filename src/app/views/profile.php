@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<?$home = $router->pathFor('home')?>
+
 <html lang="en">
 
 <head>
@@ -13,20 +15,20 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
 
 	<!-- Bootstrap -->
-	<link type="text/css" rel="stylesheet" href="css/main/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css" />
 
 	<!-- Owl Carousel -->
-	<link type="text/css" rel="stylesheet" href="css/main/owl.carousel.css" />
-	<link type="text/css" rel="stylesheet" href="css/main/owl.theme.default.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/main/owl.carousel.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/main/owl.theme.default.css" />
 
 	<!-- Magnific Popup -->
-	<link type="text/css" rel="stylesheet" href="css/main/magnific-popup.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/main/magnific-popup.css" />
 
 	<!-- Font Awesome Icon -->
-	<link rel="stylesheet" href="css/main/font-awesome.min.css">
+	<link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="css/user/agency.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,8 +50,8 @@
 				<div class="navbar-header">
 					<!-- Logo -->
 					<div class="navbar-brand">
-						<a href="<?=$router->pathFor('home')?>">
-							<img class="logo" src="img/logo.png" alt="logo">
+						<a href="<?=$home?>">
+							<img class="logo" src="<?=$home?>img/logo.png" alt="logo">
 						</a>
 					</div>
 					<!-- /Logo -->
@@ -111,7 +113,7 @@
 				<main id="main" class="col-md-9">
 					<div class="blog">
 						<div class="blog-img">
-							<img class="img-responsive" src="./img/blog-post.jpg" alt="">
+							<img class="img-responsive" src="<?=$home?>img/blog-post.jpg" alt="">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
@@ -139,7 +141,7 @@
 						<div class="blog-author">
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="./img/author.jpg" alt="">
+									<img class="media-object" src="<?=$home?>img/author.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
@@ -164,7 +166,7 @@
 							<!-- comment -->
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="./img/perso2.jpg" alt="">
+									<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -176,7 +178,7 @@
 							<!-- comment -->
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="./img/perso1.jpg" alt="">
+									<img class="media-object" src="<?=$home?>img/perso1.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -186,7 +188,7 @@
 								<!-- author reply comment -->
 								<div class="media author">
 									<div class="media-left">
-										<img class="media-object" src="./img/perso2.jpg" alt="">
+										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -198,7 +200,7 @@
 								<!-- reply comment -->
 								<div class="media">
 									<div class="media-left">
-										<img class="media-object" src="./img/perso2.jpg" alt="">
+										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -214,7 +216,7 @@
 							<!-- comment -->
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="./img/perso.jpg" alt="">
+									<img class="media-object" src="<?=$home?>img/perso.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -274,7 +276,7 @@
 						<!-- single post -->
 						<div class="widget-post">
 							<a href="#">
-								<img src="./img/post1.jpg" alt=""> Blog title goes here
+								<img src="<?=$home?>img/post1.jpg" alt=""> Blog title goes here
 							</a>
 							<ul class="blog-meta">
 								<li>Oct 18, 2017</li>
@@ -285,7 +287,7 @@
 						<!-- single post -->
 						<div class="widget-post">
 							<a href="#">
-								<img src="./img/post2.jpg" alt=""> Blog title goes here
+								<img src="<?=$home?>img/post2.jpg" alt=""> Blog title goes here
 							</a>
 							<ul class="blog-meta">
 								<li>Oct 18, 2017</li>
@@ -297,7 +299,7 @@
 						<!-- single post -->
 						<div class="widget-post">
 							<a href="#">
-								<img src="./img/post3.jpg" alt=""> Blog title goes here
+								<img src="<?=$home?>img/post3.jpg" alt=""> Blog title goes here
 							</a>
 							<ul class="blog-meta">
 								<li>Oct 18, 2017</li>
@@ -348,7 +350,7 @@
 
 					<!-- footer logo -->
 					<div class="footer-logo">
-						<a href="index.html"><img src="img/logo-alt.png" alt="logo"></a>
+						<a href="index.html"><img src="<?=$home?>img/logo-alt.png" alt="logo"></a>
 					</div>
 					<!-- /footer logo -->
 
@@ -385,11 +387,11 @@
 	<!-- /Back to top -->
 
 	<!-- jQuery Plugins -->
-	<script type="text/javascript" src="js/main/jquery.min.js"></script>
-	<script type="text/javascript" src="js/main/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/main/owl.carousel.min.js"></script>
-	<script type="text/javascript" src="js/main/jquery.magnific-popup.js"></script>
-	<script type="text/javascript" src="js/user/agency.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
 
 </body>
 
