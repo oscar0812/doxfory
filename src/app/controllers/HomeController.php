@@ -12,7 +12,7 @@ class HomeController
 
     // -- set up routing --
 
-    public function index($app)
+    private static function index($app)
     {
         $app->get('/', function ($request, $response, $args) {
             return $this->view->render($response, "home.php", ['router' => $this->router]);
@@ -21,7 +21,7 @@ class HomeController
 
     // register page
     // if get -> show register page if not signed in
-    public function showRegisterPage($app)
+    private static function showRegisterPage($app)
     {
         $app->get('/register', function ($request, $response, $args) {
             if (currentUser() == null) {
@@ -34,7 +34,7 @@ class HomeController
     }
 
     // if post -> trying to login or register for a new account
-    public function registerUser($app)
+    private static function registerUser($app)
     {
         $app->post('/register', function ($request, $response, $args) {
             $post = $request->getParsedBody();
@@ -79,7 +79,7 @@ class HomeController
 
     // routing group w/ middleware applied
     // helper calls for register, to check if email and username are available
-    public function registerMethods($app)
+    private static function registerMethods($app)
     {
         $app->group('/register', function () use ($app) {
             // return "false" if already in use, "true" if not
@@ -108,10 +108,9 @@ class HomeController
 
     public static function setUpRouting($app)
     {
-        $controller = new HomeController();
-        $controller->index($app);
-        $controller->showRegisterPage($app);
-        $controller->registerUser($app);
-        $controller->registerMethods($app);
+        HomeController::index($app);
+        HomeController::showRegisterPage($app);
+        HomeController::registerUser($app);
+        HomeController::registerMethods($app);
     }
 }
