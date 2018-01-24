@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<? $home = $router->pathFor('home')?>
+<?php $home = $router->pathFor('home')?>
 <html lang="en">
 
 <head>
@@ -73,17 +73,13 @@
 				<ul class="main-nav nav navbar-nav navbar-right">
 					<li><a href="#home">Home</a></li>
 					<li><a href="#about">About</a></li>
-					<li><a href="#featured">Jobs</a></li>
-					<li><a href="#recent">Recent</a></li>
-					<li><a href="#features">Features</a></li>
-
-					<li><a href="#contact">Contact</a></li>
-
-					<!--li class="has-dropdown"><a href="#featured">Featured</a>
+					<li class="has-dropdown"><a href="#featured">Jobs</a>
 						<ul class="dropdown">
-							<li><a href="blog-single.html">blog post</a></li>
+							<li><a href="#featured">Featured</a></li>
+							<li><a href="#recent">Recent</a></li>
 						</ul>
-					</li-->
+					</li>
+					<li><a href="#contact">Contact</a></li>
 				</ul>
 				<!-- /Main navigation -->
 
@@ -136,7 +132,7 @@
 					<div class="about">
 						<i class="fa fa-tachometer"></i>
 						<h3>Fast</h3>
-						<p>Make an account, post a job, and get an email when another user accepts your offer</p>
+						<p>Make an account, post a job, and get an email when another user accepts</p>
 					</div>
 				</div>
 				<!-- /about -->
@@ -164,11 +160,78 @@
 			</div>
 			<!-- /Row -->
 
+			<br>
+			<br>
+
 		</div>
 		<!-- /Container -->
 
 	</div>
 	<!-- /About -->
+
+	<!-- Numbers -->
+	<div id="numbers" class="section sm-padding">
+
+		<!-- Background Image -->
+		<div class="bg-img" style="background-image: url('<?=$home?>img/backgrounds/2.jpg');">
+			<div class="overlay"></div>
+		</div>
+		<!-- /Background Image -->
+
+		<!-- Container -->
+		<div class="container">
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- number -->
+				<div class="col-sm-3 col-xs-6">
+					<div class="number">
+						<i class="fa fa-users"></i>
+						<h3 class="white-text"><span class="counter">451</span></h3>
+						<span class="white-text">Active users</span>
+					</div>
+				</div>
+				<!-- /number -->
+
+				<!-- number -->
+				<div class="col-sm-3 col-xs-6">
+					<div class="number">
+						<i class="fa fa-building-o"></i>
+						<h3 class="white-text"><span class="counter">12</span></h3>
+						<span class="white-text">New daily jobs</span>
+					</div>
+				</div>
+				<!-- /number -->
+
+				<!-- number -->
+				<div class="col-sm-3 col-xs-6">
+					<div class="number">
+						<i class="fa fa-usd"></i>
+						<h3 class="white-text"><span class="counter">154</span>K</h3>
+						<span class="white-text">Dollars contributed</span>
+					</div>
+				</div>
+				<!-- /number -->
+
+				<!-- number -->
+				<div class="col-sm-3 col-xs-6">
+					<div class="number">
+						<i class="fa fa-briefcase"></i>
+						<h3 class="white-text"><span class="counter">450</span></h3>
+						<span class="white-text">Jobs completed</span>
+					</div>
+				</div>
+				<!-- /number -->
+
+			</div>
+			<!-- /Row -->
+
+		</div>
+		<!-- /Container -->
+
+	</div>
+	<!-- /Numbers -->
 
 	<!-- Featured -->
 	<div id="featured" class="section md-padding bg-grey">
@@ -254,72 +317,8 @@
 	</div>
 	<!-- /Featured -->
 
-	<!-- Numbers -->
-	<div id="numbers" class="section sm-padding">
-
-		<!-- Background Image -->
-		<div class="bg-img" style="background-image: url('<?=$home?>img/backgrounds/2.jpg');">
-			<div class="overlay"></div>
-		</div>
-		<!-- /Background Image -->
-
-		<!-- Container -->
-		<div class="container">
-
-			<!-- Row -->
-			<div class="row">
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-users"></i>
-						<h3 class="white-text"><span class="counter">451</span></h3>
-						<span class="white-text">Active users</span>
-					</div>
-				</div>
-				<!-- /number -->
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-building-o"></i>
-						<h3 class="white-text"><span class="counter">12</span></h3>
-						<span class="white-text">New daily jobs</span>
-					</div>
-				</div>
-				<!-- /number -->
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-usd"></i>
-						<h3 class="white-text"><span class="counter">154</span>K</h3>
-						<span class="white-text">Dollars contributed</span>
-					</div>
-				</div>
-				<!-- /number -->
-
-				<!-- number -->
-				<div class="col-sm-3 col-xs-6">
-					<div class="number">
-						<i class="fa fa-briefcase"></i>
-						<h3 class="white-text"><span class="counter">450</span></h3>
-						<span class="white-text">Jobs completed</span>
-					</div>
-				</div>
-				<!-- /number -->
-
-			</div>
-			<!-- /Row -->
-
-		</div>
-		<!-- /Container -->
-
-	</div>
-	<!-- /Numbers -->
-
 	<!-- Recent -->
-	<div id="recent" class="section md-padding bg-grey">
+	<div id="recent" class="section md-padding">
 
 		<!-- Container -->
 		<div class="container">
@@ -477,61 +476,6 @@
 
 	</div>
 	<!-- /Testimonial -->
-
-
-	<!-- Why Choose Us -->
-	<div id="features" class="section md-padding bg-grey">
-
-		<!-- Container -->
-		<div class="container">
-
-			<!-- Row -->
-			<div class="row">
-
-				<!-- why choose us content -->
-				<div class="col-md-6">
-					<div class="section-header">
-						<h2 class="title">Why Choose Us</h2>
-					</div>
-					<p>Molestie at elementum eu facilisis sed odio. Scelerisque in dictum non consectetur a erat. Aliquam id diam maecenas ultricies mi eget mauris. Ultrices sagittis orci a scelerisque purus.</p>
-					<div class="feature">
-						<i class="fa fa-check"></i>
-						<p>Quis varius quam quisque id diam vel quam elementum.</p>
-					</div>
-					<div class="feature">
-						<i class="fa fa-check"></i>
-						<p>Mauris augue neque gravida in fermentum.</p>
-					</div>
-					<div class="feature">
-						<i class="fa fa-check"></i>
-						<p>Orci phasellus egestas tellus rutrum.</p>
-					</div>
-					<div class="feature">
-						<i class="fa fa-check"></i>
-						<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium.</p>
-					</div>
-				</div>
-				<!-- /why choose us content -->
-
-				<!-- About slider -->
-				<div class="col-md-6">
-					<div id="about-slider" class="owl-carousel owl-theme">
-						<img class="img-responsive" src="<?=$home?>img/about1.jpg" alt="">
-						<img class="img-responsive" src="<?=$home?>img/about2.jpg" alt="">
-						<img class="img-responsive" src="<?=$home?>img/about1.jpg" alt="">
-						<img class="img-responsive" src="<?=$home?>img/about2.jpg" alt="">
-					</div>
-				</div>
-				<!-- /About slider -->
-
-			</div>
-			<!-- /Row -->
-
-		</div>
-		<!-- /Container -->
-
-	</div>
-	<!-- /Why Choose Us -->
 
 	<!-- Contact -->
 	<div id="contact" class="section md-padding">
