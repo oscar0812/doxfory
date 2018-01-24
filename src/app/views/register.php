@@ -14,10 +14,10 @@
   <!-- CSS -->
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
   <link rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css">
-  <link rel="stylesheet" href="<?=$home?><?=$home?>css/main/font-awesome.min.css">
-  <link rel="stylesheet" href="<?=$home?><?=$home?>css/main/form-elements.css">
-  <link rel="stylesheet" href="<?=$home?><?=$home?>css/user/register.css">
-  <link type="text/css" rel="stylesheet" href="<?=$home?><?=$home?>css/user/agency.css" />
+  <link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
+  <link rel="stylesheet" href="<?=$home?>css/main/form-elements.css">
+  <link rel="stylesheet" href="<?=$home?>css/user/register.css">
+  <link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
