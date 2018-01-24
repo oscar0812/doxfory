@@ -45,9 +45,9 @@
           <!-- Logo -->
           <div class="navbar-brand">
             <a href="<?=$home?>">
-  							<img class="logo" src="img/logo.png" alt="logo">
-  							<img class="logo-alt" src="img/logo-alt.png" alt="logo">
-  						</a>
+  						<img class="logo" src="img/logo.png" alt="logo">
+  						<img class="logo-alt" src="img/logo-alt.png" alt="logo">
+  					</a>
           </div>
           <!-- /Logo -->
         </div>
