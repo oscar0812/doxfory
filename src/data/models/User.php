@@ -26,7 +26,14 @@ class User extends BaseUser
         return PHPassLib\Hash\BCrypt::verify($password, $this->getPassword());
     }
 
-    public function getFullName(){
-      return $this->getFirstName()." ".$this->getLastName();
+    public function getFullName()
+    {
+        return $this->getFirstName()." ".$this->getLastName();
+    }
+
+    public function isConfirmed()
+    {
+        $key = $this->getConfirmationKey();
+        return $key == null || $key == "";
     }
 }
