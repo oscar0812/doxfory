@@ -15,6 +15,13 @@ class UserController
             return $this->view->render($response, "profile.php", ['router' => $this->router]);
         })->setName('profile');
     }
+
+    public function job($app)
+    {
+        $app->get('/job', function ($request, $response) {
+            return $this->view->render($response, "job.php", ['router' => $this->router]);
+        })->setName('job');
+    }
     // sign out route
     public function signOut($app)
     {
@@ -30,6 +37,7 @@ class UserController
         $app->group('/user', function () use ($app, $controller) {
             $controller->profile($app);
             $controller->signOut($app);
+            $controller->job($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
             if (currentUser() != null) {
