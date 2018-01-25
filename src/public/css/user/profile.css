@@ -3,10 +3,6 @@ body {
   font-family: Roboto Slab, serif;
 }
 
-.container {
-  margin-top: 80px;
-}
-
 .dp-box {
   background: #ddd;
   margin-top: -75px;
