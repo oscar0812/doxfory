@@ -1,84 +1,75 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Helpers;
+
 // Import PHPMailer classes into the global namespace
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-//Load composer's autoloader
-require_once("../snippets/imports.php");
-
-function mainUrl()
+class Mail
 {
-    return "http://localhost/lion/src/public/home/";
-}
-
-function confirmEmail()
-{
-    // check  if sending to already confirmed email
-    $player = currentPlayer();
-    if ($player == null) {
-        $json = ["success"=>false, "msg"=>"Couldn't find player"];
-        echo json_encode($json);
-        die();
+    public static function send($type, $email, $user)
+    {
+        $main_url = "url/";
+        if ($type === "confirm_email") {
+            confirmEmail($main_url, $user);
+        } elseif ($type === "reset_password") {
+            resetPasswordEmail($main_url, $email, $user);
+        } else {
+            return ["success"=>false];
+        }
     }
 
-    if ($player->isConfirmed()) {
-        $json = ["success"=>false, "msg"=>"Email is already confirmed"];
-        echo json_encode($json);
-        die();
-    }
+    private static function confirmEmail($main_url, $user)
+    {
+        $email = $user->getEmail();
+        $username = $user->getUsername();
 
-    $email = $player->getEmail();
-    $username = $player->getUsername();
+        $url = $main_url;
+        $url.="?email=".$email;
 
-    $url = mainUrl()."confirmation.php";
-    $url.="?email=".$email;
+        $key = $user->getConfirmationKey();
 
-    $key = $player->getConfirmationKey();
+        $url.="&key=".$key;
 
-    $url.="&key=".$key;
-
-    $body = '<p>You\'re almost there ' .$username.
+        $body = '<p>You\'re almost there ' .$username.
         ', just click <a href="'.$url.
         '">here to confirm your email.</a></p>';
 
-    sendEmail($email, $username, 'Confirm Email', $body);
-}
+        sendEmail($email, $username, 'Confirm Email', $body);
+    }
 
-function resetPasswordEmail($email)
-{
-    $player = PlayerQuery::create()->findOneByEmail($email);
+    public function resetPasswordEmail($main_url, $email, $user)
+    {
+        $email = $user->getEmail();
+        $username = $user->getUsername();
 
-    $email = $player->getEmail();
-    $username = $player->getUsername();
+        $url = $main_url;
+        $url.="?email=".$email;
 
-    $url = mainUrl()."resetPassword.php";
-    $url.="?email=".$email;
+        $key = md5(rand(0, 1000));
 
-    $key = md5(rand(0, 1000));
+        $user->setResetKey($key);
+        $user->save();
 
-    $player->setResetKey($key);
-    $player->save();
+        $key = $key.strrev($username);
+        $url.="&key=".password_hash($key, PASSWORD_DEFAULT);
 
-    $key = $key.strrev($username);
-    $url.="&key=".password_hash($key, PASSWORD_DEFAULT);
-
-    $body = '<p>You requested a password change, ' .$username.
+        $body = '<p>You requested a password change, ' .$username.
         ', if that\'s correct click <a href="'.$url.
         '">here to confirm your email.</a></p> If you didn\'t request
         a password change ignore this email.';
 
-    sendEmail($email, $username, 'Reset Password', $body);
-}
+        sendEmail($email, $username, 'Reset Password', $body);
+    }
 
-function sendEmail($email, $username, $subject, $body)
-{
-    try {
-        $mail = new PHPMailer(true);
+    public function sendEmail($email, $username, $subject, $body)
+    {
+        try {
+            $mail = new PHPMailer(true);
 
-        //Server settings
+            //Server settings
         $mail->SMTPDebug = 0;                                 // Enable verbose debug output
         $mail->isSMTP();                                      // Set mailer to use SMTP
         $mail->Host = 'smtp.gmail.com';                       // Specify main and backup SMTP servers
@@ -89,40 +80,24 @@ function sendEmail($email, $username, $subject, $body)
         $mail->Port = 465;                                    // TCP port to connect to
 
         //Recipients
-        $mail->setFrom('legends.gaming122@gmail.com', 'Legends Gaming');
-        $mail->addAddress($email, $username);     // Add a recipient
+            $mail->setFrom('legends.gaming122@gmail.com', 'DoXForY');
+            $mail->addAddress($email, $username);     // Add a recipient
 
-        // Passing `true` enables exceptions
+            // Passing `true` enables exceptions
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = $subject;
 
-        $mail->Body    = $body;
-        $mail->AltBody = strip_tags($body);
+            $mail->Body    = $body;
+            $mail->AltBody = strip_tags($body);
 
-        $mail->send();
-        $json = ["success"=>true, "msg"=>"Email has been sent"];
-        echo json_encode($json);
-        die();
-    } catch (Exception $e) {
-        $json = ["success"=>false, "msg"=>"Mailer Error: " . $mail->ErrorInfo];
-        echo json_encode($json);
-        die();
+            $mail->send();
+            $json = ["success"=>true, "msg"=>"Email has been sent"];
+            echo json_encode($json);
+            die();
+        } catch (Exception $e) {
+            $json = ["success"=>false, "msg"=>"Mailer Error: " . $mail->ErrorInfo];
+            echo json_encode($json);
+            die();
+        }
     }
-}
-
-if ($_POST) {
-    $type = $_POST["type"];
-    if ($type === "confirm_email") {
-        confirmEmail();
-    } elseif ($type === "reset_password" && isset($_POST["email"])) {
-        resetPasswordEmail($_POST["email"]);
-    } else {
-        $json = ["success"=>false];
-        echo json_encode($json);
-        die();
-    }
-} else {
-    $json = ["success"=>false];
-    echo json_encode($json);
-    die();
 }

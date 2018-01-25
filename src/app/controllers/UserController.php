@@ -38,11 +38,28 @@ class UserController
         })->setName('signout');
     }
 
+    // this function needs work, not complete yet, but here for reminder
     public function uploadImages($app)
     {
         $app->get('/upload', function ($request, $response) {
             ImageUpload::upload('hello');
         })->setName('signout');
+    }
+
+    public function confirmUser($app)
+    {
+        $app->get('/confirm', function ($request, $response) {
+            // if haven't confirmed email
+            // show confirm view and send an email
+            $current_user = currentUser();
+            if (!$current_user->isConfirmed()) {
+                return $this->view->render($response, "confirm.php", UserController::getVars($this));
+            }
+            // else, send them to profile page
+            else {
+                return $response->withRedirect($this->router->pathFor('profile'));
+            }
+        })->setName('confirm');
     }
 
     public static function setUpRouting($app)
@@ -52,6 +69,7 @@ class UserController
             $controller->profile($app);
             $controller->signOut($app);
             $controller->job($app);
+            $controller->confirmUser($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
             if (currentUser() != null) {
