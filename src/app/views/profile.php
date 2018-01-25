@@ -73,13 +73,13 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-6 col-lg-6">
 					<div class="well">
-						<h3 class="red">#About me</h3>
+						<h3 class="blue">#About me</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-6 col-lg-6">
 					<div class="well">
-						<h3 class="red">#Objective</h3>
+						<h3 class="blue">#Objective</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita.</p>
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="well">
-						<h3 class="red">#Education</h3>
+						<h3 class="blue">#Education</h3>
 						<ul class="timeline">
 							<li class="timeline-inverted">
 							  <div class="timeline-badge warning">1989</div>
@@ -144,7 +144,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
 					<div class="well">
-						<h3 class="red">#Experience</h3>
+						<h3 class="blue">#Experience</h3>
 						<div class="panel-group" id="accordion">
 						  <div class="panel panel-default">
 							<div class="panel-heading">
@@ -193,7 +193,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
 					<div class="well">
-						<h3 class="red">#Skills</h3>
+						<h3 class="blue">#Skills</h3>
 						<div class="progress">
 							<div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
 								<div class="skill-item">Ruby On Rails</div>
@@ -230,7 +230,7 @@
 			<div class="row">
 				<div class="col-sm-12 col-md-4 col-lg-4">
 					<div class="well">
-						<h3 class="red">#Contact me</h3>
+						<h3 class="blue">#Contact me</h3>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
 								<div class="contact-item bigger-120">
@@ -264,7 +264,7 @@
 
 				<div class="col-sm-6 col-md-4 col-lg-4">
 					<div class="well">
-						<h3 class="red">#Languages</h3>
+						<h3 class="blue">#Languages</h3>
 						<ul class="list-group">
 							<li class="list-group-item">
 								<span class="badge badge-green">Fluent</span>
@@ -283,7 +283,7 @@
 				</div>
 				<div class="col-sm-6 col-md-4 col-lg-4">
 					<div class="well hobbies">
-						<h3 class="red">#Hobbies</h3>
+						<h3 class="blue">#Hobbies</h3>
 						<div class="row bigger-110">
 							<div class="col-xs-6">
 								<ul class="list-unstyled">
