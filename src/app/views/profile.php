@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <?$home = $router->pathFor('home')?>
 
@@ -28,7 +29,7 @@
 	<link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
 
 	<!-- Custom stlylesheet -->
-	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/profile.css" />
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -39,351 +40,277 @@
 </head>
 
 <body>
+	<div class="container">
 
-	<!-- Header -->
-	<header>
-
-		<!-- Nav -->
-		<nav id="nav" class="navbar">
-			<div class="container">
-
-				<div class="navbar-header">
-					<!-- Logo -->
-					<div class="navbar-brand">
-						<a href="<?=$home?>">
-							<img class="logo" src="<?=$home?>img/logo.png" alt="logo">
-						</a>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="well">
+					<div class="dp-box">
+						<img class="dp" src="<?=$home?>img/dp.jpg"/>
 					</div>
-					<!-- /Logo -->
-
-					<!-- Collapse nav button -->
-					<div class="nav-collapse">
-						<span></span>
+					<div class="intro">
+						<h1><b>Hello,</b> I am John Doe</h1>
 					</div>
-					<!-- /Collapse nav button -->
 				</div>
-
-				<!--  Main navigation  -->
-				<ul class="main-nav nav navbar-nav navbar-right">
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#">6</a></li>
-					<li class="has-dropdown"><a>7</a>
-						<ul class="dropdown">
-							<li><a href="#">8</a></li>
-						</ul>
-					</li>
-					<li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
-				</ul>
-				<!-- /Main navigation -->
-
-			</div>
-		</nav>
-		<!-- /Nav -->
-
-		<!-- header wrapper -->
-		<div class="header-wrapper sm-padding bg-grey">
-			<div class="container">
-				<h2>Blog Page</h2>
-				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-					<li class="breadcrumb-item"><a href="index.html#blog">Blog</a></li>
-					<li class="breadcrumb-item active">Single Post</li>
-				</ul>
 			</div>
 		</div>
-		<!-- /header wrapper -->
 
-	</header>
-	<!-- /Header -->
-
-	<!-- Blog -->
-	<div id="blog" class="section md-padding">
-
-		<!-- Container -->
-		<div class="container">
-
-			<!-- Row -->
-			<div class="row">
-
-				<!-- Main -->
-				<main id="main" class="col-md-9">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="<?=$home?>img/blog-post.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h3>Morbi mattis felis at nunc. Duis viverra</h3>
-							<p>Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.</p>
-						</div>
-
-						<!-- blog tags -->
-						<div class="blog-tags">
-							<h5>Tags :</h5>
-							<a href="#"><i class="fa fa-tag"></i>Web</a>
-							<a href="#"><i class="fa fa-tag"></i>Design</a>
-							<a href="#"><i class="fa fa-tag"></i>Marketing</a>
-							<a href="#"><i class="fa fa-tag"></i>Development</a>
-							<a href="#"><i class="fa fa-tag"></i>Branding</a>
-							<a href="#"><i class="fa fa-tag"></i>Photography</a>
-						</div>
-						<!-- blog tags -->
-
-						<!-- blog author -->
-						<div class="blog-author">
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/author.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="media-heading">
-										<h3>Joe Doe</h3>
-										<div class="author-social">
-											<a href="#"><i class="fa fa-facebook"></i></a>
-											<a href="#"><i class="fa fa-twitter"></i></a>
-											<a href="#"><i class="fa fa-google-plus"></i></a>
-											<a href="#"><i class="fa fa-instagram"></i></a>
-										</div>
-									</div>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-							</div>
-						</div>
-						<!-- /blog author -->
-
-						<!-- blog comments -->
-						<div class="blog-comments">
-							<h3 class="title">(13) Comments</h3>
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-							</div>
-							<!-- /comment -->
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso1.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-
-								<!-- author reply comment -->
-								<div class="media author">
-									<div class="media-left">
-										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
-									</div>
-									<div class="media-body">
-										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-									</div>
-								</div>
-								<!-- /comment -->
-
-								<!-- reply comment -->
-								<div class="media">
-									<div class="media-left">
-										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
-									</div>
-									<div class="media-body">
-										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-									</div>
-								</div>
-								<!-- /comment -->
-
-							</div>
-							<!-- /comment -->
-
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-							</div>
-							<!-- /comment -->
-
-						</div>
-						<!-- /blog comments -->
-
-						<!-- reply form -->
-						<div class="reply-form">
-							<h3 class="title">Leave a reply</h3>
-							<form>
-								<input class="input" type="text" placeholder="Name">
-								<input class="input" type="email" placeholder="Email">
-								<textarea placeholder="Add Your Commment"></textarea>
-								<button type="submit" class="main-btn">Submit</button>
-							</form>
-						</div>
-						<!-- /reply form -->
-					</div>
-				</main>
-				<!-- /Main -->
-
-
-				<!-- Aside -->
-				<aside id="aside" class="col-md-3">
-
-					<!-- Search -->
-					<div class="widget">
-						<div class="widget-search">
-							<input class="search-input" type="text" placeholder="search">
-							<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
-						</div>
-					</div>
-					<!-- /Search -->
-
-					<!-- Category -->
-					<div class="widget">
-						<h3 class="title">Category</h3>
-						<div class="widget-category">
-							<a href="#">Web Design<span>(7)</span></a>
-							<a href="#">Marketing<span>(142)</span></a>
-							<a href="#">Web Development<span>(74)</span></a>
-							<a href="#">Branding<span>(60)</span></a>
-							<a href="#">Photography<span>(5)</span></a>
-						</div>
-					</div>
-					<!-- /Category -->
-
-					<!-- Posts sidebar -->
-					<div class="widget">
-						<h3 class="title">Populare Posts</h3>
-
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="<?=$home?>img/post1.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
-
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="<?=$home?>img/post2.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
-
-
-						<!-- single post -->
-						<div class="widget-post">
-							<a href="#">
-								<img src="<?=$home?>img/post3.jpg" alt=""> Blog title goes here
-							</a>
-							<ul class="blog-meta">
-								<li>Oct 18, 2017</li>
-							</ul>
-						</div>
-						<!-- /single post -->
-
-					</div>
-					<!-- /Posts sidebar -->
-
-					<!-- Tags -->
-					<div class="widget">
-						<h3 class="title">Tags</h3>
-						<div class="widget-tags">
-							<a href="#">Web</a>
-							<a href="#">Design</a>
-							<a href="#">Graphic</a>
-							<a href="#">Marketing</a>
-							<a href="#">Development</a>
-							<a href="#">Branding</a>
-							<a href="#">Photography</a>
-						</div>
-					</div>
-					<!-- /Tags -->
-
-				</aside>
-				<!-- /Aside -->
-
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-lg-6">
+				<div class="well">
+					<h3 class="red">#About me</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
+				</div>
 			</div>
-			<!-- /Row -->
-
+			<div class="col-sm-12 col-md-6 col-lg-6">
+				<div class="well">
+					<h3 class="red">#Objective</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita.</p>
+				</div>
+			</div>
 		</div>
-		<!-- /Container -->
-
-	</div>
-	<!-- /Blog -->
-
-	<!-- Footer -->
-	<footer id="footer" class="sm-padding bg-dark">
-
-		<!-- Container -->
-		<div class="container">
-
-			<!-- Row -->
-			<div class="row">
-
-				<div class="col-md-12">
-
-					<!-- footer logo -->
-					<div class="footer-logo">
-						<a href="index.html"><img src="<?=$home?>img/logo-alt.png" alt="logo"></a>
-					</div>
-					<!-- /footer logo -->
-
-					<!-- footer follow -->
-					<ul class="footer-follow">
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-						<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-						<li><a href="#"><i class="fa fa-youtube"></i></a></li>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="well">
+					<h3 class="red">#Education</h3>
+					<ul class="timeline">
+						<li class="timeline-inverted">
+						  <div class="timeline-badge warning">1989</div>
+						  <div class="timeline-panel">
+							<div class="timeline-heading">
+							  <h4 class="timeline-title">I was born in New Jersey</h4>
+							</div>
+							<div class="timeline-body">
+							  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
+							</div>
+						  </div>
+						</li>
+						<li class="timeline-inverted">
+						  <div class="timeline-badge danger">2004</div>
+						  <div class="timeline-panel">
+							<div class="timeline-heading">
+							  <h4 class="timeline-title">Secondary Schooling</h4>
+							  <p><small class="text-muted"><i class="fa fa-time"></i> From 1992 - 2004</small></p>
+							</div>
+							<div class="timeline-body">
+							  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
+							</div>
+						  </div>
+						</li>
+						<li class="timeline-inverted">
+						  <div class="timeline-badge">2006</div>
+						  <div class="timeline-panel">
+							<div class="timeline-heading">
+							  <h4 class="timeline-title">High School</h4>
+							  <p><small class="text-muted"><i class="fa fa-time"></i> From 2004 - 2006</small></p>
+							</div>
+							<div class="timeline-body">
+							  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
+							</div>
+						  </div>
+						</li>
+						<li class="timeline-inverted">
+						  <div class="timeline-badge success">2010</div>
+						  <div class="timeline-panel">
+							<div class="timeline-heading">
+							  <h4 class="timeline-title">University</h4>
+							  <p><small class="text-muted"><i class="fa fa-time"></i> From 2006 - 2010</small></p>
+							</div>
+							<div class="timeline-body">
+							  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
+							</div>
+						  </div>
+						</li>
 					</ul>
-					<!-- /footer follow -->
-
-					<!-- footer copyright -->
-					<div class="footer-copyright">
-						<p>Copyright © 2017. All Rights Reserved. Designed by <a href="https://colorlib.com" target="_blank">Colorlib</a></p>
-					</div>
-					<!-- /footer copyright -->
-
 				</div>
-
 			</div>
-			<!-- /Row -->
 
 		</div>
-		<!-- /Container -->
+		<div class="row">
+			<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
+				<div class="well">
+					<h3 class="red">#Experience</h3>
+					<div class="panel-group" id="accordion">
+					  <div class="panel panel-default">
+						<div class="panel-heading">
+						  <h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+							  Current Job (2013-Present)
+							</a>
+						  </h4>
+						</div>
+						<div id="collapseOne" class="panel-collapse collapse in">
+						  <div class="panel-body">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
+						  </div>
+						</div>
+					  </div>
+					  <div class="panel panel-default">
+						<div class="panel-heading">
+						  <h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+							  Second Job (2011-2013)
+							</a>
+						  </h4>
+						</div>
+						<div id="collapseTwo" class="panel-collapse collapse">
+						  <div class="panel-body">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
+						  </div>
+						</div>
+					  </div>
+					  <div class="panel panel-default">
+						<div class="panel-heading">
+						  <h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+							  First Job (2010-2011)
+							</a>
+						  </h4>
+						</div>
+						<div id="collapseThree" class="panel-collapse collapse">
+						  <div class="panel-body">
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
+						  </div>
+						</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="well">
+					<h3 class="red">#Skills</h3>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+							<div class="skill-item">Ruby On Rails</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
+							<div class="skill-item">HTML</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+							<div class="skill-item">CSS</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+							<div class="skill-item">JAVA</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
+							<div class="skill-item">JavaScript</div>
+						</div>
+					</div>
+					<div class="progress">
+						<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
+							<div class="skill-item">Bootstrap</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 col-md-4 col-lg-4">
+				<div class="well">
+					<h3 class="red">#Contact me</h3>
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+							<div class="contact-item bigger-120">
+							  <div class="icon green pull-left text-center"><span class="fa fa-phone fa-fw"></span></div>
+							  <div class="title no-description">+1 204 000 000</div>
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+							<div class="contact-item bigger-120">
+							  <div class="icon red pull-left text-center"><span class="fa fa-envelope fa-fw"></span></div>
+							  <div class="title no-description">jdoe@gmail.com</div>
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+							<div class="contact-item bigger-120">
+							  <div class="icon light-blue pull-left text-center"><span class="fa fa-skype fa-fw"></span></div>
+							  <div class="title">Skype</div>
+							  <div class="description">john.doe</div>
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
+							<div class="contact-item bigger-120">
+							  <div class="icon blue pull-left text-center"><span class="fa fa-facebook fa-fw"></span></div>
+							  <div class="title">Facebook</div>
+							  <div class="description">https://www.facebook.com/facebook</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-	</footer>
-	<!-- /Footer -->
+			<div class="col-sm-6 col-md-4 col-lg-4">
+				<div class="well">
+					<h3 class="red">#Languages</h3>
+					<ul class="list-group">
+						<li class="list-group-item">
+							<span class="badge badge-green">Fluent</span>
+							English
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-green">Written</span>
+							French
+						</li>
+						<li class="list-group-item">
+							<span class="badge badge-green">Weak</span>
+							Hindi
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4 col-lg-4">
+				<div class="well hobbies">
+					<h3 class="red">#Hobbies</h3>
+					<div class="row bigger-110">
+						<div class="col-xs-6">
+							<ul class="list-unstyled">
+								<li>
+									<span class="label label-danger">Photography <i class="fa fa-heart"></i></span>
+								</li>
+								<li>
+									<span class="label label-primary">Movies <i class="fa fa-heart"></i></span>
+								</li>
+							</ul>
+						</div>
+						<div class="col-xs-6">
+							<ul class="list-unstyled">
+								<li>
+									<span class="label label-default">Music <i class="fa fa-heart"></i></span>
+								</li>
+								<li>
+									<span class="label label-warning">Guitar <i class="fa fa-heart"></i></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<!-- Back to top -->
-	<div id="back-to-top"></div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-53924615-1', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
 	<!-- /Back to top -->
 
 	<!-- jQuery Plugins -->
