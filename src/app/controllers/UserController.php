@@ -8,18 +8,24 @@ use \User;
 
 class UserController
 {
+    public static function getVars($app)
+    {
+        return ['logged_in'=>true, 'router'=> $app->router, 'current_user' => currentUser()];
+    }
+
     // profile page
     public function profile($app)
     {
         $app->get('/profile', function ($request, $response) {
-            return $this->view->render($response, "profile.php", ['router' => $this->router, 'logged_in'=>true]);
+            return $this->view->render($response, "profile.php", UserController::getVars($this));
         })->setName('profile');
     }
 
     public function job($app)
     {
         $app->get('/job', function ($request, $response) {
-            return $this->view->render($response, "job.php", ['router' => $this->router, 'logged_in'=>true]);
+            $vars['router'] = $this->router;
+            return $this->view->render($response, "job.php", UserController::getVars($this));
         })->setName('job');
     }
     // sign out route
