@@ -15,7 +15,7 @@ class HomeController
     public function index($app)
     {
         $app->get('/', function ($request, $response, $args) {
-            return $this->view->render($response, "home.php", ['router' => $this->router]);
+            return $this->view->render($response, "home.php", ['router' => $this->router, 'logged_in'=>false]);
         })->setName('home');
     }
 
@@ -24,7 +24,7 @@ class HomeController
     public function showRegisterPage($app)
     {
         $app->get('/register', function ($request, $response, $args) {
-            return $this->view->render($response, "register.php", ['router' => $this->router]);
+            return $this->view->render($response, "register.php", ['router' => $this->router, 'logged_in'=>false]);
         })->setName('register');
     }
 

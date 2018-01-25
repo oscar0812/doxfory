@@ -12,14 +12,14 @@ class UserController
     public function profile($app)
     {
         $app->get('/profile', function ($request, $response) {
-            return $this->view->render($response, "profile.php", ['router' => $this->router]);
+            return $this->view->render($response, "profile.php", ['router' => $this->router, 'logged_in'=>true]);
         })->setName('profile');
     }
 
     public function job($app)
     {
         $app->get('/job', function ($request, $response) {
-            return $this->view->render($response, "job.php", ['router' => $this->router]);
+            return $this->view->render($response, "job.php", ['router' => $this->router, 'logged_in'=>true]);
         })->setName('job');
     }
     // sign out route
@@ -42,6 +42,8 @@ class UserController
             // can only visit /user/{url} if signed in
             if (currentUser() != null) {
                 $response = $next($request, $response);
+            } else {
+                $response = $response->withRedirect($this->router->pathFor('home'));
             }
             return $response;
         });
