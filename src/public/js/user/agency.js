@@ -52,6 +52,9 @@
   $(window).on('scroll', function() {
     var wScroll = $(this).scrollTop();
 
+    if (!$("#nav").hasClass("nav-transparent"))
+      return;
+
     // Fixed nav
     wScroll > 1 ? $('#nav').addClass('fixed-nav') : $('#nav').removeClass('fixed-nav');
 
