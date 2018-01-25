@@ -15,6 +15,8 @@
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
 
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:700,400|Shadows+Into+Light+Two' rel='stylesheet' type='text/css'>
+
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css" />
 
@@ -28,8 +30,10 @@
 	<!-- Font Awesome Icon -->
 	<link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
 
-	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/profile.css" />
+	<!-- Custom stlylesheet -->
+	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
+	<!--link type="text/css" rel="stylesheet" href="<?=$home?>css/user/profile.css" /-->
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,8 +44,55 @@
 </head>
 
 <body>
-	<div class="container">
+	<!-- Header -->
+	<header>
 
+		<!-- Nav -->
+		<nav id="nav" class="navbar">
+			<div class="container">
+
+				<div class="navbar-header">
+					<!-- Logo -->
+					<div class="navbar-brand">
+						<a href="<?=$home?>">
+							<img class="logo" src="<?=$home?>img/logo.png" alt="logo">
+						</a>
+					</div>
+					<!-- /Logo -->
+
+					<!-- Collapse nav button -->
+					<div class="nav-collapse">
+						<span></span>
+					</div>
+					<!-- /Collapse nav button -->
+				</div>
+
+				<!--  Main navigation  -->
+				<ul class="main-nav nav navbar-nav navbar-right">
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">6</a></li>
+					<li class="has-dropdown"><a>7</a>
+						<ul class="dropdown">
+							<li><a href="#">8</a></li>
+						</ul>
+					</li>
+					<li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
+				</ul>
+				<!-- /Main navigation -->
+
+			</div>
+		</nav>
+		<!-- /Nav -->
+
+	</header>
+	<!-- /Header -->
+
+	<div class="section md-padding">
+		<div class="container">
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="well">
@@ -295,25 +346,8 @@
 			</div>
 		</div>
 	</div>
+	</div>
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-	<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	  ga('create', 'UA-53924615-1', 'auto');
-	  ga('send', 'pageview');
-
-	</script>
-	<!-- /Back to top -->
-
-	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
