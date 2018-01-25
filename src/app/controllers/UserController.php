@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use App\Helpers\ImageUpload;
 use \UserQuery;
 use \User;
 
@@ -34,6 +35,13 @@ class UserController
         $app->get('/signout', function ($request, $response) {
             logUserOut();
             return $response->withRedirect($this->router->pathFor('home'));
+        })->setName('signout');
+    }
+
+    public function uploadImages($app)
+    {
+        $app->get('/upload', function ($request, $response) {
+            ImageUpload::upload('hello');
         })->setName('signout');
     }
 
