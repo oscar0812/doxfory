@@ -42,17 +42,11 @@ $(function() {
     // Specify validation rules
     rules: {
 
-      username: {
-        required: true,
-        remote: {
-          url: window.location.href + "/username",
-          type: "POST",
-          data: {
-            username: function() {
-              return $(signup_form).find('input[name="username"]').val();
-            }
-          }
-        }
+      first: {
+        required: true
+      },
+      last: {
+        required: true
       },
       email: {
         required: true,
@@ -83,9 +77,11 @@ $(function() {
     },
     // Specify validation error messages
     messages: {
-      username: {
-        required: "Please enter a username",
-        remote: jQuery.validator.format("Username is already taken.")
+      first: {
+        required: "Please enter a first name",
+      },
+      last: {
+        required: "Please enter a last name",
       },
       password: {
         required: "Please provide a password",
@@ -103,11 +99,12 @@ $(function() {
     },
     submitHandler: function(form) {
       // once its successful
+      first = signup_form.find('input[name="first"]').val();
+      last = signup_form.find('input[name="last"]').val();
       email = signup_form.find('input[name="email"]').val();
-      username = signup_form.find('input[name="username"]').val();
       password = signup_form.find('input[name="password"]').val();
 
-      registerUser(email, username, password);
+      registerUser(first, last, email, password);
     }
   });
 
@@ -157,13 +154,14 @@ $(function() {
     });
   }
 
-  function registerUser(email, username, password) {
+  function registerUser(first, last, email, password) {
     $.ajax({
       type: "POST",
       data: {
         type: "register",
+        first: first,
+        last: last,
         email: email,
-        username: username,
         password: password
       },
       url: window.location.href,

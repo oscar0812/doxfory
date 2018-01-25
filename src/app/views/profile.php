@@ -64,7 +64,7 @@
 							<img class="dp" src="<?=$home?>img/dp.jpg"/>
 						</div>
 						<div class="intro">
-							<h1><b>Hello,</b> I <?=$current_user->getUsername()?></h1>
+							<h1><b>Hello,</b> I am <?=$current_user->getFullName()?></h1>
 						</div>
 					</div>
 				</div>

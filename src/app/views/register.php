@@ -119,8 +119,12 @@
                   <form role="form" class="register-form">
 
                     <div class="form-group">
-                      <label class="sr-only" for="username">Username</label>
-                      <input type="text" name="username" placeholder="Username..." class="form-username form-control">
+                      <label class="sr-only" for="first">First Name</label>
+                      <input type="text" name="first" placeholder="First Name..." class="form-username form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="sr-only" for="last">First Name</label>
+                      <input type="text" name="last" placeholder="Last Name..." class="form-username form-control">
                     </div>
                     <div class="form-group">
                       <label class="sr-only" for="email">Email</label>

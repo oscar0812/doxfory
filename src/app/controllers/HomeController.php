@@ -48,12 +48,14 @@ class HomeController
             } else {
                 // register
                 $email = $post['email'];
-                $username = $post['username'];
+                $first = $post['first'];
+                $last = $post['last'];
                 $password = $post['password'];
 
                 $user = new User();
                 $user->setEmail($email);
-                $user->setUsername($username);
+                $user->setFirstName($first);
+                $user->setLastName($last);
                 $user->setPassword($password);
                 if (!$user->validate()) {
                     // an error occured
