@@ -5,16 +5,10 @@
     <div class="navbar-header">
       <!-- Logo -->
       <div class="navbar-brand">
-        <?if(!$logged_in) {?>
-        <a href="<?=$home?>">
+        <a href="<? if(!$logged_in) echo $home; else echo $router->pathFor('profile')?>">
           <img class="logo" src="<?=$home?>img/logo.png" alt="logo">
           <img class="logo-alt" src="<?=$home?>img/logo-alt.png" alt="logo">
         </a>
-        <? } else { ?>
-          <a href="<?=$router->pathFor('profile')?>">
-            <h2><?=$current_user->getUsername()?></h2>
-          </a>
-        <? } ?>
       </div>
       <!-- /Logo -->
 
@@ -37,7 +31,9 @@
         </ul>
       </li>
       <li><a href="#contact">Contact</a></li>
-      <? } else {?>
+      <? } else {
+        // if signed in
+      ?>
       <li><a href="<?=$router->pathFor('job')?>">Jobs</a></li>
       <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
       <? } ?>

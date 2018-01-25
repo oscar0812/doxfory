@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title>HTML Template</title>
+	<title><?=websiteName()?></title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
@@ -64,7 +64,7 @@
 							<img class="dp" src="<?=$home?>img/dp.jpg"/>
 						</div>
 						<div class="intro">
-							<h1><b>Hello,</b> I am John Doe</h1>
+							<h1><b>Hello,</b> I <?=$current_user->getUsername()?></h1>
 						</div>
 					</div>
 				</div>
