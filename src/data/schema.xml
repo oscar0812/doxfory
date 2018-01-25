@@ -28,6 +28,8 @@
     <column name="profile_picture" phpName="ProfilePicture" type="VARCHAR" size="255" required="true"/>
     <column name="about_me" phpName="AboutMe" type="VARCHAR" size="4098" required="true"/>
     <column name="up_votes" phpName="UpVotes" type="INTEGER" required="true"/>
+    <column name="confirmation_key" phpName="ConfirmationKey" type="VARCHAR" size="32" required="true"/>
+    <column name="reset_key" phpName="ResetKey" type="VARCHAR" size="32" required="true"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

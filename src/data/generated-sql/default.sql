@@ -40,6 +40,8 @@ CREATE TABLE `user`
     `profile_picture` VARCHAR(255) NOT NULL,
     `about_me` VARCHAR(4098) NOT NULL,
     `up_votes` INTEGER NOT NULL,
+    `confirmation_key` VARCHAR(32) NOT NULL,
+    `reset_key` VARCHAR(32) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 

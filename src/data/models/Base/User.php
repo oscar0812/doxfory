@@ -128,6 +128,20 @@ abstract class User implements ActiveRecordInterface
     protected $up_votes;
 
     /**
+     * The value for the confirmation_key field.
+     *
+     * @var        string
+     */
+    protected $confirmation_key;
+
+    /**
+     * The value for the reset_key field.
+     *
+     * @var        string
+     */
+    protected $reset_key;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -458,6 +472,26 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
+     * Get the [confirmation_key] column value.
+     *
+     * @return string
+     */
+    public function getConfirmationKey()
+    {
+        return $this->confirmation_key;
+    }
+
+    /**
+     * Get the [reset_key] column value.
+     *
+     * @return string
+     */
+    public function getResetKey()
+    {
+        return $this->reset_key;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -618,6 +652,46 @@ abstract class User implements ActiveRecordInterface
     } // setUpVotes()
 
     /**
+     * Set the value of [confirmation_key] column.
+     *
+     * @param string $v new value
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function setConfirmationKey($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->confirmation_key !== $v) {
+            $this->confirmation_key = $v;
+            $this->modifiedColumns[UserTableMap::COL_CONFIRMATION_KEY] = true;
+        }
+
+        return $this;
+    } // setConfirmationKey()
+
+    /**
+     * Set the value of [reset_key] column.
+     *
+     * @param string $v new value
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function setResetKey($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->reset_key !== $v) {
+            $this->reset_key = $v;
+            $this->modifiedColumns[UserTableMap::COL_RESET_KEY] = true;
+        }
+
+        return $this;
+    } // setResetKey()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -676,6 +750,12 @@ abstract class User implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UserTableMap::translateFieldName('UpVotes', TableMap::TYPE_PHPNAME, $indexType)];
             $this->up_votes = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : UserTableMap::translateFieldName('ConfirmationKey', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->confirmation_key = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : UserTableMap::translateFieldName('ResetKey', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->reset_key = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -684,7 +764,7 @@ abstract class User implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = UserTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = UserTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\User'), 0, $e);
@@ -909,6 +989,12 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_UP_VOTES)) {
             $modifiedColumns[':p' . $index++]  = 'up_votes';
         }
+        if ($this->isColumnModified(UserTableMap::COL_CONFIRMATION_KEY)) {
+            $modifiedColumns[':p' . $index++]  = 'confirmation_key';
+        }
+        if ($this->isColumnModified(UserTableMap::COL_RESET_KEY)) {
+            $modifiedColumns[':p' . $index++]  = 'reset_key';
+        }
 
         $sql = sprintf(
             'INSERT INTO user (%s) VALUES (%s)',
@@ -943,6 +1029,12 @@ abstract class User implements ActiveRecordInterface
                         break;
                     case 'up_votes':
                         $stmt->bindValue($identifier, $this->up_votes, PDO::PARAM_INT);
+                        break;
+                    case 'confirmation_key':
+                        $stmt->bindValue($identifier, $this->confirmation_key, PDO::PARAM_STR);
+                        break;
+                    case 'reset_key':
+                        $stmt->bindValue($identifier, $this->reset_key, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1030,6 +1122,12 @@ abstract class User implements ActiveRecordInterface
             case 7:
                 return $this->getUpVotes();
                 break;
+            case 8:
+                return $this->getConfirmationKey();
+                break;
+            case 9:
+                return $this->getResetKey();
+                break;
             default:
                 return null;
                 break;
@@ -1067,6 +1165,8 @@ abstract class User implements ActiveRecordInterface
             $keys[5] => $this->getProfilePicture(),
             $keys[6] => $this->getAboutMe(),
             $keys[7] => $this->getUpVotes(),
+            $keys[8] => $this->getConfirmationKey(),
+            $keys[9] => $this->getResetKey(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1130,6 +1230,12 @@ abstract class User implements ActiveRecordInterface
             case 7:
                 $this->setUpVotes($value);
                 break;
+            case 8:
+                $this->setConfirmationKey($value);
+                break;
+            case 9:
+                $this->setResetKey($value);
+                break;
         } // switch()
 
         return $this;
@@ -1179,6 +1285,12 @@ abstract class User implements ActiveRecordInterface
         }
         if (array_key_exists($keys[7], $arr)) {
             $this->setUpVotes($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setConfirmationKey($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setResetKey($arr[$keys[9]]);
         }
     }
 
@@ -1244,6 +1356,12 @@ abstract class User implements ActiveRecordInterface
         }
         if ($this->isColumnModified(UserTableMap::COL_UP_VOTES)) {
             $criteria->add(UserTableMap::COL_UP_VOTES, $this->up_votes);
+        }
+        if ($this->isColumnModified(UserTableMap::COL_CONFIRMATION_KEY)) {
+            $criteria->add(UserTableMap::COL_CONFIRMATION_KEY, $this->confirmation_key);
+        }
+        if ($this->isColumnModified(UserTableMap::COL_RESET_KEY)) {
+            $criteria->add(UserTableMap::COL_RESET_KEY, $this->reset_key);
         }
 
         return $criteria;
@@ -1338,6 +1456,8 @@ abstract class User implements ActiveRecordInterface
         $copyObj->setProfilePicture($this->getProfilePicture());
         $copyObj->setAboutMe($this->getAboutMe());
         $copyObj->setUpVotes($this->getUpVotes());
+        $copyObj->setConfirmationKey($this->getConfirmationKey());
+        $copyObj->setResetKey($this->getResetKey());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1381,6 +1501,8 @@ abstract class User implements ActiveRecordInterface
         $this->profile_picture = null;
         $this->about_me = null;
         $this->up_votes = null;
+        $this->confirmation_key = null;
+        $this->reset_key = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
