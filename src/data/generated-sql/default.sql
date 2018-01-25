@@ -33,9 +33,10 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(16) NOT NULL,
+    `last_name` VARCHAR(16) NOT NULL,
     `email` VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `username` VARCHAR(255) NOT NULL,
     `profile_picture` VARCHAR(255) NOT NULL,
     `about_me` VARCHAR(4098) NOT NULL,
     `up_votes` INTEGER NOT NULL,

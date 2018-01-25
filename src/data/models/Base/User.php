@@ -79,6 +79,20 @@ abstract class User implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the first_name field.
+     *
+     * @var        string
+     */
+    protected $first_name;
+
+    /**
+     * The value for the last_name field.
+     *
+     * @var        string
+     */
+    protected $last_name;
+
+    /**
      * The value for the email field.
      *
      * @var        string
@@ -91,13 +105,6 @@ abstract class User implements ActiveRecordInterface
      * @var        string
      */
     protected $password;
-
-    /**
-     * The value for the username field.
-     *
-     * @var        string
-     */
-    protected $username;
 
     /**
      * The value for the profile_picture field.
@@ -381,6 +388,26 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
+     * Get the [first_name] column value.
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->first_name;
+    }
+
+    /**
+     * Get the [last_name] column value.
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
      * Get the [email] column value.
      *
      * @return string
@@ -398,16 +425,6 @@ abstract class User implements ActiveRecordInterface
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Get the [username] column value.
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
     }
 
     /**
@@ -461,6 +478,46 @@ abstract class User implements ActiveRecordInterface
     } // setId()
 
     /**
+     * Set the value of [first_name] column.
+     *
+     * @param string $v new value
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function setFirstName($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->first_name !== $v) {
+            $this->first_name = $v;
+            $this->modifiedColumns[UserTableMap::COL_FIRST_NAME] = true;
+        }
+
+        return $this;
+    } // setFirstName()
+
+    /**
+     * Set the value of [last_name] column.
+     *
+     * @param string $v new value
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function setLastName($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->last_name !== $v) {
+            $this->last_name = $v;
+            $this->modifiedColumns[UserTableMap::COL_LAST_NAME] = true;
+        }
+
+        return $this;
+    } // setLastName()
+
+    /**
      * Set the value of [email] column.
      *
      * @param string $v new value
@@ -499,26 +556,6 @@ abstract class User implements ActiveRecordInterface
 
         return $this;
     } // setPassword()
-
-    /**
-     * Set the value of [username] column.
-     *
-     * @param string $v new value
-     * @return $this|\User The current object (for fluent API support)
-     */
-    public function setUsername($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->username !== $v) {
-            $this->username = $v;
-            $this->modifiedColumns[UserTableMap::COL_USERNAME] = true;
-        }
-
-        return $this;
-    } // setUsername()
 
     /**
      * Set the value of [profile_picture] column.
@@ -619,22 +656,25 @@ abstract class User implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : UserTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UserTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : UserTableMap::translateFieldName('FirstName', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->first_name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UserTableMap::translateFieldName('LastName', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->last_name = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UserTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
             $this->email = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : UserTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UserTableMap::translateFieldName('Password', TableMap::TYPE_PHPNAME, $indexType)];
             $this->password = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : UserTableMap::translateFieldName('Username', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->username = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : UserTableMap::translateFieldName('ProfilePicture', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UserTableMap::translateFieldName('ProfilePicture', TableMap::TYPE_PHPNAME, $indexType)];
             $this->profile_picture = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : UserTableMap::translateFieldName('AboutMe', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UserTableMap::translateFieldName('AboutMe', TableMap::TYPE_PHPNAME, $indexType)];
             $this->about_me = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : UserTableMap::translateFieldName('UpVotes', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : UserTableMap::translateFieldName('UpVotes', TableMap::TYPE_PHPNAME, $indexType)];
             $this->up_votes = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -644,7 +684,7 @@ abstract class User implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = UserTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = UserTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\User'), 0, $e);
@@ -848,14 +888,17 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
+        if ($this->isColumnModified(UserTableMap::COL_FIRST_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'first_name';
+        }
+        if ($this->isColumnModified(UserTableMap::COL_LAST_NAME)) {
+            $modifiedColumns[':p' . $index++]  = 'last_name';
+        }
         if ($this->isColumnModified(UserTableMap::COL_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'email';
         }
         if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
             $modifiedColumns[':p' . $index++]  = 'password';
-        }
-        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'username';
         }
         if ($this->isColumnModified(UserTableMap::COL_PROFILE_PICTURE)) {
             $modifiedColumns[':p' . $index++]  = 'profile_picture';
@@ -880,14 +923,17 @@ abstract class User implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
+                    case 'first_name':
+                        $stmt->bindValue($identifier, $this->first_name, PDO::PARAM_STR);
+                        break;
+                    case 'last_name':
+                        $stmt->bindValue($identifier, $this->last_name, PDO::PARAM_STR);
+                        break;
                     case 'email':
                         $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
                         break;
                     case 'password':
                         $stmt->bindValue($identifier, $this->password, PDO::PARAM_STR);
-                        break;
-                    case 'username':
-                        $stmt->bindValue($identifier, $this->username, PDO::PARAM_STR);
                         break;
                     case 'profile_picture':
                         $stmt->bindValue($identifier, $this->profile_picture, PDO::PARAM_STR);
@@ -964,21 +1010,24 @@ abstract class User implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getEmail();
+                return $this->getFirstName();
                 break;
             case 2:
-                return $this->getPassword();
+                return $this->getLastName();
                 break;
             case 3:
-                return $this->getUsername();
+                return $this->getEmail();
                 break;
             case 4:
-                return $this->getProfilePicture();
+                return $this->getPassword();
                 break;
             case 5:
-                return $this->getAboutMe();
+                return $this->getProfilePicture();
                 break;
             case 6:
+                return $this->getAboutMe();
+                break;
+            case 7:
                 return $this->getUpVotes();
                 break;
             default:
@@ -1011,12 +1060,13 @@ abstract class User implements ActiveRecordInterface
         $keys = UserTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getEmail(),
-            $keys[2] => $this->getPassword(),
-            $keys[3] => $this->getUsername(),
-            $keys[4] => $this->getProfilePicture(),
-            $keys[5] => $this->getAboutMe(),
-            $keys[6] => $this->getUpVotes(),
+            $keys[1] => $this->getFirstName(),
+            $keys[2] => $this->getLastName(),
+            $keys[3] => $this->getEmail(),
+            $keys[4] => $this->getPassword(),
+            $keys[5] => $this->getProfilePicture(),
+            $keys[6] => $this->getAboutMe(),
+            $keys[7] => $this->getUpVotes(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1060,21 +1110,24 @@ abstract class User implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setEmail($value);
+                $this->setFirstName($value);
                 break;
             case 2:
-                $this->setPassword($value);
+                $this->setLastName($value);
                 break;
             case 3:
-                $this->setUsername($value);
+                $this->setEmail($value);
                 break;
             case 4:
-                $this->setProfilePicture($value);
+                $this->setPassword($value);
                 break;
             case 5:
-                $this->setAboutMe($value);
+                $this->setProfilePicture($value);
                 break;
             case 6:
+                $this->setAboutMe($value);
+                break;
+            case 7:
                 $this->setUpVotes($value);
                 break;
         } // switch()
@@ -1107,22 +1160,25 @@ abstract class User implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setEmail($arr[$keys[1]]);
+            $this->setFirstName($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setPassword($arr[$keys[2]]);
+            $this->setLastName($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setUsername($arr[$keys[3]]);
+            $this->setEmail($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setProfilePicture($arr[$keys[4]]);
+            $this->setPassword($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setAboutMe($arr[$keys[5]]);
+            $this->setProfilePicture($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setUpVotes($arr[$keys[6]]);
+            $this->setAboutMe($arr[$keys[6]]);
+        }
+        if (array_key_exists($keys[7], $arr)) {
+            $this->setUpVotes($arr[$keys[7]]);
         }
     }
 
@@ -1168,14 +1224,17 @@ abstract class User implements ActiveRecordInterface
         if ($this->isColumnModified(UserTableMap::COL_ID)) {
             $criteria->add(UserTableMap::COL_ID, $this->id);
         }
+        if ($this->isColumnModified(UserTableMap::COL_FIRST_NAME)) {
+            $criteria->add(UserTableMap::COL_FIRST_NAME, $this->first_name);
+        }
+        if ($this->isColumnModified(UserTableMap::COL_LAST_NAME)) {
+            $criteria->add(UserTableMap::COL_LAST_NAME, $this->last_name);
+        }
         if ($this->isColumnModified(UserTableMap::COL_EMAIL)) {
             $criteria->add(UserTableMap::COL_EMAIL, $this->email);
         }
         if ($this->isColumnModified(UserTableMap::COL_PASSWORD)) {
             $criteria->add(UserTableMap::COL_PASSWORD, $this->password);
-        }
-        if ($this->isColumnModified(UserTableMap::COL_USERNAME)) {
-            $criteria->add(UserTableMap::COL_USERNAME, $this->username);
         }
         if ($this->isColumnModified(UserTableMap::COL_PROFILE_PICTURE)) {
             $criteria->add(UserTableMap::COL_PROFILE_PICTURE, $this->profile_picture);
@@ -1272,9 +1331,10 @@ abstract class User implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setFirstName($this->getFirstName());
+        $copyObj->setLastName($this->getLastName());
         $copyObj->setEmail($this->getEmail());
         $copyObj->setPassword($this->getPassword());
-        $copyObj->setUsername($this->getUsername());
         $copyObj->setProfilePicture($this->getProfilePicture());
         $copyObj->setAboutMe($this->getAboutMe());
         $copyObj->setUpVotes($this->getUpVotes());
@@ -1314,9 +1374,10 @@ abstract class User implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->first_name = null;
+        $this->last_name = null;
         $this->email = null;
         $this->password = null;
-        $this->username = null;
         $this->profile_picture = null;
         $this->about_me = null;
         $this->up_votes = null;
@@ -1364,7 +1425,8 @@ abstract class User implements ActiveRecordInterface
     {
         $metadata->addPropertyConstraint('email', new Email());
         $metadata->addPropertyConstraint('password', new Regex(array ('pattern' => '/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/',)));
-        $metadata->addPropertyConstraint('username', new Length(array ('min' => 2,)));
+        $metadata->addPropertyConstraint('first_name', new Length(array ('min' => 1,)));
+        $metadata->addPropertyConstraint('last_name', new Length(array ('min' => 1,)));
     }
 
     /**
