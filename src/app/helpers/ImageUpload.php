@@ -3,8 +3,6 @@ namespace App\Helpers;
 
 class ImageUpload
 {
-    private static $root_dir = 'uploads/';
-
     public static function createDir($target_dir)
     {
         if (!file_exists($target_dir)) {
@@ -14,13 +12,15 @@ class ImageUpload
 
     public static function uploadPfp($id)
     {
-        $dir = ImageUpload::$root_dir;
+        $dir = __DIR__;
+        $dir = dirname($dir).'/'; // app directory (parent of controllers)
+        $dir .= 'uploads/';
         ImageUpload::createDir($dir);
         $dir .='pfp/';
         ImageUpload::createDir($dir);
         return ImageUpload::upload($dir, $id);
     }
-    
+
     public static function upload($dir, $id)
     {
         $target_dir = $dir;
