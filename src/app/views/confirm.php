@@ -40,19 +40,60 @@
 </head>
 
 <body>
+	<!-- Nav -->
+	<nav id="nav" class="navbar fixed-nav">
+	  <div class="container">
 
-  <div class="qlt-confirmation">
-    	<div class="panel panel-default">
-        <div class="panel-body">
-          <center>
-          <img src="https://cdn4.iconfinder.com/data/icons/social-communication/142/open_mail_letter-512.png" style="width:30px; height: 30px;">
-            <p class="desc">Thank you for signing up!<br>We've sent a confirmation link on your email.<br>Please visit your <img style="width: 40px; height: 40px" src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/glossy-black-icons-business/080840-glossy-black-icon-business-mailbox.png">.</p>
-          </center>
+	    <div class="navbar-header">
+	      <!-- Logo -->
+	      <div class="navbar-brand">
+	        <a href="#">
+	          <img class="logo" src="<?=$home?>img/logo.png" alt="logo">
+	          <img class="logo-alt" src="<?=$home?>img/logo-alt.png" alt="logo">
+	        </a>
+	      </div>
+	      <!-- /Logo -->
 
-          <p class="notice">Note:<br>Using our <b>social login</b>, you will be ask to add your email address during authentication. This is part of our security policy.</p>
-        </div>
-  	</div>
-  </div>
+	      <!-- Collapse nav button -->
+	      <div class="nav-collapse">
+	        <span></span>
+	      </div>
+	      <!-- /Collapse nav button -->
+	    </div>
+
+	    <!--  Main navigation  -->
+	    <ul class="main-nav nav navbar-nav navbar-right">
+	      <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
+	    </ul>
+	    <!-- /Main navigation -->
+
+	  </div>
+	</nav>
+	<!-- /Nav -->
+
+
+	<div class="row md-padding">
+		<div class="col-md-3">
+		</div>
+		<div class="col-md-6">
+			<div class="qlt-confirmation">
+		    	<div class="panel panel-default">
+		        <div class="panel-body">
+		          <center>
+		          	<h2><i class="fa fa-envelope"></i></h2>
+		            <h2 class="desc">Thank you for signing up!<br>We've sent a confirmation link on your email.<br>Please visit your inbox.</h2>
+
+		          <p class="notice"><b>Note:</b><br>This is part of our security policy. If you don't recieve an email check your spam box, or reload this page.</p>
+						</center>
+
+		        </div>
+		  	</div>
+		  </div>
+		</div>
+		<div class="col-md-3">
+		</div>
+	</div>
+
 
 	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
