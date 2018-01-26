@@ -38,21 +38,30 @@
 
   <body>
     <!-- Nav -->
-    <nav id="nav" class="navbar nav-transparent fixed-nav">
+    <nav id="nav" class="navbar fixed-nav">
       <div class="container">
 
         <div class="navbar-header">
           <!-- Logo -->
           <div class="navbar-brand">
             <a href="<?=$home?>">
-  						<img class="logo" src="img/logo.png" alt="logo">
-  						<img class="logo-alt" src="img/logo-alt.png" alt="logo">
-  					</a>
+              <img class="logo" src="<?=$home?>img/logo.png" alt="logo">
+              <img class="logo-alt" src="<?=$home?>img/logo-alt.png" alt="logo">
+            </a>
           </div>
           <!-- /Logo -->
+
+          <!-- Collapse nav button -->
+          <div class="nav-collapse">
+            <span></span>
+          </div>
+          <!-- /Collapse nav button -->
         </div>
+
+      </div>
     </nav>
     <!-- /Nav -->
+
     <!-- Top content -->
     <div class="top-content">
 
