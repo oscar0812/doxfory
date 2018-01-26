@@ -52,6 +52,7 @@
 	</header>
 	<!-- /Header -->
 
+	<!-- Main Div -->
 	<div class="section md-padding" id="main_div">
 
 		<div>
@@ -60,7 +61,7 @@
 				<div class="col-xs-12">
 					<div class="well">
 						<div class="dp-box">
-							<img class="dp" src="<?=$home?>img/dp.jpg"/>
+							<img id="pfp" class="dp" src="<?=$home?>img/dp.jpg"/>
 						</div>
 						<div class="intro">
 							<h1><b>Hello,</b> I am <?=$current_user->getFullName()?></h1>
@@ -310,9 +311,9 @@
 			</div>
 		</div>
 		</div>
-
-
 	</div>
+	<!-- /Main Div -->
+
 
 	<!-- Footer -->
 	<footer id="footer" class="sm-padding bg-dark">
@@ -363,12 +364,44 @@
 	<div id="back-to-top"></div>
 	<!-- /Back to top -->
 
+
+
+	<div class="modal fade" id="pfpModal" data-id="" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"></h5>Upload a new profile picture</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <!-- show alerts when adding or deleting employees -->
+              <div class="alert invisible">
+              </div>
+
+							<form class="" action="<?=$router->pathFor('upload_pfp')?>" method="post" enctype="multipart/form-data">
+								Select image to upload
+								<input type="file" accept="image/*" name="fileToUpload" id="fileToUpload">
+								<input type="submit" name="submit" value="Upload Image">
+							</form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
 	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/user/profile.js"></script>
 
 </body>
 
