@@ -62,6 +62,7 @@ class HomeController
                     $response = $response->withJson(['success'=>false]);
                 } else {
                     // all good
+                    $user->setConfirmationKey(md5(rand(0, 1000)));
                     $user->save();
                     logUserIn($user->getId());
 
