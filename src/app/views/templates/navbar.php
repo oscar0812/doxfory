@@ -5,7 +5,9 @@
     <div class="navbar-header">
       <!-- Logo -->
       <div class="navbar-brand">
-        <a href="<? if(!$logged_in) echo $home; else echo $router->pathFor('profile')?>">
+        <a class="<?if(!$logged_in) echo "scroll"?>"
+          href="<? if(!$logged_in) echo "#home";
+          else echo $router->pathFor('profile')?>">
           <img class="logo" src="<?=$home?>img/logo.png" alt="logo">
           <img class="logo-alt" src="<?=$home?>img/logo-alt.png" alt="logo">
         </a>
