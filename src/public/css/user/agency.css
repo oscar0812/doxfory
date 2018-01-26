@@ -43,6 +43,25 @@ Table OF Contents
 
 /* -- typography -- */
 
+/* CSS used here will be applied after bootstrap.css */
+
+.qlt-confirmation .panel-body {
+  width: 99%;
+  margin: 0 auto;
+  padding: 40px 10px;
+}
+
+.qlt-confirmation .panel-body .desc {
+  margin: 10px auto;
+}
+
+.qlt-confirmation .panel-body .notice {
+  padding: 0px 20px;
+  margin-top: 50px;
+  font-style: italic;
+  color: gray;
+}
+
 body {
   font-family: 'Varela Round', sans-serif;
   font-size: 16px;
