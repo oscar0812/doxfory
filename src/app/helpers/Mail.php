@@ -24,7 +24,7 @@ class Mail
     private static function confirmEmail($main_url, $user)
     {
         $email = $user->getEmail();
-        $username = $user->getUsername();
+        $username = $user->getFullName();
 
         $url = $main_url;
         $url.="?email=".$email;
@@ -43,7 +43,7 @@ class Mail
     public function resetPasswordEmail($main_url, $email, $user)
     {
         $email = $user->getEmail();
-        $username = $user->getUsername();
+        $username = $user->getFullName();
 
         $url = $main_url;
         $url.="?email=".$email;
