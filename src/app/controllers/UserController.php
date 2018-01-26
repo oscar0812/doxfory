@@ -9,6 +9,7 @@ use \User;
 
 class UserController
 {
+    // takes care of routing all routes in /user/{}/{}/...
     public static function getVars($app)
     {
         return ['logged_in'=>true, 'router'=> $app->router, 'current_user' => currentUser()];
@@ -48,10 +49,31 @@ class UserController
 
     public function confirmUser($app)
     {
-        $app->get('/confirm', function ($request, $response) {
+        $app->get('/confirm', function ($request, $response) use ($app) {
+            $current_user = currentUser();
+            // check if has key in url, if so, confirm user and
+            // redirect to profile
+            $get = $request->getQueryParams();
+            if (isset($get['key'])) {
+                // trying to confirm account
+                $key = $current_user->getConfirmationKey();
+                if ($get['key'] == $key) {
+                    // correct key
+                    $current_user->setConfirmationKey("");
+                    $current_user->save();
+                    return $response->withRedirect($this->router->pathFor('profile'));
+                } else {
+                    // incorrect key, set a new key to the player and log out
+                    $current_user->setConfirmationKey(md5(rand(0, 1000)));
+                    $current_user->save();
+                    return $response->withRedirect($this->router->pathFor('signout'));
+                }
+                //  die();
+            }
+
             // if haven't confirmed email
             // show confirm view and send an email
-            $current_user = currentUser();
+
             if (!$current_user->isConfirmed()) {
                 return $this->view->render($response, "confirm.php", UserController::getVars($this));
             }
@@ -62,22 +84,37 @@ class UserController
         })->setName('confirm');
     }
 
+    // entry point
     public static function setUpRouting($app)
     {
         $controller = new UserController();
+
         $app->group('/user', function () use ($app, $controller) {
             $controller->profile($app);
-            $controller->signOut($app);
             $controller->job($app);
             $controller->confirmUser($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
-            if (currentUser() != null) {
-                $response = $next($request, $response);
+            $current_user = currentUser();
+            $path = $request->getUri()->getPath();
+
+            if ($current_user != null) {
+                // to avoid infinite recursion
+                if (!$current_user->isConfirmed() && $path != 'user/confirm') {
+                    $response = $response->withRedirect($this->router->pathFor('confirm'));
+                } else {
+                    $response = $next($request, $response);
+                }
             } else {
                 $response = $response->withRedirect($this->router->pathFor('home'));
             }
             return $response;
+        });
+
+        // signout doesnt have to be in middleware with all checks,
+        // it can be called whenever
+        $app->group('/user', function () use ($app, $controller) {
+            $controller->signOut($app);
         });
     }
 }
