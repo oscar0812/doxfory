@@ -20,7 +20,7 @@ $container['notFoundHandler'] = function ($c) {
 // takes care of routing: /, and /register
 App\Controllers\HomeController::setUpRouting($app);
 
-// takes care of routing /user/{url}: /user/profile, /user/signout
+// takes care of routing /user/{url}: /user/profile, /user/signout, etc
 App\Controllers\UserController::setUpRouting($app);
 
 $app->run();

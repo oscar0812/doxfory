@@ -52,8 +52,7 @@
 	</header>
 	<!-- /Header -->
 
-	<!-- Blog -->
-	<div id="blog" class="section md-padding">
+	<div class="section md-padding" id="main_div">
 
 		<div>
 			<div class="container">
@@ -314,7 +313,6 @@
 
 
 	</div>
-	<!-- /Blog -->
 
 	<!-- Footer -->
 	<footer id="footer" class="sm-padding bg-dark">
