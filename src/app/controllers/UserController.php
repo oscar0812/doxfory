@@ -39,12 +39,25 @@ class UserController
         })->setName('signout');
     }
 
-    // this function needs work, not complete yet, but here for reminder
-    public function uploadImages($app)
+    // only accepts post request
+    // if posted, means user is trying to change pfp
+    public function uploadPfp($app)
     {
-        $app->get('/upload', function ($request, $response) {
-            ImageUpload::upload('hello');
-        })->setName('signout');
+        $app->post('/upload', function ($request, $response) {
+            $current_user = currentUser();
+            // call ImageUpload which returns an array with flags and data
+            $arr = ImageUpload::uploadPfp($current_user->getId());
+
+            if ($arr['success']) {
+                // successfully uploaded image, so set the path as the
+                // users pfp url in db
+                $current_user->setProfilePicture($arr['path']);
+                $current_user->save();
+            }
+            return $response->withJson($arr);
+            print_r();
+            return $response;
+        })->setName('upload_pfp');
     }
 
     public function confirmUser($app)
@@ -73,8 +86,8 @@ class UserController
 
             // if haven't confirmed email
             // show confirm view and send an email
-
             if (!$current_user->isConfirmed()) {
+                // TODO: send email whenever you have internet
                 return $this->view->render($response, "confirm.php", UserController::getVars($this));
             }
             // else, send them to profile page
@@ -93,6 +106,7 @@ class UserController
             $controller->profile($app);
             $controller->job($app);
             $controller->confirmUser($app);
+            $controller->uploadPfp($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
             $current_user = currentUser();
