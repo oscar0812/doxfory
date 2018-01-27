@@ -46,11 +46,12 @@ class ImageUpload
 
         // change image name to ($user->id).extension
         $ext = substr($target_file, strripos($target_file, '.'));
+        $url = '../../app/uploads/pfp/'.$id.$ext;
         $target_file = $dir.$id.$ext;
 
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES["fileToUpload"]["name"]). " has been uploaded.";
-            return ['success'=>true, 'msg'=>'File uploaded', 'path'=>$target_file];
+            return ['success'=>true, 'msg'=>'File uploaded', 'path'=>$url];
         } else {
             return ['success'=>false, 'msg'=>'There was an error uploading your file'];
         }

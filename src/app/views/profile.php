@@ -60,8 +60,8 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="well">
-						<div class="dp-box">
-							<img id="pfp" class="dp" src="<?=$home?>img/dp.jpg"/>
+						<div class="">
+							<img id="pfp" class="img-circle img-responsive" src="<?=$current_user->getProfilePicture()?>"/>
 						</div>
 						<div class="intro">
 							<h1><b>Hello,</b> I am <?=$current_user->getFullName()?></h1>
@@ -376,6 +376,10 @@
               </button>
             </div>
             <div class="modal-body">
+
+							<div class="alert alert-danger invisible">
+
+							</div>
 
 							<form method="post" action="<?=$router->pathFor('upload_pfp')?>" enctype="multipart/form-data" id="pfpForm">
 								<label class="btn btn-default">

@@ -36,4 +36,13 @@ class User extends BaseUser
         $key = $this->getConfirmationKey();
         return $key == null || $key == "";
     }
+
+    public function getProfilePicture()
+    {
+        $pfp = parent::getProfilePicture();
+        if ($pfp == null || $pfp == "") {
+            $pfp = '../img/blank_pfp.png';
+        }
+        return $pfp;
+    }
 }
