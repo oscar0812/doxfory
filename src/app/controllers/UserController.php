@@ -55,8 +55,6 @@ class UserController
                 $current_user->save();
             }
             return $response->withJson($arr);
-            print_r();
-            return $response;
         })->setName('upload_pfp');
     }
 

@@ -377,14 +377,13 @@
             </div>
             <div class="modal-body">
 
-              <!-- show alerts when adding or deleting employees -->
-              <div class="alert invisible">
-              </div>
+							<form method="post" action="<?=$router->pathFor('upload_pfp')?>" enctype="multipart/form-data" id="pfpForm">
+								<label class="btn btn-default">
+    							<input type="file" accept="image/*" name="fileToUpload" id="fileToUpload" hidden>
 
-							<form class="" action="<?=$router->pathFor('upload_pfp')?>" method="post" enctype="multipart/form-data">
-								Select image to upload
-								<input type="file" accept="image/*" name="fileToUpload" id="fileToUpload">
-								<input type="submit" name="submit" value="Upload Image">
+								</label>
+								<button class="btn button btn-primary" id="submit">Upload Image</button>
+
 							</form>
             </div>
             <div class="modal-footer">
@@ -402,6 +401,8 @@
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/profile.js"></script>
+
+	</script>
 
 </body>
 
