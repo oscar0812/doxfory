@@ -21,9 +21,8 @@ class ImageUpload
         return ImageUpload::upload($dir, $id);
     }
 
-    public static function upload($dir, $id)
+    public static function upload($target_dir, $id)
     {
-        $target_dir = $dir;
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
         // Check if image file is a actual image or fake image
@@ -44,10 +43,10 @@ class ImageUpload
             return ['success'=>false, 'msg'=>'Only JPG, JPEG, PNG & GIF files are allowed'];
         }
 
-        // change image name to ($user->id).extension
-        $ext = substr($target_file, strripos($target_file, '.'));
-        $url = '../../app/uploads/pfp/'.$id.$ext;
-        $target_file = $dir.$id.$ext;
+        // change image name to ($user->id).jpg
+        //$ext = substr($target_file, strripos($target_file, '.'));
+        $url = '../../app/uploads/pfp/'.$id.'.jpg';
+        $target_file = $target_dir.$id.'.jpg';
 
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES["fileToUpload"]["name"]). " has been uploaded.";
