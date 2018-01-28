@@ -1,11 +1,11 @@
 ### Do X for Y - The Revival Project
 
 TO:DO
-  - Add email system
-  - Add confirm email route
+  - Add email system (DONE)
+  - Add confirm email route (DONE)
   - Add reset password route
   - Add Job page
-  - Add propel validation
+  - Add propel validation (DONE)
   - Add Profile Page info
   - Add Page to view other users
   - That's it for now
