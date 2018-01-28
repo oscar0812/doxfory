@@ -4,6 +4,7 @@ namespace App\Controllers;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\Helpers\ImageUpload;
+use App\Helpers\Mail;
 use \UserQuery;
 use \User;
 
@@ -65,10 +66,10 @@ class UserController
             // check if has key in url, if so, confirm user and
             // redirect to profile
             $get = $request->getQueryParams();
-            if (isset($get['key'])) {
+            if (isset($get['key']) && isset($get['email'])) {
                 // trying to confirm account
                 $key = $current_user->getConfirmationKey();
-                if ($get['key'] == $key) {
+                if ($get['key'] == $key && $get['email'] == $current_user->getEmail()) {
                     // correct key
                     $current_user->setConfirmationKey("");
                     $current_user->save();
@@ -83,9 +84,8 @@ class UserController
             }
 
             // if haven't confirmed email
-            // show confirm view and send an email
+            // show confirm view
             if (!$current_user->isConfirmed()) {
-                // TODO: send email whenever you have internet
                 return $this->view->render($response, "confirm.php", UserController::getVars($this));
             }
             // else, send them to profile page
@@ -93,6 +93,12 @@ class UserController
                 return $response->withRedirect($this->router->pathFor('profile'));
             }
         })->setName('confirm');
+
+        // send mail when confirm is posted to, this in order to let the page
+        // load quick and mail is sent through ajax call
+        $app->post('/confirm', function ($request, $response) use ($app) {
+            return Mail::confirmEmail('url', currentUser());
+        });
     }
 
     // entry point

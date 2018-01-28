@@ -9,19 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public static function send($type, $email, $user)
-    {
-        $main_url = "url/";
-        if ($type === "confirm_email") {
-            confirmEmail($main_url, $user);
-        } elseif ($type === "reset_password") {
-            resetPasswordEmail($main_url, $email, $user);
-        } else {
-            return ["success"=>false];
-        }
-    }
-
-    private static function confirmEmail($main_url, $user)
+    public static function confirmEmail($main_url, $user)
     {
         $email = $user->getEmail();
         $username = $user->getFullName();
@@ -37,7 +25,7 @@ class Mail
         ', just click <a href="'.$url.
         '">here to confirm your email.</a></p>';
 
-        sendEmail($email, $username, 'Confirm Email', $body);
+        return Mail::sendEmail($email, $username, 'Confirm Email', $body);
     }
 
     public function resetPasswordEmail($main_url, $email, $user)
@@ -61,10 +49,10 @@ class Mail
         '">here to confirm your email.</a></p> If you didn\'t request
         a password change ignore this email.';
 
-        sendEmail($email, $username, 'Reset Password', $body);
+        return Mail::sendEmail($email, $username, 'Reset Password', $body);
     }
 
-    public function sendEmail($email, $username, $subject, $body)
+    public static function sendEmail($email, $username, $subject, $body)
     {
         try {
             $mail = new PHPMailer(true);
@@ -91,13 +79,9 @@ class Mail
             $mail->AltBody = strip_tags($body);
 
             $mail->send();
-            $json = ["success"=>true, "msg"=>"Email has been sent"];
-            echo json_encode($json);
-            die();
+            return ["success"=>true, "msg"=>"Email has been sent"];
         } catch (Exception $e) {
-            $json = ["success"=>false, "msg"=>"Mailer Error: " . $mail->ErrorInfo];
-            echo json_encode($json);
-            die();
+            return ["success"=>false, "msg"=>"Mailer Error: " . $mail->ErrorInfo];
         }
     }
 }

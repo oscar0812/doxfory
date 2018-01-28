@@ -83,7 +83,9 @@
 		          	<h2><i class="fa fa-envelope"></i></h2>
 		            <h2 class="desc">Thank you for signing up!<br>We've sent a confirmation link on your email.<br>Please visit your inbox.</h2>
 
-		          <p class="notice"><b>Note:</b><br>This is part of our security policy. If you don't recieve an email check your spam box, or reload this page.</p>
+		          <p class="notice"><b>Note:</b><br>This is part of our security policy.
+								If you don't recieve an email check your spam box, or reload this page.
+							  If you still don't recieve an email contact support.</p>
 						</center>
 
 		        </div>
@@ -101,6 +103,24 @@
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+
+	<script type="text/javascript">
+		$(function(){
+			$.ajax({
+	      type: "POST",
+	      url: window.location.href,
+	      success: function(data) {
+					envelope = $('.fa-envelope');
+					if(data['success']){
+						envelope.addClass('text-success');
+					}
+					else{
+						envelope.addClass('text-danger');
+					}
+				}
+			});
+		});
+	</script>
 
 </body>
 
