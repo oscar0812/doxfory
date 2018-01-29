@@ -38,3 +38,14 @@ function logUserOut()
     session_start_safe();
     unset($_SESSION['user_id']);
 }
+
+// for sending email, to send with whole url and not just a path
+function url()
+{
+    if (isset($_SERVER['HTTPS'])) {
+        $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+    } else {
+        $protocol = 'http';
+    }
+    return $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+}
