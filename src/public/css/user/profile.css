@@ -7,7 +7,6 @@ body {
 }
 
 .dp-box {
-  background: #ddd;
   margin-top: -75px;
   width: 220px;
   padding: 10px;
@@ -22,6 +21,11 @@ body {
 
 .intro {
   margin-left: 250px;
+}
+
+#pfp {
+  height: 150px;
+  width: block;
 }
 
 .well {

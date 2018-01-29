@@ -60,8 +60,8 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="well">
-						<div class="">
-							<img id="pfp" class="img-circle img-responsive" src="<?=$current_user->getProfilePicture()?>"/>
+						<div class="dp-box">
+							<img id="pfp" class="img-circle img-responsive" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='../img/blank_pfp.png';"/>
 						</div>
 						<div class="intro">
 							<h1><b>Hello,</b> I am <?=$current_user->getFullName()?></h1>
