@@ -97,7 +97,8 @@ class UserController
         // send mail when confirm is posted to, this in order to let the page
         // load quick and mail is sent through ajax call
         $app->post('/confirm', function ($request, $response) use ($app) {
-            return Mail::confirmEmail('url', currentUser());
+            $arr = Mail::confirmEmail(url() , currentUser());
+            return $response->withJson($arr);
         });
     }
 
