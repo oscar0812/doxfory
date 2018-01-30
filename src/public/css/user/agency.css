@@ -66,6 +66,10 @@ Table OF Contents
   color: gray;
 }
 
+.sm-neg-btm {
+  margin-bottom: -8px !important;
+}
+
 body {
   font-family: 'Varela Round', sans-serif;
   font-size: 16px;
@@ -1183,36 +1187,36 @@ header {
 
 /* -- blog author -- */
 
-.blog-author {
+.agency-box {
   margin: 40px 0px;
 }
 
-.blog-author .media .media-left {
+.agency-box .media .media-left {
   padding-right: 20px;
 }
 
-.blog-author .media {
+.agency-box .media {
   padding: 20px;
   border: 1px solid #EEE;
 }
 
-.blog-author .media .media-heading {
+.agency-box .media .media-heading {
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #EEE;
 }
 
-.blog-author .media .media-heading h3 {
+.agency-box .media .media-heading h3 {
   display: inline-block;
   margin: 0;
   text-transform: uppercase;
 }
 
-.blog-author .media .media-heading .author-social {
+.agency-box .media .media-heading .author-social {
   float: right;
 }
 
-.blog-author .author-social a {
+.agency-box .author-social a {
   display: inline-block;
   width: 24px;
   height: 24px;
@@ -1542,19 +1546,19 @@ header {
   .reply-form form .input:nth-child(2) {
     margin-left: 0px;
   }
-  .blog-author .media .media-left {
+  .agency-box .media .media-left {
     display: block;
     padding-right: 0;
     margin-bottom: 20px;
   }
-  .blog-author .media {
+  .agency-box .media {
     text-align: center;
   }
-  .blog-author .media .media-heading .author-social {
+  .agency-box .media .media-heading .author-social {
     margin-top: 10px;
     float: none;
   }
-  .blog-author .media .media-left img {
+  .agency-box .media .media-left img {
     margin: auto;
   }
   .blog-comments .media .media {

@@ -2,10 +2,6 @@ body {
   background: #FFF;
 }
 
-.main_div {
-  font-family: Roboto Slab, serif;
-}
-
 .dp-box {
   margin-top: -75px;
   width: 220px;
@@ -26,21 +22,22 @@ body {
 #pfp {
   height: 150px;
   width: block;
-  border: 4px solid #ccc;
 }
 
-.well {
-  border: 0;
+.box {
+  border: 1px solid #EEE;
   background: white;
-  border-bottom: 2px solid #ccc;
+
+  padding: 10px 20px;
+  margin-top: 25px;
 }
 
-.well>h3 {
-  font-family: Shadows Into Light Two, cursive;
-}
-
-.well>p {
+.box>p {
   text-align: justify;
+}
+
+.box>h3 {
+  text-transform: uppercase;
 }
 
 .contact-item {

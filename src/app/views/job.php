@@ -87,7 +87,7 @@
 						<!-- blog tags -->
 
 						<!-- blog author -->
-						<div class="blog-author">
+						<div class="agency-box">
 							<div class="media">
 								<div class="media-left">
 									<img class="media-object" src="<?=$home?>img/author.jpg" alt="">
