@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?$home = $router->pathFor('home')?>
+<?php $home = $router->pathFor('home')?>
 
 <html lang="en">
 
@@ -47,7 +47,7 @@
 	<!-- Header -->
 	<header>
 
-		<?require_once('templates/navbar.php') ?>
+		<?php require_once('templates/navbar.php') ?>
 
 	</header>
 	<!-- /Header -->

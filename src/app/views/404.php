@@ -1,4 +1,4 @@
-<? $home = $router->pathFor('home')?>
+<?php $home = $router->pathFor('home')?>
 <html>
 
 <head>
