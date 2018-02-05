@@ -49,3 +49,18 @@ function url()
     }
     return $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 }
+
+
+function startsWith($original, $substr)
+{
+     $length = strlen($substr);
+     return (substr($original, 0, $length) === $substr);
+}
+
+function endsWith($original, $substr)
+{
+    $length = strlen($substr);
+
+    return $length === 0 ||
+    (substr($original, -$length) === $substr);
+}
