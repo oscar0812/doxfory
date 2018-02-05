@@ -22,7 +22,7 @@ class UserController
         $app->get('/profile[/{id:[0-9]+}]', function ($request, $response, $args) {
             $arr = UserController::getVars($this);
             $arr['visiting'] = false;
-            
+
             if (isset($args['id'])) {
                 // if id was passed
                 $user = UserQuery::create()->findPk($args['id']);
@@ -130,7 +130,7 @@ class UserController
 
             if ($current_user != null) {
                 // to avoid infinite recursion
-                if (!$current_user->isConfirmed() && $path != 'user/confirm') {
+                if (!$current_user->isConfirmed() && !endsWith($path, "user/confirm")) {
                     $response = $response->withRedirect($this->router->pathFor('confirm'));
                 } else {
                     $response = $next($request, $response);
