@@ -24,6 +24,7 @@
     <column name="first_name" phpName="FirstName" type="VARCHAR" size="16" required="true"/>
     <column name="last_name" phpName="LastName" type="VARCHAR" size="16" required="true"/>
     <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
+    <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="16" required="true"/>
     <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
     <column name="profile_picture" phpName="ProfilePicture" type="VARCHAR" size="255" required="true"/>
     <column name="about_me" phpName="AboutMe" type="VARCHAR" size="4098" required="true"/>
@@ -33,12 +34,11 @@
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
-
     <behavior name="validate">
-      <parameter name="rule1" value="{column: email, validator: Email}"/>
-      <parameter name="rule2" value="{column: password, validator: Regex, options: {pattern: &quot;/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/&quot;}, match: false, message: Please enter a valid password}"/>
-      <parameter name="rule3" value="{column: first_name, validator: Length, options: {min: 1}}"/>
-      <parameter name="rule4" value="{column: last_name, validator: Length, options: {min: 1}}"/>
-    </behavior>
-  </table>
+        <parameter name="rule1" value="{column: email, validator: Email}"/>
+        <parameter name="rule2" value="{column: password, validator: Regex, options: {pattern: &quot;/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/&quot;}, match: false, message: Please enter a valid password}"/>
+        <parameter name="rule3" value="{column: first_name, validator: Length, options: {min: 1}}"/>
+        <parameter name="rule4" value="{column: last_name, validator: Length, options: {min: 1}}"/>
+      </behavior>
+    </table>
 </database>
