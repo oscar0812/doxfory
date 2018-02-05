@@ -13,6 +13,7 @@ TO:DO
 
 
 NOTES:
+1) To upgrade PHP on digital ocean use [this](https://jakelprice.com/article/how-to-upgrade-from-php-70-to-php-71)
 
 ERRORS:
 -------------------------------------------
