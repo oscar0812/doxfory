@@ -62,7 +62,15 @@
 				<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
 					<div class="media">
 						<div class="media-left">
-							<img id="pfp" class="media-object" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='../img/blank_pfp.png';">
+
+							<?php
+										$pic = $current_user->getProfilePicture();
+										if($visiting) {
+											$pic = '../'.$pic;
+										}
+							?>
+
+							<img id="pfp" class="media-object" src="<?=$pic?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 						</div>
 						<div class="media-body">
 							<div class="media-heading">
