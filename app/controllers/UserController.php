@@ -19,8 +19,20 @@ class UserController
     // profile page
     public function profile($app)
     {
-        $app->get('/profile', function ($request, $response) {
-            return $this->view->render($response, "profile.php", UserController::getVars($this));
+        $app->get('/profile[/{id:[0-9]+}]', function ($request, $response, $args) {
+            $arr = UserController::getVars($this);
+            $arr['visiting'] = false;
+            
+            if (isset($args['id'])) {
+                // if id was passed
+                $user = UserQuery::create()->findPk($args['id']);
+                if ($user != null) {
+                    // if id is valid
+                    $arr['current_user'] = $user;
+                    $arr['visiting'] = true;
+                }
+            }
+            return $this->view->render($response, "profile.php", $arr);
         })->setName('profile');
     }
 
@@ -80,7 +92,6 @@ class UserController
                     $current_user->save();
                     return $response->withRedirect($this->router->pathFor('signout'));
                 }
-                //  die();
             }
 
             // if haven't confirmed email
@@ -97,7 +108,7 @@ class UserController
         // send mail when confirm is posted to, this in order to let the page
         // load quick and mail is sent through ajax call
         $app->post('/confirm', function ($request, $response) use ($app) {
-            $arr = Mail::confirmEmail(url() , currentUser());
+            $arr = Mail::confirmEmail(url(), currentUser());
             return $response->withJson($arr);
         });
     }
