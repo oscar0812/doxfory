@@ -59,7 +59,7 @@ class UserController
         $app->post('/upload', function ($request, $response) {
             $current_user = currentUser();
             // call ImageUpload which returns an array with flags and data
-            $arr = ImageUpload::uploadPfp($current_user->getId());
+            $arr = ImageUpload::uploadPfp($current_user->getId(), $this->router->pathFor('home'));
 
             if ($arr['success']) {
                 // successfully uploaded image, so set the path as the

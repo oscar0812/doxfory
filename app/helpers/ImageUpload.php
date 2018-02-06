@@ -10,18 +10,18 @@ class ImageUpload
         }
     }
 
-    public static function uploadPfp($id)
+    public static function uploadPfp($id, $home)
     {
-        $dir = __DIR__;
-        $dir = dirname($dir).'/'; // app directory (parent of controllers)
+        $dir ='img/';
+        ImageUpload::createDir($dir);
         $dir .= 'uploads/';
         ImageUpload::createDir($dir);
         $dir .='pfp/';
         ImageUpload::createDir($dir);
-        return ImageUpload::upload($dir, $id);
+        return ImageUpload::upload($dir, $id, $home);
     }
 
-    public static function upload($target_dir, $id)
+    public static function upload($target_dir, $id, $home)
     {
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -45,7 +45,7 @@ class ImageUpload
 
         // change image name to ($user->id).jpg
         //$ext = substr($target_file, strripos($target_file, '.'));
-        $url = '../../app/uploads/pfp/'.$id.'.jpg';
+        $url = $home.'img/uploads/pfp/'.$id.'.jpg';
         $target_file = $target_dir.$id.'.jpg';
 
         if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
