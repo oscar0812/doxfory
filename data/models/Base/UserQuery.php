@@ -23,8 +23,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildUserQuery orderByFirstName($order = Criteria::ASC) Order by the first_name column
  * @method     ChildUserQuery orderByLastName($order = Criteria::ASC) Order by the last_name column
- * @method     ChildUserQuery orderByEmail($order = Criteria::ASC) Order by the email column
- * @method     ChildUserQuery orderByPhoneNumber($order = Criteria::ASC) Order by the phone_number column
  * @method     ChildUserQuery orderByPassword($order = Criteria::ASC) Order by the password column
  * @method     ChildUserQuery orderByProfilePicture($order = Criteria::ASC) Order by the profile_picture column
  * @method     ChildUserQuery orderByAboutMe($order = Criteria::ASC) Order by the about_me column
@@ -35,8 +33,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery groupById() Group by the id column
  * @method     ChildUserQuery groupByFirstName() Group by the first_name column
  * @method     ChildUserQuery groupByLastName() Group by the last_name column
- * @method     ChildUserQuery groupByEmail() Group by the email column
- * @method     ChildUserQuery groupByPhoneNumber() Group by the phone_number column
  * @method     ChildUserQuery groupByPassword() Group by the password column
  * @method     ChildUserQuery groupByProfilePicture() Group by the profile_picture column
  * @method     ChildUserQuery groupByAboutMe() Group by the about_me column
@@ -52,17 +48,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildUserQuery leftJoinSocialMedia($relationAlias = null) Adds a LEFT JOIN clause to the query using the SocialMedia relation
- * @method     ChildUserQuery rightJoinSocialMedia($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SocialMedia relation
- * @method     ChildUserQuery innerJoinSocialMedia($relationAlias = null) Adds a INNER JOIN clause to the query using the SocialMedia relation
+ * @method     ChildUserQuery leftJoinContactInfo($relationAlias = null) Adds a LEFT JOIN clause to the query using the ContactInfo relation
+ * @method     ChildUserQuery rightJoinContactInfo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ContactInfo relation
+ * @method     ChildUserQuery innerJoinContactInfo($relationAlias = null) Adds a INNER JOIN clause to the query using the ContactInfo relation
  *
- * @method     ChildUserQuery joinWithSocialMedia($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the SocialMedia relation
+ * @method     ChildUserQuery joinWithContactInfo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ContactInfo relation
  *
- * @method     ChildUserQuery leftJoinWithSocialMedia() Adds a LEFT JOIN clause and with to the query using the SocialMedia relation
- * @method     ChildUserQuery rightJoinWithSocialMedia() Adds a RIGHT JOIN clause and with to the query using the SocialMedia relation
- * @method     ChildUserQuery innerJoinWithSocialMedia() Adds a INNER JOIN clause and with to the query using the SocialMedia relation
+ * @method     ChildUserQuery leftJoinWithContactInfo() Adds a LEFT JOIN clause and with to the query using the ContactInfo relation
+ * @method     ChildUserQuery rightJoinWithContactInfo() Adds a RIGHT JOIN clause and with to the query using the ContactInfo relation
+ * @method     ChildUserQuery innerJoinWithContactInfo() Adds a INNER JOIN clause and with to the query using the ContactInfo relation
  *
- * @method     \SocialMediaQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \ContactInfoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildUser findOne(ConnectionInterface $con = null) Return the first ChildUser matching the query
  * @method     ChildUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUser matching the query, or a new ChildUser object populated from the query conditions when no match is found
@@ -70,8 +66,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser findOneById(int $id) Return the first ChildUser filtered by the id column
  * @method     ChildUser findOneByFirstName(string $first_name) Return the first ChildUser filtered by the first_name column
  * @method     ChildUser findOneByLastName(string $last_name) Return the first ChildUser filtered by the last_name column
- * @method     ChildUser findOneByEmail(string $email) Return the first ChildUser filtered by the email column
- * @method     ChildUser findOneByPhoneNumber(string $phone_number) Return the first ChildUser filtered by the phone_number column
  * @method     ChildUser findOneByPassword(string $password) Return the first ChildUser filtered by the password column
  * @method     ChildUser findOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column
  * @method     ChildUser findOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column
@@ -85,8 +79,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser requireOneById(int $id) Return the first ChildUser filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByFirstName(string $first_name) Return the first ChildUser filtered by the first_name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByLastName(string $last_name) Return the first ChildUser filtered by the last_name column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildUser requireOneByEmail(string $email) Return the first ChildUser filtered by the email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildUser requireOneByPhoneNumber(string $phone_number) Return the first ChildUser filtered by the phone_number column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByPassword(string $password) Return the first ChildUser filtered by the password column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -98,8 +90,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser[]|ObjectCollection findById(int $id) Return ChildUser objects filtered by the id column
  * @method     ChildUser[]|ObjectCollection findByFirstName(string $first_name) Return ChildUser objects filtered by the first_name column
  * @method     ChildUser[]|ObjectCollection findByLastName(string $last_name) Return ChildUser objects filtered by the last_name column
- * @method     ChildUser[]|ObjectCollection findByEmail(string $email) Return ChildUser objects filtered by the email column
- * @method     ChildUser[]|ObjectCollection findByPhoneNumber(string $phone_number) Return ChildUser objects filtered by the phone_number column
  * @method     ChildUser[]|ObjectCollection findByPassword(string $password) Return ChildUser objects filtered by the password column
  * @method     ChildUser[]|ObjectCollection findByProfilePicture(string $profile_picture) Return ChildUser objects filtered by the profile_picture column
  * @method     ChildUser[]|ObjectCollection findByAboutMe(string $about_me) Return ChildUser objects filtered by the about_me column
@@ -204,7 +194,7 @@ abstract class UserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, first_name, last_name, email, phone_number, password, profile_picture, about_me, up_votes, confirmation_key, reset_key FROM user WHERE id = :p0';
+        $sql = 'SELECT id, first_name, last_name, password, profile_picture, about_me, up_votes, confirmation_key, reset_key FROM user WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -386,56 +376,6 @@ abstract class UserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the email column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByEmail('fooValue');   // WHERE email = 'fooValue'
-     * $query->filterByEmail('%fooValue%', Criteria::LIKE); // WHERE email LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $email The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildUserQuery The current query, for fluid interface
-     */
-    public function filterByEmail($email = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($email)) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(UserTableMap::COL_EMAIL, $email, $comparison);
-    }
-
-    /**
-     * Filter the query on the phone_number column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByPhoneNumber('fooValue');   // WHERE phone_number = 'fooValue'
-     * $query->filterByPhoneNumber('%fooValue%', Criteria::LIKE); // WHERE phone_number LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $phoneNumber The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildUserQuery The current query, for fluid interface
-     */
-    public function filterByPhoneNumber($phoneNumber = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($phoneNumber)) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(UserTableMap::COL_PHONE_NUMBER, $phoneNumber, $comparison);
-    }
-
-    /**
      * Filter the query on the password column
      *
      * Example usage:
@@ -602,40 +542,40 @@ abstract class UserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \SocialMedia object
+     * Filter the query by a related \ContactInfo object
      *
-     * @param \SocialMedia|ObjectCollection $socialMedia the related object to use as filter
+     * @param \ContactInfo|ObjectCollection $contactInfo the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildUserQuery The current query, for fluid interface
      */
-    public function filterBySocialMedia($socialMedia, $comparison = null)
+    public function filterByContactInfo($contactInfo, $comparison = null)
     {
-        if ($socialMedia instanceof \SocialMedia) {
+        if ($contactInfo instanceof \ContactInfo) {
             return $this
-                ->addUsingAlias(UserTableMap::COL_ID, $socialMedia->getUserId(), $comparison);
-        } elseif ($socialMedia instanceof ObjectCollection) {
+                ->addUsingAlias(UserTableMap::COL_ID, $contactInfo->getUserId(), $comparison);
+        } elseif ($contactInfo instanceof ObjectCollection) {
             return $this
-                ->useSocialMediaQuery()
-                ->filterByPrimaryKeys($socialMedia->getPrimaryKeys())
+                ->useContactInfoQuery()
+                ->filterByPrimaryKeys($contactInfo->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterBySocialMedia() only accepts arguments of type \SocialMedia or Collection');
+            throw new PropelException('filterByContactInfo() only accepts arguments of type \ContactInfo or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the SocialMedia relation
+     * Adds a JOIN clause to the query using the ContactInfo relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildUserQuery The current query, for fluid interface
      */
-    public function joinSocialMedia($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinContactInfo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('SocialMedia');
+        $relationMap = $tableMap->getRelation('ContactInfo');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -650,14 +590,14 @@ abstract class UserQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'SocialMedia');
+            $this->addJoinObject($join, 'ContactInfo');
         }
 
         return $this;
     }
 
     /**
-     * Use the SocialMedia relation SocialMedia object
+     * Use the ContactInfo relation ContactInfo object
      *
      * @see useQuery()
      *
@@ -665,13 +605,13 @@ abstract class UserQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \SocialMediaQuery A secondary query class using the current class as primary query
+     * @return \ContactInfoQuery A secondary query class using the current class as primary query
      */
-    public function useSocialMediaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useContactInfoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinSocialMedia($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'SocialMedia', '\SocialMediaQuery');
+            ->joinContactInfo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ContactInfo', '\ContactInfoQuery');
     }
 
     /**

@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \User;
-use \UserQuery;
+use \ContactInfo;
+use \ContactInfoQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'user' table.
+ * This class defines the structure of the 'contact_info' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class UserTableMap extends TableMap
+class ContactInfoTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class UserTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.UserTableMap';
+    const CLASS_NAME = '.Map.ContactInfoTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class UserTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'user';
+    const TABLE_NAME = 'contact_info';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\User';
+    const OM_CLASS = '\\ContactInfo';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'User';
+    const CLASS_DEFAULT = 'ContactInfo';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 7;
 
     /**
      * The number of lazy-loaded columns
@@ -69,52 +69,42 @@ class UserTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /**
-     * the column name for the id field
+     * the column name for the user_id field
      */
-    const COL_ID = 'user.id';
+    const COL_USER_ID = 'contact_info.user_id';
 
     /**
-     * the column name for the first_name field
+     * the column name for the email field
      */
-    const COL_FIRST_NAME = 'user.first_name';
+    const COL_EMAIL = 'contact_info.email';
 
     /**
-     * the column name for the last_name field
+     * the column name for the phone_number field
      */
-    const COL_LAST_NAME = 'user.last_name';
+    const COL_PHONE_NUMBER = 'contact_info.phone_number';
 
     /**
-     * the column name for the password field
+     * the column name for the facebook_username field
      */
-    const COL_PASSWORD = 'user.password';
+    const COL_FACEBOOK_USERNAME = 'contact_info.facebook_username';
 
     /**
-     * the column name for the profile_picture field
+     * the column name for the twitter_username field
      */
-    const COL_PROFILE_PICTURE = 'user.profile_picture';
+    const COL_TWITTER_USERNAME = 'contact_info.twitter_username';
 
     /**
-     * the column name for the about_me field
+     * the column name for the google_plus_username field
      */
-    const COL_ABOUT_ME = 'user.about_me';
+    const COL_GOOGLE_PLUS_USERNAME = 'contact_info.google_plus_username';
 
     /**
-     * the column name for the up_votes field
+     * the column name for the instagram_username field
      */
-    const COL_UP_VOTES = 'user.up_votes';
-
-    /**
-     * the column name for the confirmation_key field
-     */
-    const COL_CONFIRMATION_KEY = 'user.confirmation_key';
-
-    /**
-     * the column name for the reset_key field
-     */
-    const COL_RESET_KEY = 'user.reset_key';
+    const COL_INSTAGRAM_USERNAME = 'contact_info.instagram_username';
 
     /**
      * The default string format for model objects of the related table
@@ -128,11 +118,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'FirstName', 'LastName', 'Password', 'ProfilePicture', 'AboutMe', 'UpVotes', 'ConfirmationKey', 'ResetKey', ),
-        self::TYPE_CAMELNAME     => array('id', 'firstName', 'lastName', 'password', 'profilePicture', 'aboutMe', 'upVotes', 'confirmationKey', 'resetKey', ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_FIRST_NAME, UserTableMap::COL_LAST_NAME, UserTableMap::COL_PASSWORD, UserTableMap::COL_PROFILE_PICTURE, UserTableMap::COL_ABOUT_ME, UserTableMap::COL_UP_VOTES, UserTableMap::COL_CONFIRMATION_KEY, UserTableMap::COL_RESET_KEY, ),
-        self::TYPE_FIELDNAME     => array('id', 'first_name', 'last_name', 'password', 'profile_picture', 'about_me', 'up_votes', 'confirmation_key', 'reset_key', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('UserId', 'Email', 'PhoneNumber', 'FacebookUsername', 'TwitterUsername', 'GooglePlusUsername', 'InstagramUsername', ),
+        self::TYPE_CAMELNAME     => array('userId', 'email', 'phoneNumber', 'facebookUsername', 'twitterUsername', 'googlePlusUsername', 'instagramUsername', ),
+        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID, ContactInfoTableMap::COL_EMAIL, ContactInfoTableMap::COL_PHONE_NUMBER, ContactInfoTableMap::COL_FACEBOOK_USERNAME, ContactInfoTableMap::COL_TWITTER_USERNAME, ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME, ContactInfoTableMap::COL_INSTAGRAM_USERNAME, ),
+        self::TYPE_FIELDNAME     => array('user_id', 'email', 'phone_number', 'facebook_username', 'twitter_username', 'google_plus_username', 'instagram_username', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -142,11 +132,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'FirstName' => 1, 'LastName' => 2, 'Password' => 3, 'ProfilePicture' => 4, 'AboutMe' => 5, 'UpVotes' => 6, 'ConfirmationKey' => 7, 'ResetKey' => 8, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'firstName' => 1, 'lastName' => 2, 'password' => 3, 'profilePicture' => 4, 'aboutMe' => 5, 'upVotes' => 6, 'confirmationKey' => 7, 'resetKey' => 8, ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_FIRST_NAME => 1, UserTableMap::COL_LAST_NAME => 2, UserTableMap::COL_PASSWORD => 3, UserTableMap::COL_PROFILE_PICTURE => 4, UserTableMap::COL_ABOUT_ME => 5, UserTableMap::COL_UP_VOTES => 6, UserTableMap::COL_CONFIRMATION_KEY => 7, UserTableMap::COL_RESET_KEY => 8, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'first_name' => 1, 'last_name' => 2, 'password' => 3, 'profile_picture' => 4, 'about_me' => 5, 'up_votes' => 6, 'confirmation_key' => 7, 'reset_key' => 8, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        self::TYPE_PHPNAME       => array('UserId' => 0, 'Email' => 1, 'PhoneNumber' => 2, 'FacebookUsername' => 3, 'TwitterUsername' => 4, 'GooglePlusUsername' => 5, 'InstagramUsername' => 6, ),
+        self::TYPE_CAMELNAME     => array('userId' => 0, 'email' => 1, 'phoneNumber' => 2, 'facebookUsername' => 3, 'twitterUsername' => 4, 'googlePlusUsername' => 5, 'instagramUsername' => 6, ),
+        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID => 0, ContactInfoTableMap::COL_EMAIL => 1, ContactInfoTableMap::COL_PHONE_NUMBER => 2, ContactInfoTableMap::COL_FACEBOOK_USERNAME => 3, ContactInfoTableMap::COL_TWITTER_USERNAME => 4, ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME => 5, ContactInfoTableMap::COL_INSTAGRAM_USERNAME => 6, ),
+        self::TYPE_FIELDNAME     => array('user_id' => 0, 'email' => 1, 'phone_number' => 2, 'facebook_username' => 3, 'twitter_username' => 4, 'google_plus_username' => 5, 'instagram_username' => 6, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -159,22 +149,20 @@ class UserTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('user');
-        $this->setPhpName('User');
+        $this->setName('contact_info');
+        $this->setPhpName('ContactInfo');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\User');
+        $this->setClassName('\\ContactInfo');
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('first_name', 'FirstName', 'VARCHAR', true, 16, null);
-        $this->addColumn('last_name', 'LastName', 'VARCHAR', true, 16, null);
-        $this->addColumn('password', 'Password', 'VARCHAR', true, 255, null);
-        $this->addColumn('profile_picture', 'ProfilePicture', 'VARCHAR', true, 255, null);
-        $this->addColumn('about_me', 'AboutMe', 'VARCHAR', true, 4098, null);
-        $this->addColumn('up_votes', 'UpVotes', 'INTEGER', true, null, null);
-        $this->addColumn('confirmation_key', 'ConfirmationKey', 'VARCHAR', true, 32, null);
-        $this->addColumn('reset_key', 'ResetKey', 'VARCHAR', true, 32, null);
+        $this->addForeignPrimaryKey('user_id', 'UserId', 'INTEGER' , 'user', 'id', true, null, null);
+        $this->addColumn('email', 'Email', 'VARCHAR', true, 64, null);
+        $this->addColumn('phone_number', 'PhoneNumber', 'VARCHAR', true, 32, null);
+        $this->addColumn('facebook_username', 'FacebookUsername', 'VARCHAR', true, 64, null);
+        $this->addColumn('twitter_username', 'TwitterUsername', 'VARCHAR', true, 64, null);
+        $this->addColumn('google_plus_username', 'GooglePlusUsername', 'VARCHAR', true, 64, null);
+        $this->addColumn('instagram_username', 'InstagramUsername', 'VARCHAR', true, 64, null);
     } // initialize()
 
     /**
@@ -182,7 +170,7 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ContactInfo', '\\ContactInfo', RelationMap::ONE_TO_ONE, array (
+        $this->addRelation('User', '\\User', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':user_id',
@@ -190,19 +178,6 @@ class UserTableMap extends TableMap
   ),
 ), null, null, null, false);
     } // buildRelations()
-
-    /**
-     *
-     * Gets the list of behaviors registered for this table
-     *
-     * @return array Associative array (name => parameters) of behaviors
-     */
-    public function getBehaviors()
-    {
-        return array(
-            'validate' => array('rule1' => array ('column' => 'email','validator' => 'Email',), 'rule2' => array ('column' => 'password','validator' => 'Regex','options' => array ('pattern' => '/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/',),'match' => false,'message' => 'Please enter a valid password',), 'rule3' => array ('column' => 'first_name','validator' => 'Length','options' => array ('min' => 1,),), 'rule4' => array ('column' => 'last_name','validator' => 'Length','options' => array ('min' => 1,),), ),
-        );
-    } // getBehaviors()
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -220,11 +195,11 @@ class UserTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -244,7 +219,7 @@ class UserTableMap extends TableMap
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
 
@@ -261,7 +236,7 @@ class UserTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? UserTableMap::CLASS_DEFAULT : UserTableMap::OM_CLASS;
+        return $withPrefix ? ContactInfoTableMap::CLASS_DEFAULT : ContactInfoTableMap::OM_CLASS;
     }
 
     /**
@@ -275,22 +250,22 @@ class UserTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (User object, last column rank)
+     * @return array           (ContactInfo object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = UserTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = UserTableMap::getInstanceFromPool($key))) {
+        $key = ContactInfoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = ContactInfoTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + UserTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + ContactInfoTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = UserTableMap::OM_CLASS;
-            /** @var User $obj */
+            $cls = ContactInfoTableMap::OM_CLASS;
+            /** @var ContactInfo $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            UserTableMap::addInstanceToPool($obj, $key);
+            ContactInfoTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -313,18 +288,18 @@ class UserTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = UserTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = UserTableMap::getInstanceFromPool($key))) {
+            $key = ContactInfoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = ContactInfoTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var User $obj */
+                /** @var ContactInfo $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                UserTableMap::addInstanceToPool($obj, $key);
+                ContactInfoTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -345,25 +320,21 @@ class UserTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(UserTableMap::COL_ID);
-            $criteria->addSelectColumn(UserTableMap::COL_FIRST_NAME);
-            $criteria->addSelectColumn(UserTableMap::COL_LAST_NAME);
-            $criteria->addSelectColumn(UserTableMap::COL_PASSWORD);
-            $criteria->addSelectColumn(UserTableMap::COL_PROFILE_PICTURE);
-            $criteria->addSelectColumn(UserTableMap::COL_ABOUT_ME);
-            $criteria->addSelectColumn(UserTableMap::COL_UP_VOTES);
-            $criteria->addSelectColumn(UserTableMap::COL_CONFIRMATION_KEY);
-            $criteria->addSelectColumn(UserTableMap::COL_RESET_KEY);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_USER_ID);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_EMAIL);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_PHONE_NUMBER);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_FACEBOOK_USERNAME);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_TWITTER_USERNAME);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME);
+            $criteria->addSelectColumn(ContactInfoTableMap::COL_INSTAGRAM_USERNAME);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.first_name');
-            $criteria->addSelectColumn($alias . '.last_name');
-            $criteria->addSelectColumn($alias . '.password');
-            $criteria->addSelectColumn($alias . '.profile_picture');
-            $criteria->addSelectColumn($alias . '.about_me');
-            $criteria->addSelectColumn($alias . '.up_votes');
-            $criteria->addSelectColumn($alias . '.confirmation_key');
-            $criteria->addSelectColumn($alias . '.reset_key');
+            $criteria->addSelectColumn($alias . '.user_id');
+            $criteria->addSelectColumn($alias . '.email');
+            $criteria->addSelectColumn($alias . '.phone_number');
+            $criteria->addSelectColumn($alias . '.facebook_username');
+            $criteria->addSelectColumn($alias . '.twitter_username');
+            $criteria->addSelectColumn($alias . '.google_plus_username');
+            $criteria->addSelectColumn($alias . '.instagram_username');
         }
     }
 
@@ -376,7 +347,7 @@ class UserTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(UserTableMap::DATABASE_NAME)->getTable(UserTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(ContactInfoTableMap::DATABASE_NAME)->getTable(ContactInfoTableMap::TABLE_NAME);
     }
 
     /**
@@ -384,16 +355,16 @@ class UserTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(UserTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(UserTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new UserTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(ContactInfoTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(ContactInfoTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new ContactInfoTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a User or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a ContactInfo or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or User object or primary key or array of primary keys
+     * @param mixed               $values Criteria or ContactInfo object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -404,27 +375,27 @@ class UserTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \User) { // it's a model object
+        } elseif ($values instanceof \ContactInfo) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(UserTableMap::DATABASE_NAME);
-            $criteria->add(UserTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(ContactInfoTableMap::DATABASE_NAME);
+            $criteria->add(ContactInfoTableMap::COL_USER_ID, (array) $values, Criteria::IN);
         }
 
-        $query = UserQuery::create()->mergeWith($criteria);
+        $query = ContactInfoQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            UserTableMap::clearInstancePool();
+            ContactInfoTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                UserTableMap::removeInstanceFromPool($singleval);
+                ContactInfoTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -432,20 +403,20 @@ class UserTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the user table.
+     * Deletes all rows from the contact_info table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return UserQuery::create()->doDeleteAll($con);
+        return ContactInfoQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a User or Criteria object.
+     * Performs an INSERT on the database, given a ContactInfo or Criteria object.
      *
-     * @param mixed               $criteria Criteria or User object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or ContactInfo object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -454,22 +425,22 @@ class UserTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(UserTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from User object
+            $criteria = $criteria->buildCriteria(); // build Criteria from ContactInfo object
         }
 
-        if ($criteria->containsKey(UserTableMap::COL_ID) && $criteria->keyContainsValue(UserTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.UserTableMap::COL_ID.')');
+        if ($criteria->containsKey(ContactInfoTableMap::COL_USER_ID) && $criteria->keyContainsValue(ContactInfoTableMap::COL_USER_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ContactInfoTableMap::COL_USER_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = UserQuery::create()->mergeWith($criteria);
+        $query = ContactInfoQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -478,7 +449,7 @@ class UserTableMap extends TableMap
         });
     }
 
-} // UserTableMap
+} // ContactInfoTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-UserTableMap::buildTableMap();
+ContactInfoTableMap::buildTableMap();

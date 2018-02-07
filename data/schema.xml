@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore" allowPkInsert="true">
+  <table name="contact_info" idMethod="native" phpName="ContactInfo">
+    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="64" required="true"/>
+    <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="32" required="true"/>
+    <column name="facebook_username" phpName="FacebookUsername" type="VARCHAR" size="64" required="true"/>
+    <column name="twitter_username" phpName="TwitterUsername" type="VARCHAR" size="64" required="true"/>
+    <column name="google_plus_username" phpName="GooglePlusUsername" type="VARCHAR" size="64" required="true"/>
+    <column name="instagram_username" phpName="InstagramUsername" type="VARCHAR" size="64" required="true"/>
+    <foreign-key foreignTable="user" name="contact_info_ibfk_1">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
   <table name="job" idMethod="native" phpName="Job">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="is_completed" phpName="IsCompleted" type="BOOLEAN" size="1" required="true"/>
@@ -19,25 +34,10 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
-  <table name="social_media" idMethod="native" phpName="SocialMedia" allowPkInsert="true">
-    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="facebook_username" phpName="FacebookUsername" type="VARCHAR" size="64" required="true"/>
-    <column name="twitter_username" phpName="TwitterUsername" type="VARCHAR" size="64" required="true"/>
-    <column name="google_plus_username" phpName="GooglePlusUsername" type="VARCHAR" size="64" required="true"/>
-    <column name="instagram_username" phpName="InstagramUsername" type="VARCHAR" size="64" required="true"/>
-    <foreign-key foreignTable="user" name="social_media_ibfk_1">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
   <table name="user" idMethod="native" phpName="User">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="first_name" phpName="FirstName" type="VARCHAR" size="16" required="true"/>
     <column name="last_name" phpName="LastName" type="VARCHAR" size="16" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="255" required="true"/>
-    <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="16" required="true"/>
     <column name="password" phpName="Password" type="VARCHAR" size="255" required="true"/>
     <column name="profile_picture" phpName="ProfilePicture" type="VARCHAR" size="255" required="true"/>
     <column name="about_me" phpName="AboutMe" type="VARCHAR" size="4098" required="true"/>
