@@ -22,7 +22,6 @@ use Propel\Runtime\Parser\AbstractParser;
 use Symfony\Component\Translation\IdentityTranslator;
 use Symfony\Component\Validator\ConstraintValidatorFactory;
 use Symfony\Component\Validator\ConstraintViolationList;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Context\ExecutionContextFactory;
@@ -1583,7 +1582,6 @@ abstract class User implements ActiveRecordInterface
      */
     static public function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata->addPropertyConstraint('email', new Email());
         $metadata->addPropertyConstraint('password', new Regex(array ('pattern' => '/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/',)));
         $metadata->addPropertyConstraint('first_name', new Length(array ('min' => 1,)));
         $metadata->addPropertyConstraint('last_name', new Length(array ('min' => 1,)));

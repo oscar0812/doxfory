@@ -11,7 +11,7 @@ class Mail
 {
     public static function confirmEmail($main_url, $user)
     {
-        $email = $user->getEmail();
+        $email = $user->getContactInfo()->getEmail();
         $username = $user->getFullName();
 
         $url = $main_url;
@@ -30,7 +30,7 @@ class Mail
 
     public function resetPasswordEmail($main_url, $email, $user)
     {
-        $email = $user->getEmail();
+        $email = $user->getContactInfo()->getEmail();
         $username = $user->getFullName();
 
         $url = $main_url;

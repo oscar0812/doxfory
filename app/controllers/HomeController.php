@@ -5,7 +5,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use \UserQuery;
 use \User;
-use \SocialMedia;
+use \ContactInfo;
+use \ContactInfoQuery;
 
 // takes care of routing index page and /register
 class HomeController
@@ -54,7 +55,6 @@ class HomeController
                 $password = $post['password'];
 
                 $user = new User();
-                $user->setEmail($email);
                 $user->setFirstName($first);
                 $user->setLastName($last);
                 $user->setPassword($password);
@@ -66,9 +66,10 @@ class HomeController
                     $user->setConfirmationKey(md5(rand(0, 1000)));
 
                     // set a row of social_media, each user should have a row
-                    $social = new SocialMedia();
-                    $social->setUser($user);
-                    $social->save();
+                    $contact_info = new ContactInfo();
+                    $contact_info->setEmail($email);
+                    $contact_info->setUser($user);
+                    $contact_info->save();
 
                     $user->save();
                     logUserIn($user->getId());
@@ -91,16 +92,16 @@ class HomeController
 
             $app->post('/username', function ($request, $response) {
                 $post = $request->getParsedBody();
-                $user = UserQuery::create()->findOneByUsername($post['username']);
+                $info = ContactInfoQuery::create()->findOneByUsername($post['username']);
 
-                echo ($user== null)?"true":"false";
+                echo ($info== null)?"true":"false";
             });
 
             $app->post('/email', function ($request, $response) {
                 $post = $request->getParsedBody();
-                $user = UserQuery::create()->findOneByEmail($post['email']);
+                $info = ContactInfoQuery::create()->findOneByEmail($post['email']);
 
-                echo ($user== null)?"true":"false";
+                echo ($info== null)?"true":"false";
             });
         });
     }

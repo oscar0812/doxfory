@@ -81,7 +81,8 @@ class UserController
             if (isset($get['key']) && isset($get['email'])) {
                 // trying to confirm account
                 $key = $current_user->getConfirmationKey();
-                if ($get['key'] == $key && $get['email'] == $current_user->getEmail()) {
+                if ($get['key'] == $key && $get['email'] ==
+                                    $current_user->getContactInfo()->getEmail()) {
                     // correct key
                     $current_user->setConfirmationKey("");
                     $current_user->save();

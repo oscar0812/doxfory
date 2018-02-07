@@ -838,9 +838,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         $index = 0;
 
         $this->modifiedColumns[ContactInfoTableMap::COL_USER_ID] = true;
-        if (null !== $this->user_id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ContactInfoTableMap::COL_USER_ID . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ContactInfoTableMap::COL_USER_ID)) {
@@ -909,7 +906,9 @@ abstract class ContactInfo implements ActiveRecordInterface
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', 0, $e);
         }
-        $this->setUserId($pk);
+        if ($pk !== null) {
+            $this->setUserId($pk);
+        }
 
         $this->setNew(false);
     }

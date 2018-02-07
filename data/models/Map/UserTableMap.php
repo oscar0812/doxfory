@@ -200,7 +200,7 @@ class UserTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
-            'validate' => array('rule1' => array ('column' => 'email','validator' => 'Email',), 'rule2' => array ('column' => 'password','validator' => 'Regex','options' => array ('pattern' => '/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/',),'match' => false,'message' => 'Please enter a valid password',), 'rule3' => array ('column' => 'first_name','validator' => 'Length','options' => array ('min' => 1,),), 'rule4' => array ('column' => 'last_name','validator' => 'Length','options' => array ('min' => 1,),), ),
+            'validate' => array('rule1' => array ('column' => 'password','validator' => 'Regex','options' => array ('pattern' => '/^(?=.*[a-z])(?=.*[@#$%!+=]).{5,}$/',),'match' => false,'message' => 'Please enter a valid password',), 'rule2' => array ('column' => 'first_name','validator' => 'Length','options' => array ('min' => 1,),), 'rule3' => array ('column' => 'last_name','validator' => 'Length','options' => array ('min' => 1,),), ),
         );
     } // getBehaviors()
 

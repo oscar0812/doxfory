@@ -434,10 +434,6 @@ class ContactInfoTableMap extends TableMap
             $criteria = $criteria->buildCriteria(); // build Criteria from ContactInfo object
         }
 
-        if ($criteria->containsKey(ContactInfoTableMap::COL_USER_ID) && $criteria->keyContainsValue(ContactInfoTableMap::COL_USER_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ContactInfoTableMap::COL_USER_ID.')');
-        }
-
 
         // Set the correct dbName
         $query = ContactInfoQuery::create()->mergeWith($criteria);
