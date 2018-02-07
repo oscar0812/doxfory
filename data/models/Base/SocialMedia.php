@@ -62,13 +62,6 @@ abstract class SocialMedia implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
-     *
-     * @var        int
-     */
-    protected $id;
-
-    /**
      * The value for the user_id field.
      *
      * @var        int
@@ -342,16 +335,6 @@ abstract class SocialMedia implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Get the [user_id] column value.
      *
      * @return int
@@ -400,26 +383,6 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         return $this->instagram_username;
     }
-
-    /**
-     * Set the value of [id] column.
-     *
-     * @param int $v new value
-     * @return $this|\SocialMedia The current object (for fluent API support)
-     */
-    public function setId($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[SocialMediaTableMap::COL_ID] = true;
-        }
-
-        return $this;
-    } // setId()
 
     /**
      * Set the value of [user_id] column.
@@ -561,22 +524,19 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SocialMediaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SocialMediaTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SocialMediaTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SocialMediaTableMap::translateFieldName('FacebookUsername', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SocialMediaTableMap::translateFieldName('FacebookUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->facebook_username = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SocialMediaTableMap::translateFieldName('TwitterUsername', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SocialMediaTableMap::translateFieldName('TwitterUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->twitter_username = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SocialMediaTableMap::translateFieldName('GooglePlusUsername', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SocialMediaTableMap::translateFieldName('GooglePlusUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->google_plus_username = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : SocialMediaTableMap::translateFieldName('InstagramUsername', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SocialMediaTableMap::translateFieldName('InstagramUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->instagram_username = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -586,7 +546,7 @@ abstract class SocialMedia implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = SocialMediaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = SocialMediaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\SocialMedia'), 0, $e);
@@ -797,15 +757,12 @@ abstract class SocialMedia implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[SocialMediaTableMap::COL_ID] = true;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SocialMediaTableMap::COL_ID . ')');
+        $this->modifiedColumns[SocialMediaTableMap::COL_USER_ID] = true;
+        if (null !== $this->user_id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SocialMediaTableMap::COL_USER_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(SocialMediaTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
-        }
         if ($this->isColumnModified(SocialMediaTableMap::COL_USER_ID)) {
             $modifiedColumns[':p' . $index++]  = 'user_id';
         }
@@ -832,9 +789,6 @@ abstract class SocialMedia implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
                     case 'user_id':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
@@ -863,7 +817,7 @@ abstract class SocialMedia implements ActiveRecordInterface
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', 0, $e);
         }
-        $this->setId($pk);
+        $this->setUserId($pk);
 
         $this->setNew(false);
     }
@@ -913,21 +867,18 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
-                break;
-            case 1:
                 return $this->getUserId();
                 break;
-            case 2:
+            case 1:
                 return $this->getFacebookUsername();
                 break;
-            case 3:
+            case 2:
                 return $this->getTwitterUsername();
                 break;
-            case 4:
+            case 3:
                 return $this->getGooglePlusUsername();
                 break;
-            case 5:
+            case 4:
                 return $this->getInstagramUsername();
                 break;
             default:
@@ -960,12 +911,11 @@ abstract class SocialMedia implements ActiveRecordInterface
         $alreadyDumpedObjects['SocialMedia'][$this->hashCode()] = true;
         $keys = SocialMediaTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getUserId(),
-            $keys[2] => $this->getFacebookUsername(),
-            $keys[3] => $this->getTwitterUsername(),
-            $keys[4] => $this->getGooglePlusUsername(),
-            $keys[5] => $this->getInstagramUsername(),
+            $keys[0] => $this->getUserId(),
+            $keys[1] => $this->getFacebookUsername(),
+            $keys[2] => $this->getTwitterUsername(),
+            $keys[3] => $this->getGooglePlusUsername(),
+            $keys[4] => $this->getInstagramUsername(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1023,21 +973,18 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
-                break;
-            case 1:
                 $this->setUserId($value);
                 break;
-            case 2:
+            case 1:
                 $this->setFacebookUsername($value);
                 break;
-            case 3:
+            case 2:
                 $this->setTwitterUsername($value);
                 break;
-            case 4:
+            case 3:
                 $this->setGooglePlusUsername($value);
                 break;
-            case 5:
+            case 4:
                 $this->setInstagramUsername($value);
                 break;
         } // switch()
@@ -1067,22 +1014,19 @@ abstract class SocialMedia implements ActiveRecordInterface
         $keys = SocialMediaTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setUserId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setUserId($arr[$keys[1]]);
+            $this->setFacebookUsername($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setFacebookUsername($arr[$keys[2]]);
+            $this->setTwitterUsername($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setTwitterUsername($arr[$keys[3]]);
+            $this->setGooglePlusUsername($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setGooglePlusUsername($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setInstagramUsername($arr[$keys[5]]);
+            $this->setInstagramUsername($arr[$keys[4]]);
         }
     }
 
@@ -1125,9 +1069,6 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         $criteria = new Criteria(SocialMediaTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(SocialMediaTableMap::COL_ID)) {
-            $criteria->add(SocialMediaTableMap::COL_ID, $this->id);
-        }
         if ($this->isColumnModified(SocialMediaTableMap::COL_USER_ID)) {
             $criteria->add(SocialMediaTableMap::COL_USER_ID, $this->user_id);
         }
@@ -1160,7 +1101,7 @@ abstract class SocialMedia implements ActiveRecordInterface
     public function buildPkeyCriteria()
     {
         $criteria = ChildSocialMediaQuery::create();
-        $criteria->add(SocialMediaTableMap::COL_ID, $this->id);
+        $criteria->add(SocialMediaTableMap::COL_USER_ID, $this->user_id);
 
         return $criteria;
     }
@@ -1173,10 +1114,17 @@ abstract class SocialMedia implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getId();
+        $validPk = null !== $this->getUserId();
 
-        $validPrimaryKeyFKs = 0;
+        $validPrimaryKeyFKs = 1;
         $primaryKeyFKs = [];
+
+        //relation social_media_ibfk_1 to table user
+        if ($this->aUser && $hash = spl_object_hash($this->aUser)) {
+            $primaryKeyFKs[] = $hash;
+        } else {
+            $validPrimaryKeyFKs = false;
+        }
 
         if ($validPk) {
             return crc32(json_encode($this->getPrimaryKey(), JSON_UNESCAPED_UNICODE));
@@ -1193,18 +1141,18 @@ abstract class SocialMedia implements ActiveRecordInterface
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        return $this->getUserId();
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Generic method to set the primary key (user_id column).
      *
      * @param       int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setId($key);
+        $this->setUserId($key);
     }
 
     /**
@@ -1213,7 +1161,7 @@ abstract class SocialMedia implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getId();
+        return null === $this->getUserId();
     }
 
     /**
@@ -1229,14 +1177,13 @@ abstract class SocialMedia implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setUserId($this->getUserId());
         $copyObj->setFacebookUsername($this->getFacebookUsername());
         $copyObj->setTwitterUsername($this->getTwitterUsername());
         $copyObj->setGooglePlusUsername($this->getGooglePlusUsername());
         $copyObj->setInstagramUsername($this->getInstagramUsername());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setUserId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1279,10 +1226,9 @@ abstract class SocialMedia implements ActiveRecordInterface
 
         $this->aUser = $v;
 
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildUser object, it will not be re-added.
+        // Add binding for other direction of this 1:1 relationship.
         if ($v !== null) {
-            $v->addSocialMedia($this);
+            $v->setSocialMedia($this);
         }
 
 
@@ -1301,13 +1247,8 @@ abstract class SocialMedia implements ActiveRecordInterface
     {
         if ($this->aUser === null && ($this->user_id != 0)) {
             $this->aUser = ChildUserQuery::create()->findPk($this->user_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aUser->addSocialMedias($this);
-             */
+            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
+            $this->aUser->setSocialMedia($this);
         }
 
         return $this->aUser;
@@ -1323,7 +1264,6 @@ abstract class SocialMedia implements ActiveRecordInterface
         if (null !== $this->aUser) {
             $this->aUser->removeSocialMedia($this);
         }
-        $this->id = null;
         $this->user_id = null;
         $this->facebook_username = null;
         $this->twitter_username = null;

@@ -20,14 +20,12 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  *
- * @method     ChildSocialMediaQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSocialMediaQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method     ChildSocialMediaQuery orderByFacebookUsername($order = Criteria::ASC) Order by the facebook_username column
  * @method     ChildSocialMediaQuery orderByTwitterUsername($order = Criteria::ASC) Order by the twitter_username column
  * @method     ChildSocialMediaQuery orderByGooglePlusUsername($order = Criteria::ASC) Order by the google_plus_username column
  * @method     ChildSocialMediaQuery orderByInstagramUsername($order = Criteria::ASC) Order by the instagram_username column
  *
- * @method     ChildSocialMediaQuery groupById() Group by the id column
  * @method     ChildSocialMediaQuery groupByUserId() Group by the user_id column
  * @method     ChildSocialMediaQuery groupByFacebookUsername() Group by the facebook_username column
  * @method     ChildSocialMediaQuery groupByTwitterUsername() Group by the twitter_username column
@@ -57,7 +55,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSocialMedia findOne(ConnectionInterface $con = null) Return the first ChildSocialMedia matching the query
  * @method     ChildSocialMedia findOneOrCreate(ConnectionInterface $con = null) Return the first ChildSocialMedia matching the query, or a new ChildSocialMedia object populated from the query conditions when no match is found
  *
- * @method     ChildSocialMedia findOneById(int $id) Return the first ChildSocialMedia filtered by the id column
  * @method     ChildSocialMedia findOneByUserId(int $user_id) Return the first ChildSocialMedia filtered by the user_id column
  * @method     ChildSocialMedia findOneByFacebookUsername(string $facebook_username) Return the first ChildSocialMedia filtered by the facebook_username column
  * @method     ChildSocialMedia findOneByTwitterUsername(string $twitter_username) Return the first ChildSocialMedia filtered by the twitter_username column
@@ -67,7 +64,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSocialMedia requirePk($key, ConnectionInterface $con = null) Return the ChildSocialMedia by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocialMedia requireOne(ConnectionInterface $con = null) Return the first ChildSocialMedia matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildSocialMedia requireOneById(int $id) Return the first ChildSocialMedia filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocialMedia requireOneByUserId(int $user_id) Return the first ChildSocialMedia filtered by the user_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocialMedia requireOneByFacebookUsername(string $facebook_username) Return the first ChildSocialMedia filtered by the facebook_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSocialMedia requireOneByTwitterUsername(string $twitter_username) Return the first ChildSocialMedia filtered by the twitter_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -75,7 +71,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSocialMedia requireOneByInstagramUsername(string $instagram_username) Return the first ChildSocialMedia filtered by the instagram_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildSocialMedia[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSocialMedia objects based on current ModelCriteria
- * @method     ChildSocialMedia[]|ObjectCollection findById(int $id) Return ChildSocialMedia objects filtered by the id column
  * @method     ChildSocialMedia[]|ObjectCollection findByUserId(int $user_id) Return ChildSocialMedia objects filtered by the user_id column
  * @method     ChildSocialMedia[]|ObjectCollection findByFacebookUsername(string $facebook_username) Return ChildSocialMedia objects filtered by the facebook_username column
  * @method     ChildSocialMedia[]|ObjectCollection findByTwitterUsername(string $twitter_username) Return ChildSocialMedia objects filtered by the twitter_username column
@@ -179,7 +174,7 @@ abstract class SocialMediaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, user_id, facebook_username, twitter_username, google_plus_username, instagram_username FROM social_media WHERE id = :p0';
+        $sql = 'SELECT user_id, facebook_username, twitter_username, google_plus_username, instagram_username FROM social_media WHERE user_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -253,7 +248,7 @@ abstract class SocialMediaQuery extends ModelCriteria
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(SocialMediaTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(SocialMediaTableMap::COL_USER_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -266,48 +261,7 @@ abstract class SocialMediaQuery extends ModelCriteria
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(SocialMediaTableMap::COL_ID, $keys, Criteria::IN);
-    }
-
-    /**
-     * Filter the query on the id column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterById(1234); // WHERE id = 1234
-     * $query->filterById(array(12, 34)); // WHERE id IN (12, 34)
-     * $query->filterById(array('min' => 12)); // WHERE id > 12
-     * </code>
-     *
-     * @param     mixed $id The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildSocialMediaQuery The current query, for fluid interface
-     */
-    public function filterById($id = null, $comparison = null)
-    {
-        if (is_array($id)) {
-            $useMinMax = false;
-            if (isset($id['min'])) {
-                $this->addUsingAlias(SocialMediaTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($id['max'])) {
-                $this->addUsingAlias(SocialMediaTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(SocialMediaTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(SocialMediaTableMap::COL_USER_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -540,7 +494,7 @@ abstract class SocialMediaQuery extends ModelCriteria
     public function prune($socialMedia = null)
     {
         if ($socialMedia) {
-            $this->addUsingAlias(SocialMediaTableMap::COL_ID, $socialMedia->getId(), Criteria::NOT_EQUAL);
+            $this->addUsingAlias(SocialMediaTableMap::COL_USER_ID, $socialMedia->getUserId(), Criteria::NOT_EQUAL);
         }
 
         return $this;

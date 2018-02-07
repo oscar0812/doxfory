@@ -4,18 +4,15 @@ namespace Base;
 
 use \SocialMedia as ChildSocialMedia;
 use \SocialMediaQuery as ChildSocialMediaQuery;
-use \User as ChildUser;
 use \UserQuery as ChildUserQuery;
 use \Exception;
 use \PDO;
-use Map\SocialMediaTableMap;
 use Map\UserTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
-use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -154,10 +151,9 @@ abstract class User implements ActiveRecordInterface
     protected $reset_key;
 
     /**
-     * @var        ObjectCollection|ChildSocialMedia[] Collection to store aggregation of ChildSocialMedia objects.
+     * @var        ChildSocialMedia one-to-one related ChildSocialMedia object
      */
-    protected $collSocialMedias;
-    protected $collSocialMediasPartial;
+    protected $singleSocialMedia;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -183,12 +179,6 @@ abstract class User implements ActiveRecordInterface
      * @var     ConstraintViolationList
      */
     protected $validationFailures;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildSocialMedia[]
-     */
-    protected $socialMediasScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\User object.
@@ -882,7 +872,7 @@ abstract class User implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collSocialMedias = null;
+            $this->singleSocialMedia = null;
 
         } // if (deep)
     }
@@ -998,20 +988,9 @@ abstract class User implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->socialMediasScheduledForDeletion !== null) {
-                if (!$this->socialMediasScheduledForDeletion->isEmpty()) {
-                    \SocialMediaQuery::create()
-                        ->filterByPrimaryKeys($this->socialMediasScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->socialMediasScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collSocialMedias !== null) {
-                foreach ($this->collSocialMedias as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
+            if ($this->singleSocialMedia !== null) {
+                if (!$this->singleSocialMedia->isDeleted() && ($this->singleSocialMedia->isNew() || $this->singleSocialMedia->isModified())) {
+                    $affectedRows += $this->singleSocialMedia->save($con);
                 }
             }
 
@@ -1261,20 +1240,20 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collSocialMedias) {
+            if (null !== $this->singleSocialMedia) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'socialMedias';
+                        $key = 'socialMedia';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'social_medias';
+                        $key = 'social_media';
                         break;
                     default:
-                        $key = 'SocialMedias';
+                        $key = 'SocialMedia';
                 }
 
-                $result[$key] = $this->collSocialMedias->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->singleSocialMedia->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
             }
         }
 
@@ -1578,10 +1557,9 @@ abstract class User implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getSocialMedias() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addSocialMedia($relObj->copy($deepCopy));
-                }
+            $relObj = $this->getSocialMedia();
+            if ($relObj) {
+                $copyObj->setSocialMedia($relObj->copy($deepCopy));
             }
 
         } // if ($deepCopy)
@@ -1625,232 +1603,39 @@ abstract class User implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('SocialMedia' == $relationName) {
-            $this->initSocialMedias();
-            return;
-        }
     }
 
     /**
-     * Clears out the collSocialMedias collection
+     * Gets a single ChildSocialMedia object, which is related to this object by a one-to-one relationship.
      *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addSocialMedias()
-     */
-    public function clearSocialMedias()
-    {
-        $this->collSocialMedias = null; // important to set this to NULL since that means it is uninitialized
-    }
-
-    /**
-     * Reset is the collSocialMedias collection loaded partially.
-     */
-    public function resetPartialSocialMedias($v = true)
-    {
-        $this->collSocialMediasPartial = $v;
-    }
-
-    /**
-     * Initializes the collSocialMedias collection.
-     *
-     * By default this just sets the collSocialMedias collection to an empty array (like clearcollSocialMedias());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param      boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initSocialMedias($overrideExisting = true)
-    {
-        if (null !== $this->collSocialMedias && !$overrideExisting) {
-            return;
-        }
-
-        $collectionClassName = SocialMediaTableMap::getTableMap()->getCollectionClassName();
-
-        $this->collSocialMedias = new $collectionClassName;
-        $this->collSocialMedias->setModel('\SocialMedia');
-    }
-
-    /**
-     * Gets an array of ChildSocialMedia objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildUser is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildSocialMedia[] List of ChildSocialMedia objects
+     * @param  ConnectionInterface $con optional connection object
+     * @return ChildSocialMedia
      * @throws PropelException
      */
-    public function getSocialMedias(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getSocialMedia(ConnectionInterface $con = null)
     {
-        $partial = $this->collSocialMediasPartial && !$this->isNew();
-        if (null === $this->collSocialMedias || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSocialMedias) {
-                // return empty collection
-                $this->initSocialMedias();
-            } else {
-                $collSocialMedias = ChildSocialMediaQuery::create(null, $criteria)
-                    ->filterByUser($this)
-                    ->find($con);
 
-                if (null !== $criteria) {
-                    if (false !== $this->collSocialMediasPartial && count($collSocialMedias)) {
-                        $this->initSocialMedias(false);
-
-                        foreach ($collSocialMedias as $obj) {
-                            if (false == $this->collSocialMedias->contains($obj)) {
-                                $this->collSocialMedias->append($obj);
-                            }
-                        }
-
-                        $this->collSocialMediasPartial = true;
-                    }
-
-                    return $collSocialMedias;
-                }
-
-                if ($partial && $this->collSocialMedias) {
-                    foreach ($this->collSocialMedias as $obj) {
-                        if ($obj->isNew()) {
-                            $collSocialMedias[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collSocialMedias = $collSocialMedias;
-                $this->collSocialMediasPartial = false;
-            }
+        if ($this->singleSocialMedia === null && !$this->isNew()) {
+            $this->singleSocialMedia = ChildSocialMediaQuery::create()->findPk($this->getPrimaryKey(), $con);
         }
 
-        return $this->collSocialMedias;
+        return $this->singleSocialMedia;
     }
 
     /**
-     * Sets a collection of ChildSocialMedia objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
+     * Sets a single ChildSocialMedia object as related to this object by a one-to-one relationship.
      *
-     * @param      Collection $socialMedias A Propel collection.
-     * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildUser The current object (for fluent API support)
-     */
-    public function setSocialMedias(Collection $socialMedias, ConnectionInterface $con = null)
-    {
-        /** @var ChildSocialMedia[] $socialMediasToDelete */
-        $socialMediasToDelete = $this->getSocialMedias(new Criteria(), $con)->diff($socialMedias);
-
-
-        $this->socialMediasScheduledForDeletion = $socialMediasToDelete;
-
-        foreach ($socialMediasToDelete as $socialMediaRemoved) {
-            $socialMediaRemoved->setUser(null);
-        }
-
-        $this->collSocialMedias = null;
-        foreach ($socialMedias as $socialMedia) {
-            $this->addSocialMedia($socialMedia);
-        }
-
-        $this->collSocialMedias = $socialMedias;
-        $this->collSocialMediasPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related SocialMedia objects.
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct
-     * @param      ConnectionInterface $con
-     * @return int             Count of related SocialMedia objects.
-     * @throws PropelException
-     */
-    public function countSocialMedias(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
-    {
-        $partial = $this->collSocialMediasPartial && !$this->isNew();
-        if (null === $this->collSocialMedias || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collSocialMedias) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getSocialMedias());
-            }
-
-            $query = ChildSocialMediaQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByUser($this)
-                ->count($con);
-        }
-
-        return count($this->collSocialMedias);
-    }
-
-    /**
-     * Method called to associate a ChildSocialMedia object to this object
-     * through the ChildSocialMedia foreign key attribute.
-     *
-     * @param  ChildSocialMedia $l ChildSocialMedia
+     * @param  ChildSocialMedia $v ChildSocialMedia
      * @return $this|\User The current object (for fluent API support)
+     * @throws PropelException
      */
-    public function addSocialMedia(ChildSocialMedia $l)
+    public function setSocialMedia(ChildSocialMedia $v = null)
     {
-        if ($this->collSocialMedias === null) {
-            $this->initSocialMedias();
-            $this->collSocialMediasPartial = true;
-        }
+        $this->singleSocialMedia = $v;
 
-        if (!$this->collSocialMedias->contains($l)) {
-            $this->doAddSocialMedia($l);
-
-            if ($this->socialMediasScheduledForDeletion and $this->socialMediasScheduledForDeletion->contains($l)) {
-                $this->socialMediasScheduledForDeletion->remove($this->socialMediasScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ChildSocialMedia $socialMedia The ChildSocialMedia object to add.
-     */
-    protected function doAddSocialMedia(ChildSocialMedia $socialMedia)
-    {
-        $this->collSocialMedias[]= $socialMedia;
-        $socialMedia->setUser($this);
-    }
-
-    /**
-     * @param  ChildSocialMedia $socialMedia The ChildSocialMedia object to remove.
-     * @return $this|ChildUser The current object (for fluent API support)
-     */
-    public function removeSocialMedia(ChildSocialMedia $socialMedia)
-    {
-        if ($this->getSocialMedias()->contains($socialMedia)) {
-            $pos = $this->collSocialMedias->search($socialMedia);
-            $this->collSocialMedias->remove($pos);
-            if (null === $this->socialMediasScheduledForDeletion) {
-                $this->socialMediasScheduledForDeletion = clone $this->collSocialMedias;
-                $this->socialMediasScheduledForDeletion->clear();
-            }
-            $this->socialMediasScheduledForDeletion[]= clone $socialMedia;
-            $socialMedia->setUser(null);
+        // Make sure that that the passed-in ChildSocialMedia isn't already associated with this object
+        if ($v !== null && $v->getUser(null, false) === null) {
+            $v->setUser($this);
         }
 
         return $this;
@@ -1892,14 +1677,12 @@ abstract class User implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collSocialMedias) {
-                foreach ($this->collSocialMedias as $o) {
-                    $o->clearAllReferences($deep);
-                }
+            if ($this->singleSocialMedia) {
+                $this->singleSocialMedia->clearAllReferences($deep);
             }
         } // if ($deep)
 
-        $this->collSocialMedias = null;
+        $this->singleSocialMedia = null;
     }
 
     /**
@@ -1957,15 +1740,6 @@ abstract class User implements ActiveRecordInterface
                 $failureMap->addAll($retval);
             }
 
-            if (null !== $this->collSocialMedias) {
-                foreach ($this->collSocialMedias as $referrerFK) {
-                    if (method_exists($referrerFK, 'validate')) {
-                        if (!$referrerFK->validate($validator)) {
-                            $failureMap->addAll($referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-            }
 
             $this->alreadyInValidation = false;
         }

@@ -5,6 +5,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use \UserQuery;
 use \User;
+use \SocialMedia;
 
 // takes care of routing index page and /register
 class HomeController
@@ -63,6 +64,12 @@ class HomeController
                 } else {
                     // all good
                     $user->setConfirmationKey(md5(rand(0, 1000)));
+
+                    // set a row of social_media, each user should have a row
+                    $social = new SocialMedia();
+                    //$social->save();
+                    //$user->setSocialMedias($social);
+
                     $user->save();
                     logUserIn($user->getId());
 

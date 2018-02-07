@@ -20,8 +20,7 @@
     </vendor>
   </table>
   <table name="social_media" idMethod="native" phpName="SocialMedia">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="facebook_username" phpName="FacebookUsername" type="VARCHAR" size="64" required="true"/>
     <column name="twitter_username" phpName="TwitterUsername" type="VARCHAR" size="64" required="true"/>
     <column name="google_plus_username" phpName="GooglePlusUsername" type="VARCHAR" size="64" required="true"/>
@@ -29,9 +28,6 @@
     <foreign-key foreignTable="user" name="social_media_ibfk_1">
       <reference local="user_id" foreign="id"/>
     </foreign-key>
-    <index name="user_id">
-      <index-column name="user_id"/>
-    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

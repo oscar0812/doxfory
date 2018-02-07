@@ -59,7 +59,7 @@ class SocialMediaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,12 +69,7 @@ class SocialMediaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
-
-    /**
-     * the column name for the id field
-     */
-    const COL_ID = 'social_media.id';
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the user_id field
@@ -113,11 +108,11 @@ class SocialMediaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'UserId', 'FacebookUsername', 'TwitterUsername', 'GooglePlusUsername', 'InstagramUsername', ),
-        self::TYPE_CAMELNAME     => array('id', 'userId', 'facebookUsername', 'twitterUsername', 'googlePlusUsername', 'instagramUsername', ),
-        self::TYPE_COLNAME       => array(SocialMediaTableMap::COL_ID, SocialMediaTableMap::COL_USER_ID, SocialMediaTableMap::COL_FACEBOOK_USERNAME, SocialMediaTableMap::COL_TWITTER_USERNAME, SocialMediaTableMap::COL_GOOGLE_PLUS_USERNAME, SocialMediaTableMap::COL_INSTAGRAM_USERNAME, ),
-        self::TYPE_FIELDNAME     => array('id', 'user_id', 'facebook_username', 'twitter_username', 'google_plus_username', 'instagram_username', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('UserId', 'FacebookUsername', 'TwitterUsername', 'GooglePlusUsername', 'InstagramUsername', ),
+        self::TYPE_CAMELNAME     => array('userId', 'facebookUsername', 'twitterUsername', 'googlePlusUsername', 'instagramUsername', ),
+        self::TYPE_COLNAME       => array(SocialMediaTableMap::COL_USER_ID, SocialMediaTableMap::COL_FACEBOOK_USERNAME, SocialMediaTableMap::COL_TWITTER_USERNAME, SocialMediaTableMap::COL_GOOGLE_PLUS_USERNAME, SocialMediaTableMap::COL_INSTAGRAM_USERNAME, ),
+        self::TYPE_FIELDNAME     => array('user_id', 'facebook_username', 'twitter_username', 'google_plus_username', 'instagram_username', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -127,11 +122,11 @@ class SocialMediaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'FacebookUsername' => 2, 'TwitterUsername' => 3, 'GooglePlusUsername' => 4, 'InstagramUsername' => 5, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'userId' => 1, 'facebookUsername' => 2, 'twitterUsername' => 3, 'googlePlusUsername' => 4, 'instagramUsername' => 5, ),
-        self::TYPE_COLNAME       => array(SocialMediaTableMap::COL_ID => 0, SocialMediaTableMap::COL_USER_ID => 1, SocialMediaTableMap::COL_FACEBOOK_USERNAME => 2, SocialMediaTableMap::COL_TWITTER_USERNAME => 3, SocialMediaTableMap::COL_GOOGLE_PLUS_USERNAME => 4, SocialMediaTableMap::COL_INSTAGRAM_USERNAME => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'facebook_username' => 2, 'twitter_username' => 3, 'google_plus_username' => 4, 'instagram_username' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('UserId' => 0, 'FacebookUsername' => 1, 'TwitterUsername' => 2, 'GooglePlusUsername' => 3, 'InstagramUsername' => 4, ),
+        self::TYPE_CAMELNAME     => array('userId' => 0, 'facebookUsername' => 1, 'twitterUsername' => 2, 'googlePlusUsername' => 3, 'instagramUsername' => 4, ),
+        self::TYPE_COLNAME       => array(SocialMediaTableMap::COL_USER_ID => 0, SocialMediaTableMap::COL_FACEBOOK_USERNAME => 1, SocialMediaTableMap::COL_TWITTER_USERNAME => 2, SocialMediaTableMap::COL_GOOGLE_PLUS_USERNAME => 3, SocialMediaTableMap::COL_INSTAGRAM_USERNAME => 4, ),
+        self::TYPE_FIELDNAME     => array('user_id' => 0, 'facebook_username' => 1, 'twitter_username' => 2, 'google_plus_username' => 3, 'instagram_username' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -151,8 +146,7 @@ class SocialMediaTableMap extends TableMap
         $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'user', 'id', true, null, null);
+        $this->addForeignPrimaryKey('user_id', 'UserId', 'INTEGER' , 'user', 'id', true, null, null);
         $this->addColumn('facebook_username', 'FacebookUsername', 'VARCHAR', true, 64, null);
         $this->addColumn('twitter_username', 'TwitterUsername', 'VARCHAR', true, 64, null);
         $this->addColumn('google_plus_username', 'GooglePlusUsername', 'VARCHAR', true, 64, null);
@@ -189,11 +183,11 @@ class SocialMediaTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -213,7 +207,7 @@ class SocialMediaTableMap extends TableMap
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
 
@@ -314,14 +308,12 @@ class SocialMediaTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(SocialMediaTableMap::COL_ID);
             $criteria->addSelectColumn(SocialMediaTableMap::COL_USER_ID);
             $criteria->addSelectColumn(SocialMediaTableMap::COL_FACEBOOK_USERNAME);
             $criteria->addSelectColumn(SocialMediaTableMap::COL_TWITTER_USERNAME);
             $criteria->addSelectColumn(SocialMediaTableMap::COL_GOOGLE_PLUS_USERNAME);
             $criteria->addSelectColumn(SocialMediaTableMap::COL_INSTAGRAM_USERNAME);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.user_id');
             $criteria->addSelectColumn($alias . '.facebook_username');
             $criteria->addSelectColumn($alias . '.twitter_username');
@@ -378,7 +370,7 @@ class SocialMediaTableMap extends TableMap
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
             $criteria = new Criteria(SocialMediaTableMap::DATABASE_NAME);
-            $criteria->add(SocialMediaTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria->add(SocialMediaTableMap::COL_USER_ID, (array) $values, Criteria::IN);
         }
 
         $query = SocialMediaQuery::create()->mergeWith($criteria);
@@ -426,8 +418,8 @@ class SocialMediaTableMap extends TableMap
             $criteria = $criteria->buildCriteria(); // build Criteria from SocialMedia object
         }
 
-        if ($criteria->containsKey(SocialMediaTableMap::COL_ID) && $criteria->keyContainsValue(SocialMediaTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SocialMediaTableMap::COL_ID.')');
+        if ($criteria->containsKey(SocialMediaTableMap::COL_USER_ID) && $criteria->keyContainsValue(SocialMediaTableMap::COL_USER_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SocialMediaTableMap::COL_USER_ID.')');
         }
 
 
