@@ -68,6 +68,7 @@
 							<div class="media-heading">
 								<h3><?=$current_user->getFullName()?></h3>
 								<div class="author-social">
+									<a href="#"><i class="fa fa-phone"></i></a>
 									<a href="#"><i class="fa fa-facebook"></i></a>
 									<a href="#"><i class="fa fa-twitter"></i></a>
 									<a href="#"><i class="fa fa-google-plus"></i></a>
@@ -138,56 +139,7 @@
 
 			</div>
 			<div class="row">
-				<div class="col-xs-12 col-sm-7 col-md-7 col-lg-7">
-					<div class="box">
-						<h3 class="blue">#Experience</h3>
-						<div class="panel-group" id="accordion">
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-								  Current Job (2013-Present)
-								</a>
-							  </h4>
-							</div>
-							<div id="collapseOne" class="panel-collapse collapse in">
-							  <div class="panel-body">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
-							  </div>
-							</div>
-						  </div>
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-								  Second Job (2011-2013)
-								</a>
-							  </h4>
-							</div>
-							<div id="collapseTwo" class="panel-collapse collapse">
-							  <div class="panel-body">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
-							  </div>
-							</div>
-						  </div>
-						  <div class="panel panel-default">
-							<div class="panel-heading">
-							  <h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-								  First Job (2010-2011)
-								</a>
-							  </h4>
-							</div>
-							<div id="collapseThree" class="panel-collapse collapse">
-							  <div class="panel-body">
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.
-							  </div>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+				<div class="col-sm-12 col-md-4 col-lg-4">
 					<div class="box">
 						<h3 class="blue">#Skills</h3>
 						<div class="progress">
@@ -218,41 +170,6 @@
 						<div class="progress">
 							<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
 								<div class="skill-item">Bootstrap</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12 col-md-4 col-lg-4">
-					<div class="box">
-						<h3 class="blue">#Contact me</h3>
-						<div class="row">
-							<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
-								<div class="contact-item bigger-120">
-								  <div class="icon green pull-left text-center"><span class="fa fa-phone fa-fw"></span></div>
-								  <div class="title no-description">+1 204 000 000</div>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
-								<div class="contact-item bigger-120">
-								  <div class="icon red pull-left text-center"><span class="fa fa-envelope fa-fw"></span></div>
-								  <div class="title no-description">jdoe@gmail.com</div>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
-								<div class="contact-item bigger-120">
-								  <div class="icon light-blue pull-left text-center"><span class="fa fa-skype fa-fw"></span></div>
-								  <div class="title">Skype</div>
-								  <div class="description">john.doe</div>
-								</div>
-							</div>
-							<div class="col-xs-6 col-sm-6 col-md-12 col-lg-12">
-								<div class="contact-item bigger-120">
-								  <div class="icon blue pull-left text-center"><span class="fa fa-facebook fa-fw"></span></div>
-								  <div class="title">Facebook</div>
-								  <div class="description">https://www.facebook.com/facebook</div>
-								</div>
 							</div>
 						</div>
 					</div>
