@@ -37,14 +37,14 @@ class HomeController
             $post = $request->getParsedBody();
             if ($post['type'] == 'login') {
                 // check if valid login credentials, if yes, sign in
-                $user = UserQuery::create()->findOneByEmail($post['email']);
+                $contact_info = ContactInfoQuery::create()->findOneByEmail($post['email']);
                 $pass = $post['password'];
 
-                if ($user == null || !$user->login($pass)) {
+                if ($contact_info == null || !$contact_info->getUser()->login($pass)) {
                     // user doesn't exist or wrong password
                     $response = $response->withJson(['success'=>false]);
                 } else {
-                    logUserIn($user->getId());
+                    logUserIn($contact_info->getUser()->getId());
                     $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
                 }
             } else {
