@@ -418,10 +418,6 @@ class SocialMediaTableMap extends TableMap
             $criteria = $criteria->buildCriteria(); // build Criteria from SocialMedia object
         }
 
-        if ($criteria->containsKey(SocialMediaTableMap::COL_USER_ID) && $criteria->keyContainsValue(SocialMediaTableMap::COL_USER_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SocialMediaTableMap::COL_USER_ID.')');
-        }
-
 
         // Set the correct dbName
         $query = SocialMediaQuery::create()->mergeWith($criteria);

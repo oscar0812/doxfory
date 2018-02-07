@@ -67,8 +67,8 @@ class HomeController
 
                     // set a row of social_media, each user should have a row
                     $social = new SocialMedia();
-                    //$social->save();
-                    //$user->setSocialMedias($social);
+                    $social->setUser($user);
+                    $social->save();
 
                     $user->save();
                     logUserIn($user->getId());
