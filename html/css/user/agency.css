@@ -66,6 +66,10 @@ Table OF Contents
   color: gray;
 }
 
+.hand {
+  cursor: pointer;
+}
+
 .sm-neg-btm {
   margin-bottom: -8px !important;
 }

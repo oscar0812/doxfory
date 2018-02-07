@@ -62,15 +62,7 @@
 				<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
 					<div class="media">
 						<div class="media-left">
-
-							<?php
-										$pic = $current_user->getProfilePicture();
-										if($visiting) {
-											$pic = '../'.$pic;
-										}
-							?>
-
-							<img id="pfp" class="media-object" src="<?=$pic?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
+							<img id="pfp" class="media-object" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 						</div>
 						<div class="media-body">
 							<div class="media-heading">
@@ -82,26 +74,11 @@
 									<a href="#"><i class="fa fa-instagram"></i></a>
 								</div>
 							</div>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
+							<p>About <?=$current_user->getFullName()?></p>
 						</div>
 					</div>
 				</div>
 				<!-- /blog author -->
-			</div>
-
-			<div class="row">
-				<div class="col-sm-12 col-md-6 col-lg-6">
-					<div class="box">
-						<h3 class="">#ABOUT ME</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
-					</div>
-				</div>
-				<div class="col-sm-12 col-md-6 col-lg-6">
-					<div class="box">
-						<h3 class="">#Objective</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita.</p>
-					</div>
-				</div>
 			</div>
 			<div class="row">
 				<div class="col-xs-12">
