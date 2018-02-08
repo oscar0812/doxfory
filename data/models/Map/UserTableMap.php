@@ -189,6 +189,20 @@ class UserTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, null, false);
+        $this->addRelation('JobRelatedByPostedById', '\\Job', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':posted_by_id',
+    1 => ':id',
+  ),
+), null, null, 'JobsRelatedByPostedById', false);
+        $this->addRelation('JobRelatedByAcceptedById', '\\Job', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':accepted_by_id',
+    1 => ':id',
+  ),
+), null, null, 'JobsRelatedByAcceptedById', false);
     } // buildRelations()
 
     /**

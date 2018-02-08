@@ -10,6 +10,7 @@ use Map\JobTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
@@ -25,8 +26,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method     ChildJobQuery orderByImages($order = Criteria::ASC) Order by the images column
  * @method     ChildJobQuery orderByPayment($order = Criteria::ASC) Order by the payment column
- * @method     ChildJobQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
- * @method     ChildJobQuery orderByProviderId($order = Criteria::ASC) Order by the provider_id column
+ * @method     ChildJobQuery orderByPostedById($order = Criteria::ASC) Order by the posted_by_id column
+ * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
  *
  * @method     ChildJobQuery groupById() Group by the id column
  * @method     ChildJobQuery groupByIsCompleted() Group by the is_completed column
@@ -34,8 +35,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery groupByDescription() Group by the description column
  * @method     ChildJobQuery groupByImages() Group by the images column
  * @method     ChildJobQuery groupByPayment() Group by the payment column
- * @method     ChildJobQuery groupByUserId() Group by the user_id column
- * @method     ChildJobQuery groupByProviderId() Group by the provider_id column
+ * @method     ChildJobQuery groupByPostedById() Group by the posted_by_id column
+ * @method     ChildJobQuery groupByAcceptedById() Group by the accepted_by_id column
  *
  * @method     ChildJobQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildJobQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -44,6 +45,28 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
  * @method     ChildJobQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildJobQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
+ * @method     ChildJobQuery leftJoinUserRelatedByPostedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery rightJoinUserRelatedByPostedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery innerJoinUserRelatedByPostedById($relationAlias = null) Adds a INNER JOIN clause to the query using the UserRelatedByPostedById relation
+ *
+ * @method     ChildJobQuery joinWithUserRelatedByPostedById($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UserRelatedByPostedById relation
+ *
+ * @method     ChildJobQuery leftJoinWithUserRelatedByPostedById() Adds a LEFT JOIN clause and with to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery rightJoinWithUserRelatedByPostedById() Adds a RIGHT JOIN clause and with to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery innerJoinWithUserRelatedByPostedById() Adds a INNER JOIN clause and with to the query using the UserRelatedByPostedById relation
+ *
+ * @method     ChildJobQuery leftJoinUserRelatedByAcceptedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery rightJoinUserRelatedByAcceptedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery innerJoinUserRelatedByAcceptedById($relationAlias = null) Adds a INNER JOIN clause to the query using the UserRelatedByAcceptedById relation
+ *
+ * @method     ChildJobQuery joinWithUserRelatedByAcceptedById($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UserRelatedByAcceptedById relation
+ *
+ * @method     ChildJobQuery leftJoinWithUserRelatedByAcceptedById() Adds a LEFT JOIN clause and with to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery rightJoinWithUserRelatedByAcceptedById() Adds a RIGHT JOIN clause and with to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery innerJoinWithUserRelatedByAcceptedById() Adds a INNER JOIN clause and with to the query using the UserRelatedByAcceptedById relation
+ *
+ * @method     \UserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJob findOne(ConnectionInterface $con = null) Return the first ChildJob matching the query
  * @method     ChildJob findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJob matching the query, or a new ChildJob object populated from the query conditions when no match is found
@@ -54,8 +77,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
  * @method     ChildJob findOneByImages(string $images) Return the first ChildJob filtered by the images column
  * @method     ChildJob findOneByPayment(int $payment) Return the first ChildJob filtered by the payment column
- * @method     ChildJob findOneByUserId(int $user_id) Return the first ChildJob filtered by the user_id column
- * @method     ChildJob findOneByProviderId(int $provider_id) Return the first ChildJob filtered by the provider_id column *
+ * @method     ChildJob findOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column
+ * @method     ChildJob findOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column *
 
  * @method     ChildJob requirePk($key, ConnectionInterface $con = null) Return the ChildJob by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOne(ConnectionInterface $con = null) Return the first ChildJob matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -66,8 +89,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByImages(string $images) Return the first ChildJob filtered by the images column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPayment(int $payment) Return the first ChildJob filtered by the payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJob requireOneByUserId(int $user_id) Return the first ChildJob filtered by the user_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJob requireOneByProviderId(int $provider_id) Return the first ChildJob filtered by the provider_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildJob[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJob objects based on current ModelCriteria
  * @method     ChildJob[]|ObjectCollection findById(int $id) Return ChildJob objects filtered by the id column
@@ -76,8 +99,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
  * @method     ChildJob[]|ObjectCollection findByImages(string $images) Return ChildJob objects filtered by the images column
  * @method     ChildJob[]|ObjectCollection findByPayment(int $payment) Return ChildJob objects filtered by the payment column
- * @method     ChildJob[]|ObjectCollection findByUserId(int $user_id) Return ChildJob objects filtered by the user_id column
- * @method     ChildJob[]|ObjectCollection findByProviderId(int $provider_id) Return ChildJob objects filtered by the provider_id column
+ * @method     ChildJob[]|ObjectCollection findByPostedById(int $posted_by_id) Return ChildJob objects filtered by the posted_by_id column
+ * @method     ChildJob[]|ObjectCollection findByAcceptedById(int $accepted_by_id) Return ChildJob objects filtered by the accepted_by_id column
  * @method     ChildJob[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -176,7 +199,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, is_completed, title, description, images, payment, user_id, provider_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, is_completed, title, description, images, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -451,16 +474,18 @@ abstract class JobQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the user_id column
+     * Filter the query on the posted_by_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByUserId(1234); // WHERE user_id = 1234
-     * $query->filterByUserId(array(12, 34)); // WHERE user_id IN (12, 34)
-     * $query->filterByUserId(array('min' => 12)); // WHERE user_id > 12
+     * $query->filterByPostedById(1234); // WHERE posted_by_id = 1234
+     * $query->filterByPostedById(array(12, 34)); // WHERE posted_by_id IN (12, 34)
+     * $query->filterByPostedById(array('min' => 12)); // WHERE posted_by_id > 12
      * </code>
      *
-     * @param     mixed $userId The value to use as filter.
+     * @see       filterByUserRelatedByPostedById()
+     *
+     * @param     mixed $postedById The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -468,16 +493,16 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function filterByUserId($userId = null, $comparison = null)
+    public function filterByPostedById($postedById = null, $comparison = null)
     {
-        if (is_array($userId)) {
+        if (is_array($postedById)) {
             $useMinMax = false;
-            if (isset($userId['min'])) {
-                $this->addUsingAlias(JobTableMap::COL_USER_ID, $userId['min'], Criteria::GREATER_EQUAL);
+            if (isset($postedById['min'])) {
+                $this->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $postedById['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($userId['max'])) {
-                $this->addUsingAlias(JobTableMap::COL_USER_ID, $userId['max'], Criteria::LESS_EQUAL);
+            if (isset($postedById['max'])) {
+                $this->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $postedById['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -488,20 +513,22 @@ abstract class JobQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(JobTableMap::COL_USER_ID, $userId, $comparison);
+        return $this->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $postedById, $comparison);
     }
 
     /**
-     * Filter the query on the provider_id column
+     * Filter the query on the accepted_by_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByProviderId(1234); // WHERE provider_id = 1234
-     * $query->filterByProviderId(array(12, 34)); // WHERE provider_id IN (12, 34)
-     * $query->filterByProviderId(array('min' => 12)); // WHERE provider_id > 12
+     * $query->filterByAcceptedById(1234); // WHERE accepted_by_id = 1234
+     * $query->filterByAcceptedById(array(12, 34)); // WHERE accepted_by_id IN (12, 34)
+     * $query->filterByAcceptedById(array('min' => 12)); // WHERE accepted_by_id > 12
      * </code>
      *
-     * @param     mixed $providerId The value to use as filter.
+     * @see       filterByUserRelatedByAcceptedById()
+     *
+     * @param     mixed $acceptedById The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -509,16 +536,16 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function filterByProviderId($providerId = null, $comparison = null)
+    public function filterByAcceptedById($acceptedById = null, $comparison = null)
     {
-        if (is_array($providerId)) {
+        if (is_array($acceptedById)) {
             $useMinMax = false;
-            if (isset($providerId['min'])) {
-                $this->addUsingAlias(JobTableMap::COL_PROVIDER_ID, $providerId['min'], Criteria::GREATER_EQUAL);
+            if (isset($acceptedById['min'])) {
+                $this->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $acceptedById['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($providerId['max'])) {
-                $this->addUsingAlias(JobTableMap::COL_PROVIDER_ID, $providerId['max'], Criteria::LESS_EQUAL);
+            if (isset($acceptedById['max'])) {
+                $this->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $acceptedById['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -529,7 +556,161 @@ abstract class JobQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(JobTableMap::COL_PROVIDER_ID, $providerId, $comparison);
+        return $this->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $acceptedById, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \User object
+     *
+     * @param \User|ObjectCollection $user The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByUserRelatedByPostedById($user, $comparison = null)
+    {
+        if ($user instanceof \User) {
+            return $this
+                ->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $user->getId(), $comparison);
+        } elseif ($user instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByUserRelatedByPostedById() only accepts arguments of type \User or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the UserRelatedByPostedById relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function joinUserRelatedByPostedById($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('UserRelatedByPostedById');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'UserRelatedByPostedById');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the UserRelatedByPostedById relation User object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UserQuery A secondary query class using the current class as primary query
+     */
+    public function useUserRelatedByPostedByIdQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinUserRelatedByPostedById($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'UserRelatedByPostedById', '\UserQuery');
+    }
+
+    /**
+     * Filter the query by a related \User object
+     *
+     * @param \User|ObjectCollection $user The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByUserRelatedByAcceptedById($user, $comparison = null)
+    {
+        if ($user instanceof \User) {
+            return $this
+                ->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $user->getId(), $comparison);
+        } elseif ($user instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByUserRelatedByAcceptedById() only accepts arguments of type \User or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the UserRelatedByAcceptedById relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function joinUserRelatedByAcceptedById($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('UserRelatedByAcceptedById');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'UserRelatedByAcceptedById');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the UserRelatedByAcceptedById relation User object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UserQuery A secondary query class using the current class as primary query
+     */
+    public function useUserRelatedByAcceptedByIdQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinUserRelatedByAcceptedById($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'UserRelatedByAcceptedById', '\UserQuery');
     }
 
     /**

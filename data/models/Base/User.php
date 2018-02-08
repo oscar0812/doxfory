@@ -4,15 +4,20 @@ namespace Base;
 
 use \ContactInfo as ChildContactInfo;
 use \ContactInfoQuery as ChildContactInfoQuery;
+use \Job as ChildJob;
+use \JobQuery as ChildJobQuery;
+use \User as ChildUser;
 use \UserQuery as ChildUserQuery;
 use \Exception;
 use \PDO;
+use Map\JobTableMap;
 use Map\UserTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\LogicException;
@@ -141,6 +146,18 @@ abstract class User implements ActiveRecordInterface
     protected $singleContactInfo;
 
     /**
+     * @var        ObjectCollection|ChildJob[] Collection to store aggregation of ChildJob objects.
+     */
+    protected $collJobsRelatedByPostedById;
+    protected $collJobsRelatedByPostedByIdPartial;
+
+    /**
+     * @var        ObjectCollection|ChildJob[] Collection to store aggregation of ChildJob objects.
+     */
+    protected $collJobsRelatedByAcceptedById;
+    protected $collJobsRelatedByAcceptedByIdPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      *
@@ -164,6 +181,18 @@ abstract class User implements ActiveRecordInterface
      * @var     ConstraintViolationList
      */
     protected $validationFailures;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJob[]
+     */
+    protected $jobsRelatedByPostedByIdScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildJob[]
+     */
+    protected $jobsRelatedByAcceptedByIdScheduledForDeletion = null;
 
     /**
      * Initializes internal state of Base\User object.
@@ -793,6 +822,10 @@ abstract class User implements ActiveRecordInterface
 
             $this->singleContactInfo = null;
 
+            $this->collJobsRelatedByPostedById = null;
+
+            $this->collJobsRelatedByAcceptedById = null;
+
         } // if (deep)
     }
 
@@ -910,6 +943,40 @@ abstract class User implements ActiveRecordInterface
             if ($this->singleContactInfo !== null) {
                 if (!$this->singleContactInfo->isDeleted() && ($this->singleContactInfo->isNew() || $this->singleContactInfo->isModified())) {
                     $affectedRows += $this->singleContactInfo->save($con);
+                }
+            }
+
+            if ($this->jobsRelatedByPostedByIdScheduledForDeletion !== null) {
+                if (!$this->jobsRelatedByPostedByIdScheduledForDeletion->isEmpty()) {
+                    \JobQuery::create()
+                        ->filterByPrimaryKeys($this->jobsRelatedByPostedByIdScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobsRelatedByPostedByIdScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobsRelatedByPostedById !== null) {
+                foreach ($this->collJobsRelatedByPostedById as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->jobsRelatedByAcceptedByIdScheduledForDeletion !== null) {
+                if (!$this->jobsRelatedByAcceptedByIdScheduledForDeletion->isEmpty()) {
+                    \JobQuery::create()
+                        ->filterByPrimaryKeys($this->jobsRelatedByAcceptedByIdScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->jobsRelatedByAcceptedByIdScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collJobsRelatedByAcceptedById !== null) {
+                foreach ($this->collJobsRelatedByAcceptedById as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
                 }
             }
 
@@ -1153,6 +1220,36 @@ abstract class User implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->singleContactInfo->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collJobsRelatedByPostedById) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobs';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'jobs';
+                        break;
+                    default:
+                        $key = 'Jobs';
+                }
+
+                $result[$key] = $this->collJobsRelatedByPostedById->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->collJobsRelatedByAcceptedById) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'jobs';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'jobs';
+                        break;
+                    default:
+                        $key = 'Jobs';
+                }
+
+                $result[$key] = $this->collJobsRelatedByAcceptedById->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1441,6 +1538,18 @@ abstract class User implements ActiveRecordInterface
                 $copyObj->setContactInfo($relObj->copy($deepCopy));
             }
 
+            foreach ($this->getJobsRelatedByPostedById() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobRelatedByPostedById($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getJobsRelatedByAcceptedById() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addJobRelatedByAcceptedById($relObj->copy($deepCopy));
+                }
+            }
+
         } // if ($deepCopy)
 
         if ($makeNew) {
@@ -1482,6 +1591,14 @@ abstract class User implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('JobRelatedByPostedById' == $relationName) {
+            $this->initJobsRelatedByPostedById();
+            return;
+        }
+        if ('JobRelatedByAcceptedById' == $relationName) {
+            $this->initJobsRelatedByAcceptedById();
+            return;
+        }
     }
 
     /**
@@ -1515,6 +1632,456 @@ abstract class User implements ActiveRecordInterface
         // Make sure that that the passed-in ChildContactInfo isn't already associated with this object
         if ($v !== null && $v->getUser(null, false) === null) {
             $v->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clears out the collJobsRelatedByPostedById collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobsRelatedByPostedById()
+     */
+    public function clearJobsRelatedByPostedById()
+    {
+        $this->collJobsRelatedByPostedById = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobsRelatedByPostedById collection loaded partially.
+     */
+    public function resetPartialJobsRelatedByPostedById($v = true)
+    {
+        $this->collJobsRelatedByPostedByIdPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobsRelatedByPostedById collection.
+     *
+     * By default this just sets the collJobsRelatedByPostedById collection to an empty array (like clearcollJobsRelatedByPostedById());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobsRelatedByPostedById($overrideExisting = true)
+    {
+        if (null !== $this->collJobsRelatedByPostedById && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobsRelatedByPostedById = new $collectionClassName;
+        $this->collJobsRelatedByPostedById->setModel('\Job');
+    }
+
+    /**
+     * Gets an array of ChildJob objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildUser is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJob[] List of ChildJob objects
+     * @throws PropelException
+     */
+    public function getJobsRelatedByPostedById(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobsRelatedByPostedByIdPartial && !$this->isNew();
+        if (null === $this->collJobsRelatedByPostedById || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobsRelatedByPostedById) {
+                // return empty collection
+                $this->initJobsRelatedByPostedById();
+            } else {
+                $collJobsRelatedByPostedById = ChildJobQuery::create(null, $criteria)
+                    ->filterByUserRelatedByPostedById($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobsRelatedByPostedByIdPartial && count($collJobsRelatedByPostedById)) {
+                        $this->initJobsRelatedByPostedById(false);
+
+                        foreach ($collJobsRelatedByPostedById as $obj) {
+                            if (false == $this->collJobsRelatedByPostedById->contains($obj)) {
+                                $this->collJobsRelatedByPostedById->append($obj);
+                            }
+                        }
+
+                        $this->collJobsRelatedByPostedByIdPartial = true;
+                    }
+
+                    return $collJobsRelatedByPostedById;
+                }
+
+                if ($partial && $this->collJobsRelatedByPostedById) {
+                    foreach ($this->collJobsRelatedByPostedById as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobsRelatedByPostedById[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobsRelatedByPostedById = $collJobsRelatedByPostedById;
+                $this->collJobsRelatedByPostedByIdPartial = false;
+            }
+        }
+
+        return $this->collJobsRelatedByPostedById;
+    }
+
+    /**
+     * Sets a collection of ChildJob objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobsRelatedByPostedById A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildUser The current object (for fluent API support)
+     */
+    public function setJobsRelatedByPostedById(Collection $jobsRelatedByPostedById, ConnectionInterface $con = null)
+    {
+        /** @var ChildJob[] $jobsRelatedByPostedByIdToDelete */
+        $jobsRelatedByPostedByIdToDelete = $this->getJobsRelatedByPostedById(new Criteria(), $con)->diff($jobsRelatedByPostedById);
+
+
+        $this->jobsRelatedByPostedByIdScheduledForDeletion = $jobsRelatedByPostedByIdToDelete;
+
+        foreach ($jobsRelatedByPostedByIdToDelete as $jobRelatedByPostedByIdRemoved) {
+            $jobRelatedByPostedByIdRemoved->setUserRelatedByPostedById(null);
+        }
+
+        $this->collJobsRelatedByPostedById = null;
+        foreach ($jobsRelatedByPostedById as $jobRelatedByPostedById) {
+            $this->addJobRelatedByPostedById($jobRelatedByPostedById);
+        }
+
+        $this->collJobsRelatedByPostedById = $jobsRelatedByPostedById;
+        $this->collJobsRelatedByPostedByIdPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Job objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Job objects.
+     * @throws PropelException
+     */
+    public function countJobsRelatedByPostedById(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobsRelatedByPostedByIdPartial && !$this->isNew();
+        if (null === $this->collJobsRelatedByPostedById || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobsRelatedByPostedById) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobsRelatedByPostedById());
+            }
+
+            $query = ChildJobQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByUserRelatedByPostedById($this)
+                ->count($con);
+        }
+
+        return count($this->collJobsRelatedByPostedById);
+    }
+
+    /**
+     * Method called to associate a ChildJob object to this object
+     * through the ChildJob foreign key attribute.
+     *
+     * @param  ChildJob $l ChildJob
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function addJobRelatedByPostedById(ChildJob $l)
+    {
+        if ($this->collJobsRelatedByPostedById === null) {
+            $this->initJobsRelatedByPostedById();
+            $this->collJobsRelatedByPostedByIdPartial = true;
+        }
+
+        if (!$this->collJobsRelatedByPostedById->contains($l)) {
+            $this->doAddJobRelatedByPostedById($l);
+
+            if ($this->jobsRelatedByPostedByIdScheduledForDeletion and $this->jobsRelatedByPostedByIdScheduledForDeletion->contains($l)) {
+                $this->jobsRelatedByPostedByIdScheduledForDeletion->remove($this->jobsRelatedByPostedByIdScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJob $jobRelatedByPostedById The ChildJob object to add.
+     */
+    protected function doAddJobRelatedByPostedById(ChildJob $jobRelatedByPostedById)
+    {
+        $this->collJobsRelatedByPostedById[]= $jobRelatedByPostedById;
+        $jobRelatedByPostedById->setUserRelatedByPostedById($this);
+    }
+
+    /**
+     * @param  ChildJob $jobRelatedByPostedById The ChildJob object to remove.
+     * @return $this|ChildUser The current object (for fluent API support)
+     */
+    public function removeJobRelatedByPostedById(ChildJob $jobRelatedByPostedById)
+    {
+        if ($this->getJobsRelatedByPostedById()->contains($jobRelatedByPostedById)) {
+            $pos = $this->collJobsRelatedByPostedById->search($jobRelatedByPostedById);
+            $this->collJobsRelatedByPostedById->remove($pos);
+            if (null === $this->jobsRelatedByPostedByIdScheduledForDeletion) {
+                $this->jobsRelatedByPostedByIdScheduledForDeletion = clone $this->collJobsRelatedByPostedById;
+                $this->jobsRelatedByPostedByIdScheduledForDeletion->clear();
+            }
+            $this->jobsRelatedByPostedByIdScheduledForDeletion[]= clone $jobRelatedByPostedById;
+            $jobRelatedByPostedById->setUserRelatedByPostedById(null);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clears out the collJobsRelatedByAcceptedById collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addJobsRelatedByAcceptedById()
+     */
+    public function clearJobsRelatedByAcceptedById()
+    {
+        $this->collJobsRelatedByAcceptedById = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collJobsRelatedByAcceptedById collection loaded partially.
+     */
+    public function resetPartialJobsRelatedByAcceptedById($v = true)
+    {
+        $this->collJobsRelatedByAcceptedByIdPartial = $v;
+    }
+
+    /**
+     * Initializes the collJobsRelatedByAcceptedById collection.
+     *
+     * By default this just sets the collJobsRelatedByAcceptedById collection to an empty array (like clearcollJobsRelatedByAcceptedById());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initJobsRelatedByAcceptedById($overrideExisting = true)
+    {
+        if (null !== $this->collJobsRelatedByAcceptedById && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = JobTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collJobsRelatedByAcceptedById = new $collectionClassName;
+        $this->collJobsRelatedByAcceptedById->setModel('\Job');
+    }
+
+    /**
+     * Gets an array of ChildJob objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildUser is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return ObjectCollection|ChildJob[] List of ChildJob objects
+     * @throws PropelException
+     */
+    public function getJobsRelatedByAcceptedById(Criteria $criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobsRelatedByAcceptedByIdPartial && !$this->isNew();
+        if (null === $this->collJobsRelatedByAcceptedById || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collJobsRelatedByAcceptedById) {
+                // return empty collection
+                $this->initJobsRelatedByAcceptedById();
+            } else {
+                $collJobsRelatedByAcceptedById = ChildJobQuery::create(null, $criteria)
+                    ->filterByUserRelatedByAcceptedById($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collJobsRelatedByAcceptedByIdPartial && count($collJobsRelatedByAcceptedById)) {
+                        $this->initJobsRelatedByAcceptedById(false);
+
+                        foreach ($collJobsRelatedByAcceptedById as $obj) {
+                            if (false == $this->collJobsRelatedByAcceptedById->contains($obj)) {
+                                $this->collJobsRelatedByAcceptedById->append($obj);
+                            }
+                        }
+
+                        $this->collJobsRelatedByAcceptedByIdPartial = true;
+                    }
+
+                    return $collJobsRelatedByAcceptedById;
+                }
+
+                if ($partial && $this->collJobsRelatedByAcceptedById) {
+                    foreach ($this->collJobsRelatedByAcceptedById as $obj) {
+                        if ($obj->isNew()) {
+                            $collJobsRelatedByAcceptedById[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collJobsRelatedByAcceptedById = $collJobsRelatedByAcceptedById;
+                $this->collJobsRelatedByAcceptedByIdPartial = false;
+            }
+        }
+
+        return $this->collJobsRelatedByAcceptedById;
+    }
+
+    /**
+     * Sets a collection of ChildJob objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $jobsRelatedByAcceptedById A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildUser The current object (for fluent API support)
+     */
+    public function setJobsRelatedByAcceptedById(Collection $jobsRelatedByAcceptedById, ConnectionInterface $con = null)
+    {
+        /** @var ChildJob[] $jobsRelatedByAcceptedByIdToDelete */
+        $jobsRelatedByAcceptedByIdToDelete = $this->getJobsRelatedByAcceptedById(new Criteria(), $con)->diff($jobsRelatedByAcceptedById);
+
+
+        $this->jobsRelatedByAcceptedByIdScheduledForDeletion = $jobsRelatedByAcceptedByIdToDelete;
+
+        foreach ($jobsRelatedByAcceptedByIdToDelete as $jobRelatedByAcceptedByIdRemoved) {
+            $jobRelatedByAcceptedByIdRemoved->setUserRelatedByAcceptedById(null);
+        }
+
+        $this->collJobsRelatedByAcceptedById = null;
+        foreach ($jobsRelatedByAcceptedById as $jobRelatedByAcceptedById) {
+            $this->addJobRelatedByAcceptedById($jobRelatedByAcceptedById);
+        }
+
+        $this->collJobsRelatedByAcceptedById = $jobsRelatedByAcceptedById;
+        $this->collJobsRelatedByAcceptedByIdPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Job objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Job objects.
+     * @throws PropelException
+     */
+    public function countJobsRelatedByAcceptedById(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collJobsRelatedByAcceptedByIdPartial && !$this->isNew();
+        if (null === $this->collJobsRelatedByAcceptedById || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collJobsRelatedByAcceptedById) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getJobsRelatedByAcceptedById());
+            }
+
+            $query = ChildJobQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByUserRelatedByAcceptedById($this)
+                ->count($con);
+        }
+
+        return count($this->collJobsRelatedByAcceptedById);
+    }
+
+    /**
+     * Method called to associate a ChildJob object to this object
+     * through the ChildJob foreign key attribute.
+     *
+     * @param  ChildJob $l ChildJob
+     * @return $this|\User The current object (for fluent API support)
+     */
+    public function addJobRelatedByAcceptedById(ChildJob $l)
+    {
+        if ($this->collJobsRelatedByAcceptedById === null) {
+            $this->initJobsRelatedByAcceptedById();
+            $this->collJobsRelatedByAcceptedByIdPartial = true;
+        }
+
+        if (!$this->collJobsRelatedByAcceptedById->contains($l)) {
+            $this->doAddJobRelatedByAcceptedById($l);
+
+            if ($this->jobsRelatedByAcceptedByIdScheduledForDeletion and $this->jobsRelatedByAcceptedByIdScheduledForDeletion->contains($l)) {
+                $this->jobsRelatedByAcceptedByIdScheduledForDeletion->remove($this->jobsRelatedByAcceptedByIdScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildJob $jobRelatedByAcceptedById The ChildJob object to add.
+     */
+    protected function doAddJobRelatedByAcceptedById(ChildJob $jobRelatedByAcceptedById)
+    {
+        $this->collJobsRelatedByAcceptedById[]= $jobRelatedByAcceptedById;
+        $jobRelatedByAcceptedById->setUserRelatedByAcceptedById($this);
+    }
+
+    /**
+     * @param  ChildJob $jobRelatedByAcceptedById The ChildJob object to remove.
+     * @return $this|ChildUser The current object (for fluent API support)
+     */
+    public function removeJobRelatedByAcceptedById(ChildJob $jobRelatedByAcceptedById)
+    {
+        if ($this->getJobsRelatedByAcceptedById()->contains($jobRelatedByAcceptedById)) {
+            $pos = $this->collJobsRelatedByAcceptedById->search($jobRelatedByAcceptedById);
+            $this->collJobsRelatedByAcceptedById->remove($pos);
+            if (null === $this->jobsRelatedByAcceptedByIdScheduledForDeletion) {
+                $this->jobsRelatedByAcceptedByIdScheduledForDeletion = clone $this->collJobsRelatedByAcceptedById;
+                $this->jobsRelatedByAcceptedByIdScheduledForDeletion->clear();
+            }
+            $this->jobsRelatedByAcceptedByIdScheduledForDeletion[]= clone $jobRelatedByAcceptedById;
+            $jobRelatedByAcceptedById->setUserRelatedByAcceptedById(null);
         }
 
         return $this;
@@ -1557,9 +2124,21 @@ abstract class User implements ActiveRecordInterface
             if ($this->singleContactInfo) {
                 $this->singleContactInfo->clearAllReferences($deep);
             }
+            if ($this->collJobsRelatedByPostedById) {
+                foreach ($this->collJobsRelatedByPostedById as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collJobsRelatedByAcceptedById) {
+                foreach ($this->collJobsRelatedByAcceptedById as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
         $this->singleContactInfo = null;
+        $this->collJobsRelatedByPostedById = null;
+        $this->collJobsRelatedByAcceptedById = null;
     }
 
     /**
@@ -1616,6 +2195,24 @@ abstract class User implements ActiveRecordInterface
                 $failureMap->addAll($retval);
             }
 
+            if (null !== $this->collJobsRelatedByPostedById) {
+                foreach ($this->collJobsRelatedByPostedById as $referrerFK) {
+                    if (method_exists($referrerFK, 'validate')) {
+                        if (!$referrerFK->validate($validator)) {
+                            $failureMap->addAll($referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+            }
+            if (null !== $this->collJobsRelatedByAcceptedById) {
+                foreach ($this->collJobsRelatedByAcceptedById as $referrerFK) {
+                    if (method_exists($referrerFK, 'validate')) {
+                        if (!$referrerFK->validate($validator)) {
+                            $failureMap->addAll($referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+            }
 
             $this->alreadyInValidation = false;
         }

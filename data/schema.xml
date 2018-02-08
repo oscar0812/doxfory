@@ -22,13 +22,19 @@
     <column name="description" phpName="Description" type="VARCHAR" size="4098" required="true"/>
     <column name="images" phpName="Images" type="VARCHAR" size="4098" required="true"/>
     <column name="payment" phpName="Payment" type="INTEGER" required="true"/>
-    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
-    <column name="provider_id" phpName="ProviderId" type="INTEGER" required="true"/>
-    <index name="user_id">
-      <index-column name="user_id"/>
+    <column name="posted_by_id" phpName="PostedById" type="INTEGER" required="true"/>
+    <column name="accepted_by_id" phpName="AcceptedById" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="user" name="job_ibfk_1">
+      <reference local="posted_by_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="user" name="job_ibfk_2">
+      <reference local="accepted_by_id" foreign="id"/>
+    </foreign-key>
+    <index name="posted_by_id">
+      <index-column name="posted_by_id"/>
     </index>
-    <index name="provider_id">
-      <index-column name="provider_id"/>
+    <index name="accepted_by_id">
+      <index-column name="accepted_by_id"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>

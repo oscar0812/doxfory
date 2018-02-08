@@ -102,14 +102,14 @@ class JobTableMap extends TableMap
     const COL_PAYMENT = 'job.payment';
 
     /**
-     * the column name for the user_id field
+     * the column name for the posted_by_id field
      */
-    const COL_USER_ID = 'job.user_id';
+    const COL_POSTED_BY_ID = 'job.posted_by_id';
 
     /**
-     * the column name for the provider_id field
+     * the column name for the accepted_by_id field
      */
-    const COL_PROVIDER_ID = 'job.provider_id';
+    const COL_ACCEPTED_BY_ID = 'job.accepted_by_id';
 
     /**
      * The default string format for model objects of the related table
@@ -123,10 +123,10 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'IsCompleted', 'Title', 'Description', 'Images', 'Payment', 'UserId', 'ProviderId', ),
-        self::TYPE_CAMELNAME     => array('id', 'isCompleted', 'title', 'description', 'images', 'payment', 'userId', 'providerId', ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGES, JobTableMap::COL_PAYMENT, JobTableMap::COL_USER_ID, JobTableMap::COL_PROVIDER_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'is_completed', 'title', 'description', 'images', 'payment', 'user_id', 'provider_id', ),
+        self::TYPE_PHPNAME       => array('Id', 'IsCompleted', 'Title', 'Description', 'Images', 'Payment', 'PostedById', 'AcceptedById', ),
+        self::TYPE_CAMELNAME     => array('id', 'isCompleted', 'title', 'description', 'images', 'payment', 'postedById', 'acceptedById', ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGES, JobTableMap::COL_PAYMENT, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
+        self::TYPE_FIELDNAME     => array('id', 'is_completed', 'title', 'description', 'images', 'payment', 'posted_by_id', 'accepted_by_id', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -137,10 +137,10 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'IsCompleted' => 1, 'Title' => 2, 'Description' => 3, 'Images' => 4, 'Payment' => 5, 'UserId' => 6, 'ProviderId' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'isCompleted' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'userId' => 6, 'providerId' => 7, ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_IS_COMPLETED => 1, JobTableMap::COL_TITLE => 2, JobTableMap::COL_DESCRIPTION => 3, JobTableMap::COL_IMAGES => 4, JobTableMap::COL_PAYMENT => 5, JobTableMap::COL_USER_ID => 6, JobTableMap::COL_PROVIDER_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'is_completed' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'user_id' => 6, 'provider_id' => 7, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'IsCompleted' => 1, 'Title' => 2, 'Description' => 3, 'Images' => 4, 'Payment' => 5, 'PostedById' => 6, 'AcceptedById' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'isCompleted' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'postedById' => 6, 'acceptedById' => 7, ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_IS_COMPLETED => 1, JobTableMap::COL_TITLE => 2, JobTableMap::COL_DESCRIPTION => 3, JobTableMap::COL_IMAGES => 4, JobTableMap::COL_PAYMENT => 5, JobTableMap::COL_POSTED_BY_ID => 6, JobTableMap::COL_ACCEPTED_BY_ID => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'is_completed' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'posted_by_id' => 6, 'accepted_by_id' => 7, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -167,8 +167,8 @@ class JobTableMap extends TableMap
         $this->addColumn('description', 'Description', 'VARCHAR', true, 4098, null);
         $this->addColumn('images', 'Images', 'VARCHAR', true, 4098, null);
         $this->addColumn('payment', 'Payment', 'INTEGER', true, null, null);
-        $this->addColumn('user_id', 'UserId', 'INTEGER', true, null, null);
-        $this->addColumn('provider_id', 'ProviderId', 'INTEGER', true, null, null);
+        $this->addForeignKey('posted_by_id', 'PostedById', 'INTEGER', 'user', 'id', true, null, null);
+        $this->addForeignKey('accepted_by_id', 'AcceptedById', 'INTEGER', 'user', 'id', true, null, null);
     } // initialize()
 
     /**
@@ -176,6 +176,20 @@ class JobTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('UserRelatedByPostedById', '\\User', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':posted_by_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
+        $this->addRelation('UserRelatedByAcceptedById', '\\User', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':accepted_by_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
     } // buildRelations()
 
     /**
@@ -325,8 +339,8 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn(JobTableMap::COL_DESCRIPTION);
             $criteria->addSelectColumn(JobTableMap::COL_IMAGES);
             $criteria->addSelectColumn(JobTableMap::COL_PAYMENT);
-            $criteria->addSelectColumn(JobTableMap::COL_USER_ID);
-            $criteria->addSelectColumn(JobTableMap::COL_PROVIDER_ID);
+            $criteria->addSelectColumn(JobTableMap::COL_POSTED_BY_ID);
+            $criteria->addSelectColumn(JobTableMap::COL_ACCEPTED_BY_ID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.is_completed');
@@ -334,8 +348,8 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.description');
             $criteria->addSelectColumn($alias . '.images');
             $criteria->addSelectColumn($alias . '.payment');
-            $criteria->addSelectColumn($alias . '.user_id');
-            $criteria->addSelectColumn($alias . '.provider_id');
+            $criteria->addSelectColumn($alias . '.posted_by_id');
+            $criteria->addSelectColumn($alias . '.accepted_by_id');
         }
     }
 

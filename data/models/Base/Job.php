@@ -3,6 +3,8 @@
 namespace Base;
 
 use \JobQuery as ChildJobQuery;
+use \User as ChildUser;
+use \UserQuery as ChildUserQuery;
 use \Exception;
 use \PDO;
 use Map\JobTableMap;
@@ -102,18 +104,28 @@ abstract class Job implements ActiveRecordInterface
     protected $payment;
 
     /**
-     * The value for the user_id field.
+     * The value for the posted_by_id field.
      *
      * @var        int
      */
-    protected $user_id;
+    protected $posted_by_id;
 
     /**
-     * The value for the provider_id field.
+     * The value for the accepted_by_id field.
      *
      * @var        int
      */
-    protected $provider_id;
+    protected $accepted_by_id;
+
+    /**
+     * @var        ChildUser
+     */
+    protected $aUserRelatedByPostedById;
+
+    /**
+     * @var        ChildUser
+     */
+    protected $aUserRelatedByAcceptedById;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -419,23 +431,23 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
-     * Get the [user_id] column value.
+     * Get the [posted_by_id] column value.
      *
      * @return int
      */
-    public function getUserId()
+    public function getPostedById()
     {
-        return $this->user_id;
+        return $this->posted_by_id;
     }
 
     /**
-     * Get the [provider_id] column value.
+     * Get the [accepted_by_id] column value.
      *
      * @return int
      */
-    public function getProviderId()
+    public function getAcceptedById()
     {
-        return $this->provider_id;
+        return $this->accepted_by_id;
     }
 
     /**
@@ -567,44 +579,52 @@ abstract class Job implements ActiveRecordInterface
     } // setPayment()
 
     /**
-     * Set the value of [user_id] column.
+     * Set the value of [posted_by_id] column.
      *
      * @param int $v new value
      * @return $this|\Job The current object (for fluent API support)
      */
-    public function setUserId($v)
+    public function setPostedById($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->user_id !== $v) {
-            $this->user_id = $v;
-            $this->modifiedColumns[JobTableMap::COL_USER_ID] = true;
+        if ($this->posted_by_id !== $v) {
+            $this->posted_by_id = $v;
+            $this->modifiedColumns[JobTableMap::COL_POSTED_BY_ID] = true;
+        }
+
+        if ($this->aUserRelatedByPostedById !== null && $this->aUserRelatedByPostedById->getId() !== $v) {
+            $this->aUserRelatedByPostedById = null;
         }
 
         return $this;
-    } // setUserId()
+    } // setPostedById()
 
     /**
-     * Set the value of [provider_id] column.
+     * Set the value of [accepted_by_id] column.
      *
      * @param int $v new value
      * @return $this|\Job The current object (for fluent API support)
      */
-    public function setProviderId($v)
+    public function setAcceptedById($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->provider_id !== $v) {
-            $this->provider_id = $v;
-            $this->modifiedColumns[JobTableMap::COL_PROVIDER_ID] = true;
+        if ($this->accepted_by_id !== $v) {
+            $this->accepted_by_id = $v;
+            $this->modifiedColumns[JobTableMap::COL_ACCEPTED_BY_ID] = true;
+        }
+
+        if ($this->aUserRelatedByAcceptedById !== null && $this->aUserRelatedByAcceptedById->getId() !== $v) {
+            $this->aUserRelatedByAcceptedById = null;
         }
 
         return $this;
-    } // setProviderId()
+    } // setAcceptedById()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -660,11 +680,11 @@ abstract class Job implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobTableMap::translateFieldName('Payment', TableMap::TYPE_PHPNAME, $indexType)];
             $this->payment = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->user_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->posted_by_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('ProviderId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->provider_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->accepted_by_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -695,6 +715,12 @@ abstract class Job implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aUserRelatedByPostedById !== null && $this->posted_by_id !== $this->aUserRelatedByPostedById->getId()) {
+            $this->aUserRelatedByPostedById = null;
+        }
+        if ($this->aUserRelatedByAcceptedById !== null && $this->accepted_by_id !== $this->aUserRelatedByAcceptedById->getId()) {
+            $this->aUserRelatedByAcceptedById = null;
+        }
     } // ensureConsistency
 
     /**
@@ -734,6 +760,8 @@ abstract class Job implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aUserRelatedByPostedById = null;
+            $this->aUserRelatedByAcceptedById = null;
         } // if (deep)
     }
 
@@ -837,6 +865,25 @@ abstract class Job implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aUserRelatedByPostedById !== null) {
+                if ($this->aUserRelatedByPostedById->isModified() || $this->aUserRelatedByPostedById->isNew()) {
+                    $affectedRows += $this->aUserRelatedByPostedById->save($con);
+                }
+                $this->setUserRelatedByPostedById($this->aUserRelatedByPostedById);
+            }
+
+            if ($this->aUserRelatedByAcceptedById !== null) {
+                if ($this->aUserRelatedByAcceptedById->isModified() || $this->aUserRelatedByAcceptedById->isNew()) {
+                    $affectedRows += $this->aUserRelatedByAcceptedById->save($con);
+                }
+                $this->setUserRelatedByAcceptedById($this->aUserRelatedByAcceptedById);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -892,11 +939,11 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_PAYMENT)) {
             $modifiedColumns[':p' . $index++]  = 'payment';
         }
-        if ($this->isColumnModified(JobTableMap::COL_USER_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'user_id';
+        if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'posted_by_id';
         }
-        if ($this->isColumnModified(JobTableMap::COL_PROVIDER_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'provider_id';
+        if ($this->isColumnModified(JobTableMap::COL_ACCEPTED_BY_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'accepted_by_id';
         }
 
         $sql = sprintf(
@@ -927,11 +974,11 @@ abstract class Job implements ActiveRecordInterface
                     case 'payment':
                         $stmt->bindValue($identifier, $this->payment, PDO::PARAM_INT);
                         break;
-                    case 'user_id':
-                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                    case 'posted_by_id':
+                        $stmt->bindValue($identifier, $this->posted_by_id, PDO::PARAM_INT);
                         break;
-                    case 'provider_id':
-                        $stmt->bindValue($identifier, $this->provider_id, PDO::PARAM_INT);
+                    case 'accepted_by_id':
+                        $stmt->bindValue($identifier, $this->accepted_by_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1014,10 +1061,10 @@ abstract class Job implements ActiveRecordInterface
                 return $this->getPayment();
                 break;
             case 6:
-                return $this->getUserId();
+                return $this->getPostedById();
                 break;
             case 7:
-                return $this->getProviderId();
+                return $this->getAcceptedById();
                 break;
             default:
                 return null;
@@ -1036,10 +1083,11 @@ abstract class Job implements ActiveRecordInterface
      *                    Defaults to TableMap::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to TRUE.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
+     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
+    public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
         if (isset($alreadyDumpedObjects['Job'][$this->hashCode()])) {
@@ -1054,14 +1102,46 @@ abstract class Job implements ActiveRecordInterface
             $keys[3] => $this->getDescription(),
             $keys[4] => $this->getImages(),
             $keys[5] => $this->getPayment(),
-            $keys[6] => $this->getUserId(),
-            $keys[7] => $this->getProviderId(),
+            $keys[6] => $this->getPostedById(),
+            $keys[7] => $this->getAcceptedById(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
+        if ($includeForeignObjects) {
+            if (null !== $this->aUserRelatedByPostedById) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'user';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'user';
+                        break;
+                    default:
+                        $key = 'User';
+                }
+
+                $result[$key] = $this->aUserRelatedByPostedById->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aUserRelatedByAcceptedById) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'user';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'user';
+                        break;
+                    default:
+                        $key = 'User';
+                }
+
+                $result[$key] = $this->aUserRelatedByAcceptedById->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+        }
 
         return $result;
     }
@@ -1114,10 +1194,10 @@ abstract class Job implements ActiveRecordInterface
                 $this->setPayment($value);
                 break;
             case 6:
-                $this->setUserId($value);
+                $this->setPostedById($value);
                 break;
             case 7:
-                $this->setProviderId($value);
+                $this->setAcceptedById($value);
                 break;
         } // switch()
 
@@ -1164,10 +1244,10 @@ abstract class Job implements ActiveRecordInterface
             $this->setPayment($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setUserId($arr[$keys[6]]);
+            $this->setPostedById($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setProviderId($arr[$keys[7]]);
+            $this->setAcceptedById($arr[$keys[7]]);
         }
     }
 
@@ -1228,11 +1308,11 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_PAYMENT)) {
             $criteria->add(JobTableMap::COL_PAYMENT, $this->payment);
         }
-        if ($this->isColumnModified(JobTableMap::COL_USER_ID)) {
-            $criteria->add(JobTableMap::COL_USER_ID, $this->user_id);
+        if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
+            $criteria->add(JobTableMap::COL_POSTED_BY_ID, $this->posted_by_id);
         }
-        if ($this->isColumnModified(JobTableMap::COL_PROVIDER_ID)) {
-            $criteria->add(JobTableMap::COL_PROVIDER_ID, $this->provider_id);
+        if ($this->isColumnModified(JobTableMap::COL_ACCEPTED_BY_ID)) {
+            $criteria->add(JobTableMap::COL_ACCEPTED_BY_ID, $this->accepted_by_id);
         }
 
         return $criteria;
@@ -1325,8 +1405,8 @@ abstract class Job implements ActiveRecordInterface
         $copyObj->setDescription($this->getDescription());
         $copyObj->setImages($this->getImages());
         $copyObj->setPayment($this->getPayment());
-        $copyObj->setUserId($this->getUserId());
-        $copyObj->setProviderId($this->getProviderId());
+        $copyObj->setPostedById($this->getPostedById());
+        $copyObj->setAcceptedById($this->getAcceptedById());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
@@ -1356,20 +1436,128 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildUser object.
+     *
+     * @param  ChildUser $v
+     * @return $this|\Job The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUserRelatedByPostedById(ChildUser $v = null)
+    {
+        if ($v === null) {
+            $this->setPostedById(NULL);
+        } else {
+            $this->setPostedById($v->getId());
+        }
+
+        $this->aUserRelatedByPostedById = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUser object, it will not be re-added.
+        if ($v !== null) {
+            $v->addJobRelatedByPostedById($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUser object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUser The associated ChildUser object.
+     * @throws PropelException
+     */
+    public function getUserRelatedByPostedById(ConnectionInterface $con = null)
+    {
+        if ($this->aUserRelatedByPostedById === null && ($this->posted_by_id != 0)) {
+            $this->aUserRelatedByPostedById = ChildUserQuery::create()->findPk($this->posted_by_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUserRelatedByPostedById->addJobsRelatedByPostedById($this);
+             */
+        }
+
+        return $this->aUserRelatedByPostedById;
+    }
+
+    /**
+     * Declares an association between this object and a ChildUser object.
+     *
+     * @param  ChildUser $v
+     * @return $this|\Job The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUserRelatedByAcceptedById(ChildUser $v = null)
+    {
+        if ($v === null) {
+            $this->setAcceptedById(NULL);
+        } else {
+            $this->setAcceptedById($v->getId());
+        }
+
+        $this->aUserRelatedByAcceptedById = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildUser object, it will not be re-added.
+        if ($v !== null) {
+            $v->addJobRelatedByAcceptedById($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildUser object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildUser The associated ChildUser object.
+     * @throws PropelException
+     */
+    public function getUserRelatedByAcceptedById(ConnectionInterface $con = null)
+    {
+        if ($this->aUserRelatedByAcceptedById === null && ($this->accepted_by_id != 0)) {
+            $this->aUserRelatedByAcceptedById = ChildUserQuery::create()->findPk($this->accepted_by_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aUserRelatedByAcceptedById->addJobsRelatedByAcceptedById($this);
+             */
+        }
+
+        return $this->aUserRelatedByAcceptedById;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
      */
     public function clear()
     {
+        if (null !== $this->aUserRelatedByPostedById) {
+            $this->aUserRelatedByPostedById->removeJobRelatedByPostedById($this);
+        }
+        if (null !== $this->aUserRelatedByAcceptedById) {
+            $this->aUserRelatedByAcceptedById->removeJobRelatedByAcceptedById($this);
+        }
         $this->id = null;
         $this->is_completed = null;
         $this->title = null;
         $this->description = null;
         $this->images = null;
         $this->payment = null;
-        $this->user_id = null;
-        $this->provider_id = null;
+        $this->posted_by_id = null;
+        $this->accepted_by_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1390,6 +1578,8 @@ abstract class Job implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aUserRelatedByPostedById = null;
+        $this->aUserRelatedByAcceptedById = null;
     }
 
     /**
