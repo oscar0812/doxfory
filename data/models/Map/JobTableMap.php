@@ -176,14 +176,14 @@ class JobTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('UserRelatedByPostedById', '\\User', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('PostedByUser', '\\User', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':posted_by_id',
     1 => ':id',
   ),
 ), null, null, null, false);
-        $this->addRelation('UserRelatedByAcceptedById', '\\User', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('AcceptedByUser', '\\User', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':accepted_by_id',

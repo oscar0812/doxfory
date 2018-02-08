@@ -1706,7 +1706,7 @@ abstract class User implements ActiveRecordInterface
                 $this->initJobsRelatedByPostedById();
             } else {
                 $collJobsRelatedByPostedById = ChildJobQuery::create(null, $criteria)
-                    ->filterByUserRelatedByPostedById($this)
+                    ->filterByPostedByUser($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1760,7 +1760,7 @@ abstract class User implements ActiveRecordInterface
         $this->jobsRelatedByPostedByIdScheduledForDeletion = $jobsRelatedByPostedByIdToDelete;
 
         foreach ($jobsRelatedByPostedByIdToDelete as $jobRelatedByPostedByIdRemoved) {
-            $jobRelatedByPostedByIdRemoved->setUserRelatedByPostedById(null);
+            $jobRelatedByPostedByIdRemoved->setPostedByUser(null);
         }
 
         $this->collJobsRelatedByPostedById = null;
@@ -1801,7 +1801,7 @@ abstract class User implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByUserRelatedByPostedById($this)
+                ->filterByPostedByUser($this)
                 ->count($con);
         }
 
@@ -1839,7 +1839,7 @@ abstract class User implements ActiveRecordInterface
     protected function doAddJobRelatedByPostedById(ChildJob $jobRelatedByPostedById)
     {
         $this->collJobsRelatedByPostedById[]= $jobRelatedByPostedById;
-        $jobRelatedByPostedById->setUserRelatedByPostedById($this);
+        $jobRelatedByPostedById->setPostedByUser($this);
     }
 
     /**
@@ -1856,7 +1856,7 @@ abstract class User implements ActiveRecordInterface
                 $this->jobsRelatedByPostedByIdScheduledForDeletion->clear();
             }
             $this->jobsRelatedByPostedByIdScheduledForDeletion[]= clone $jobRelatedByPostedById;
-            $jobRelatedByPostedById->setUserRelatedByPostedById(null);
+            $jobRelatedByPostedById->setPostedByUser(null);
         }
 
         return $this;
@@ -1931,7 +1931,7 @@ abstract class User implements ActiveRecordInterface
                 $this->initJobsRelatedByAcceptedById();
             } else {
                 $collJobsRelatedByAcceptedById = ChildJobQuery::create(null, $criteria)
-                    ->filterByUserRelatedByAcceptedById($this)
+                    ->filterByAcceptedByUser($this)
                     ->find($con);
 
                 if (null !== $criteria) {
@@ -1985,7 +1985,7 @@ abstract class User implements ActiveRecordInterface
         $this->jobsRelatedByAcceptedByIdScheduledForDeletion = $jobsRelatedByAcceptedByIdToDelete;
 
         foreach ($jobsRelatedByAcceptedByIdToDelete as $jobRelatedByAcceptedByIdRemoved) {
-            $jobRelatedByAcceptedByIdRemoved->setUserRelatedByAcceptedById(null);
+            $jobRelatedByAcceptedByIdRemoved->setAcceptedByUser(null);
         }
 
         $this->collJobsRelatedByAcceptedById = null;
@@ -2026,7 +2026,7 @@ abstract class User implements ActiveRecordInterface
             }
 
             return $query
-                ->filterByUserRelatedByAcceptedById($this)
+                ->filterByAcceptedByUser($this)
                 ->count($con);
         }
 
@@ -2064,7 +2064,7 @@ abstract class User implements ActiveRecordInterface
     protected function doAddJobRelatedByAcceptedById(ChildJob $jobRelatedByAcceptedById)
     {
         $this->collJobsRelatedByAcceptedById[]= $jobRelatedByAcceptedById;
-        $jobRelatedByAcceptedById->setUserRelatedByAcceptedById($this);
+        $jobRelatedByAcceptedById->setAcceptedByUser($this);
     }
 
     /**
@@ -2081,7 +2081,7 @@ abstract class User implements ActiveRecordInterface
                 $this->jobsRelatedByAcceptedByIdScheduledForDeletion->clear();
             }
             $this->jobsRelatedByAcceptedByIdScheduledForDeletion[]= clone $jobRelatedByAcceptedById;
-            $jobRelatedByAcceptedById->setUserRelatedByAcceptedById(null);
+            $jobRelatedByAcceptedById->setAcceptedByUser(null);
         }
 
         return $this;

@@ -46,25 +46,25 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildJobQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildJobQuery leftJoinUserRelatedByPostedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the UserRelatedByPostedById relation
- * @method     ChildJobQuery rightJoinUserRelatedByPostedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UserRelatedByPostedById relation
- * @method     ChildJobQuery innerJoinUserRelatedByPostedById($relationAlias = null) Adds a INNER JOIN clause to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery leftJoinPostedByUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the PostedByUser relation
+ * @method     ChildJobQuery rightJoinPostedByUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the PostedByUser relation
+ * @method     ChildJobQuery innerJoinPostedByUser($relationAlias = null) Adds a INNER JOIN clause to the query using the PostedByUser relation
  *
- * @method     ChildJobQuery joinWithUserRelatedByPostedById($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery joinWithPostedByUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the PostedByUser relation
  *
- * @method     ChildJobQuery leftJoinWithUserRelatedByPostedById() Adds a LEFT JOIN clause and with to the query using the UserRelatedByPostedById relation
- * @method     ChildJobQuery rightJoinWithUserRelatedByPostedById() Adds a RIGHT JOIN clause and with to the query using the UserRelatedByPostedById relation
- * @method     ChildJobQuery innerJoinWithUserRelatedByPostedById() Adds a INNER JOIN clause and with to the query using the UserRelatedByPostedById relation
+ * @method     ChildJobQuery leftJoinWithPostedByUser() Adds a LEFT JOIN clause and with to the query using the PostedByUser relation
+ * @method     ChildJobQuery rightJoinWithPostedByUser() Adds a RIGHT JOIN clause and with to the query using the PostedByUser relation
+ * @method     ChildJobQuery innerJoinWithPostedByUser() Adds a INNER JOIN clause and with to the query using the PostedByUser relation
  *
- * @method     ChildJobQuery leftJoinUserRelatedByAcceptedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the UserRelatedByAcceptedById relation
- * @method     ChildJobQuery rightJoinUserRelatedByAcceptedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UserRelatedByAcceptedById relation
- * @method     ChildJobQuery innerJoinUserRelatedByAcceptedById($relationAlias = null) Adds a INNER JOIN clause to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery leftJoinAcceptedByUser($relationAlias = null) Adds a LEFT JOIN clause to the query using the AcceptedByUser relation
+ * @method     ChildJobQuery rightJoinAcceptedByUser($relationAlias = null) Adds a RIGHT JOIN clause to the query using the AcceptedByUser relation
+ * @method     ChildJobQuery innerJoinAcceptedByUser($relationAlias = null) Adds a INNER JOIN clause to the query using the AcceptedByUser relation
  *
- * @method     ChildJobQuery joinWithUserRelatedByAcceptedById($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery joinWithAcceptedByUser($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the AcceptedByUser relation
  *
- * @method     ChildJobQuery leftJoinWithUserRelatedByAcceptedById() Adds a LEFT JOIN clause and with to the query using the UserRelatedByAcceptedById relation
- * @method     ChildJobQuery rightJoinWithUserRelatedByAcceptedById() Adds a RIGHT JOIN clause and with to the query using the UserRelatedByAcceptedById relation
- * @method     ChildJobQuery innerJoinWithUserRelatedByAcceptedById() Adds a INNER JOIN clause and with to the query using the UserRelatedByAcceptedById relation
+ * @method     ChildJobQuery leftJoinWithAcceptedByUser() Adds a LEFT JOIN clause and with to the query using the AcceptedByUser relation
+ * @method     ChildJobQuery rightJoinWithAcceptedByUser() Adds a RIGHT JOIN clause and with to the query using the AcceptedByUser relation
+ * @method     ChildJobQuery innerJoinWithAcceptedByUser() Adds a INNER JOIN clause and with to the query using the AcceptedByUser relation
  *
  * @method     \UserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
@@ -483,7 +483,7 @@ abstract class JobQuery extends ModelCriteria
      * $query->filterByPostedById(array('min' => 12)); // WHERE posted_by_id > 12
      * </code>
      *
-     * @see       filterByUserRelatedByPostedById()
+     * @see       filterByPostedByUser()
      *
      * @param     mixed $postedById The value to use as filter.
      *              Use scalar values for equality.
@@ -526,7 +526,7 @@ abstract class JobQuery extends ModelCriteria
      * $query->filterByAcceptedById(array('min' => 12)); // WHERE accepted_by_id > 12
      * </code>
      *
-     * @see       filterByUserRelatedByAcceptedById()
+     * @see       filterByAcceptedByUser()
      *
      * @param     mixed $acceptedById The value to use as filter.
      *              Use scalar values for equality.
@@ -569,7 +569,7 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return ChildJobQuery The current query, for fluid interface
      */
-    public function filterByUserRelatedByPostedById($user, $comparison = null)
+    public function filterByPostedByUser($user, $comparison = null)
     {
         if ($user instanceof \User) {
             return $this
@@ -582,22 +582,22 @@ abstract class JobQuery extends ModelCriteria
             return $this
                 ->addUsingAlias(JobTableMap::COL_POSTED_BY_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByUserRelatedByPostedById() only accepts arguments of type \User or Collection');
+            throw new PropelException('filterByPostedByUser() only accepts arguments of type \User or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the UserRelatedByPostedById relation
+     * Adds a JOIN clause to the query using the PostedByUser relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function joinUserRelatedByPostedById($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinPostedByUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('UserRelatedByPostedById');
+        $relationMap = $tableMap->getRelation('PostedByUser');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -612,14 +612,14 @@ abstract class JobQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'UserRelatedByPostedById');
+            $this->addJoinObject($join, 'PostedByUser');
         }
 
         return $this;
     }
 
     /**
-     * Use the UserRelatedByPostedById relation User object
+     * Use the PostedByUser relation User object
      *
      * @see useQuery()
      *
@@ -629,11 +629,11 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return \UserQuery A secondary query class using the current class as primary query
      */
-    public function useUserRelatedByPostedByIdQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function usePostedByUserQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinUserRelatedByPostedById($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'UserRelatedByPostedById', '\UserQuery');
+            ->joinPostedByUser($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'PostedByUser', '\UserQuery');
     }
 
     /**
@@ -646,7 +646,7 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return ChildJobQuery The current query, for fluid interface
      */
-    public function filterByUserRelatedByAcceptedById($user, $comparison = null)
+    public function filterByAcceptedByUser($user, $comparison = null)
     {
         if ($user instanceof \User) {
             return $this
@@ -659,22 +659,22 @@ abstract class JobQuery extends ModelCriteria
             return $this
                 ->addUsingAlias(JobTableMap::COL_ACCEPTED_BY_ID, $user->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByUserRelatedByAcceptedById() only accepts arguments of type \User or Collection');
+            throw new PropelException('filterByAcceptedByUser() only accepts arguments of type \User or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the UserRelatedByAcceptedById relation
+     * Adds a JOIN clause to the query using the AcceptedByUser relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function joinUserRelatedByAcceptedById($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinAcceptedByUser($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('UserRelatedByAcceptedById');
+        $relationMap = $tableMap->getRelation('AcceptedByUser');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -689,14 +689,14 @@ abstract class JobQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'UserRelatedByAcceptedById');
+            $this->addJoinObject($join, 'AcceptedByUser');
         }
 
         return $this;
     }
 
     /**
-     * Use the UserRelatedByAcceptedById relation User object
+     * Use the AcceptedByUser relation User object
      *
      * @see useQuery()
      *
@@ -706,11 +706,11 @@ abstract class JobQuery extends ModelCriteria
      *
      * @return \UserQuery A secondary query class using the current class as primary query
      */
-    public function useUserRelatedByAcceptedByIdQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useAcceptedByUserQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinUserRelatedByAcceptedById($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'UserRelatedByAcceptedById', '\UserQuery');
+            ->joinAcceptedByUser($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'AcceptedByUser', '\UserQuery');
     }
 
     /**
