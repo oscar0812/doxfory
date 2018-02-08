@@ -23,7 +23,7 @@
 
     <!--  Main navigation  -->
     <ul class="main-nav nav navbar-nav navbar-right">
-      <?php if(!$logged_in) {?>
+      <?php if(!$logged_in) { ?>
       <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
       <li class="has-dropdown"><a href="#featured">Jobs</a>
@@ -36,8 +36,15 @@
     <?php } else {
         // if signed in
       ?>
-      <li><a href="<?=$router->pathFor('job')?>">Jobs</a></li>
+
+      <li class="has-dropdown"><a href="<?=$router->pathFor('jobs')?>">Jobs</a>
+        <ul class="dropdown">
+          <li><a href="<?=$router->pathFor('jobs')?>">All</a></li>
+          <li><a href="<?=$router->pathFor('create_job')?>">Post New</a></li>
+        </ul>
+      </li>
       <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
+
     <?php } ?>
     </ul>
     <!-- /Main navigation -->
