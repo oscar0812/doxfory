@@ -97,13 +97,6 @@ abstract class ContactInfo implements ActiveRecordInterface
     protected $twitter_username;
 
     /**
-     * The value for the google_plus_username field.
-     *
-     * @var        string
-     */
-    protected $google_plus_username;
-
-    /**
      * The value for the instagram_username field.
      *
      * @var        string
@@ -399,16 +392,6 @@ abstract class ContactInfo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [google_plus_username] column value.
-     *
-     * @return string
-     */
-    public function getGooglePlusUsername()
-    {
-        return $this->google_plus_username;
-    }
-
-    /**
      * Get the [instagram_username] column value.
      *
      * @return string
@@ -523,26 +506,6 @@ abstract class ContactInfo implements ActiveRecordInterface
     } // setTwitterUsername()
 
     /**
-     * Set the value of [google_plus_username] column.
-     *
-     * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
-     */
-    public function setGooglePlusUsername($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->google_plus_username !== $v) {
-            $this->google_plus_username = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME] = true;
-        }
-
-        return $this;
-    } // setGooglePlusUsername()
-
-    /**
      * Set the value of [instagram_username] column.
      *
      * @param string $v new value
@@ -613,10 +576,7 @@ abstract class ContactInfo implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ContactInfoTableMap::translateFieldName('TwitterUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->twitter_username = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ContactInfoTableMap::translateFieldName('GooglePlusUsername', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->google_plus_username = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : ContactInfoTableMap::translateFieldName('InstagramUsername', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ContactInfoTableMap::translateFieldName('InstagramUsername', TableMap::TYPE_PHPNAME, $indexType)];
             $this->instagram_username = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
@@ -626,7 +586,7 @@ abstract class ContactInfo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = ContactInfoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = ContactInfoTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\ContactInfo'), 0, $e);
@@ -855,9 +815,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER_USERNAME)) {
             $modifiedColumns[':p' . $index++]  = 'twitter_username';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'google_plus_username';
-        }
         if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM_USERNAME)) {
             $modifiedColumns[':p' . $index++]  = 'instagram_username';
         }
@@ -886,9 +843,6 @@ abstract class ContactInfo implements ActiveRecordInterface
                         break;
                     case 'twitter_username':
                         $stmt->bindValue($identifier, $this->twitter_username, PDO::PARAM_STR);
-                        break;
-                    case 'google_plus_username':
-                        $stmt->bindValue($identifier, $this->google_plus_username, PDO::PARAM_STR);
                         break;
                     case 'instagram_username':
                         $stmt->bindValue($identifier, $this->instagram_username, PDO::PARAM_STR);
@@ -973,9 +927,6 @@ abstract class ContactInfo implements ActiveRecordInterface
                 return $this->getTwitterUsername();
                 break;
             case 5:
-                return $this->getGooglePlusUsername();
-                break;
-            case 6:
                 return $this->getInstagramUsername();
                 break;
             default:
@@ -1013,8 +964,7 @@ abstract class ContactInfo implements ActiveRecordInterface
             $keys[2] => $this->getPhoneNumber(),
             $keys[3] => $this->getFacebookUsername(),
             $keys[4] => $this->getTwitterUsername(),
-            $keys[5] => $this->getGooglePlusUsername(),
-            $keys[6] => $this->getInstagramUsername(),
+            $keys[5] => $this->getInstagramUsername(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1087,9 +1037,6 @@ abstract class ContactInfo implements ActiveRecordInterface
                 $this->setTwitterUsername($value);
                 break;
             case 5:
-                $this->setGooglePlusUsername($value);
-                break;
-            case 6:
                 $this->setInstagramUsername($value);
                 break;
         } // switch()
@@ -1134,10 +1081,7 @@ abstract class ContactInfo implements ActiveRecordInterface
             $this->setTwitterUsername($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setGooglePlusUsername($arr[$keys[5]]);
-        }
-        if (array_key_exists($keys[6], $arr)) {
-            $this->setInstagramUsername($arr[$keys[6]]);
+            $this->setInstagramUsername($arr[$keys[5]]);
         }
     }
 
@@ -1194,9 +1138,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         }
         if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER_USERNAME)) {
             $criteria->add(ContactInfoTableMap::COL_TWITTER_USERNAME, $this->twitter_username);
-        }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME)) {
-            $criteria->add(ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME, $this->google_plus_username);
         }
         if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM_USERNAME)) {
             $criteria->add(ContactInfoTableMap::COL_INSTAGRAM_USERNAME, $this->instagram_username);
@@ -1298,7 +1239,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         $copyObj->setPhoneNumber($this->getPhoneNumber());
         $copyObj->setFacebookUsername($this->getFacebookUsername());
         $copyObj->setTwitterUsername($this->getTwitterUsername());
-        $copyObj->setGooglePlusUsername($this->getGooglePlusUsername());
         $copyObj->setInstagramUsername($this->getInstagramUsername());
         if ($makeNew) {
             $copyObj->setNew(true);
@@ -1388,7 +1328,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         $this->phone_number = null;
         $this->facebook_username = null;
         $this->twitter_username = null;
-        $this->google_plus_username = null;
         $this->instagram_username = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();

@@ -353,7 +353,7 @@ abstract class Job implements ActiveRecordInterface
         $propertyNames = [];
         $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
 
-        foreach ($serializableProperties as $property) {
+        foreach($serializableProperties as $property) {
             $propertyNames[] = $property->getName();
         }
 
@@ -661,6 +661,7 @@ abstract class Job implements ActiveRecordInterface
     public function hydrate($row, $startcol = 0, $rehydrate = false, $indexType = TableMap::TYPE_NUM)
     {
         try {
+
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
@@ -693,6 +694,7 @@ abstract class Job implements ActiveRecordInterface
             }
 
             return $startcol + 8; // 8 = JobTableMap::NUM_HYDRATE_COLUMNS.
+
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Job'), 0, $e);
         }
@@ -894,6 +896,7 @@ abstract class Job implements ActiveRecordInterface
             }
 
             $this->alreadyInSave = false;
+
         }
 
         return $affectedRows;
@@ -917,7 +920,7 @@ abstract class Job implements ActiveRecordInterface
             throw new PropelException('Cannot insert a value for auto-increment primary key (' . JobTableMap::COL_ID . ')');
         }
 
-        // check the columns in natural order for more readable SQL queries
+         // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(JobTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
@@ -1086,6 +1089,7 @@ abstract class Job implements ActiveRecordInterface
      */
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
+
         if (isset($alreadyDumpedObjects['Job'][$this->hashCode()])) {
             return '*RECURSION*';
         }
@@ -1108,6 +1112,7 @@ abstract class Job implements ActiveRecordInterface
 
         if ($includeForeignObjects) {
             if (null !== $this->aPostedByUser) {
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'user';
@@ -1119,9 +1124,10 @@ abstract class Job implements ActiveRecordInterface
                         $key = 'PostedByUser';
                 }
 
-                $result[$key] = $this->aPostedByUser->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+                $result[$key] = $this->aPostedByUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aAcceptedByUser) {
+
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
                         $key = 'user';
@@ -1133,7 +1139,7 @@ abstract class Job implements ActiveRecordInterface
                         $key = 'AcceptedByUser';
                 }
 
-                $result[$key] = $this->aAcceptedByUser->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+                $result[$key] = $this->aAcceptedByUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1245,25 +1251,25 @@ abstract class Job implements ActiveRecordInterface
         }
     }
 
-    /**
-    * Populate the current object from a string, using a given parser format
-    * <code>
-    * $book = new Book();
-    * $book->importFrom('JSON', '{"Id":9012,"Title":"Don Juan","ISBN":"0140422161","Price":12.99,"PublisherId":1234,"AuthorId":5678}');
-    * </code>
-    *
-    * You can specify the key type of the array by additionally passing one
-    * of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME,
-    * TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
-    * The default key type is the column's TableMap::TYPE_PHPNAME.
-    *
-    * @param mixed $parser A AbstractParser instance,
-    *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
-    * @param string $data The source data to import from
-    * @param string $keyType The type of keys the array uses.
-    *
-    * @return $this|\Job The current object, for fluid interface
-    */
+     /**
+     * Populate the current object from a string, using a given parser format
+     * <code>
+     * $book = new Book();
+     * $book->importFrom('JSON', '{"Id":9012,"Title":"Don Juan","ISBN":"0140422161","Price":12.99,"PublisherId":1234,"AuthorId":5678}');
+     * </code>
+     *
+     * You can specify the key type of the array by additionally passing one
+     * of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME,
+     * TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
+     * The default key type is the column's TableMap::TYPE_PHPNAME.
+     *
+     * @param mixed $parser A AbstractParser instance,
+     *                       or a format name ('XML', 'YAML', 'JSON', 'CSV')
+     * @param string $data The source data to import from
+     * @param string $keyType The type of keys the array uses.
+     *
+     * @return $this|\Job The current object, for fluid interface
+     */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
         if (!$parser instanceof AbstractParser) {
@@ -1403,7 +1409,7 @@ abstract class Job implements ActiveRecordInterface
         $copyObj->setAcceptedById($this->getAcceptedById());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(null); // this is a auto-increment column, so set to default value
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1439,7 +1445,7 @@ abstract class Job implements ActiveRecordInterface
     public function setPostedByUser(ChildUser $v = null)
     {
         if ($v === null) {
-            $this->setPostedById(null);
+            $this->setPostedById(NULL);
         } else {
             $this->setPostedById($v->getId());
         }
@@ -1490,7 +1496,7 @@ abstract class Job implements ActiveRecordInterface
     public function setAcceptedByUser(ChildUser $v = null)
     {
         if ($v === null) {
-            $this->setAcceptedById(null);
+            $this->setAcceptedById(NULL);
         } else {
             $this->setAcceptedById($v->getId());
         }
@@ -1723,4 +1729,5 @@ abstract class Job implements ActiveRecordInterface
 
         throw new BadMethodCallException(sprintf('Call to undefined method: %s.', $name));
     }
+
 }

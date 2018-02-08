@@ -59,7 +59,7 @@ class ContactInfoTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class ContactInfoTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the user_id field
@@ -97,11 +97,6 @@ class ContactInfoTableMap extends TableMap
     const COL_TWITTER_USERNAME = 'contact_info.twitter_username';
 
     /**
-     * the column name for the google_plus_username field
-     */
-    const COL_GOOGLE_PLUS_USERNAME = 'contact_info.google_plus_username';
-
-    /**
      * the column name for the instagram_username field
      */
     const COL_INSTAGRAM_USERNAME = 'contact_info.instagram_username';
@@ -118,11 +113,11 @@ class ContactInfoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('UserId', 'Email', 'PhoneNumber', 'FacebookUsername', 'TwitterUsername', 'GooglePlusUsername', 'InstagramUsername', ),
-        self::TYPE_CAMELNAME     => array('userId', 'email', 'phoneNumber', 'facebookUsername', 'twitterUsername', 'googlePlusUsername', 'instagramUsername', ),
-        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID, ContactInfoTableMap::COL_EMAIL, ContactInfoTableMap::COL_PHONE_NUMBER, ContactInfoTableMap::COL_FACEBOOK_USERNAME, ContactInfoTableMap::COL_TWITTER_USERNAME, ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME, ContactInfoTableMap::COL_INSTAGRAM_USERNAME, ),
-        self::TYPE_FIELDNAME     => array('user_id', 'email', 'phone_number', 'facebook_username', 'twitter_username', 'google_plus_username', 'instagram_username', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('UserId', 'Email', 'PhoneNumber', 'FacebookUsername', 'TwitterUsername', 'InstagramUsername', ),
+        self::TYPE_CAMELNAME     => array('userId', 'email', 'phoneNumber', 'facebookUsername', 'twitterUsername', 'instagramUsername', ),
+        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID, ContactInfoTableMap::COL_EMAIL, ContactInfoTableMap::COL_PHONE_NUMBER, ContactInfoTableMap::COL_FACEBOOK_USERNAME, ContactInfoTableMap::COL_TWITTER_USERNAME, ContactInfoTableMap::COL_INSTAGRAM_USERNAME, ),
+        self::TYPE_FIELDNAME     => array('user_id', 'email', 'phone_number', 'facebook_username', 'twitter_username', 'instagram_username', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -132,11 +127,11 @@ class ContactInfoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('UserId' => 0, 'Email' => 1, 'PhoneNumber' => 2, 'FacebookUsername' => 3, 'TwitterUsername' => 4, 'GooglePlusUsername' => 5, 'InstagramUsername' => 6, ),
-        self::TYPE_CAMELNAME     => array('userId' => 0, 'email' => 1, 'phoneNumber' => 2, 'facebookUsername' => 3, 'twitterUsername' => 4, 'googlePlusUsername' => 5, 'instagramUsername' => 6, ),
-        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID => 0, ContactInfoTableMap::COL_EMAIL => 1, ContactInfoTableMap::COL_PHONE_NUMBER => 2, ContactInfoTableMap::COL_FACEBOOK_USERNAME => 3, ContactInfoTableMap::COL_TWITTER_USERNAME => 4, ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME => 5, ContactInfoTableMap::COL_INSTAGRAM_USERNAME => 6, ),
-        self::TYPE_FIELDNAME     => array('user_id' => 0, 'email' => 1, 'phone_number' => 2, 'facebook_username' => 3, 'twitter_username' => 4, 'google_plus_username' => 5, 'instagram_username' => 6, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('UserId' => 0, 'Email' => 1, 'PhoneNumber' => 2, 'FacebookUsername' => 3, 'TwitterUsername' => 4, 'InstagramUsername' => 5, ),
+        self::TYPE_CAMELNAME     => array('userId' => 0, 'email' => 1, 'phoneNumber' => 2, 'facebookUsername' => 3, 'twitterUsername' => 4, 'instagramUsername' => 5, ),
+        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID => 0, ContactInfoTableMap::COL_EMAIL => 1, ContactInfoTableMap::COL_PHONE_NUMBER => 2, ContactInfoTableMap::COL_FACEBOOK_USERNAME => 3, ContactInfoTableMap::COL_TWITTER_USERNAME => 4, ContactInfoTableMap::COL_INSTAGRAM_USERNAME => 5, ),
+        self::TYPE_FIELDNAME     => array('user_id' => 0, 'email' => 1, 'phone_number' => 2, 'facebook_username' => 3, 'twitter_username' => 4, 'instagram_username' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -161,7 +156,6 @@ class ContactInfoTableMap extends TableMap
         $this->addColumn('phone_number', 'PhoneNumber', 'VARCHAR', true, 32, null);
         $this->addColumn('facebook_username', 'FacebookUsername', 'VARCHAR', true, 64, null);
         $this->addColumn('twitter_username', 'TwitterUsername', 'VARCHAR', true, 64, null);
-        $this->addColumn('google_plus_username', 'GooglePlusUsername', 'VARCHAR', true, 64, null);
         $this->addColumn('instagram_username', 'InstagramUsername', 'VARCHAR', true, 64, null);
     } // initialize()
 
@@ -325,7 +319,6 @@ class ContactInfoTableMap extends TableMap
             $criteria->addSelectColumn(ContactInfoTableMap::COL_PHONE_NUMBER);
             $criteria->addSelectColumn(ContactInfoTableMap::COL_FACEBOOK_USERNAME);
             $criteria->addSelectColumn(ContactInfoTableMap::COL_TWITTER_USERNAME);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_GOOGLE_PLUS_USERNAME);
             $criteria->addSelectColumn(ContactInfoTableMap::COL_INSTAGRAM_USERNAME);
         } else {
             $criteria->addSelectColumn($alias . '.user_id');
@@ -333,7 +326,6 @@ class ContactInfoTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.phone_number');
             $criteria->addSelectColumn($alias . '.facebook_username');
             $criteria->addSelectColumn($alias . '.twitter_username');
-            $criteria->addSelectColumn($alias . '.google_plus_username');
             $criteria->addSelectColumn($alias . '.instagram_username');
         }
     }
