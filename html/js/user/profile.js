@@ -1,10 +1,12 @@
 $(function() {
-  pfp = $("#pfp");
-  pfpModal = $("#pfpModal");
-  alert = pfpModal.find(".alert").eq(0);
 
-  pfp.on("click", function() {
-    pfpModal.modal("show");
+  // -- PFP FORM --
+  pfp = $('#pfp');
+  pfpModal = $('#pfpModal');
+  alert = pfpModal.find('.alert').eq(0);
+
+  pfp.on('click', function() {
+    pfpModal.modal('show');
   });
 
   // -- Pfp image upload through ajax --
@@ -23,7 +25,7 @@ $(function() {
         console.log(data);
         if (data['success']) {
           alert.addClass('invisible');
-          pfp.attr('src', data['path'] + "?" + (new Date).getTime());
+          pfp.attr('src', data['path'] + '?' + (new Date).getTime());
           pfpModal.modal('hide');
         } else {
           alert.removeClass('invisible');
@@ -32,6 +34,14 @@ $(function() {
         }
       }
     })
-  })
+  });
+
+  // -- CONTACT --
+  contactModal = $('#contactModal');
+  $('#contact-buttons').on('click', '.fa', function() {
+    // show a modal
+    console.log(this);
+    contactModal.modal('show');
+  });
 
 });
