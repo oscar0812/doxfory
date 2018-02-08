@@ -23,16 +23,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildContactInfoQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method     ChildContactInfoQuery orderByEmail($order = Criteria::ASC) Order by the email column
  * @method     ChildContactInfoQuery orderByPhoneNumber($order = Criteria::ASC) Order by the phone_number column
- * @method     ChildContactInfoQuery orderByFacebookUsername($order = Criteria::ASC) Order by the facebook_username column
- * @method     ChildContactInfoQuery orderByTwitterUsername($order = Criteria::ASC) Order by the twitter_username column
- * @method     ChildContactInfoQuery orderByInstagramUsername($order = Criteria::ASC) Order by the instagram_username column
+ * @method     ChildContactInfoQuery orderByFacebook($order = Criteria::ASC) Order by the facebook column
+ * @method     ChildContactInfoQuery orderByTwitter($order = Criteria::ASC) Order by the twitter column
+ * @method     ChildContactInfoQuery orderByInstagram($order = Criteria::ASC) Order by the instagram column
  *
  * @method     ChildContactInfoQuery groupByUserId() Group by the user_id column
  * @method     ChildContactInfoQuery groupByEmail() Group by the email column
  * @method     ChildContactInfoQuery groupByPhoneNumber() Group by the phone_number column
- * @method     ChildContactInfoQuery groupByFacebookUsername() Group by the facebook_username column
- * @method     ChildContactInfoQuery groupByTwitterUsername() Group by the twitter_username column
- * @method     ChildContactInfoQuery groupByInstagramUsername() Group by the instagram_username column
+ * @method     ChildContactInfoQuery groupByFacebook() Group by the facebook column
+ * @method     ChildContactInfoQuery groupByTwitter() Group by the twitter column
+ * @method     ChildContactInfoQuery groupByInstagram() Group by the instagram column
  *
  * @method     ChildContactInfoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildContactInfoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -60,9 +60,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildContactInfo findOneByUserId(int $user_id) Return the first ChildContactInfo filtered by the user_id column
  * @method     ChildContactInfo findOneByEmail(string $email) Return the first ChildContactInfo filtered by the email column
  * @method     ChildContactInfo findOneByPhoneNumber(string $phone_number) Return the first ChildContactInfo filtered by the phone_number column
- * @method     ChildContactInfo findOneByFacebookUsername(string $facebook_username) Return the first ChildContactInfo filtered by the facebook_username column
- * @method     ChildContactInfo findOneByTwitterUsername(string $twitter_username) Return the first ChildContactInfo filtered by the twitter_username column
- * @method     ChildContactInfo findOneByInstagramUsername(string $instagram_username) Return the first ChildContactInfo filtered by the instagram_username column *
+ * @method     ChildContactInfo findOneByFacebook(string $facebook) Return the first ChildContactInfo filtered by the facebook column
+ * @method     ChildContactInfo findOneByTwitter(string $twitter) Return the first ChildContactInfo filtered by the twitter column
+ * @method     ChildContactInfo findOneByInstagram(string $instagram) Return the first ChildContactInfo filtered by the instagram column *
 
  * @method     ChildContactInfo requirePk($key, ConnectionInterface $con = null) Return the ChildContactInfo by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildContactInfo requireOne(ConnectionInterface $con = null) Return the first ChildContactInfo matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -70,17 +70,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildContactInfo requireOneByUserId(int $user_id) Return the first ChildContactInfo filtered by the user_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildContactInfo requireOneByEmail(string $email) Return the first ChildContactInfo filtered by the email column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildContactInfo requireOneByPhoneNumber(string $phone_number) Return the first ChildContactInfo filtered by the phone_number column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildContactInfo requireOneByFacebookUsername(string $facebook_username) Return the first ChildContactInfo filtered by the facebook_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildContactInfo requireOneByTwitterUsername(string $twitter_username) Return the first ChildContactInfo filtered by the twitter_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildContactInfo requireOneByInstagramUsername(string $instagram_username) Return the first ChildContactInfo filtered by the instagram_username column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildContactInfo requireOneByFacebook(string $facebook) Return the first ChildContactInfo filtered by the facebook column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildContactInfo requireOneByTwitter(string $twitter) Return the first ChildContactInfo filtered by the twitter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildContactInfo requireOneByInstagram(string $instagram) Return the first ChildContactInfo filtered by the instagram column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildContactInfo[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildContactInfo objects based on current ModelCriteria
  * @method     ChildContactInfo[]|ObjectCollection findByUserId(int $user_id) Return ChildContactInfo objects filtered by the user_id column
  * @method     ChildContactInfo[]|ObjectCollection findByEmail(string $email) Return ChildContactInfo objects filtered by the email column
  * @method     ChildContactInfo[]|ObjectCollection findByPhoneNumber(string $phone_number) Return ChildContactInfo objects filtered by the phone_number column
- * @method     ChildContactInfo[]|ObjectCollection findByFacebookUsername(string $facebook_username) Return ChildContactInfo objects filtered by the facebook_username column
- * @method     ChildContactInfo[]|ObjectCollection findByTwitterUsername(string $twitter_username) Return ChildContactInfo objects filtered by the twitter_username column
- * @method     ChildContactInfo[]|ObjectCollection findByInstagramUsername(string $instagram_username) Return ChildContactInfo objects filtered by the instagram_username column
+ * @method     ChildContactInfo[]|ObjectCollection findByFacebook(string $facebook) Return ChildContactInfo objects filtered by the facebook column
+ * @method     ChildContactInfo[]|ObjectCollection findByTwitter(string $twitter) Return ChildContactInfo objects filtered by the twitter column
+ * @method     ChildContactInfo[]|ObjectCollection findByInstagram(string $instagram) Return ChildContactInfo objects filtered by the instagram column
  * @method     ChildContactInfo[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -179,7 +179,7 @@ abstract class ContactInfoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT user_id, email, phone_number, facebook_username, twitter_username, instagram_username FROM contact_info WHERE user_id = :p0';
+        $sql = 'SELECT user_id, email, phone_number, facebook, twitter, instagram FROM contact_info WHERE user_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -363,78 +363,78 @@ abstract class ContactInfoQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the facebook_username column
+     * Filter the query on the facebook column
      *
      * Example usage:
      * <code>
-     * $query->filterByFacebookUsername('fooValue');   // WHERE facebook_username = 'fooValue'
-     * $query->filterByFacebookUsername('%fooValue%', Criteria::LIKE); // WHERE facebook_username LIKE '%fooValue%'
+     * $query->filterByFacebook('fooValue');   // WHERE facebook = 'fooValue'
+     * $query->filterByFacebook('%fooValue%', Criteria::LIKE); // WHERE facebook LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $facebookUsername The value to use as filter.
+     * @param     string $facebook The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildContactInfoQuery The current query, for fluid interface
      */
-    public function filterByFacebookUsername($facebookUsername = null, $comparison = null)
+    public function filterByFacebook($facebook = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($facebookUsername)) {
+            if (is_array($facebook)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(ContactInfoTableMap::COL_FACEBOOK_USERNAME, $facebookUsername, $comparison);
+        return $this->addUsingAlias(ContactInfoTableMap::COL_FACEBOOK, $facebook, $comparison);
     }
 
     /**
-     * Filter the query on the twitter_username column
+     * Filter the query on the twitter column
      *
      * Example usage:
      * <code>
-     * $query->filterByTwitterUsername('fooValue');   // WHERE twitter_username = 'fooValue'
-     * $query->filterByTwitterUsername('%fooValue%', Criteria::LIKE); // WHERE twitter_username LIKE '%fooValue%'
+     * $query->filterByTwitter('fooValue');   // WHERE twitter = 'fooValue'
+     * $query->filterByTwitter('%fooValue%', Criteria::LIKE); // WHERE twitter LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $twitterUsername The value to use as filter.
+     * @param     string $twitter The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildContactInfoQuery The current query, for fluid interface
      */
-    public function filterByTwitterUsername($twitterUsername = null, $comparison = null)
+    public function filterByTwitter($twitter = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($twitterUsername)) {
+            if (is_array($twitter)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(ContactInfoTableMap::COL_TWITTER_USERNAME, $twitterUsername, $comparison);
+        return $this->addUsingAlias(ContactInfoTableMap::COL_TWITTER, $twitter, $comparison);
     }
 
     /**
-     * Filter the query on the instagram_username column
+     * Filter the query on the instagram column
      *
      * Example usage:
      * <code>
-     * $query->filterByInstagramUsername('fooValue');   // WHERE instagram_username = 'fooValue'
-     * $query->filterByInstagramUsername('%fooValue%', Criteria::LIKE); // WHERE instagram_username LIKE '%fooValue%'
+     * $query->filterByInstagram('fooValue');   // WHERE instagram = 'fooValue'
+     * $query->filterByInstagram('%fooValue%', Criteria::LIKE); // WHERE instagram LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $instagramUsername The value to use as filter.
+     * @param     string $instagram The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildContactInfoQuery The current query, for fluid interface
      */
-    public function filterByInstagramUsername($instagramUsername = null, $comparison = null)
+    public function filterByInstagram($instagram = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($instagramUsername)) {
+            if (is_array($instagram)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(ContactInfoTableMap::COL_INSTAGRAM_USERNAME, $instagramUsername, $comparison);
+        return $this->addUsingAlias(ContactInfoTableMap::COL_INSTAGRAM, $instagram, $comparison);
     }
 
     /**

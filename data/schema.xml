@@ -4,9 +4,9 @@
     <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="email" phpName="Email" type="VARCHAR" size="64" required="true"/>
     <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="32" required="true"/>
-    <column name="facebook_username" phpName="FacebookUsername" type="VARCHAR" size="64" required="true"/>
-    <column name="twitter_username" phpName="TwitterUsername" type="VARCHAR" size="64" required="true"/>
-    <column name="instagram_username" phpName="InstagramUsername" type="VARCHAR" size="64" required="true"/>
+    <column name="facebook" phpName="Facebook" type="VARCHAR" size="64" required="true"/>
+    <column name="twitter" phpName="Twitter" type="VARCHAR" size="64" required="true"/>
+    <column name="instagram" phpName="Instagram" type="VARCHAR" size="64" required="true"/>
     <foreign-key foreignTable="user" name="contact_info_ibfk_1">
       <reference local="user_id" foreign="id"/>
     </foreign-key>

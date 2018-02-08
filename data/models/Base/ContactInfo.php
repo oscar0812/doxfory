@@ -83,25 +83,25 @@ abstract class ContactInfo implements ActiveRecordInterface
     protected $phone_number;
 
     /**
-     * The value for the facebook_username field.
+     * The value for the facebook field.
      *
      * @var        string
      */
-    protected $facebook_username;
+    protected $facebook;
 
     /**
-     * The value for the twitter_username field.
+     * The value for the twitter field.
      *
      * @var        string
      */
-    protected $twitter_username;
+    protected $twitter;
 
     /**
-     * The value for the instagram_username field.
+     * The value for the instagram field.
      *
      * @var        string
      */
-    protected $instagram_username;
+    protected $instagram;
 
     /**
      * @var        ChildUser
@@ -372,33 +372,33 @@ abstract class ContactInfo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [facebook_username] column value.
+     * Get the [facebook] column value.
      *
      * @return string
      */
-    public function getFacebookUsername()
+    public function getFacebook()
     {
-        return $this->facebook_username;
+        return $this->facebook;
     }
 
     /**
-     * Get the [twitter_username] column value.
+     * Get the [twitter] column value.
      *
      * @return string
      */
-    public function getTwitterUsername()
+    public function getTwitter()
     {
-        return $this->twitter_username;
+        return $this->twitter;
     }
 
     /**
-     * Get the [instagram_username] column value.
+     * Get the [instagram] column value.
      *
      * @return string
      */
-    public function getInstagramUsername()
+    public function getInstagram()
     {
-        return $this->instagram_username;
+        return $this->instagram;
     }
 
     /**
@@ -466,64 +466,64 @@ abstract class ContactInfo implements ActiveRecordInterface
     } // setPhoneNumber()
 
     /**
-     * Set the value of [facebook_username] column.
+     * Set the value of [facebook] column.
      *
      * @param string $v new value
      * @return $this|\ContactInfo The current object (for fluent API support)
      */
-    public function setFacebookUsername($v)
+    public function setFacebook($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->facebook_username !== $v) {
-            $this->facebook_username = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_FACEBOOK_USERNAME] = true;
+        if ($this->facebook !== $v) {
+            $this->facebook = $v;
+            $this->modifiedColumns[ContactInfoTableMap::COL_FACEBOOK] = true;
         }
 
         return $this;
-    } // setFacebookUsername()
+    } // setFacebook()
 
     /**
-     * Set the value of [twitter_username] column.
+     * Set the value of [twitter] column.
      *
      * @param string $v new value
      * @return $this|\ContactInfo The current object (for fluent API support)
      */
-    public function setTwitterUsername($v)
+    public function setTwitter($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->twitter_username !== $v) {
-            $this->twitter_username = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_TWITTER_USERNAME] = true;
+        if ($this->twitter !== $v) {
+            $this->twitter = $v;
+            $this->modifiedColumns[ContactInfoTableMap::COL_TWITTER] = true;
         }
 
         return $this;
-    } // setTwitterUsername()
+    } // setTwitter()
 
     /**
-     * Set the value of [instagram_username] column.
+     * Set the value of [instagram] column.
      *
      * @param string $v new value
      * @return $this|\ContactInfo The current object (for fluent API support)
      */
-    public function setInstagramUsername($v)
+    public function setInstagram($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->instagram_username !== $v) {
-            $this->instagram_username = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_INSTAGRAM_USERNAME] = true;
+        if ($this->instagram !== $v) {
+            $this->instagram = $v;
+            $this->modifiedColumns[ContactInfoTableMap::COL_INSTAGRAM] = true;
         }
 
         return $this;
-    } // setInstagramUsername()
+    } // setInstagram()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -570,14 +570,14 @@ abstract class ContactInfo implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ContactInfoTableMap::translateFieldName('PhoneNumber', TableMap::TYPE_PHPNAME, $indexType)];
             $this->phone_number = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ContactInfoTableMap::translateFieldName('FacebookUsername', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->facebook_username = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ContactInfoTableMap::translateFieldName('Facebook', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->facebook = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ContactInfoTableMap::translateFieldName('TwitterUsername', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->twitter_username = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ContactInfoTableMap::translateFieldName('Twitter', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->twitter = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ContactInfoTableMap::translateFieldName('InstagramUsername', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->instagram_username = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ContactInfoTableMap::translateFieldName('Instagram', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->instagram = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -809,14 +809,14 @@ abstract class ContactInfo implements ActiveRecordInterface
         if ($this->isColumnModified(ContactInfoTableMap::COL_PHONE_NUMBER)) {
             $modifiedColumns[':p' . $index++]  = 'phone_number';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'facebook_username';
+        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK)) {
+            $modifiedColumns[':p' . $index++]  = 'facebook';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'twitter_username';
+        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER)) {
+            $modifiedColumns[':p' . $index++]  = 'twitter';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM_USERNAME)) {
-            $modifiedColumns[':p' . $index++]  = 'instagram_username';
+        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM)) {
+            $modifiedColumns[':p' . $index++]  = 'instagram';
         }
 
         $sql = sprintf(
@@ -838,14 +838,14 @@ abstract class ContactInfo implements ActiveRecordInterface
                     case 'phone_number':
                         $stmt->bindValue($identifier, $this->phone_number, PDO::PARAM_STR);
                         break;
-                    case 'facebook_username':
-                        $stmt->bindValue($identifier, $this->facebook_username, PDO::PARAM_STR);
+                    case 'facebook':
+                        $stmt->bindValue($identifier, $this->facebook, PDO::PARAM_STR);
                         break;
-                    case 'twitter_username':
-                        $stmt->bindValue($identifier, $this->twitter_username, PDO::PARAM_STR);
+                    case 'twitter':
+                        $stmt->bindValue($identifier, $this->twitter, PDO::PARAM_STR);
                         break;
-                    case 'instagram_username':
-                        $stmt->bindValue($identifier, $this->instagram_username, PDO::PARAM_STR);
+                    case 'instagram':
+                        $stmt->bindValue($identifier, $this->instagram, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -921,13 +921,13 @@ abstract class ContactInfo implements ActiveRecordInterface
                 return $this->getPhoneNumber();
                 break;
             case 3:
-                return $this->getFacebookUsername();
+                return $this->getFacebook();
                 break;
             case 4:
-                return $this->getTwitterUsername();
+                return $this->getTwitter();
                 break;
             case 5:
-                return $this->getInstagramUsername();
+                return $this->getInstagram();
                 break;
             default:
                 return null;
@@ -962,9 +962,9 @@ abstract class ContactInfo implements ActiveRecordInterface
             $keys[0] => $this->getUserId(),
             $keys[1] => $this->getEmail(),
             $keys[2] => $this->getPhoneNumber(),
-            $keys[3] => $this->getFacebookUsername(),
-            $keys[4] => $this->getTwitterUsername(),
-            $keys[5] => $this->getInstagramUsername(),
+            $keys[3] => $this->getFacebook(),
+            $keys[4] => $this->getTwitter(),
+            $keys[5] => $this->getInstagram(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1031,13 +1031,13 @@ abstract class ContactInfo implements ActiveRecordInterface
                 $this->setPhoneNumber($value);
                 break;
             case 3:
-                $this->setFacebookUsername($value);
+                $this->setFacebook($value);
                 break;
             case 4:
-                $this->setTwitterUsername($value);
+                $this->setTwitter($value);
                 break;
             case 5:
-                $this->setInstagramUsername($value);
+                $this->setInstagram($value);
                 break;
         } // switch()
 
@@ -1075,13 +1075,13 @@ abstract class ContactInfo implements ActiveRecordInterface
             $this->setPhoneNumber($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setFacebookUsername($arr[$keys[3]]);
+            $this->setFacebook($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setTwitterUsername($arr[$keys[4]]);
+            $this->setTwitter($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setInstagramUsername($arr[$keys[5]]);
+            $this->setInstagram($arr[$keys[5]]);
         }
     }
 
@@ -1133,14 +1133,14 @@ abstract class ContactInfo implements ActiveRecordInterface
         if ($this->isColumnModified(ContactInfoTableMap::COL_PHONE_NUMBER)) {
             $criteria->add(ContactInfoTableMap::COL_PHONE_NUMBER, $this->phone_number);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK_USERNAME)) {
-            $criteria->add(ContactInfoTableMap::COL_FACEBOOK_USERNAME, $this->facebook_username);
+        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK)) {
+            $criteria->add(ContactInfoTableMap::COL_FACEBOOK, $this->facebook);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER_USERNAME)) {
-            $criteria->add(ContactInfoTableMap::COL_TWITTER_USERNAME, $this->twitter_username);
+        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER)) {
+            $criteria->add(ContactInfoTableMap::COL_TWITTER, $this->twitter);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM_USERNAME)) {
-            $criteria->add(ContactInfoTableMap::COL_INSTAGRAM_USERNAME, $this->instagram_username);
+        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM)) {
+            $criteria->add(ContactInfoTableMap::COL_INSTAGRAM, $this->instagram);
         }
 
         return $criteria;
@@ -1237,9 +1237,9 @@ abstract class ContactInfo implements ActiveRecordInterface
     {
         $copyObj->setEmail($this->getEmail());
         $copyObj->setPhoneNumber($this->getPhoneNumber());
-        $copyObj->setFacebookUsername($this->getFacebookUsername());
-        $copyObj->setTwitterUsername($this->getTwitterUsername());
-        $copyObj->setInstagramUsername($this->getInstagramUsername());
+        $copyObj->setFacebook($this->getFacebook());
+        $copyObj->setTwitter($this->getTwitter());
+        $copyObj->setInstagram($this->getInstagram());
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setUserId(NULL); // this is a auto-increment column, so set to default value
@@ -1326,9 +1326,9 @@ abstract class ContactInfo implements ActiveRecordInterface
         $this->user_id = null;
         $this->email = null;
         $this->phone_number = null;
-        $this->facebook_username = null;
-        $this->twitter_username = null;
-        $this->instagram_username = null;
+        $this->facebook = null;
+        $this->twitter = null;
+        $this->instagram = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
