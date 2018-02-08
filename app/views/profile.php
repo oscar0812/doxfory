@@ -70,10 +70,19 @@
 								<div class="media-heading">
 									<h3><?=$current_user->getFullName()?></h3>
 									<div class="author-social" id="contact-buttons">
-										<a href="#"><i class="fa fa-phone"></i></a>
-										<a href="#"><i class="fa fa-facebook" data-url="https://www.facebook.com/"></i></a>
-										<a href="#"><i class="fa fa-twitter" data-url="https://twitter.com/"></i></a>
-										<a href="#"><i class="fa fa-instagram" data-url="https://www.instagram.com/"></i></a>
+										<?$contact = $current_user->getContactInfo()?>
+										<a>
+											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>"></i>
+										</a>
+										<a>
+											<i class="fa fa-facebook" data-url="https://www.facebook.com/" data-name="Facebook" data-value="<?=$contact->getFacebook()?>"></i>
+										</a>
+										<a>
+											<i class="fa fa-twitter" data-url="https://twitter.com/" data-name="Twitter" data-value="<?=$contact->getTwitter()?>"></i>
+										</a>
+										<a>
+											<i class="fa fa-instagram" data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>"></i>
+										</a>
 									</div>
 								</div>
 								<p>About
@@ -289,7 +298,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title"></h5>Change</h5>
+					<h5 class="modal-title"></h5>
 					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
               </button>
@@ -297,8 +306,8 @@
 				<div class="modal-body">
 
 					<div class="input-group">
-						<span class="input-group-addon" id="startingUrl">https://example.com/users/</span>
-						<input type="text" class="form-control" aria-describedby="basic-addon3">
+						<span class="input-group-addon" id="startingUrl"></span>
+						<input type="text" class="form-control" aria-describedby="startingUrl" id="contactInput">
 					</div>
 
 				</div>

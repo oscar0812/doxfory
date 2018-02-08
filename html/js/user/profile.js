@@ -38,10 +38,18 @@ $(function() {
 
   // -- CONTACT --
   contactModal = $('#contactModal');
+  startingUrl = contactModal.find('#startingUrl');
   $('#contact-buttons').on('click', '.fa', function() {
     // show a modal
-    console.log(this);
+    url = $(this).attr('data-url');
+
+    // set the modal title to whatever contact button was clicked
+    contactModal.find('.modal-title').text($(this).attr('data-name'));
+    contactModal.find('#contactInput').val($(this).attr('data-value'));
+
+    startingUrl.text(url);
     contactModal.modal('show');
+    return false;
   });
 
 });
