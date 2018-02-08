@@ -4,6 +4,27 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
+-- contact_info
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `contact_info`;
+
+CREATE TABLE `contact_info`
+(
+    `user_id` INTEGER NOT NULL AUTO_INCREMENT,
+    `email` VARCHAR(64) NOT NULL,
+    `phone_number` VARCHAR(32) NOT NULL,
+    `facebook_username` VARCHAR(64) NOT NULL,
+    `twitter_username` VARCHAR(64) NOT NULL,
+    `google_plus_username` VARCHAR(64) NOT NULL,
+    `instagram_username` VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`user_id`),
+    CONSTRAINT `contact_info_ibfk_1`
+        FOREIGN KEY (`user_id`)
+        REFERENCES `user` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
 -- job
 -- ---------------------------------------------------------------------
 
@@ -35,8 +56,6 @@ CREATE TABLE `user`
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `first_name` VARCHAR(16) NOT NULL,
     `last_name` VARCHAR(16) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
-    `phone_number` VARCHAR(16) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `profile_picture` VARCHAR(255) NOT NULL,
     `about_me` VARCHAR(4098) NOT NULL,
