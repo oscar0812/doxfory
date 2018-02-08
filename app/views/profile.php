@@ -71,10 +71,9 @@
 									<h3><?=$current_user->getFullName()?></h3>
 									<div class="author-social" id="contact-buttons">
 										<a href="#"><i class="fa fa-phone"></i></a>
-										<a href="#"><i class="fa fa-facebook"></i></a>
-										<a href="#"><i class="fa fa-twitter"></i></a>
-										<a href="#"><i class="fa fa-google-plus"></i></a>
-										<a href="#"><i class="fa fa-instagram"></i></a>
+										<a href="#"><i class="fa fa-facebook" data-url="https://www.facebook.com/"></i></a>
+										<a href="#"><i class="fa fa-twitter" data-url="https://twitter.com/"></i></a>
+										<a href="#"><i class="fa fa-instagram" data-url="https://www.instagram.com/"></i></a>
 									</div>
 								</div>
 								<p>About
@@ -298,8 +297,8 @@
 				<div class="modal-body">
 
 					<div class="input-group">
-						<span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-						<input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+						<span class="input-group-addon" id="startingUrl">https://example.com/users/</span>
+						<input type="text" class="form-control" aria-describedby="basic-addon3">
 					</div>
 
 				</div>
