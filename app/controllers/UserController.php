@@ -7,6 +7,8 @@ use App\Helpers\ImageUpload;
 use App\Helpers\Mail;
 use \UserQuery;
 use \User;
+use \JobQuery;
+use Slim\Exception\NotFoundException;
 
 class UserController
 {
@@ -36,12 +38,36 @@ class UserController
         })->setName('profile');
     }
 
-    public function job($app)
+    // set up routing for job and jobs
+    public function jobs($app)
     {
-        $app->get('/job', function ($request, $response) {
-            $vars['router'] = $this->router;
-            return $this->view->render($response, "job.php", UserController::getVars($this));
-        })->setName('job');
+        $app->group('/job', function () use ($app) {
+            //    /job/create
+            $app->get('/create', function ($request, $response) {
+                return $this->view->render($response, "create_job.php", UserController::getVars($this));
+            })->setName('create_job');
+
+            //    /job/ID
+            $app->get('/{id:[0-9]+}', function ($request, $response, $args) {
+                $id = $args['id'];
+                $job = JobQuery::create()->findOneById($id);
+
+                if ($job != null) {
+                    // valid job
+                    $arr = UserController::getVars($this);
+                    $arr['job'] = $job;
+                    return $this->view->render($response, "job.php", $arr);
+                } else {
+                    // show 404 not found
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
+            })->setName('job');
+        });
+
+        //    /jobs
+        $app->get('/jobs', function ($request, $response) {
+            return $this->view->render($response, "jobs.php", UserController::getVars($this));
+        })->setName('jobs');
     }
     // sign out route
     public function signOut($app)
@@ -121,7 +147,7 @@ class UserController
 
         $app->group('/user', function () use ($app, $controller) {
             $controller->profile($app);
-            $controller->job($app);
+            $controller->jobs($app);
             $controller->confirmUser($app);
             $controller->uploadPfp($app);
         })->add(function ($request, $response, $next) {
