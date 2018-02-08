@@ -70,6 +70,10 @@ Table OF Contents
   cursor: pointer;
 }
 
+.modal-title {
+  color: black;
+}
+
 .sm-neg-btm {
   margin-bottom: -8px !important;
 }
