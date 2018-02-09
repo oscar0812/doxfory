@@ -326,8 +326,6 @@
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/profile.js"></script>
 
-	</script>
-
 </body>
 
 </html>
