@@ -65,7 +65,7 @@
 					<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
 						<div class="media">
 							<div class="media-left">
-								<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
+								<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 							</div>
 							<div class="media-body">
 								<div class="media-heading">
