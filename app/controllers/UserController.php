@@ -18,6 +18,49 @@ class UserController
         return ['logged_in'=>true, 'router'=> $app->router, 'current_user' => currentUser()];
     }
 
+    public function confirmUser($app)
+    {
+        $app->get('/confirm', function ($request, $response) use ($app) {
+            $current_user = currentUser();
+            // check if has key in url, if so, confirm user and
+            // redirect to profile
+            $get = $request->getQueryParams();
+            if (isset($get['key']) && isset($get['email'])) {
+                // trying to confirm account
+                $key = $current_user->getConfirmationKey();
+                if ($get['key'] == $key && $get['email'] ==
+                                    $current_user->getContactInfo()->getEmail()) {
+                    // correct key
+                    $current_user->setConfirmationKey("");
+                    $current_user->save();
+                    return $response->withRedirect($this->router->pathFor('profile'));
+                } else {
+                    // incorrect key, set a new key to the player and log out
+                    $current_user->setConfirmationKey(md5(rand(0, 1000)));
+                    $current_user->save();
+                    return $response->withRedirect($this->router->pathFor('signout'));
+                }
+            }
+
+            // if haven't confirmed email
+            // show confirm view
+            if (!$current_user->isConfirmed()) {
+                return $this->view->render($response, "confirm.php", UserController::getVars($this));
+            }
+            // else, send them to profile page
+            else {
+                return $response->withRedirect($this->router->pathFor('profile'));
+            }
+        })->setName('confirm');
+
+        // send mail when confirm is posted to, this in order to let the page
+        // load quick and mail is sent through ajax call
+        $app->post('/confirm', function ($request, $response) use ($app) {
+            $arr = Mail::confirmEmail(url(), currentUser());
+            return $response->withJson($arr);
+        });
+    }
+
     // profile page
     public function profile($app)
     {
@@ -82,64 +125,29 @@ class UserController
     }
 
     // only accepts post request
-    // if posted, means user is trying to change pfp
-    public function uploadPfp($app)
+    // if posted, means user is trying to change pfpForm
+    // or trying to post an image for a job
+    public function uploadImg($app)
     {
-        $app->post('/upload', function ($request, $response) {
-            $current_user = currentUser();
-            // call ImageUpload which returns an array with flags and data
-            $arr = ImageUpload::uploadPfp($current_user->getId(), $this->router->pathFor('home'));
+        $app->group('/upload', function () use ($app) {
 
-            if ($arr['success']) {
-                // successfully uploaded image, so set the path as the
-                // users pfp url in db
-                $current_user->setProfilePicture($arr['path']);
-                $current_user->save();
-            }
-            return $response->withJson($arr);
-        })->setName('upload_pfp');
-    }
+            // trying to upload a pfp
+            $app->post('/pfp', function ($request, $response) {
+                $current_user = currentUser();
+                // call ImageUpload which returns an array with flags and data
+                $arr = ImageUpload::uploadPfp($current_user->getId(), $this->router->pathFor('home'));
 
-    public function confirmUser($app)
-    {
-        $app->get('/confirm', function ($request, $response) use ($app) {
-            $current_user = currentUser();
-            // check if has key in url, if so, confirm user and
-            // redirect to profile
-            $get = $request->getQueryParams();
-            if (isset($get['key']) && isset($get['email'])) {
-                // trying to confirm account
-                $key = $current_user->getConfirmationKey();
-                if ($get['key'] == $key && $get['email'] ==
-                                    $current_user->getContactInfo()->getEmail()) {
-                    // correct key
-                    $current_user->setConfirmationKey("");
+                if ($arr['success']) {
+                    // successfully uploaded image, so set the path as the
+                    // users pfp url in db
+                    $current_user->setProfilePicture($arr['path']);
                     $current_user->save();
-                    return $response->withRedirect($this->router->pathFor('profile'));
-                } else {
-                    // incorrect key, set a new key to the player and log out
-                    $current_user->setConfirmationKey(md5(rand(0, 1000)));
-                    $current_user->save();
-                    return $response->withRedirect($this->router->pathFor('signout'));
                 }
-            }
+                return $response->withJson($arr);
+            })->setName('upload_pfp');
 
-            // if haven't confirmed email
-            // show confirm view
-            if (!$current_user->isConfirmed()) {
-                return $this->view->render($response, "confirm.php", UserController::getVars($this));
-            }
-            // else, send them to profile page
-            else {
-                return $response->withRedirect($this->router->pathFor('profile'));
-            }
-        })->setName('confirm');
-
-        // send mail when confirm is posted to, this in order to let the page
-        // load quick and mail is sent through ajax call
-        $app->post('/confirm', function ($request, $response) use ($app) {
-            $arr = Mail::confirmEmail(url(), currentUser());
-            return $response->withJson($arr);
+            $app->post('/job', function ($request, $response) {
+            })->setName('upload_job_image');
         });
     }
 
@@ -152,7 +160,7 @@ class UserController
             $controller->profile($app);
             $controller->jobs($app);
             $controller->confirmUser($app);
-            $controller->uploadPfp($app);
+            $controller->uploadImg($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
             $current_user = currentUser();
