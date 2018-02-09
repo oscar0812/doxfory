@@ -35,7 +35,7 @@ class UserController
                     $current_user->save();
                     return $response->withRedirect($this->router->pathFor('profile'));
                 } else {
-                    // incorrect key, set a new key to the player and log out
+                    // incorrect key, set a new key to the user and log out
                     $current_user->setConfirmationKey(md5(rand(0, 1000)));
                     $current_user->save();
                     return $response->withRedirect($this->router->pathFor('signout'));
@@ -85,6 +85,8 @@ class UserController
             return $this->view->render($response, "profile.php", $arr);
         })->setName('profile');
 
+        // when posting to profile, that means the user wants to change
+        // some of their contact information
         $app->post('/profile', function ($request, $response) {
             $post = $request->getParsedBody();
             // key will be PhoneNumber, Facebook, Twitter, Instagram
