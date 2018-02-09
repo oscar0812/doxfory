@@ -71,13 +71,11 @@
         <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
           <form class="contact-form">
             <div class="row">
-              <div>
-                <input type="text" class="input" placeholder="Title">
+              <input type="text" class="input" placeholder="Title">
 
-                <label>
-                  <button type="button" class="btn btn-primary" name="button">Upload image</button>
-                </label>
-              </div>
+              <label>
+                <button type="button" class="btn btn-primary" name="button">Upload image</button>
+              </label>
 
             </div>
             <div class="row">
