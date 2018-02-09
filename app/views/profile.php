@@ -305,6 +305,10 @@
 				</div>
 				<div class="modal-body">
 
+					<div class="alert alert-danger invisible">
+
+					</div>
+
 					<div class="input-group">
 						<span class="input-group-addon" id="startingUrl"></span>
 						<input type="text" class="form-control" aria-describedby="startingUrl" id="contactInput">
@@ -312,7 +316,7 @@
 
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+					<button class="btn btn-primary" type="button" data-dismiss="modal" id="submit-contact">Change</button>
 				</div>
 			</div>
 		</div>
