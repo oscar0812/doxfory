@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 08, 2018 at 05:57 AM
+-- Generation Time: Feb 09, 2018 at 09:54 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -32,10 +32,9 @@ CREATE TABLE `contact_info` (
   `user_id` int(11) NOT NULL,
   `email` varchar(64) NOT NULL,
   `phone_number` varchar(32) NOT NULL,
-  `facebook_username` varchar(64) NOT NULL,
-  `twitter_username` varchar(64) NOT NULL,
-  `google_plus_username` varchar(64) NOT NULL,
-  `instagram_username` varchar(64) NOT NULL
+  `facebook` varchar(64) NOT NULL,
+  `twitter` varchar(64) NOT NULL,
+  `instagram` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -49,7 +48,7 @@ CREATE TABLE `job` (
   `is_completed` tinyint(1) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` varchar(4098) NOT NULL,
-  `images` varchar(4098) NOT NULL,
+  `image` varchar(4098) NOT NULL,
   `payment` int(11) NOT NULL,
   `posted_by_id` int(11) NOT NULL,
   `accepted_by_id` int(11) NOT NULL
@@ -105,7 +104,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `contact_info`
 --
 ALTER TABLE `contact_info`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `job`
@@ -117,7 +116,7 @@ ALTER TABLE `job`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
