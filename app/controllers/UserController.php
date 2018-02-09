@@ -65,8 +65,11 @@ class UserController
         });
 
         //    /jobs
+        // show all jobs
         $app->get('/jobs', function ($request, $response) {
-            return $this->view->render($response, "jobs.php", UserController::getVars($this));
+            $arr = UserController::getVars($this);
+            $arr['jobs'] = JobQuery::create()->find();
+            return $this->view->render($response, "jobs.php", $arr);
         })->setName('jobs');
     }
     // sign out route
