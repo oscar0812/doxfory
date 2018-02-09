@@ -90,11 +90,11 @@ abstract class Job implements ActiveRecordInterface
     protected $description;
 
     /**
-     * The value for the images field.
+     * The value for the image field.
      *
      * @var        string
      */
-    protected $images;
+    protected $image;
 
     /**
      * The value for the payment field.
@@ -411,13 +411,13 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
-     * Get the [images] column value.
+     * Get the [image] column value.
      *
      * @return string
      */
-    public function getImages()
+    public function getImage()
     {
-        return $this->images;
+        return $this->image;
     }
 
     /**
@@ -539,24 +539,24 @@ abstract class Job implements ActiveRecordInterface
     } // setDescription()
 
     /**
-     * Set the value of [images] column.
+     * Set the value of [image] column.
      *
      * @param string $v new value
      * @return $this|\Job The current object (for fluent API support)
      */
-    public function setImages($v)
+    public function setImage($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->images !== $v) {
-            $this->images = $v;
-            $this->modifiedColumns[JobTableMap::COL_IMAGES] = true;
+        if ($this->image !== $v) {
+            $this->image = $v;
+            $this->modifiedColumns[JobTableMap::COL_IMAGE] = true;
         }
 
         return $this;
-    } // setImages()
+    } // setImage()
 
     /**
      * Set the value of [payment] column.
@@ -674,8 +674,8 @@ abstract class Job implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobTableMap::translateFieldName('Description', TableMap::TYPE_PHPNAME, $indexType)];
             $this->description = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobTableMap::translateFieldName('Images', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->images = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobTableMap::translateFieldName('Image', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->image = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobTableMap::translateFieldName('Payment', TableMap::TYPE_PHPNAME, $indexType)];
             $this->payment = (null !== $col) ? (int) $col : null;
@@ -933,8 +933,8 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_DESCRIPTION)) {
             $modifiedColumns[':p' . $index++]  = 'description';
         }
-        if ($this->isColumnModified(JobTableMap::COL_IMAGES)) {
-            $modifiedColumns[':p' . $index++]  = 'images';
+        if ($this->isColumnModified(JobTableMap::COL_IMAGE)) {
+            $modifiedColumns[':p' . $index++]  = 'image';
         }
         if ($this->isColumnModified(JobTableMap::COL_PAYMENT)) {
             $modifiedColumns[':p' . $index++]  = 'payment';
@@ -968,8 +968,8 @@ abstract class Job implements ActiveRecordInterface
                     case 'description':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
-                    case 'images':
-                        $stmt->bindValue($identifier, $this->images, PDO::PARAM_STR);
+                    case 'image':
+                        $stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
                         break;
                     case 'payment':
                         $stmt->bindValue($identifier, $this->payment, PDO::PARAM_INT);
@@ -1055,7 +1055,7 @@ abstract class Job implements ActiveRecordInterface
                 return $this->getDescription();
                 break;
             case 4:
-                return $this->getImages();
+                return $this->getImage();
                 break;
             case 5:
                 return $this->getPayment();
@@ -1100,7 +1100,7 @@ abstract class Job implements ActiveRecordInterface
             $keys[1] => $this->getIsCompleted(),
             $keys[2] => $this->getTitle(),
             $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getImages(),
+            $keys[4] => $this->getImage(),
             $keys[5] => $this->getPayment(),
             $keys[6] => $this->getPostedById(),
             $keys[7] => $this->getAcceptedById(),
@@ -1188,7 +1188,7 @@ abstract class Job implements ActiveRecordInterface
                 $this->setDescription($value);
                 break;
             case 4:
-                $this->setImages($value);
+                $this->setImage($value);
                 break;
             case 5:
                 $this->setPayment($value);
@@ -1238,7 +1238,7 @@ abstract class Job implements ActiveRecordInterface
             $this->setDescription($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setImages($arr[$keys[4]]);
+            $this->setImage($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
             $this->setPayment($arr[$keys[5]]);
@@ -1302,8 +1302,8 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_DESCRIPTION)) {
             $criteria->add(JobTableMap::COL_DESCRIPTION, $this->description);
         }
-        if ($this->isColumnModified(JobTableMap::COL_IMAGES)) {
-            $criteria->add(JobTableMap::COL_IMAGES, $this->images);
+        if ($this->isColumnModified(JobTableMap::COL_IMAGE)) {
+            $criteria->add(JobTableMap::COL_IMAGE, $this->image);
         }
         if ($this->isColumnModified(JobTableMap::COL_PAYMENT)) {
             $criteria->add(JobTableMap::COL_PAYMENT, $this->payment);
@@ -1403,7 +1403,7 @@ abstract class Job implements ActiveRecordInterface
         $copyObj->setIsCompleted($this->getIsCompleted());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setDescription($this->getDescription());
-        $copyObj->setImages($this->getImages());
+        $copyObj->setImage($this->getImage());
         $copyObj->setPayment($this->getPayment());
         $copyObj->setPostedById($this->getPostedById());
         $copyObj->setAcceptedById($this->getAcceptedById());
@@ -1554,7 +1554,7 @@ abstract class Job implements ActiveRecordInterface
         $this->is_completed = null;
         $this->title = null;
         $this->description = null;
-        $this->images = null;
+        $this->image = null;
         $this->payment = null;
         $this->posted_by_id = null;
         $this->accepted_by_id = null;

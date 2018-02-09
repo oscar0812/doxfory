@@ -92,9 +92,9 @@ class JobTableMap extends TableMap
     const COL_DESCRIPTION = 'job.description';
 
     /**
-     * the column name for the images field
+     * the column name for the image field
      */
-    const COL_IMAGES = 'job.images';
+    const COL_IMAGE = 'job.image';
 
     /**
      * the column name for the payment field
@@ -123,10 +123,10 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'IsCompleted', 'Title', 'Description', 'Images', 'Payment', 'PostedById', 'AcceptedById', ),
-        self::TYPE_CAMELNAME     => array('id', 'isCompleted', 'title', 'description', 'images', 'payment', 'postedById', 'acceptedById', ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGES, JobTableMap::COL_PAYMENT, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'is_completed', 'title', 'description', 'images', 'payment', 'posted_by_id', 'accepted_by_id', ),
+        self::TYPE_PHPNAME       => array('Id', 'IsCompleted', 'Title', 'Description', 'Image', 'Payment', 'PostedById', 'AcceptedById', ),
+        self::TYPE_CAMELNAME     => array('id', 'isCompleted', 'title', 'description', 'image', 'payment', 'postedById', 'acceptedById', ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGE, JobTableMap::COL_PAYMENT, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
+        self::TYPE_FIELDNAME     => array('id', 'is_completed', 'title', 'description', 'image', 'payment', 'posted_by_id', 'accepted_by_id', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -137,10 +137,10 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'IsCompleted' => 1, 'Title' => 2, 'Description' => 3, 'Images' => 4, 'Payment' => 5, 'PostedById' => 6, 'AcceptedById' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'isCompleted' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'postedById' => 6, 'acceptedById' => 7, ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_IS_COMPLETED => 1, JobTableMap::COL_TITLE => 2, JobTableMap::COL_DESCRIPTION => 3, JobTableMap::COL_IMAGES => 4, JobTableMap::COL_PAYMENT => 5, JobTableMap::COL_POSTED_BY_ID => 6, JobTableMap::COL_ACCEPTED_BY_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'is_completed' => 1, 'title' => 2, 'description' => 3, 'images' => 4, 'payment' => 5, 'posted_by_id' => 6, 'accepted_by_id' => 7, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'IsCompleted' => 1, 'Title' => 2, 'Description' => 3, 'Image' => 4, 'Payment' => 5, 'PostedById' => 6, 'AcceptedById' => 7, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'isCompleted' => 1, 'title' => 2, 'description' => 3, 'image' => 4, 'payment' => 5, 'postedById' => 6, 'acceptedById' => 7, ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_IS_COMPLETED => 1, JobTableMap::COL_TITLE => 2, JobTableMap::COL_DESCRIPTION => 3, JobTableMap::COL_IMAGE => 4, JobTableMap::COL_PAYMENT => 5, JobTableMap::COL_POSTED_BY_ID => 6, JobTableMap::COL_ACCEPTED_BY_ID => 7, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'is_completed' => 1, 'title' => 2, 'description' => 3, 'image' => 4, 'payment' => 5, 'posted_by_id' => 6, 'accepted_by_id' => 7, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
@@ -165,7 +165,7 @@ class JobTableMap extends TableMap
         $this->addColumn('is_completed', 'IsCompleted', 'BOOLEAN', true, 1, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
         $this->addColumn('description', 'Description', 'VARCHAR', true, 4098, null);
-        $this->addColumn('images', 'Images', 'VARCHAR', true, 4098, null);
+        $this->addColumn('image', 'Image', 'VARCHAR', true, 4098, null);
         $this->addColumn('payment', 'Payment', 'INTEGER', true, null, null);
         $this->addForeignKey('posted_by_id', 'PostedById', 'INTEGER', 'user', 'id', true, null, null);
         $this->addForeignKey('accepted_by_id', 'AcceptedById', 'INTEGER', 'user', 'id', true, null, null);
@@ -337,7 +337,7 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn(JobTableMap::COL_IS_COMPLETED);
             $criteria->addSelectColumn(JobTableMap::COL_TITLE);
             $criteria->addSelectColumn(JobTableMap::COL_DESCRIPTION);
-            $criteria->addSelectColumn(JobTableMap::COL_IMAGES);
+            $criteria->addSelectColumn(JobTableMap::COL_IMAGE);
             $criteria->addSelectColumn(JobTableMap::COL_PAYMENT);
             $criteria->addSelectColumn(JobTableMap::COL_POSTED_BY_ID);
             $criteria->addSelectColumn(JobTableMap::COL_ACCEPTED_BY_ID);
@@ -346,7 +346,7 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.is_completed');
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.description');
-            $criteria->addSelectColumn($alias . '.images');
+            $criteria->addSelectColumn($alias . '.image');
             $criteria->addSelectColumn($alias . '.payment');
             $criteria->addSelectColumn($alias . '.posted_by_id');
             $criteria->addSelectColumn($alias . '.accepted_by_id');

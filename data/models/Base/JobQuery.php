@@ -24,7 +24,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByIsCompleted($order = Criteria::ASC) Order by the is_completed column
  * @method     ChildJobQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
- * @method     ChildJobQuery orderByImages($order = Criteria::ASC) Order by the images column
+ * @method     ChildJobQuery orderByImage($order = Criteria::ASC) Order by the image column
  * @method     ChildJobQuery orderByPayment($order = Criteria::ASC) Order by the payment column
  * @method     ChildJobQuery orderByPostedById($order = Criteria::ASC) Order by the posted_by_id column
  * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
@@ -33,7 +33,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery groupByIsCompleted() Group by the is_completed column
  * @method     ChildJobQuery groupByTitle() Group by the title column
  * @method     ChildJobQuery groupByDescription() Group by the description column
- * @method     ChildJobQuery groupByImages() Group by the images column
+ * @method     ChildJobQuery groupByImage() Group by the image column
  * @method     ChildJobQuery groupByPayment() Group by the payment column
  * @method     ChildJobQuery groupByPostedById() Group by the posted_by_id column
  * @method     ChildJobQuery groupByAcceptedById() Group by the accepted_by_id column
@@ -75,7 +75,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneByIsCompleted(boolean $is_completed) Return the first ChildJob filtered by the is_completed column
  * @method     ChildJob findOneByTitle(string $title) Return the first ChildJob filtered by the title column
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
- * @method     ChildJob findOneByImages(string $images) Return the first ChildJob filtered by the images column
+ * @method     ChildJob findOneByImage(string $image) Return the first ChildJob filtered by the image column
  * @method     ChildJob findOneByPayment(int $payment) Return the first ChildJob filtered by the payment column
  * @method     ChildJob findOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column
  * @method     ChildJob findOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column *
@@ -87,7 +87,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOneByIsCompleted(boolean $is_completed) Return the first ChildJob filtered by the is_completed column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByTitle(string $title) Return the first ChildJob filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJob requireOneByImages(string $images) Return the first ChildJob filtered by the images column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByImage(string $image) Return the first ChildJob filtered by the image column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPayment(int $payment) Return the first ChildJob filtered by the payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -97,7 +97,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob[]|ObjectCollection findByIsCompleted(boolean $is_completed) Return ChildJob objects filtered by the is_completed column
  * @method     ChildJob[]|ObjectCollection findByTitle(string $title) Return ChildJob objects filtered by the title column
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
- * @method     ChildJob[]|ObjectCollection findByImages(string $images) Return ChildJob objects filtered by the images column
+ * @method     ChildJob[]|ObjectCollection findByImage(string $image) Return ChildJob objects filtered by the image column
  * @method     ChildJob[]|ObjectCollection findByPayment(int $payment) Return ChildJob objects filtered by the payment column
  * @method     ChildJob[]|ObjectCollection findByPostedById(int $posted_by_id) Return ChildJob objects filtered by the posted_by_id column
  * @method     ChildJob[]|ObjectCollection findByAcceptedById(int $accepted_by_id) Return ChildJob objects filtered by the accepted_by_id column
@@ -199,7 +199,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, is_completed, title, description, images, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, is_completed, title, description, image, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -408,28 +408,28 @@ abstract class JobQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the images column
+     * Filter the query on the image column
      *
      * Example usage:
      * <code>
-     * $query->filterByImages('fooValue');   // WHERE images = 'fooValue'
-     * $query->filterByImages('%fooValue%', Criteria::LIKE); // WHERE images LIKE '%fooValue%'
+     * $query->filterByImage('fooValue');   // WHERE image = 'fooValue'
+     * $query->filterByImage('%fooValue%', Criteria::LIKE); // WHERE image LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $images The value to use as filter.
+     * @param     string $image The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function filterByImages($images = null, $comparison = null)
+    public function filterByImage($image = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($images)) {
+            if (is_array($image)) {
                 $comparison = Criteria::IN;
             }
         }
 
-        return $this->addUsingAlias(JobTableMap::COL_IMAGES, $images, $comparison);
+        return $this->addUsingAlias(JobTableMap::COL_IMAGE, $image, $comparison);
     }
 
     /**
