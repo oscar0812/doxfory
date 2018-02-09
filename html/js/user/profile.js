@@ -22,7 +22,6 @@ $(function() {
       data: data,
       processData: false,
       success: function(data) {
-        console.log(data);
         if (data['success']) {
           alert.addClass('invisible');
           pfp.attr('src', data['path'] + '?' + (new Date).getTime());
@@ -48,6 +47,8 @@ $(function() {
     contactModal.find('#contactInput').val($(this).attr('data-value'));
 
     startingUrl.text(url);
+
+    // show the modal
     contactModal.modal('show');
     return false;
   });
