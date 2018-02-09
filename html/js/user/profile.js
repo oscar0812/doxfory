@@ -3,7 +3,7 @@ $(function() {
   // -- PFP FORM --
   pfp = $('#pfp');
   pfpModal = $('#pfpModal');
-  alert = pfpModal.find('.alert').eq(0);
+  pfpAlert = pfpModal.find('.alert').eq(0);
 
   pfp.on('click', function() {
     pfpModal.modal('show');
@@ -23,13 +23,13 @@ $(function() {
       processData: false,
       success: function(data) {
         if (data['success']) {
-          alert.addClass('invisible');
+          pfpAlert.addClass('invisible');
           pfp.attr('src', data['path'] + '?' + (new Date).getTime());
           pfpModal.modal('hide');
         } else {
-          alert.removeClass('invisible');
-          alert.addClass('alert-danger');
-          alert.text(data['msg']);
+          pfpAlert.removeClass('invisible');
+          pfpAlert.addClass('alert-danger');
+          pfpAlert.text(data['msg']);
         }
       }
     })
@@ -37,6 +37,7 @@ $(function() {
 
   // -- CONTACT --
   contactModal = $('#contactModal');
+  contactAlert = contactModal.find('.alert').eq(0);
   startingUrl = contactModal.find('#startingUrl');
   $('#contact-buttons').on('click', '.fa', function() {
     // show a modal
@@ -48,9 +49,47 @@ $(function() {
 
     startingUrl.text(url);
 
+    // remove alert that was maybe set before when setting a previous setting
+    contactAlert.addClass('invisible');
+
     // show the modal
     contactModal.modal('show');
     return false;
   });
+
+  contactModal.find('#submit-contact').on('click', function() {
+    // name needed to change info is modal-title without spaces
+    name = contactModal.find('.modal-title').text();
+    key = name.replace(/ /g, '');
+    value = contactModal.find('#contactInput').val();
+    updateContactInfo(name, key, value);
+    return false;
+  });
+
+  function updateContactInfo(name, key, value) {
+    $.ajax({
+      type: "POST",
+      data: {
+        key: key,
+        value: value
+      },
+      url: window.location.href,
+      success: function(data) {
+        contactAlert.removeClass('invisible');
+        if (data['success']) {
+          // changed contact info successfully
+          contactAlert.addClass('alert-success');
+          contactAlert.removeClass('alert-danger');
+          contactAlert.text("Successfully changed " + name);
+
+        } else {
+          // an error occured
+          contactAlert.addClass('alert-danger');
+          contactAlert.removeClass('alert-success');
+          contactAlert.text("Error when changing " + name);
+        }
+      }
+    });
+  }
 
 });

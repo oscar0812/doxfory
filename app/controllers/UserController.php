@@ -64,6 +64,8 @@ class UserController
     // profile page
     public function profile($app)
     {
+        // if get request, show the profile view, either the signed in user,
+        // of the user that matches the id that was passed
         $app->get('/profile[/{id:[0-9]+}]', function ($request, $response, $args) {
             $arr = UserController::getVars($this);
             $arr['visiting'] = false;
@@ -75,10 +77,32 @@ class UserController
                     // if id is valid
                     $arr['current_user'] = $user;
                     $arr['visiting'] = true;
+                } else {
+                    // invalid user, throw 404
+                    throw new \Slim\Exception\NotFoundException($request, $response);
                 }
             }
             return $this->view->render($response, "profile.php", $arr);
         })->setName('profile');
+
+        $app->post('/profile', function ($request, $response) {
+            $post = $request->getParsedBody();
+            // key will be PhoneNumber, Facebook, Twitter, Instagram
+            $key = $post['key'];
+            $value = $post['value'];
+
+            // put it in a try block since the jquery could be
+            // modified when posting
+            try {
+                $contact = currentUser()->getContactInfo();
+                $contact->setByName($key, $value);
+                $contact->save();
+                $response = $response->withJson(['success'=>true]);
+            } catch (\Exception $e) {
+                $response = $response->withJson(['success'=>false]);
+            }
+            return $response;
+        });
     }
 
     // set up routing for job and jobs
@@ -86,9 +110,17 @@ class UserController
     {
         $app->group('/job', function () use ($app) {
             //    /job/create
+            // if get request, simply show the view to create a new job
             $app->get('/create', function ($request, $response) {
                 return $this->view->render($response, "create_job.php", UserController::getVars($this));
-            })->setName('create_job');
+            })->setName('create_job_get');
+
+            // if post request, new job data is coming in
+            // save to database if valid
+            // TODO: finish
+            $app->post('/create', function ($request, $response) {
+                //return $this->view->render($response, "create_job.php", UserController::getVars($this));
+            })->setName('create_job_post');
 
             //    /job/ID
             $app->get('/{id:[0-9]+}', function ($request, $response, $args) {
@@ -105,15 +137,15 @@ class UserController
                     throw new \Slim\Exception\NotFoundException($request, $response);
                 }
             })->setName('job');
-        });
 
-        //    /jobs
-        // show all jobs
-        $app->get('/jobs', function ($request, $response) {
-            $arr = UserController::getVars($this);
-            $arr['jobs'] = JobQuery::create()->find();
-            return $this->view->render($response, "jobs.php", $arr);
-        })->setName('jobs');
+            //    /jobs
+            // show all jobs, groups merge, so /job + s = /jobs
+            $app->get('s', function ($request, $response) {
+                $arr = UserController::getVars($this);
+                $arr['jobs'] = JobQuery::create()->find();
+                return $this->view->render($response, "jobs.php", $arr);
+            })->setName('jobs');
+        });
     }
     // sign out route
     public function signOut($app)
