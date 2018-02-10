@@ -66,44 +66,53 @@ class UserController
     {
         // if get request, show the profile view, either the signed in user,
         // of the user that matches the id that was passed
-        $app->get('/profile[/{id:[0-9]+}]', function ($request, $response, $args) {
-            $arr = UserController::getVars($this);
-            $arr['visiting'] = false;
+        $app->group('/profile', function () use ($app) {
 
-            if (isset($args['id'])) {
-                // if id was passed
-                $user = UserQuery::create()->findPk($args['id']);
-                if ($user != null) {
-                    // if id is valid
-                    $arr['current_user'] = $user;
-                    $arr['visiting'] = true;
-                } else {
-                    // invalid user, throw 404
-                    throw new \Slim\Exception\NotFoundException($request, $response);
+            // current user profile page
+            $app->get('', function ($request, $response, $args) {
+                return $this->view->render($response, "profile.php", UserController::getVars($this));
+            })->setName('profile');
+
+            // visiting another user profile
+            $app->get('/{id:[0-9]+}', function ($request, $response, $args) {
+                $arr = UserController::getVars($this);
+                $arr['visiting'] = false;
+
+                if (isset($args['id'])) {
+                    // if id was passed
+                    $user = UserQuery::create()->findPk($args['id']);
+                    if ($user != null) {
+                        // if id is valid
+                        $arr['current_user'] = $user;
+                        $arr['visiting'] = true;
+                    } else {
+                        // invalid user, throw 404
+                        throw new \Slim\Exception\NotFoundException($request, $response);
+                    }
                 }
-            }
-            return $this->view->render($response, "profile.php", $arr);
-        })->setName('profile');
+                return $this->view->render($response, "profile.php", $arr);
+            })->setName('visiting_profile');
 
-        // when posting to profile, that means the user wants to change
-        // some of their contact information
-        $app->post('/profile', function ($request, $response) {
-            $post = $request->getParsedBody();
-            // key will be PhoneNumber, Facebook, Twitter, Instagram
-            $key = $post['key'];
-            $value = $post['value'];
+            // when posting to profile, that means the user wants to change
+            // some of their contact information
+            $app->post('', function ($request, $response) {
+                $post = $request->getParsedBody();
+                // key will be PhoneNumber, Facebook, Twitter, Instagram
+                $key = $post['key'];
+                $value = $post['value'];
 
-            // put it in a try block since the jquery could be
-            // modified when posting
-            try {
-                $contact = currentUser()->getContactInfo();
-                $contact->setByName($key, $value);
-                $contact->save();
-                $response = $response->withJson(['success'=>true]);
-            } catch (\Exception $e) {
-                $response = $response->withJson(['success'=>false]);
-            }
-            return $response;
+                // put it in a try block since the jquery could be
+                // modified when posting
+                try {
+                    $contact = currentUser()->getContactInfo();
+                    $contact->setByName($key, $value);
+                    $contact->save();
+                    $response = $response->withJson(['success'=>true]);
+                } catch (\Exception $e) {
+                    $response = $response->withJson(['success'=>false]);
+                }
+                return $response;
+            });
         });
     }
 
