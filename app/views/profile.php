@@ -77,9 +77,9 @@
 													// per button
 										?>
 										<?php if(!$visiting || $contact->hasPhoneNumber()){ ?>
-										<a>
+										<a data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>">
 											<!-- put a tooltip on phone number -->
-											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>" data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>"></i>
+											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>"></i>
 										</a>
 										<?php } if (!$visiting || $contact->hasFacebook()) { ?>
 										<a>
