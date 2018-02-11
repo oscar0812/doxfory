@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2018 at 09:54 PM
+-- Generation Time: Feb 11, 2018 at 07:08 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -68,6 +68,7 @@ CREATE TABLE `user` (
   `profile_picture` varchar(255) NOT NULL,
   `about_me` varchar(4098) NOT NULL,
   `up_votes` int(11) NOT NULL,
+  `date_joined` int(16) NOT NULL,
   `confirmation_key` varchar(32) NOT NULL,
   `reset_key` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

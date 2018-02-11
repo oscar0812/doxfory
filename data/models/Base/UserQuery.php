@@ -27,6 +27,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery orderByProfilePicture($order = Criteria::ASC) Order by the profile_picture column
  * @method     ChildUserQuery orderByAboutMe($order = Criteria::ASC) Order by the about_me column
  * @method     ChildUserQuery orderByUpVotes($order = Criteria::ASC) Order by the up_votes column
+ * @method     ChildUserQuery orderByDateJoined($order = Criteria::ASC) Order by the date_joined column
  * @method     ChildUserQuery orderByConfirmationKey($order = Criteria::ASC) Order by the confirmation_key column
  * @method     ChildUserQuery orderByResetKey($order = Criteria::ASC) Order by the reset_key column
  *
@@ -37,6 +38,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery groupByProfilePicture() Group by the profile_picture column
  * @method     ChildUserQuery groupByAboutMe() Group by the about_me column
  * @method     ChildUserQuery groupByUpVotes() Group by the up_votes column
+ * @method     ChildUserQuery groupByDateJoined() Group by the date_joined column
  * @method     ChildUserQuery groupByConfirmationKey() Group by the confirmation_key column
  * @method     ChildUserQuery groupByResetKey() Group by the reset_key column
  *
@@ -90,6 +92,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser findOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column
  * @method     ChildUser findOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column
  * @method     ChildUser findOneByUpVotes(int $up_votes) Return the first ChildUser filtered by the up_votes column
+ * @method     ChildUser findOneByDateJoined(int $date_joined) Return the first ChildUser filtered by the date_joined column
  * @method     ChildUser findOneByConfirmationKey(string $confirmation_key) Return the first ChildUser filtered by the confirmation_key column
  * @method     ChildUser findOneByResetKey(string $reset_key) Return the first ChildUser filtered by the reset_key column *
 
@@ -103,6 +106,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser requireOneByProfilePicture(string $profile_picture) Return the first ChildUser filtered by the profile_picture column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByAboutMe(string $about_me) Return the first ChildUser filtered by the about_me column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByUpVotes(int $up_votes) Return the first ChildUser filtered by the up_votes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildUser requireOneByDateJoined(int $date_joined) Return the first ChildUser filtered by the date_joined column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByConfirmationKey(string $confirmation_key) Return the first ChildUser filtered by the confirmation_key column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildUser requireOneByResetKey(string $reset_key) Return the first ChildUser filtered by the reset_key column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -114,6 +118,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUser[]|ObjectCollection findByProfilePicture(string $profile_picture) Return ChildUser objects filtered by the profile_picture column
  * @method     ChildUser[]|ObjectCollection findByAboutMe(string $about_me) Return ChildUser objects filtered by the about_me column
  * @method     ChildUser[]|ObjectCollection findByUpVotes(int $up_votes) Return ChildUser objects filtered by the up_votes column
+ * @method     ChildUser[]|ObjectCollection findByDateJoined(int $date_joined) Return ChildUser objects filtered by the date_joined column
  * @method     ChildUser[]|ObjectCollection findByConfirmationKey(string $confirmation_key) Return ChildUser objects filtered by the confirmation_key column
  * @method     ChildUser[]|ObjectCollection findByResetKey(string $reset_key) Return ChildUser objects filtered by the reset_key column
  * @method     ChildUser[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -214,7 +219,7 @@ abstract class UserQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, first_name, last_name, password, profile_picture, about_me, up_votes, confirmation_key, reset_key FROM user WHERE id = :p0';
+        $sql = 'SELECT id, first_name, last_name, password, profile_picture, about_me, up_votes, date_joined, confirmation_key, reset_key FROM user WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -509,6 +514,47 @@ abstract class UserQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(UserTableMap::COL_UP_VOTES, $upVotes, $comparison);
+    }
+
+    /**
+     * Filter the query on the date_joined column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDateJoined(1234); // WHERE date_joined = 1234
+     * $query->filterByDateJoined(array(12, 34)); // WHERE date_joined IN (12, 34)
+     * $query->filterByDateJoined(array('min' => 12)); // WHERE date_joined > 12
+     * </code>
+     *
+     * @param     mixed $dateJoined The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildUserQuery The current query, for fluid interface
+     */
+    public function filterByDateJoined($dateJoined = null, $comparison = null)
+    {
+        if (is_array($dateJoined)) {
+            $useMinMax = false;
+            if (isset($dateJoined['min'])) {
+                $this->addUsingAlias(UserTableMap::COL_DATE_JOINED, $dateJoined['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($dateJoined['max'])) {
+                $this->addUsingAlias(UserTableMap::COL_DATE_JOINED, $dateJoined['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(UserTableMap::COL_DATE_JOINED, $dateJoined, $comparison);
     }
 
     /**
