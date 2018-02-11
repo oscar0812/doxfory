@@ -40,12 +40,20 @@ $(function() {
   contactAlert = contactModal.find('.alert').eq(0);
   startingUrl = contactModal.find('#startingUrl');
   $('#contact-buttons').on('click', '.fa', function() {
-    // show a modal
+    // show a modal or send to link, depeding on visiting status
+    name = $(this).attr('data-name');
     url = $(this).attr('data-url');
+    value = $(this).attr('data-value');
+
+    visiting = $('body').attr('data-visiting') == 1;
+    if (visiting && name != 'Phone Number') {
+      // phone numbers dont have a specific link
+      window.location.href = url + value;
+    }
 
     // set the modal title to whatever contact button was clicked
-    contactModal.find('.modal-title').text($(this).attr('data-name'));
-    contactModal.find('#contactInput').val($(this).attr('data-value'));
+    contactModal.find('.modal-title').text(name);
+    contactModal.find('#contactInput').val(value);
 
     startingUrl.text(url);
 

@@ -44,7 +44,7 @@
 	<![endif]-->
 </head>
 
-<body>
+<body data-visiting="<?=$visiting?>">
 
 	<!-- Header -->
 	<header>
@@ -71,18 +71,29 @@
 									<h3><?=$current_user->getFullName()?></h3>
 									<div class="author-social" id="contact-buttons">
 										<?$contact = $current_user->getContactInfo()?>
+										<?php // comments for below if statements
+													// show buttons only if youre not visiting
+													// or if you're visiting someone has info
+													// per button
+										?>
+										<?php if(!$visiting || $contact->hasPhoneNumber()){ ?>
 										<a>
-											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>"></i>
+											<!-- put a tooltip on phone number -->
+											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>" data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>"></i>
 										</a>
+										<?php } if (!$visiting || $contact->hasFacebook()) { ?>
 										<a>
 											<i class="fa fa-facebook" data-url="https://www.facebook.com/" data-name="Facebook" data-value="<?=$contact->getFacebook()?>"></i>
 										</a>
+										<?php } if(!$visiting || $contact->hasTwitter()) { ?>
 										<a>
 											<i class="fa fa-twitter" data-url="https://twitter.com/" data-name="Twitter" data-value="<?=$contact->getTwitter()?>"></i>
 										</a>
+										<?php } if(!$visiting || $contact->hasInstagram()) { ?>
 										<a>
 											<i class="fa fa-instagram" data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>"></i>
 										</a>
+										<?php } ?>
 									</div>
 								</div>
 								<p>About
@@ -262,7 +273,7 @@
 	<!-- /Back to top -->
 
 
-
+	<?php if(!$visiting) { // only show dialogs to if not visiting another user ?>
 	<div class="modal fade" id="pfpModal" data-id="" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -321,6 +332,8 @@
 			</div>
 		</div>
 	</div>
+
+<?php }?>
 
 	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
