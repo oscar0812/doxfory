@@ -53,7 +53,11 @@ $(function() {
 
     // set the modal title to whatever contact button was clicked
     contactModal.find('.modal-title').text(name);
-    contactModal.find('#contactInput').val(value);
+    input = contactModal.find('#contactInput');
+    if (name == 'Phone Number') {
+      input.mask('(999) 999-9999');
+    }
+    input.val(value);
 
     startingUrl.text(url);
 
