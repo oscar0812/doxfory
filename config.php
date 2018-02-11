@@ -53,8 +53,8 @@ function url()
 
 function startsWith($original, $substr)
 {
-     $length = strlen($substr);
-     return (substr($original, 0, $length) === $substr);
+    $length = strlen($substr);
+    return (substr($original, 0, $length) === $substr);
 }
 
 function endsWith($original, $substr)
@@ -63,4 +63,68 @@ function endsWith($original, $substr)
 
     return $length === 0 ||
     (substr($original, -$length) === $substr);
+}
+
+// date functions
+function getCurrentDateTime()
+{
+    $dt = new DateTime();
+    $dt->setTimezone(new DateTimeZone("Canada/Saskatchewan"));
+    return $dt;
+}
+
+function getCurrentDate()
+{
+    $today = getCurrentDateTime();
+    $today->setTime(0, 0);
+    return $today;
+}
+
+function getCurrentTime()
+{
+    return getCurrentDateTime()->getTimestamp();
+}
+
+function timestampToDate($time)
+{
+    $dt = getCurrentDateTime();
+    $dt->setTimestamp($time);
+    return $dt;
+}
+
+// get the difference between 2 dates in minutes
+function dateMinuteDifference($date1, $date2)
+{
+    if (is_int($date1)) {
+        $date1 = timestampToDate($date1);
+    }
+    if (is_int($date2)) {
+        $date2 = timestampToDate($date2);
+    }
+    $interval = new DateInterval("PT1M");
+    $periods = new DatePeriod($date1, $interval, $date2);
+    return ((int)iterator_count($periods));
+}
+
+// the functions below take strings such as "1/30/2017"
+// for parameters
+function firstSecondOfDayString($date_str)
+{
+    $date = DateTime::createFromFormat(
+        'Y-m-d',
+        $date_str,
+    new DateTimeZone("Canada/Saskatchewan")
+    );
+
+    $date->setTime(0, 0);
+    return $date;
+}
+
+function lastSecondOfDayString($date_str)
+{
+    $date = firstSecondOfDayString($date_str);
+    // add 1 day, then subtract a second
+    $date->add(new DateInterval("P1D"));
+    $date->sub(new DateInterval("PT1S"));
+    return $date;
 }
