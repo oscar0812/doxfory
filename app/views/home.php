@@ -151,7 +151,7 @@
 				<div class="col-sm-3 col-xs-6">
 					<div class="number">
 						<i class="fa fa-users"></i>
-						<h3 class="white-text"><span class="counter">451</span></h3>
+						<h3 class="white-text"><span class="counter"><?=$users->count()?></span></h3>
 						<span class="white-text">Active users</span>
 					</div>
 				</div>
@@ -161,8 +161,8 @@
 				<div class="col-sm-3 col-xs-6">
 					<div class="number">
 						<i class="fa fa-building-o"></i>
-						<h3 class="white-text"><span class="counter">12</span></h3>
-						<span class="white-text">New daily jobs</span>
+						<h3 class="white-text"><span class="counter"><?=$jobs->count()?></span></h3>
+						<span class="white-text">Jobs posted</span>
 					</div>
 				</div>
 				<!-- /number -->
@@ -181,7 +181,7 @@
 				<div class="col-sm-3 col-xs-6">
 					<div class="number">
 						<i class="fa fa-briefcase"></i>
-						<h3 class="white-text"><span class="counter">450</span></h3>
+						<h3 class="white-text"><span class="counter"><?=$jobs_completed->count()?></span></h3>
 						<span class="white-text">Jobs completed</span>
 					</div>
 				</div>

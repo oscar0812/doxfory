@@ -5,6 +5,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use \UserQuery;
 use \User;
+use \JobQuery;
 use \ContactInfo;
 use \ContactInfoQuery;
 
@@ -17,7 +18,15 @@ class HomeController
     public function index($app)
     {
         $app->get('/', function ($request, $response, $args) {
-            return $this->view->render($response, "home.php", ['router' => $this->router, 'logged_in'=>false]);
+            return $this->view->render(
+                $response,
+                "home.php",
+            ['router' => $this->router,
+            'logged_in'=>false,
+            'users'=>UserQuery::create()->find(),
+            'jobs'=>JobQuery::create()->find(),
+            'jobs_completed'=>JobQuery::create()->completed()->find()]
+            );
         })->setName('home');
     }
 
@@ -72,7 +81,7 @@ class HomeController
 
                     $contact_info->save();
                     $user->setDateJoined(getCurrentDate()->getTimestamp());
-                    
+
                     $user->save();
                     logUserIn($user->getId());
 
