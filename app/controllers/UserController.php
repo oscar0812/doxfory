@@ -116,10 +116,10 @@ class UserController
         });
     }
 
-    // set up routing for job and jobs
+    // set up routing for /jobs
     public function jobs($app)
     {
-        $app->group('/job', function () use ($app) {
+        $app->group('/jobs', function () use ($app) {
             //    /job/create
             // if get request, simply show the view to create a new job
             $app->get('/create', function ($request, $response) {
@@ -149,9 +149,8 @@ class UserController
                 }
             })->setName('job');
 
-            //    /jobs
-            // show all jobs, groups merge, so /job + s = /jobs
-            $app->get('s', function ($request, $response) {
+            //    /jobs/all
+            $app->get('/all', function ($request, $response) {
                 $arr = UserController::getVars($this);
                 $arr['jobs'] = JobQuery::create()->find();
                 return $this->view->render($response, "jobs.php", $arr);
