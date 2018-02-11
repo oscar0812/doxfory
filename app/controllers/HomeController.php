@@ -65,12 +65,14 @@ class HomeController
                     // all good
                     $user->setConfirmationKey(md5(rand(0, 1000)));
 
-                    // set a row of social_media, each user should have a row
+                    // set a row of contact_info, each user should have a row
                     $contact_info = new ContactInfo();
                     $contact_info->setEmail($email);
                     $contact_info->setUser($user);
-                    $contact_info->save();
 
+                    $contact_info->save();
+                    $user->setDateJoined(getCurrentDate()->getTimestamp());
+                    
                     $user->save();
                     logUserIn($user->getId());
 
