@@ -45,6 +45,7 @@ CREATE TABLE `contact_info` (
 
 CREATE TABLE `job` (
   `id` int(11) NOT NULL,
+  `time_posted` int(16) NOT NULL,
   `is_completed` tinyint(1) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` varchar(4098) NOT NULL,

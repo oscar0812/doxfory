@@ -21,6 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildJobQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildJobQuery orderByTimePosted($order = Criteria::ASC) Order by the time_posted column
  * @method     ChildJobQuery orderByIsCompleted($order = Criteria::ASC) Order by the is_completed column
  * @method     ChildJobQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
@@ -30,6 +31,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
  *
  * @method     ChildJobQuery groupById() Group by the id column
+ * @method     ChildJobQuery groupByTimePosted() Group by the time_posted column
  * @method     ChildJobQuery groupByIsCompleted() Group by the is_completed column
  * @method     ChildJobQuery groupByTitle() Group by the title column
  * @method     ChildJobQuery groupByDescription() Group by the description column
@@ -72,6 +74,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJob matching the query, or a new ChildJob object populated from the query conditions when no match is found
  *
  * @method     ChildJob findOneById(int $id) Return the first ChildJob filtered by the id column
+ * @method     ChildJob findOneByTimePosted(int $time_posted) Return the first ChildJob filtered by the time_posted column
  * @method     ChildJob findOneByIsCompleted(boolean $is_completed) Return the first ChildJob filtered by the is_completed column
  * @method     ChildJob findOneByTitle(string $title) Return the first ChildJob filtered by the title column
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
@@ -84,6 +87,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOne(ConnectionInterface $con = null) Return the first ChildJob matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildJob requireOneById(int $id) Return the first ChildJob filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByTimePosted(int $time_posted) Return the first ChildJob filtered by the time_posted column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByIsCompleted(boolean $is_completed) Return the first ChildJob filtered by the is_completed column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByTitle(string $title) Return the first ChildJob filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -94,6 +98,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildJob[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJob objects based on current ModelCriteria
  * @method     ChildJob[]|ObjectCollection findById(int $id) Return ChildJob objects filtered by the id column
+ * @method     ChildJob[]|ObjectCollection findByTimePosted(int $time_posted) Return ChildJob objects filtered by the time_posted column
  * @method     ChildJob[]|ObjectCollection findByIsCompleted(boolean $is_completed) Return ChildJob objects filtered by the is_completed column
  * @method     ChildJob[]|ObjectCollection findByTitle(string $title) Return ChildJob objects filtered by the title column
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
@@ -199,7 +204,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, is_completed, title, description, image, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, time_posted, is_completed, title, description, image, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -328,6 +333,47 @@ abstract class JobQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the time_posted column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTimePosted(1234); // WHERE time_posted = 1234
+     * $query->filterByTimePosted(array(12, 34)); // WHERE time_posted IN (12, 34)
+     * $query->filterByTimePosted(array('min' => 12)); // WHERE time_posted > 12
+     * </code>
+     *
+     * @param     mixed $timePosted The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByTimePosted($timePosted = null, $comparison = null)
+    {
+        if (is_array($timePosted)) {
+            $useMinMax = false;
+            if (isset($timePosted['min'])) {
+                $this->addUsingAlias(JobTableMap::COL_TIME_POSTED, $timePosted['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($timePosted['max'])) {
+                $this->addUsingAlias(JobTableMap::COL_TIME_POSTED, $timePosted['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobTableMap::COL_TIME_POSTED, $timePosted, $comparison);
     }
 
     /**

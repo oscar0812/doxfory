@@ -69,6 +69,13 @@ abstract class Job implements ActiveRecordInterface
     protected $id;
 
     /**
+     * The value for the time_posted field.
+     *
+     * @var        int
+     */
+    protected $time_posted;
+
+    /**
      * The value for the is_completed field.
      *
      * @var        boolean
@@ -371,6 +378,16 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
+     * Get the [time_posted] column value.
+     *
+     * @return int
+     */
+    public function getTimePosted()
+    {
+        return $this->time_posted;
+    }
+
+    /**
      * Get the [is_completed] column value.
      *
      * @return boolean
@@ -469,6 +486,26 @@ abstract class Job implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [time_posted] column.
+     *
+     * @param int $v new value
+     * @return $this|\Job The current object (for fluent API support)
+     */
+    public function setTimePosted($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->time_posted !== $v) {
+            $this->time_posted = $v;
+            $this->modifiedColumns[JobTableMap::COL_TIME_POSTED] = true;
+        }
+
+        return $this;
+    } // setTimePosted()
 
     /**
      * Sets the value of the [is_completed] column.
@@ -665,25 +702,28 @@ abstract class Job implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobTableMap::translateFieldName('IsCompleted', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobTableMap::translateFieldName('TimePosted', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->time_posted = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobTableMap::translateFieldName('IsCompleted', TableMap::TYPE_PHPNAME, $indexType)];
             $this->is_completed = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobTableMap::translateFieldName('Description', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobTableMap::translateFieldName('Description', TableMap::TYPE_PHPNAME, $indexType)];
             $this->description = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobTableMap::translateFieldName('Image', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobTableMap::translateFieldName('Image', TableMap::TYPE_PHPNAME, $indexType)];
             $this->image = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobTableMap::translateFieldName('Payment', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('Payment', TableMap::TYPE_PHPNAME, $indexType)];
             $this->payment = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posted_by_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->accepted_by_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -693,7 +733,7 @@ abstract class Job implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = JobTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = JobTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Job'), 0, $e);
@@ -924,6 +964,9 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
+        if ($this->isColumnModified(JobTableMap::COL_TIME_POSTED)) {
+            $modifiedColumns[':p' . $index++]  = 'time_posted';
+        }
         if ($this->isColumnModified(JobTableMap::COL_IS_COMPLETED)) {
             $modifiedColumns[':p' . $index++]  = 'is_completed';
         }
@@ -958,6 +1001,9 @@ abstract class Job implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'time_posted':
+                        $stmt->bindValue($identifier, $this->time_posted, PDO::PARAM_INT);
                         break;
                     case 'is_completed':
                         $stmt->bindValue($identifier, (int) $this->is_completed, PDO::PARAM_INT);
@@ -1046,24 +1092,27 @@ abstract class Job implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getIsCompleted();
+                return $this->getTimePosted();
                 break;
             case 2:
-                return $this->getTitle();
+                return $this->getIsCompleted();
                 break;
             case 3:
-                return $this->getDescription();
+                return $this->getTitle();
                 break;
             case 4:
-                return $this->getImage();
+                return $this->getDescription();
                 break;
             case 5:
-                return $this->getPayment();
+                return $this->getImage();
                 break;
             case 6:
-                return $this->getPostedById();
+                return $this->getPayment();
                 break;
             case 7:
+                return $this->getPostedById();
+                break;
+            case 8:
                 return $this->getAcceptedById();
                 break;
             default:
@@ -1097,13 +1146,14 @@ abstract class Job implements ActiveRecordInterface
         $keys = JobTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getIsCompleted(),
-            $keys[2] => $this->getTitle(),
-            $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getImage(),
-            $keys[5] => $this->getPayment(),
-            $keys[6] => $this->getPostedById(),
-            $keys[7] => $this->getAcceptedById(),
+            $keys[1] => $this->getTimePosted(),
+            $keys[2] => $this->getIsCompleted(),
+            $keys[3] => $this->getTitle(),
+            $keys[4] => $this->getDescription(),
+            $keys[5] => $this->getImage(),
+            $keys[6] => $this->getPayment(),
+            $keys[7] => $this->getPostedById(),
+            $keys[8] => $this->getAcceptedById(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1179,24 +1229,27 @@ abstract class Job implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setIsCompleted($value);
+                $this->setTimePosted($value);
                 break;
             case 2:
-                $this->setTitle($value);
+                $this->setIsCompleted($value);
                 break;
             case 3:
-                $this->setDescription($value);
+                $this->setTitle($value);
                 break;
             case 4:
-                $this->setImage($value);
+                $this->setDescription($value);
                 break;
             case 5:
-                $this->setPayment($value);
+                $this->setImage($value);
                 break;
             case 6:
-                $this->setPostedById($value);
+                $this->setPayment($value);
                 break;
             case 7:
+                $this->setPostedById($value);
+                break;
+            case 8:
                 $this->setAcceptedById($value);
                 break;
         } // switch()
@@ -1229,25 +1282,28 @@ abstract class Job implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setIsCompleted($arr[$keys[1]]);
+            $this->setTimePosted($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setTitle($arr[$keys[2]]);
+            $this->setIsCompleted($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setDescription($arr[$keys[3]]);
+            $this->setTitle($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setImage($arr[$keys[4]]);
+            $this->setDescription($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setPayment($arr[$keys[5]]);
+            $this->setImage($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setPostedById($arr[$keys[6]]);
+            $this->setPayment($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setAcceptedById($arr[$keys[7]]);
+            $this->setPostedById($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setAcceptedById($arr[$keys[8]]);
         }
     }
 
@@ -1292,6 +1348,9 @@ abstract class Job implements ActiveRecordInterface
 
         if ($this->isColumnModified(JobTableMap::COL_ID)) {
             $criteria->add(JobTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(JobTableMap::COL_TIME_POSTED)) {
+            $criteria->add(JobTableMap::COL_TIME_POSTED, $this->time_posted);
         }
         if ($this->isColumnModified(JobTableMap::COL_IS_COMPLETED)) {
             $criteria->add(JobTableMap::COL_IS_COMPLETED, $this->is_completed);
@@ -1400,6 +1459,7 @@ abstract class Job implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setTimePosted($this->getTimePosted());
         $copyObj->setIsCompleted($this->getIsCompleted());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setDescription($this->getDescription());
@@ -1551,6 +1611,7 @@ abstract class Job implements ActiveRecordInterface
             $this->aAcceptedByUser->removeJobRelatedByAcceptedById($this);
         }
         $this->id = null;
+        $this->time_posted = null;
         $this->is_completed = null;
         $this->title = null;
         $this->description = null;
