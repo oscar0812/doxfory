@@ -14,5 +14,8 @@ use Base\JobQuery as BaseJobQuery;
  */
 class JobQuery extends BaseJobQuery
 {
-
+    public function completed()
+    {
+        return $this->filterByIsCompleted('yes');
+    }
 }
