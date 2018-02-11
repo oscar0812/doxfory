@@ -70,7 +70,9 @@ class UserController
 
             // current user profile page
             $app->get('', function ($request, $response, $args) {
-                return $this->view->render($response, "profile.php", UserController::getVars($this));
+                $arr = UserController::getVars($this);
+                $arr['visiting'] = false;
+                return $this->view->render($response, "profile.php", $arr);
             })->setName('profile');
 
             // visiting another user profile
@@ -216,6 +218,7 @@ class UserController
                     $response = $next($request, $response);
                 }
             } else {
+                // user isn't signed in, send em home
                 $response = $response->withRedirect($this->router->pathFor('home'));
             }
             return $response;
