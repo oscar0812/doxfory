@@ -32,6 +32,9 @@
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/profile.css" />
+	
+	<link rel="shortcut icon" href="<?=$home?>img/logo.png" type="image/x-icon">
+	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

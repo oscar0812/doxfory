@@ -8,6 +8,8 @@
   <link type="text/css" rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css" />
   <link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
   <link type="text/css" rel="stylesheet" href="<?=$home?>css/main/404.css" />
+  <link rel="shortcut icon" href="<?=$home?>img/logo.png" type="image/x-icon">
+	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 </head>
 
 <body>

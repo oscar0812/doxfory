@@ -169,7 +169,7 @@ class UserController
     }
 
     // only accepts post request
-    // if posted, means user is trying to change pfpForm
+    // if posted, means user is trying to change pfp
     // or trying to post an image for a job
     public function uploadImg($app)
     {
