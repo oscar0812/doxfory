@@ -32,7 +32,7 @@
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/agency.css" />
 	<link type="text/css" rel="stylesheet" href="<?=$home?>css/user/profile.css" />
-	
+
 	<link rel="shortcut icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 
@@ -73,12 +73,16 @@
         <!-- info form -->
         <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
           <form class="contact-form">
+
+						<div class="row">
+							<img src="" alt="">
+							<label>
+                <button type="button" class="btn btn-primary" name="button" id="upload">Upload image</button>
+              </label>
+						</div>
+
             <div class="row">
               <input type="text" class="input" placeholder="Title">
-
-              <label>
-                <button type="button" class="btn btn-primary" name="button">Upload image</button>
-              </label>
 
             </div>
             <div class="row">
@@ -123,6 +127,37 @@
 	<div id="back-to-top"></div>
 	<!-- /Back to top -->
 
+	<div class="modal fade" id="jobPicModal" data-id="" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<strong class="modal-title">Upload an image showing the job</strong>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+				</div>
+				<div class="modal-body">
+
+					<div class="alert alert-danger invisible">
+
+					</div>
+
+					<form method="post" action="<?=$router->pathFor('upload_job_image')?>" enctype="multipart/form-data" id="pfpForm">
+						<label class="btn btn-default">
+    							<input type="file" accept="image/*" name="jobImageUpload" id="jobImageUpload" hidden>
+
+								</label>
+						<button class="btn button btn-primary" id="submit">Upload Image</button>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
@@ -130,7 +165,7 @@
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/user/profile.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/user/create_job.js"></script>
 
 	</script>
 
