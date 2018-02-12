@@ -293,7 +293,7 @@
 
 					<form method="post" action="<?=$router->pathFor('upload_pfp')?>" enctype="multipart/form-data" id="pfpForm">
 						<label class="btn btn-default">
-    							<input type="file" accept="image/*" name="fileToUpload" id="fileToUpload" hidden>
+    							<input type="file" accept="image/*" name="pfpUpload" id="pfpUpload" hidden>
 
 								</label>
 						<button class="btn button btn-primary" id="submit">Upload Image</button>
