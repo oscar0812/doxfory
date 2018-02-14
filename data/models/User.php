@@ -15,4 +15,35 @@ use Base\User as BaseUser;
 class User extends BaseUser
 {
 
+    public function setPassword($password)
+    {
+        // hash password
+        $hash = PHPassLib\Hash\BCrypt::hash($password);
+        // store the Hash
+        parent::setPassword($hash);
+    }
+    public function login($password)
+    {
+        return PHPassLib\Hash\BCrypt::verify($password, $this->getPassword());
+    }
+
+    public function getFullName()
+    {
+        return $this->getFirstName()." ".$this->getLastName();
+    }
+
+    public function isConfirmed()
+    {
+        $key = $this->getConfirmationKey();
+        return $key == null || $key == "";
+    }
+
+    public function getProfilePicture()
+    {
+        $pfp = parent::getProfilePicture();
+        if ($pfp == null || $pfp == "") {
+            $pfp = '../img/blank_pfp.png';
+        }
+        return $pfp;
+    }
 }

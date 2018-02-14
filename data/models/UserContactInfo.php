@@ -14,5 +14,27 @@ use Base\UserContactInfo as BaseUserContactInfo;
  */
 class UserContactInfo extends BaseUserContactInfo
 {
+    public function hasPhoneNumber()
+    {
+        $x = $this->getPhoneNumber();
+        return $x != null && $x != "";
+    }
 
+    public function hasFacebook()
+    {
+        $x = $this->getFacebook();
+        return $x != null && $x != "";
+    }
+
+    public function hasTwitter()
+    {
+        $x = $this->getTwitter();
+        return $x != null && $x != "";
+    }
+
+    public function hasInstagram()
+    {
+        $x = $this->getInstagram();
+        return $x != null && $x != "";
+    }
 }
