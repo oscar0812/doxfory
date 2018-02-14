@@ -14,5 +14,8 @@ use Base\Job as BaseJob;
  */
 class Job extends BaseJob
 {
-
+    public function getPayment()
+    {
+        return $this->getJobPayment();
+    }
 }

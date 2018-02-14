@@ -14,7 +14,11 @@ use Base\User as BaseUser;
  */
 class User extends BaseUser
 {
-
+    public function getContactInfo()
+    {
+        return $this->getUserContactInfo();
+    }
+    
     public function setPassword($password)
     {
         // hash password
