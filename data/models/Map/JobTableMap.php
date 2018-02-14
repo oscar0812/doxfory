@@ -190,7 +190,7 @@ class JobTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, null, false);
-        $this->addRelation('Payment', '\\Payment', RelationMap::ONE_TO_ONE, array (
+        $this->addRelation('JobPayment', '\\JobPayment', RelationMap::ONE_TO_ONE, array (
   0 =>
   array (
     0 => ':job_id',

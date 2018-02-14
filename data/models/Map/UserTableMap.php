@@ -188,13 +188,6 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ContactInfo', '\\ContactInfo', RelationMap::ONE_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':user_id',
-    1 => ':id',
-  ),
-), null, null, null, false);
         $this->addRelation('JobRelatedByPostedById', '\\Job', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
@@ -209,6 +202,13 @@ class UserTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, 'JobsRelatedByAcceptedById', false);
+        $this->addRelation('UserContactInfo', '\\UserContactInfo', RelationMap::ONE_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':user_id',
+    1 => ':id',
+  ),
+), null, null, null, false);
     } // buildRelations()
 
     /**

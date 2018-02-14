@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \ContactInfo as ChildContactInfo;
-use \ContactInfoQuery as ChildContactInfoQuery;
 use \Job as ChildJob;
 use \JobQuery as ChildJobQuery;
 use \User as ChildUser;
+use \UserContactInfo as ChildUserContactInfo;
+use \UserContactInfoQuery as ChildUserContactInfoQuery;
 use \UserQuery as ChildUserQuery;
 use \Exception;
 use \PDO;
@@ -148,11 +148,6 @@ abstract class User implements ActiveRecordInterface
     protected $reset_key;
 
     /**
-     * @var        ChildContactInfo one-to-one related ChildContactInfo object
-     */
-    protected $singleContactInfo;
-
-    /**
      * @var        ObjectCollection|ChildJob[] Collection to store aggregation of ChildJob objects.
      */
     protected $collJobsRelatedByPostedById;
@@ -163,6 +158,11 @@ abstract class User implements ActiveRecordInterface
      */
     protected $collJobsRelatedByAcceptedById;
     protected $collJobsRelatedByAcceptedByIdPartial;
+
+    /**
+     * @var        ChildUserContactInfo one-to-one related ChildUserContactInfo object
+     */
+    protected $singleUserContactInfo;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -860,11 +860,11 @@ abstract class User implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->singleContactInfo = null;
-
             $this->collJobsRelatedByPostedById = null;
 
             $this->collJobsRelatedByAcceptedById = null;
+
+            $this->singleUserContactInfo = null;
 
         } // if (deep)
     }
@@ -980,12 +980,6 @@ abstract class User implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->singleContactInfo !== null) {
-                if (!$this->singleContactInfo->isDeleted() && ($this->singleContactInfo->isNew() || $this->singleContactInfo->isModified())) {
-                    $affectedRows += $this->singleContactInfo->save($con);
-                }
-            }
-
             if ($this->jobsRelatedByPostedByIdScheduledForDeletion !== null) {
                 if (!$this->jobsRelatedByPostedByIdScheduledForDeletion->isEmpty()) {
                     \JobQuery::create()
@@ -1017,6 +1011,12 @@ abstract class User implements ActiveRecordInterface
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
+                }
+            }
+
+            if ($this->singleUserContactInfo !== null) {
+                if (!$this->singleUserContactInfo->isDeleted() && ($this->singleUserContactInfo->isNew() || $this->singleUserContactInfo->isModified())) {
+                    $affectedRows += $this->singleUserContactInfo->save($con);
                 }
             }
 
@@ -1256,21 +1256,6 @@ abstract class User implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->singleContactInfo) {
-
-                switch ($keyType) {
-                    case TableMap::TYPE_CAMELNAME:
-                        $key = 'contactInfo';
-                        break;
-                    case TableMap::TYPE_FIELDNAME:
-                        $key = 'contact_info';
-                        break;
-                    default:
-                        $key = 'ContactInfo';
-                }
-
-                $result[$key] = $this->singleContactInfo->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
-            }
             if (null !== $this->collJobsRelatedByPostedById) {
 
                 switch ($keyType) {
@@ -1300,6 +1285,21 @@ abstract class User implements ActiveRecordInterface
                 }
 
                 $result[$key] = $this->collJobsRelatedByAcceptedById->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
+            if (null !== $this->singleUserContactInfo) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'userContactInfo';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'user_contact_info';
+                        break;
+                    default:
+                        $key = 'UserContactInfo';
+                }
+
+                $result[$key] = $this->singleUserContactInfo->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
             }
         }
 
@@ -1593,11 +1593,6 @@ abstract class User implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            $relObj = $this->getContactInfo();
-            if ($relObj) {
-                $copyObj->setContactInfo($relObj->copy($deepCopy));
-            }
-
             foreach ($this->getJobsRelatedByPostedById() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addJobRelatedByPostedById($relObj->copy($deepCopy));
@@ -1608,6 +1603,11 @@ abstract class User implements ActiveRecordInterface
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addJobRelatedByAcceptedById($relObj->copy($deepCopy));
                 }
+            }
+
+            $relObj = $this->getUserContactInfo();
+            if ($relObj) {
+                $copyObj->setUserContactInfo($relObj->copy($deepCopy));
             }
 
         } // if ($deepCopy)
@@ -1659,42 +1659,6 @@ abstract class User implements ActiveRecordInterface
             $this->initJobsRelatedByAcceptedById();
             return;
         }
-    }
-
-    /**
-     * Gets a single ChildContactInfo object, which is related to this object by a one-to-one relationship.
-     *
-     * @param  ConnectionInterface $con optional connection object
-     * @return ChildContactInfo
-     * @throws PropelException
-     */
-    public function getContactInfo(ConnectionInterface $con = null)
-    {
-
-        if ($this->singleContactInfo === null && !$this->isNew()) {
-            $this->singleContactInfo = ChildContactInfoQuery::create()->findPk($this->getPrimaryKey(), $con);
-        }
-
-        return $this->singleContactInfo;
-    }
-
-    /**
-     * Sets a single ChildContactInfo object as related to this object by a one-to-one relationship.
-     *
-     * @param  ChildContactInfo $v ChildContactInfo
-     * @return $this|\User The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setContactInfo(ChildContactInfo $v = null)
-    {
-        $this->singleContactInfo = $v;
-
-        // Make sure that that the passed-in ChildContactInfo isn't already associated with this object
-        if ($v !== null && $v->getUser(null, false) === null) {
-            $v->setUser($this);
-        }
-
-        return $this;
     }
 
     /**
@@ -2148,6 +2112,42 @@ abstract class User implements ActiveRecordInterface
     }
 
     /**
+     * Gets a single ChildUserContactInfo object, which is related to this object by a one-to-one relationship.
+     *
+     * @param  ConnectionInterface $con optional connection object
+     * @return ChildUserContactInfo
+     * @throws PropelException
+     */
+    public function getUserContactInfo(ConnectionInterface $con = null)
+    {
+
+        if ($this->singleUserContactInfo === null && !$this->isNew()) {
+            $this->singleUserContactInfo = ChildUserContactInfoQuery::create()->findPk($this->getPrimaryKey(), $con);
+        }
+
+        return $this->singleUserContactInfo;
+    }
+
+    /**
+     * Sets a single ChildUserContactInfo object as related to this object by a one-to-one relationship.
+     *
+     * @param  ChildUserContactInfo $v ChildUserContactInfo
+     * @return $this|\User The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setUserContactInfo(ChildUserContactInfo $v = null)
+    {
+        $this->singleUserContactInfo = $v;
+
+        // Make sure that that the passed-in ChildUserContactInfo isn't already associated with this object
+        if ($v !== null && $v->getUser(null, false) === null) {
+            $v->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
      * Clears the current object, sets all attributes to their default values and removes
      * outgoing references as well as back-references (from other objects to this one. Results probably in a database
      * change of those foreign objects when you call `save` there).
@@ -2182,9 +2182,6 @@ abstract class User implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->singleContactInfo) {
-                $this->singleContactInfo->clearAllReferences($deep);
-            }
             if ($this->collJobsRelatedByPostedById) {
                 foreach ($this->collJobsRelatedByPostedById as $o) {
                     $o->clearAllReferences($deep);
@@ -2195,11 +2192,14 @@ abstract class User implements ActiveRecordInterface
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->singleUserContactInfo) {
+                $this->singleUserContactInfo->clearAllReferences($deep);
+            }
         } // if ($deep)
 
-        $this->singleContactInfo = null;
         $this->collJobsRelatedByPostedById = null;
         $this->collJobsRelatedByAcceptedById = null;
+        $this->singleUserContactInfo = null;
     }
 
     /**

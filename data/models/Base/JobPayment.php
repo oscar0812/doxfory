@@ -2,12 +2,12 @@
 
 namespace Base;
 
-use \ContactInfoQuery as ChildContactInfoQuery;
-use \User as ChildUser;
-use \UserQuery as ChildUserQuery;
+use \Job as ChildJob;
+use \JobPaymentQuery as ChildJobPaymentQuery;
+use \JobQuery as ChildJobQuery;
 use \Exception;
 use \PDO;
-use Map\ContactInfoTableMap;
+use Map\JobPaymentTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -21,18 +21,18 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
 /**
- * Base class that represents a row from the 'contact_info' table.
+ * Base class that represents a row from the 'job_payment' table.
  *
  *
  *
  * @package    propel.generator..Base
  */
-abstract class ContactInfo implements ActiveRecordInterface
+abstract class JobPayment implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Map\\ContactInfoTableMap';
+    const TABLE_MAP = '\\Map\\JobPaymentTableMap';
 
 
     /**
@@ -62,51 +62,51 @@ abstract class ContactInfo implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the user_id field.
+     * The value for the job_id field.
      *
      * @var        int
      */
-    protected $user_id;
+    protected $job_id;
 
     /**
-     * The value for the email field.
+     * The value for the money_amount field.
+     *
+     * @var        double
+     */
+    protected $money_amount;
+
+    /**
+     * The value for the is_online_pay field.
+     *
+     * @var        boolean
+     */
+    protected $is_online_pay;
+
+    /**
+     * The value for the is_in_person_payment field.
+     *
+     * @var        boolean
+     */
+    protected $is_in_person_payment;
+
+    /**
+     * The value for the is_barter field.
+     *
+     * @var        boolean
+     */
+    protected $is_barter;
+
+    /**
+     * The value for the barter_item field.
      *
      * @var        string
      */
-    protected $email;
+    protected $barter_item;
 
     /**
-     * The value for the phone_number field.
-     *
-     * @var        string
+     * @var        ChildJob
      */
-    protected $phone_number;
-
-    /**
-     * The value for the facebook field.
-     *
-     * @var        string
-     */
-    protected $facebook;
-
-    /**
-     * The value for the twitter field.
-     *
-     * @var        string
-     */
-    protected $twitter;
-
-    /**
-     * The value for the instagram field.
-     *
-     * @var        string
-     */
-    protected $instagram;
-
-    /**
-     * @var        ChildUser
-     */
-    protected $aUser;
+    protected $aJob;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -117,7 +117,7 @@ abstract class ContactInfo implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Initializes internal state of Base\ContactInfo object.
+     * Initializes internal state of Base\JobPayment object.
      */
     public function __construct()
     {
@@ -212,9 +212,9 @@ abstract class ContactInfo implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>ContactInfo</code> instance.  If
-     * <code>obj</code> is an instance of <code>ContactInfo</code>, delegates to
-     * <code>equals(ContactInfo)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>JobPayment</code> instance.  If
+     * <code>obj</code> is an instance of <code>JobPayment</code>, delegates to
+     * <code>equals(JobPayment)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -280,7 +280,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|ContactInfo The current object, for fluid interface
+     * @return $this|JobPayment The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -342,188 +342,242 @@ abstract class ContactInfo implements ActiveRecordInterface
     }
 
     /**
-     * Get the [user_id] column value.
+     * Get the [job_id] column value.
      *
      * @return int
      */
-    public function getUserId()
+    public function getJobId()
     {
-        return $this->user_id;
+        return $this->job_id;
     }
 
     /**
-     * Get the [email] column value.
+     * Get the [money_amount] column value.
+     *
+     * @return double
+     */
+    public function getMoneyAmount()
+    {
+        return $this->money_amount;
+    }
+
+    /**
+     * Get the [is_online_pay] column value.
+     *
+     * @return boolean
+     */
+    public function getIsOnlinePay()
+    {
+        return $this->is_online_pay;
+    }
+
+    /**
+     * Get the [is_online_pay] column value.
+     *
+     * @return boolean
+     */
+    public function isOnlinePay()
+    {
+        return $this->getIsOnlinePay();
+    }
+
+    /**
+     * Get the [is_in_person_payment] column value.
+     *
+     * @return boolean
+     */
+    public function getIsInPersonPayment()
+    {
+        return $this->is_in_person_payment;
+    }
+
+    /**
+     * Get the [is_in_person_payment] column value.
+     *
+     * @return boolean
+     */
+    public function isInPersonPayment()
+    {
+        return $this->getIsInPersonPayment();
+    }
+
+    /**
+     * Get the [is_barter] column value.
+     *
+     * @return boolean
+     */
+    public function getIsBarter()
+    {
+        return $this->is_barter;
+    }
+
+    /**
+     * Get the [is_barter] column value.
+     *
+     * @return boolean
+     */
+    public function isBarter()
+    {
+        return $this->getIsBarter();
+    }
+
+    /**
+     * Get the [barter_item] column value.
      *
      * @return string
      */
-    public function getEmail()
+    public function getBarterItem()
     {
-        return $this->email;
+        return $this->barter_item;
     }
 
     /**
-     * Get the [phone_number] column value.
-     *
-     * @return string
-     */
-    public function getPhoneNumber()
-    {
-        return $this->phone_number;
-    }
-
-    /**
-     * Get the [facebook] column value.
-     *
-     * @return string
-     */
-    public function getFacebook()
-    {
-        return $this->facebook;
-    }
-
-    /**
-     * Get the [twitter] column value.
-     *
-     * @return string
-     */
-    public function getTwitter()
-    {
-        return $this->twitter;
-    }
-
-    /**
-     * Get the [instagram] column value.
-     *
-     * @return string
-     */
-    public function getInstagram()
-    {
-        return $this->instagram;
-    }
-
-    /**
-     * Set the value of [user_id] column.
+     * Set the value of [job_id] column.
      *
      * @param int $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
+     * @return $this|\JobPayment The current object (for fluent API support)
      */
-    public function setUserId($v)
+    public function setJobId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->user_id !== $v) {
-            $this->user_id = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_USER_ID] = true;
+        if ($this->job_id !== $v) {
+            $this->job_id = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_JOB_ID] = true;
         }
 
-        if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-            $this->aUser = null;
+        if ($this->aJob !== null && $this->aJob->getId() !== $v) {
+            $this->aJob = null;
         }
 
         return $this;
-    } // setUserId()
+    } // setJobId()
 
     /**
-     * Set the value of [email] column.
+     * Set the value of [money_amount] column.
+     *
+     * @param double $v new value
+     * @return $this|\JobPayment The current object (for fluent API support)
+     */
+    public function setMoneyAmount($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->money_amount !== $v) {
+            $this->money_amount = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_MONEY_AMOUNT] = true;
+        }
+
+        return $this;
+    } // setMoneyAmount()
+
+    /**
+     * Sets the value of the [is_online_pay] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\JobPayment The current object (for fluent API support)
+     */
+    public function setIsOnlinePay($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->is_online_pay !== $v) {
+            $this->is_online_pay = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_IS_ONLINE_PAY] = true;
+        }
+
+        return $this;
+    } // setIsOnlinePay()
+
+    /**
+     * Sets the value of the [is_in_person_payment] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\JobPayment The current object (for fluent API support)
+     */
+    public function setIsInPersonPayment($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->is_in_person_payment !== $v) {
+            $this->is_in_person_payment = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT] = true;
+        }
+
+        return $this;
+    } // setIsInPersonPayment()
+
+    /**
+     * Sets the value of the [is_barter] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\JobPayment The current object (for fluent API support)
+     */
+    public function setIsBarter($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->is_barter !== $v) {
+            $this->is_barter = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_IS_BARTER] = true;
+        }
+
+        return $this;
+    } // setIsBarter()
+
+    /**
+     * Set the value of [barter_item] column.
      *
      * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
+     * @return $this|\JobPayment The current object (for fluent API support)
      */
-    public function setEmail($v)
+    public function setBarterItem($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->email !== $v) {
-            $this->email = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_EMAIL] = true;
+        if ($this->barter_item !== $v) {
+            $this->barter_item = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_BARTER_ITEM] = true;
         }
 
         return $this;
-    } // setEmail()
-
-    /**
-     * Set the value of [phone_number] column.
-     *
-     * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
-     */
-    public function setPhoneNumber($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->phone_number !== $v) {
-            $this->phone_number = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_PHONE_NUMBER] = true;
-        }
-
-        return $this;
-    } // setPhoneNumber()
-
-    /**
-     * Set the value of [facebook] column.
-     *
-     * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
-     */
-    public function setFacebook($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->facebook !== $v) {
-            $this->facebook = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_FACEBOOK] = true;
-        }
-
-        return $this;
-    } // setFacebook()
-
-    /**
-     * Set the value of [twitter] column.
-     *
-     * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
-     */
-    public function setTwitter($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->twitter !== $v) {
-            $this->twitter = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_TWITTER] = true;
-        }
-
-        return $this;
-    } // setTwitter()
-
-    /**
-     * Set the value of [instagram] column.
-     *
-     * @param string $v new value
-     * @return $this|\ContactInfo The current object (for fluent API support)
-     */
-    public function setInstagram($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->instagram !== $v) {
-            $this->instagram = $v;
-            $this->modifiedColumns[ContactInfoTableMap::COL_INSTAGRAM] = true;
-        }
-
-        return $this;
-    } // setInstagram()
+    } // setBarterItem()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -561,23 +615,23 @@ abstract class ContactInfo implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ContactInfoTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->user_id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : JobPaymentTableMap::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->job_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ContactInfoTableMap::translateFieldName('Email', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->email = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : JobPaymentTableMap::translateFieldName('MoneyAmount', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->money_amount = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ContactInfoTableMap::translateFieldName('PhoneNumber', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->phone_number = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobPaymentTableMap::translateFieldName('IsOnlinePay', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_online_pay = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ContactInfoTableMap::translateFieldName('Facebook', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->facebook = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobPaymentTableMap::translateFieldName('IsInPersonPayment', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_in_person_payment = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ContactInfoTableMap::translateFieldName('Twitter', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->twitter = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobPaymentTableMap::translateFieldName('IsBarter', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_barter = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ContactInfoTableMap::translateFieldName('Instagram', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->instagram = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobPaymentTableMap::translateFieldName('BarterItem', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->barter_item = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -586,10 +640,10 @@ abstract class ContactInfo implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = ContactInfoTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = JobPaymentTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\ContactInfo'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\JobPayment'), 0, $e);
         }
     }
 
@@ -608,8 +662,8 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aUser !== null && $this->user_id !== $this->aUser->getId()) {
-            $this->aUser = null;
+        if ($this->aJob !== null && $this->job_id !== $this->aJob->getId()) {
+            $this->aJob = null;
         }
     } // ensureConsistency
 
@@ -634,13 +688,13 @@ abstract class ContactInfo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(ContactInfoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildContactInfoQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildJobPaymentQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -650,7 +704,7 @@ abstract class ContactInfo implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aUser = null;
+            $this->aJob = null;
         } // if (deep)
     }
 
@@ -660,8 +714,8 @@ abstract class ContactInfo implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see ContactInfo::setDeleted()
-     * @see ContactInfo::isDeleted()
+     * @see JobPayment::setDeleted()
+     * @see JobPayment::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -670,11 +724,11 @@ abstract class ContactInfo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildContactInfoQuery::create()
+            $deleteQuery = ChildJobPaymentQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -709,7 +763,7 @@ abstract class ContactInfo implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -728,7 +782,7 @@ abstract class ContactInfo implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ContactInfoTableMap::addInstanceToPool($this);
+                JobPaymentTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -759,11 +813,11 @@ abstract class ContactInfo implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aUser !== null) {
-                if ($this->aUser->isModified() || $this->aUser->isNew()) {
-                    $affectedRows += $this->aUser->save($con);
+            if ($this->aJob !== null) {
+                if ($this->aJob->isModified() || $this->aJob->isNew()) {
+                    $affectedRows += $this->aJob->save($con);
                 }
-                $this->setUser($this->aUser);
+                $this->setJob($this->aJob);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -797,30 +851,29 @@ abstract class ContactInfo implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[ContactInfoTableMap::COL_USER_ID] = true;
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ContactInfoTableMap::COL_USER_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'user_id';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_JOB_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'job_id';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_EMAIL)) {
-            $modifiedColumns[':p' . $index++]  = 'email';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_MONEY_AMOUNT)) {
+            $modifiedColumns[':p' . $index++]  = 'money_amount';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_PHONE_NUMBER)) {
-            $modifiedColumns[':p' . $index++]  = 'phone_number';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_ONLINE_PAY)) {
+            $modifiedColumns[':p' . $index++]  = 'is_online_pay';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK)) {
-            $modifiedColumns[':p' . $index++]  = 'facebook';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
+            $modifiedColumns[':p' . $index++]  = 'is_in_person_payment';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER)) {
-            $modifiedColumns[':p' . $index++]  = 'twitter';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_BARTER)) {
+            $modifiedColumns[':p' . $index++]  = 'is_barter';
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM)) {
-            $modifiedColumns[':p' . $index++]  = 'instagram';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_BARTER_ITEM)) {
+            $modifiedColumns[':p' . $index++]  = 'barter_item';
         }
 
         $sql = sprintf(
-            'INSERT INTO contact_info (%s) VALUES (%s)',
+            'INSERT INTO job_payment (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -829,23 +882,23 @@ abstract class ContactInfo implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'user_id':
-                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                    case 'job_id':
+                        $stmt->bindValue($identifier, $this->job_id, PDO::PARAM_INT);
                         break;
-                    case 'email':
-                        $stmt->bindValue($identifier, $this->email, PDO::PARAM_STR);
+                    case 'money_amount':
+                        $stmt->bindValue($identifier, $this->money_amount, PDO::PARAM_STR);
                         break;
-                    case 'phone_number':
-                        $stmt->bindValue($identifier, $this->phone_number, PDO::PARAM_STR);
+                    case 'is_online_pay':
+                        $stmt->bindValue($identifier, (int) $this->is_online_pay, PDO::PARAM_INT);
                         break;
-                    case 'facebook':
-                        $stmt->bindValue($identifier, $this->facebook, PDO::PARAM_STR);
+                    case 'is_in_person_payment':
+                        $stmt->bindValue($identifier, (int) $this->is_in_person_payment, PDO::PARAM_INT);
                         break;
-                    case 'twitter':
-                        $stmt->bindValue($identifier, $this->twitter, PDO::PARAM_STR);
+                    case 'is_barter':
+                        $stmt->bindValue($identifier, (int) $this->is_barter, PDO::PARAM_INT);
                         break;
-                    case 'instagram':
-                        $stmt->bindValue($identifier, $this->instagram, PDO::PARAM_STR);
+                    case 'barter_item':
+                        $stmt->bindValue($identifier, $this->barter_item, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -853,15 +906,6 @@ abstract class ContactInfo implements ActiveRecordInterface
         } catch (Exception $e) {
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
-        }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        if ($pk !== null) {
-            $this->setUserId($pk);
         }
 
         $this->setNew(false);
@@ -895,7 +939,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ContactInfoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = JobPaymentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -912,22 +956,22 @@ abstract class ContactInfo implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getUserId();
+                return $this->getJobId();
                 break;
             case 1:
-                return $this->getEmail();
+                return $this->getMoneyAmount();
                 break;
             case 2:
-                return $this->getPhoneNumber();
+                return $this->getIsOnlinePay();
                 break;
             case 3:
-                return $this->getFacebook();
+                return $this->getIsInPersonPayment();
                 break;
             case 4:
-                return $this->getTwitter();
+                return $this->getIsBarter();
                 break;
             case 5:
-                return $this->getInstagram();
+                return $this->getBarterItem();
                 break;
             default:
                 return null;
@@ -953,18 +997,18 @@ abstract class ContactInfo implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['ContactInfo'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['JobPayment'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['ContactInfo'][$this->hashCode()] = true;
-        $keys = ContactInfoTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['JobPayment'][$this->hashCode()] = true;
+        $keys = JobPaymentTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getUserId(),
-            $keys[1] => $this->getEmail(),
-            $keys[2] => $this->getPhoneNumber(),
-            $keys[3] => $this->getFacebook(),
-            $keys[4] => $this->getTwitter(),
-            $keys[5] => $this->getInstagram(),
+            $keys[0] => $this->getJobId(),
+            $keys[1] => $this->getMoneyAmount(),
+            $keys[2] => $this->getIsOnlinePay(),
+            $keys[3] => $this->getIsInPersonPayment(),
+            $keys[4] => $this->getIsBarter(),
+            $keys[5] => $this->getBarterItem(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -972,20 +1016,20 @@ abstract class ContactInfo implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aUser) {
+            if (null !== $this->aJob) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'user';
+                        $key = 'job';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'user';
+                        $key = 'job';
                         break;
                     default:
-                        $key = 'User';
+                        $key = 'Job';
                 }
 
-                $result[$key] = $this->aUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->aJob->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1001,11 +1045,11 @@ abstract class ContactInfo implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\ContactInfo
+     * @return $this|\JobPayment
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ContactInfoTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = JobPaymentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1016,28 +1060,28 @@ abstract class ContactInfo implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\ContactInfo
+     * @return $this|\JobPayment
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-                $this->setUserId($value);
+                $this->setJobId($value);
                 break;
             case 1:
-                $this->setEmail($value);
+                $this->setMoneyAmount($value);
                 break;
             case 2:
-                $this->setPhoneNumber($value);
+                $this->setIsOnlinePay($value);
                 break;
             case 3:
-                $this->setFacebook($value);
+                $this->setIsInPersonPayment($value);
                 break;
             case 4:
-                $this->setTwitter($value);
+                $this->setIsBarter($value);
                 break;
             case 5:
-                $this->setInstagram($value);
+                $this->setBarterItem($value);
                 break;
         } // switch()
 
@@ -1063,25 +1107,25 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = ContactInfoTableMap::getFieldNames($keyType);
+        $keys = JobPaymentTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setUserId($arr[$keys[0]]);
+            $this->setJobId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setEmail($arr[$keys[1]]);
+            $this->setMoneyAmount($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setPhoneNumber($arr[$keys[2]]);
+            $this->setIsOnlinePay($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setFacebook($arr[$keys[3]]);
+            $this->setIsInPersonPayment($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setTwitter($arr[$keys[4]]);
+            $this->setIsBarter($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setInstagram($arr[$keys[5]]);
+            $this->setBarterItem($arr[$keys[5]]);
         }
     }
 
@@ -1102,7 +1146,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\ContactInfo The current object, for fluid interface
+     * @return $this|\JobPayment The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1122,25 +1166,25 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ContactInfoTableMap::DATABASE_NAME);
+        $criteria = new Criteria(JobPaymentTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(ContactInfoTableMap::COL_USER_ID)) {
-            $criteria->add(ContactInfoTableMap::COL_USER_ID, $this->user_id);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_JOB_ID)) {
+            $criteria->add(JobPaymentTableMap::COL_JOB_ID, $this->job_id);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_EMAIL)) {
-            $criteria->add(ContactInfoTableMap::COL_EMAIL, $this->email);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_MONEY_AMOUNT)) {
+            $criteria->add(JobPaymentTableMap::COL_MONEY_AMOUNT, $this->money_amount);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_PHONE_NUMBER)) {
-            $criteria->add(ContactInfoTableMap::COL_PHONE_NUMBER, $this->phone_number);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_ONLINE_PAY)) {
+            $criteria->add(JobPaymentTableMap::COL_IS_ONLINE_PAY, $this->is_online_pay);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_FACEBOOK)) {
-            $criteria->add(ContactInfoTableMap::COL_FACEBOOK, $this->facebook);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
+            $criteria->add(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $this->is_in_person_payment);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_TWITTER)) {
-            $criteria->add(ContactInfoTableMap::COL_TWITTER, $this->twitter);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_BARTER)) {
+            $criteria->add(JobPaymentTableMap::COL_IS_BARTER, $this->is_barter);
         }
-        if ($this->isColumnModified(ContactInfoTableMap::COL_INSTAGRAM)) {
-            $criteria->add(ContactInfoTableMap::COL_INSTAGRAM, $this->instagram);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_BARTER_ITEM)) {
+            $criteria->add(JobPaymentTableMap::COL_BARTER_ITEM, $this->barter_item);
         }
 
         return $criteria;
@@ -1158,8 +1202,8 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildContactInfoQuery::create();
-        $criteria->add(ContactInfoTableMap::COL_USER_ID, $this->user_id);
+        $criteria = ChildJobPaymentQuery::create();
+        $criteria->add(JobPaymentTableMap::COL_JOB_ID, $this->job_id);
 
         return $criteria;
     }
@@ -1172,13 +1216,13 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getUserId();
+        $validPk = null !== $this->getJobId();
 
         $validPrimaryKeyFKs = 1;
         $primaryKeyFKs = [];
 
-        //relation contact_info_ibfk_1 to table user
-        if ($this->aUser && $hash = spl_object_hash($this->aUser)) {
+        //relation job_payment_ibfk_1 to table job
+        if ($this->aJob && $hash = spl_object_hash($this->aJob)) {
             $primaryKeyFKs[] = $hash;
         } else {
             $validPrimaryKeyFKs = false;
@@ -1199,18 +1243,18 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function getPrimaryKey()
     {
-        return $this->getUserId();
+        return $this->getJobId();
     }
 
     /**
-     * Generic method to set the primary key (user_id column).
+     * Generic method to set the primary key (job_id column).
      *
      * @param       int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setUserId($key);
+        $this->setJobId($key);
     }
 
     /**
@@ -1219,7 +1263,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getUserId();
+        return null === $this->getJobId();
     }
 
     /**
@@ -1228,21 +1272,21 @@ abstract class ContactInfo implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \ContactInfo (or compatible) type.
+     * @param      object $copyObj An object of \JobPayment (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setEmail($this->getEmail());
-        $copyObj->setPhoneNumber($this->getPhoneNumber());
-        $copyObj->setFacebook($this->getFacebook());
-        $copyObj->setTwitter($this->getTwitter());
-        $copyObj->setInstagram($this->getInstagram());
+        $copyObj->setJobId($this->getJobId());
+        $copyObj->setMoneyAmount($this->getMoneyAmount());
+        $copyObj->setIsOnlinePay($this->getIsOnlinePay());
+        $copyObj->setIsInPersonPayment($this->getIsInPersonPayment());
+        $copyObj->setIsBarter($this->getIsBarter());
+        $copyObj->setBarterItem($this->getBarterItem());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setUserId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1255,7 +1299,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \ContactInfo Clone of current object.
+     * @return \JobPayment Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1269,25 +1313,25 @@ abstract class ContactInfo implements ActiveRecordInterface
     }
 
     /**
-     * Declares an association between this object and a ChildUser object.
+     * Declares an association between this object and a ChildJob object.
      *
-     * @param  ChildUser $v
-     * @return $this|\ContactInfo The current object (for fluent API support)
+     * @param  ChildJob $v
+     * @return $this|\JobPayment The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setUser(ChildUser $v = null)
+    public function setJob(ChildJob $v = null)
     {
         if ($v === null) {
-            $this->setUserId(NULL);
+            $this->setJobId(NULL);
         } else {
-            $this->setUserId($v->getId());
+            $this->setJobId($v->getId());
         }
 
-        $this->aUser = $v;
+        $this->aJob = $v;
 
         // Add binding for other direction of this 1:1 relationship.
         if ($v !== null) {
-            $v->setContactInfo($this);
+            $v->setJobPayment($this);
         }
 
 
@@ -1296,21 +1340,21 @@ abstract class ContactInfo implements ActiveRecordInterface
 
 
     /**
-     * Get the associated ChildUser object
+     * Get the associated ChildJob object
      *
      * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildUser The associated ChildUser object.
+     * @return ChildJob The associated ChildJob object.
      * @throws PropelException
      */
-    public function getUser(ConnectionInterface $con = null)
+    public function getJob(ConnectionInterface $con = null)
     {
-        if ($this->aUser === null && ($this->user_id != 0)) {
-            $this->aUser = ChildUserQuery::create()->findPk($this->user_id, $con);
+        if ($this->aJob === null && ($this->job_id != 0)) {
+            $this->aJob = ChildJobQuery::create()->findPk($this->job_id, $con);
             // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aUser->setContactInfo($this);
+            $this->aJob->setJobPayment($this);
         }
 
-        return $this->aUser;
+        return $this->aJob;
     }
 
     /**
@@ -1320,15 +1364,15 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aUser) {
-            $this->aUser->removeContactInfo($this);
+        if (null !== $this->aJob) {
+            $this->aJob->removeJobPayment($this);
         }
-        $this->user_id = null;
-        $this->email = null;
-        $this->phone_number = null;
-        $this->facebook = null;
-        $this->twitter = null;
-        $this->instagram = null;
+        $this->job_id = null;
+        $this->money_amount = null;
+        $this->is_online_pay = null;
+        $this->is_in_person_payment = null;
+        $this->is_barter = null;
+        $this->barter_item = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -1349,7 +1393,7 @@ abstract class ContactInfo implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aUser = null;
+        $this->aJob = null;
     }
 
     /**
@@ -1359,7 +1403,7 @@ abstract class ContactInfo implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ContactInfoTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(JobPaymentTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

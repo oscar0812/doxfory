@@ -2,11 +2,11 @@
 
 namespace Base;
 
-use \Payment as ChildPayment;
-use \PaymentQuery as ChildPaymentQuery;
+use \JobPayment as ChildJobPayment;
+use \JobPaymentQuery as ChildJobPaymentQuery;
 use \Exception;
 use \PDO;
-use Map\PaymentTableMap;
+use Map\JobPaymentTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -16,104 +16,104 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 
 /**
- * Base class that represents a query for the 'payment' table.
+ * Base class that represents a query for the 'job_payment' table.
  *
  *
  *
- * @method     ChildPaymentQuery orderByJobId($order = Criteria::ASC) Order by the job_id column
- * @method     ChildPaymentQuery orderByMoneyAmount($order = Criteria::ASC) Order by the money_amount column
- * @method     ChildPaymentQuery orderByIsOnlinePay($order = Criteria::ASC) Order by the is_online_pay column
- * @method     ChildPaymentQuery orderByIsInPersonPayment($order = Criteria::ASC) Order by the is_in_person_payment column
- * @method     ChildPaymentQuery orderByIsBarter($order = Criteria::ASC) Order by the is_barter column
- * @method     ChildPaymentQuery orderByBarterItem($order = Criteria::ASC) Order by the barter_item column
+ * @method     ChildJobPaymentQuery orderByJobId($order = Criteria::ASC) Order by the job_id column
+ * @method     ChildJobPaymentQuery orderByMoneyAmount($order = Criteria::ASC) Order by the money_amount column
+ * @method     ChildJobPaymentQuery orderByIsOnlinePay($order = Criteria::ASC) Order by the is_online_pay column
+ * @method     ChildJobPaymentQuery orderByIsInPersonPayment($order = Criteria::ASC) Order by the is_in_person_payment column
+ * @method     ChildJobPaymentQuery orderByIsBarter($order = Criteria::ASC) Order by the is_barter column
+ * @method     ChildJobPaymentQuery orderByBarterItem($order = Criteria::ASC) Order by the barter_item column
  *
- * @method     ChildPaymentQuery groupByJobId() Group by the job_id column
- * @method     ChildPaymentQuery groupByMoneyAmount() Group by the money_amount column
- * @method     ChildPaymentQuery groupByIsOnlinePay() Group by the is_online_pay column
- * @method     ChildPaymentQuery groupByIsInPersonPayment() Group by the is_in_person_payment column
- * @method     ChildPaymentQuery groupByIsBarter() Group by the is_barter column
- * @method     ChildPaymentQuery groupByBarterItem() Group by the barter_item column
+ * @method     ChildJobPaymentQuery groupByJobId() Group by the job_id column
+ * @method     ChildJobPaymentQuery groupByMoneyAmount() Group by the money_amount column
+ * @method     ChildJobPaymentQuery groupByIsOnlinePay() Group by the is_online_pay column
+ * @method     ChildJobPaymentQuery groupByIsInPersonPayment() Group by the is_in_person_payment column
+ * @method     ChildJobPaymentQuery groupByIsBarter() Group by the is_barter column
+ * @method     ChildJobPaymentQuery groupByBarterItem() Group by the barter_item column
  *
- * @method     ChildPaymentQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildPaymentQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildPaymentQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildJobPaymentQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildJobPaymentQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildJobPaymentQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildPaymentQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildPaymentQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildPaymentQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildJobPaymentQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildJobPaymentQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildJobPaymentQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildPaymentQuery leftJoinJob($relationAlias = null) Adds a LEFT JOIN clause to the query using the Job relation
- * @method     ChildPaymentQuery rightJoinJob($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Job relation
- * @method     ChildPaymentQuery innerJoinJob($relationAlias = null) Adds a INNER JOIN clause to the query using the Job relation
+ * @method     ChildJobPaymentQuery leftJoinJob($relationAlias = null) Adds a LEFT JOIN clause to the query using the Job relation
+ * @method     ChildJobPaymentQuery rightJoinJob($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Job relation
+ * @method     ChildJobPaymentQuery innerJoinJob($relationAlias = null) Adds a INNER JOIN clause to the query using the Job relation
  *
- * @method     ChildPaymentQuery joinWithJob($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Job relation
+ * @method     ChildJobPaymentQuery joinWithJob($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Job relation
  *
- * @method     ChildPaymentQuery leftJoinWithJob() Adds a LEFT JOIN clause and with to the query using the Job relation
- * @method     ChildPaymentQuery rightJoinWithJob() Adds a RIGHT JOIN clause and with to the query using the Job relation
- * @method     ChildPaymentQuery innerJoinWithJob() Adds a INNER JOIN clause and with to the query using the Job relation
+ * @method     ChildJobPaymentQuery leftJoinWithJob() Adds a LEFT JOIN clause and with to the query using the Job relation
+ * @method     ChildJobPaymentQuery rightJoinWithJob() Adds a RIGHT JOIN clause and with to the query using the Job relation
+ * @method     ChildJobPaymentQuery innerJoinWithJob() Adds a INNER JOIN clause and with to the query using the Job relation
  *
  * @method     \JobQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildPayment findOne(ConnectionInterface $con = null) Return the first ChildPayment matching the query
- * @method     ChildPayment findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPayment matching the query, or a new ChildPayment object populated from the query conditions when no match is found
+ * @method     ChildJobPayment findOne(ConnectionInterface $con = null) Return the first ChildJobPayment matching the query
+ * @method     ChildJobPayment findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJobPayment matching the query, or a new ChildJobPayment object populated from the query conditions when no match is found
  *
- * @method     ChildPayment findOneByJobId(int $job_id) Return the first ChildPayment filtered by the job_id column
- * @method     ChildPayment findOneByMoneyAmount(double $money_amount) Return the first ChildPayment filtered by the money_amount column
- * @method     ChildPayment findOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildPayment filtered by the is_online_pay column
- * @method     ChildPayment findOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildPayment filtered by the is_in_person_payment column
- * @method     ChildPayment findOneByIsBarter(boolean $is_barter) Return the first ChildPayment filtered by the is_barter column
- * @method     ChildPayment findOneByBarterItem(string $barter_item) Return the first ChildPayment filtered by the barter_item column *
+ * @method     ChildJobPayment findOneByJobId(int $job_id) Return the first ChildJobPayment filtered by the job_id column
+ * @method     ChildJobPayment findOneByMoneyAmount(double $money_amount) Return the first ChildJobPayment filtered by the money_amount column
+ * @method     ChildJobPayment findOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildJobPayment filtered by the is_online_pay column
+ * @method     ChildJobPayment findOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildJobPayment filtered by the is_in_person_payment column
+ * @method     ChildJobPayment findOneByIsBarter(boolean $is_barter) Return the first ChildJobPayment filtered by the is_barter column
+ * @method     ChildJobPayment findOneByBarterItem(string $barter_item) Return the first ChildJobPayment filtered by the barter_item column *
 
- * @method     ChildPayment requirePk($key, ConnectionInterface $con = null) Return the ChildPayment by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOne(ConnectionInterface $con = null) Return the first ChildPayment matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requirePk($key, ConnectionInterface $con = null) Return the ChildJobPayment by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOne(ConnectionInterface $con = null) Return the first ChildJobPayment matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildPayment requireOneByJobId(int $job_id) Return the first ChildPayment filtered by the job_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByMoneyAmount(double $money_amount) Return the first ChildPayment filtered by the money_amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildPayment filtered by the is_online_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildPayment filtered by the is_in_person_payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByIsBarter(boolean $is_barter) Return the first ChildPayment filtered by the is_barter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByBarterItem(string $barter_item) Return the first ChildPayment filtered by the barter_item column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByJobId(int $job_id) Return the first ChildJobPayment filtered by the job_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByMoneyAmount(double $money_amount) Return the first ChildJobPayment filtered by the money_amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildJobPayment filtered by the is_online_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildJobPayment filtered by the is_in_person_payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByIsBarter(boolean $is_barter) Return the first ChildJobPayment filtered by the is_barter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByBarterItem(string $barter_item) Return the first ChildJobPayment filtered by the barter_item column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildPayment[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPayment objects based on current ModelCriteria
- * @method     ChildPayment[]|ObjectCollection findByJobId(int $job_id) Return ChildPayment objects filtered by the job_id column
- * @method     ChildPayment[]|ObjectCollection findByMoneyAmount(double $money_amount) Return ChildPayment objects filtered by the money_amount column
- * @method     ChildPayment[]|ObjectCollection findByIsOnlinePay(boolean $is_online_pay) Return ChildPayment objects filtered by the is_online_pay column
- * @method     ChildPayment[]|ObjectCollection findByIsInPersonPayment(boolean $is_in_person_payment) Return ChildPayment objects filtered by the is_in_person_payment column
- * @method     ChildPayment[]|ObjectCollection findByIsBarter(boolean $is_barter) Return ChildPayment objects filtered by the is_barter column
- * @method     ChildPayment[]|ObjectCollection findByBarterItem(string $barter_item) Return ChildPayment objects filtered by the barter_item column
- * @method     ChildPayment[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildJobPayment[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildJobPayment objects based on current ModelCriteria
+ * @method     ChildJobPayment[]|ObjectCollection findByJobId(int $job_id) Return ChildJobPayment objects filtered by the job_id column
+ * @method     ChildJobPayment[]|ObjectCollection findByMoneyAmount(double $money_amount) Return ChildJobPayment objects filtered by the money_amount column
+ * @method     ChildJobPayment[]|ObjectCollection findByIsOnlinePay(boolean $is_online_pay) Return ChildJobPayment objects filtered by the is_online_pay column
+ * @method     ChildJobPayment[]|ObjectCollection findByIsInPersonPayment(boolean $is_in_person_payment) Return ChildJobPayment objects filtered by the is_in_person_payment column
+ * @method     ChildJobPayment[]|ObjectCollection findByIsBarter(boolean $is_barter) Return ChildJobPayment objects filtered by the is_barter column
+ * @method     ChildJobPayment[]|ObjectCollection findByBarterItem(string $barter_item) Return ChildJobPayment objects filtered by the barter_item column
+ * @method     ChildJobPayment[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class PaymentQuery extends ModelCriteria
+abstract class JobPaymentQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Base\PaymentQuery object.
+     * Initializes internal state of \Base\JobPaymentQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\Payment', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\JobPayment', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildPaymentQuery object.
+     * Returns a new ChildJobPaymentQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildPaymentQuery
+     * @return ChildJobPaymentQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildPaymentQuery) {
+        if ($criteria instanceof ChildJobPaymentQuery) {
             return $criteria;
         }
-        $query = new ChildPaymentQuery();
+        $query = new ChildJobPaymentQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -136,7 +136,7 @@ abstract class PaymentQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildPayment|array|mixed the result, formatted by the current formatter
+     * @return ChildJobPayment|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -145,7 +145,7 @@ abstract class PaymentQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(PaymentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -158,7 +158,7 @@ abstract class PaymentQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = PaymentTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = JobPaymentTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -175,11 +175,11 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildPayment A model object, or null if the key is not found
+     * @return ChildJobPayment A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT job_id, money_amount, is_online_pay, is_in_person_payment, is_barter, barter_item FROM payment WHERE job_id = :p0';
+        $sql = 'SELECT job_id, money_amount, is_online_pay, is_in_person_payment, is_barter, barter_item FROM job_payment WHERE job_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -190,10 +190,10 @@ abstract class PaymentQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildPayment $obj */
-            $obj = new ChildPayment();
+            /** @var ChildJobPayment $obj */
+            $obj = new ChildJobPayment();
             $obj->hydrate($row);
-            PaymentTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            JobPaymentTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -206,7 +206,7 @@ abstract class PaymentQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildPayment|array|mixed the result, formatted by the current formatter
+     * @return ChildJobPayment|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -248,12 +248,12 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -261,12 +261,12 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -287,18 +287,18 @@ abstract class PaymentQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByJobId($jobId = null, $comparison = null)
     {
         if (is_array($jobId)) {
             $useMinMax = false;
             if (isset($jobId['min'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $jobId['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $jobId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($jobId['max'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $jobId['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $jobId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -309,7 +309,7 @@ abstract class PaymentQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $jobId, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $jobId, $comparison);
     }
 
     /**
@@ -328,18 +328,18 @@ abstract class PaymentQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByMoneyAmount($moneyAmount = null, $comparison = null)
     {
         if (is_array($moneyAmount)) {
             $useMinMax = false;
             if (isset($moneyAmount['min'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(JobPaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($moneyAmount['max'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(JobPaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -350,7 +350,7 @@ abstract class PaymentQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount, $comparison);
     }
 
     /**
@@ -369,7 +369,7 @@ abstract class PaymentQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByIsOnlinePay($isOnlinePay = null, $comparison = null)
     {
@@ -377,7 +377,7 @@ abstract class PaymentQuery extends ModelCriteria
             $isOnlinePay = in_array(strtolower($isOnlinePay), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_IS_ONLINE_PAY, $isOnlinePay, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_IS_ONLINE_PAY, $isOnlinePay, $comparison);
     }
 
     /**
@@ -396,7 +396,7 @@ abstract class PaymentQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByIsInPersonPayment($isInPersonPayment = null, $comparison = null)
     {
@@ -404,7 +404,7 @@ abstract class PaymentQuery extends ModelCriteria
             $isInPersonPayment = in_array(strtolower($isInPersonPayment), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $isInPersonPayment, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $isInPersonPayment, $comparison);
     }
 
     /**
@@ -423,7 +423,7 @@ abstract class PaymentQuery extends ModelCriteria
      *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByIsBarter($isBarter = null, $comparison = null)
     {
@@ -431,7 +431,7 @@ abstract class PaymentQuery extends ModelCriteria
             $isBarter = in_array(strtolower($isBarter), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_IS_BARTER, $isBarter, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_IS_BARTER, $isBarter, $comparison);
     }
 
     /**
@@ -446,7 +446,7 @@ abstract class PaymentQuery extends ModelCriteria
      * @param     string $barterItem The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByBarterItem($barterItem = null, $comparison = null)
     {
@@ -456,7 +456,7 @@ abstract class PaymentQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_BARTER_ITEM, $barterItem, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_BARTER_ITEM, $barterItem, $comparison);
     }
 
     /**
@@ -467,20 +467,20 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildPaymentQuery The current query, for fluid interface
+     * @return ChildJobPaymentQuery The current query, for fluid interface
      */
     public function filterByJob($job, $comparison = null)
     {
         if ($job instanceof \Job) {
             return $this
-                ->addUsingAlias(PaymentTableMap::COL_JOB_ID, $job->getId(), $comparison);
+                ->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $job->getId(), $comparison);
         } elseif ($job instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(PaymentTableMap::COL_JOB_ID, $job->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $job->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByJob() only accepts arguments of type \Job or Collection');
         }
@@ -492,7 +492,7 @@ abstract class PaymentQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
     public function joinJob($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -539,21 +539,21 @@ abstract class PaymentQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   ChildPayment $payment Object to remove from the list of results
+     * @param   ChildJobPayment $jobPayment Object to remove from the list of results
      *
-     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     * @return $this|ChildJobPaymentQuery The current query, for fluid interface
      */
-    public function prune($payment = null)
+    public function prune($jobPayment = null)
     {
-        if ($payment) {
-            $this->addUsingAlias(PaymentTableMap::COL_JOB_ID, $payment->getJobId(), Criteria::NOT_EQUAL);
+        if ($jobPayment) {
+            $this->addUsingAlias(JobPaymentTableMap::COL_JOB_ID, $jobPayment->getJobId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the payment table.
+     * Deletes all rows from the job_payment table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -561,7 +561,7 @@ abstract class PaymentQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PaymentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -572,8 +572,8 @@ abstract class PaymentQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            PaymentTableMap::clearInstancePool();
-            PaymentTableMap::clearRelatedInstancePool();
+            JobPaymentTableMap::clearInstancePool();
+            JobPaymentTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -591,26 +591,26 @@ abstract class PaymentQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PaymentTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(PaymentTableMap::DATABASE_NAME);
+        $criteria->setDbName(JobPaymentTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            PaymentTableMap::removeInstanceFromPool($criteria);
+            JobPaymentTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            PaymentTableMap::clearRelatedInstancePool();
+            JobPaymentTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // PaymentQuery
+} // JobPaymentQuery

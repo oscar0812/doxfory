@@ -1,9 +1,9 @@
 <?php
 
-use Base\ContactInfoQuery as BaseContactInfoQuery;
+use Base\JobPayment as BaseJobPayment;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'contact_info' table.
+ * Skeleton subclass for representing a row from the 'job_payment' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\ContactInfoQuery as BaseContactInfoQuery;
  * long as it does not already exist in the output directory.
  *
  */
-class ContactInfoQuery extends BaseContactInfoQuery
+class JobPayment extends BaseJobPayment
 {
 
 }

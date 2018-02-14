@@ -66,17 +66,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery rightJoinWithAcceptedByUser() Adds a RIGHT JOIN clause and with to the query using the AcceptedByUser relation
  * @method     ChildJobQuery innerJoinWithAcceptedByUser() Adds a INNER JOIN clause and with to the query using the AcceptedByUser relation
  *
- * @method     ChildJobQuery leftJoinPayment($relationAlias = null) Adds a LEFT JOIN clause to the query using the Payment relation
- * @method     ChildJobQuery rightJoinPayment($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Payment relation
- * @method     ChildJobQuery innerJoinPayment($relationAlias = null) Adds a INNER JOIN clause to the query using the Payment relation
+ * @method     ChildJobQuery leftJoinJobPayment($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPayment relation
+ * @method     ChildJobQuery rightJoinJobPayment($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPayment relation
+ * @method     ChildJobQuery innerJoinJobPayment($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPayment relation
  *
- * @method     ChildJobQuery joinWithPayment($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Payment relation
+ * @method     ChildJobQuery joinWithJobPayment($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the JobPayment relation
  *
- * @method     ChildJobQuery leftJoinWithPayment() Adds a LEFT JOIN clause and with to the query using the Payment relation
- * @method     ChildJobQuery rightJoinWithPayment() Adds a RIGHT JOIN clause and with to the query using the Payment relation
- * @method     ChildJobQuery innerJoinWithPayment() Adds a INNER JOIN clause and with to the query using the Payment relation
+ * @method     ChildJobQuery leftJoinWithJobPayment() Adds a LEFT JOIN clause and with to the query using the JobPayment relation
+ * @method     ChildJobQuery rightJoinWithJobPayment() Adds a RIGHT JOIN clause and with to the query using the JobPayment relation
+ * @method     ChildJobQuery innerJoinWithJobPayment() Adds a INNER JOIN clause and with to the query using the JobPayment relation
  *
- * @method     \UserQuery|\PaymentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \UserQuery|\JobPaymentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJob findOne(ConnectionInterface $con = null) Return the first ChildJob matching the query
  * @method     ChildJob findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJob matching the query, or a new ChildJob object populated from the query conditions when no match is found
@@ -724,40 +724,40 @@ abstract class JobQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Payment object
+     * Filter the query by a related \JobPayment object
      *
-     * @param \Payment|ObjectCollection $payment the related object to use as filter
+     * @param \JobPayment|ObjectCollection $jobPayment the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildJobQuery The current query, for fluid interface
      */
-    public function filterByPayment($payment, $comparison = null)
+    public function filterByJobPayment($jobPayment, $comparison = null)
     {
-        if ($payment instanceof \Payment) {
+        if ($jobPayment instanceof \JobPayment) {
             return $this
-                ->addUsingAlias(JobTableMap::COL_ID, $payment->getJobId(), $comparison);
-        } elseif ($payment instanceof ObjectCollection) {
+                ->addUsingAlias(JobTableMap::COL_ID, $jobPayment->getJobId(), $comparison);
+        } elseif ($jobPayment instanceof ObjectCollection) {
             return $this
-                ->usePaymentQuery()
-                ->filterByPrimaryKeys($payment->getPrimaryKeys())
+                ->useJobPaymentQuery()
+                ->filterByPrimaryKeys($jobPayment->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByPayment() only accepts arguments of type \Payment or Collection');
+            throw new PropelException('filterByJobPayment() only accepts arguments of type \JobPayment or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Payment relation
+     * Adds a JOIN clause to the query using the JobPayment relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return $this|ChildJobQuery The current query, for fluid interface
      */
-    public function joinPayment($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinJobPayment($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Payment');
+        $relationMap = $tableMap->getRelation('JobPayment');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -772,14 +772,14 @@ abstract class JobQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Payment');
+            $this->addJoinObject($join, 'JobPayment');
         }
 
         return $this;
     }
 
     /**
-     * Use the Payment relation Payment object
+     * Use the JobPayment relation JobPayment object
      *
      * @see useQuery()
      *
@@ -787,13 +787,13 @@ abstract class JobQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return \PaymentQuery A secondary query class using the current class as primary query
+     * @return \JobPaymentQuery A secondary query class using the current class as primary query
      */
-    public function usePaymentQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useJobPaymentQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinPayment($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Payment', '\PaymentQuery');
+            ->joinJobPayment($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'JobPayment', '\JobPaymentQuery');
     }
 
     /**

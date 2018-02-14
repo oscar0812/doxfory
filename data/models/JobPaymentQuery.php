@@ -1,9 +1,9 @@
 <?php
 
-use Base\User as BaseUser;
+use Base\JobPaymentQuery as BaseJobPaymentQuery;
 
 /**
- * Skeleton subclass for representing a row from the 'user' table.
+ * Skeleton subclass for performing query and update operations on the 'job_payment' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\User as BaseUser;
  * long as it does not already exist in the output directory.
  *
  */
-class User extends BaseUser
+class JobPaymentQuery extends BaseJobPaymentQuery
 {
 
 }

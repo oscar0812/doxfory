@@ -1,9 +1,9 @@
 <?php
 
-use Base\Payment as BasePayment;
+use Base\UserContactInfo as BaseUserContactInfo;
 
 /**
- * Skeleton subclass for representing a row from the 'payment' table.
+ * Skeleton subclass for representing a row from the 'user_contact_info' table.
  *
  *
  *
@@ -12,7 +12,7 @@ use Base\Payment as BasePayment;
  * long as it does not already exist in the output directory.
  *
  */
-class Payment extends BasePayment
+class UserContactInfo extends BaseUserContactInfo
 {
 
 }

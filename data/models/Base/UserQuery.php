@@ -50,16 +50,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildUserQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildUserQuery leftJoinContactInfo($relationAlias = null) Adds a LEFT JOIN clause to the query using the ContactInfo relation
- * @method     ChildUserQuery rightJoinContactInfo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ContactInfo relation
- * @method     ChildUserQuery innerJoinContactInfo($relationAlias = null) Adds a INNER JOIN clause to the query using the ContactInfo relation
- *
- * @method     ChildUserQuery joinWithContactInfo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the ContactInfo relation
- *
- * @method     ChildUserQuery leftJoinWithContactInfo() Adds a LEFT JOIN clause and with to the query using the ContactInfo relation
- * @method     ChildUserQuery rightJoinWithContactInfo() Adds a RIGHT JOIN clause and with to the query using the ContactInfo relation
- * @method     ChildUserQuery innerJoinWithContactInfo() Adds a INNER JOIN clause and with to the query using the ContactInfo relation
- *
  * @method     ChildUserQuery leftJoinJobRelatedByPostedById($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobRelatedByPostedById relation
  * @method     ChildUserQuery rightJoinJobRelatedByPostedById($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobRelatedByPostedById relation
  * @method     ChildUserQuery innerJoinJobRelatedByPostedById($relationAlias = null) Adds a INNER JOIN clause to the query using the JobRelatedByPostedById relation
@@ -80,7 +70,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildUserQuery rightJoinWithJobRelatedByAcceptedById() Adds a RIGHT JOIN clause and with to the query using the JobRelatedByAcceptedById relation
  * @method     ChildUserQuery innerJoinWithJobRelatedByAcceptedById() Adds a INNER JOIN clause and with to the query using the JobRelatedByAcceptedById relation
  *
- * @method     \ContactInfoQuery|\JobQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildUserQuery leftJoinUserContactInfo($relationAlias = null) Adds a LEFT JOIN clause to the query using the UserContactInfo relation
+ * @method     ChildUserQuery rightJoinUserContactInfo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the UserContactInfo relation
+ * @method     ChildUserQuery innerJoinUserContactInfo($relationAlias = null) Adds a INNER JOIN clause to the query using the UserContactInfo relation
+ *
+ * @method     ChildUserQuery joinWithUserContactInfo($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the UserContactInfo relation
+ *
+ * @method     ChildUserQuery leftJoinWithUserContactInfo() Adds a LEFT JOIN clause and with to the query using the UserContactInfo relation
+ * @method     ChildUserQuery rightJoinWithUserContactInfo() Adds a RIGHT JOIN clause and with to the query using the UserContactInfo relation
+ * @method     ChildUserQuery innerJoinWithUserContactInfo() Adds a INNER JOIN clause and with to the query using the UserContactInfo relation
+ *
+ * @method     \JobQuery|\UserContactInfoQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildUser findOne(ConnectionInterface $con = null) Return the first ChildUser matching the query
  * @method     ChildUser findOneOrCreate(ConnectionInterface $con = null) Return the first ChildUser matching the query, or a new ChildUser object populated from the query conditions when no match is found
@@ -608,79 +608,6 @@ abstract class UserQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \ContactInfo object
-     *
-     * @param \ContactInfo|ObjectCollection $contactInfo the related object to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildUserQuery The current query, for fluid interface
-     */
-    public function filterByContactInfo($contactInfo, $comparison = null)
-    {
-        if ($contactInfo instanceof \ContactInfo) {
-            return $this
-                ->addUsingAlias(UserTableMap::COL_ID, $contactInfo->getUserId(), $comparison);
-        } elseif ($contactInfo instanceof ObjectCollection) {
-            return $this
-                ->useContactInfoQuery()
-                ->filterByPrimaryKeys($contactInfo->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterByContactInfo() only accepts arguments of type \ContactInfo or Collection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the ContactInfo relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return $this|ChildUserQuery The current query, for fluid interface
-     */
-    public function joinContactInfo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('ContactInfo');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'ContactInfo');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the ContactInfo relation ContactInfo object
-     *
-     * @see useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return \ContactInfoQuery A secondary query class using the current class as primary query
-     */
-    public function useContactInfoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinContactInfo($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'ContactInfo', '\ContactInfoQuery');
-    }
-
-    /**
      * Filter the query by a related \Job object
      *
      * @param \Job|ObjectCollection $job the related object to use as filter
@@ -824,6 +751,79 @@ abstract class UserQuery extends ModelCriteria
         return $this
             ->joinJobRelatedByAcceptedById($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'JobRelatedByAcceptedById', '\JobQuery');
+    }
+
+    /**
+     * Filter the query by a related \UserContactInfo object
+     *
+     * @param \UserContactInfo|ObjectCollection $userContactInfo the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildUserQuery The current query, for fluid interface
+     */
+    public function filterByUserContactInfo($userContactInfo, $comparison = null)
+    {
+        if ($userContactInfo instanceof \UserContactInfo) {
+            return $this
+                ->addUsingAlias(UserTableMap::COL_ID, $userContactInfo->getUserId(), $comparison);
+        } elseif ($userContactInfo instanceof ObjectCollection) {
+            return $this
+                ->useUserContactInfoQuery()
+                ->filterByPrimaryKeys($userContactInfo->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByUserContactInfo() only accepts arguments of type \UserContactInfo or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the UserContactInfo relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildUserQuery The current query, for fluid interface
+     */
+    public function joinUserContactInfo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('UserContactInfo');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'UserContactInfo');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the UserContactInfo relation UserContactInfo object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \UserContactInfoQuery A secondary query class using the current class as primary query
+     */
+    public function useUserContactInfoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinUserContactInfo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'UserContactInfo', '\UserContactInfoQuery');
     }
 
     /**

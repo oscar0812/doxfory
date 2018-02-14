@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \ContactInfo;
-use \ContactInfoQuery;
+use \JobPayment;
+use \JobPaymentQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'contact_info' table.
+ * This class defines the structure of the 'job_payment' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class ContactInfoTableMap extends TableMap
+class JobPaymentTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class ContactInfoTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.ContactInfoTableMap';
+    const CLASS_NAME = '.Map.JobPaymentTableMap';
 
     /**
      * The default database name for this class
@@ -44,17 +44,17 @@ class ContactInfoTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'contact_info';
+    const TABLE_NAME = 'job_payment';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\ContactInfo';
+    const OM_CLASS = '\\JobPayment';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'ContactInfo';
+    const CLASS_DEFAULT = 'JobPayment';
 
     /**
      * The total number of columns
@@ -72,34 +72,34 @@ class ContactInfoTableMap extends TableMap
     const NUM_HYDRATE_COLUMNS = 6;
 
     /**
-     * the column name for the user_id field
+     * the column name for the job_id field
      */
-    const COL_USER_ID = 'contact_info.user_id';
+    const COL_JOB_ID = 'job_payment.job_id';
 
     /**
-     * the column name for the email field
+     * the column name for the money_amount field
      */
-    const COL_EMAIL = 'contact_info.email';
+    const COL_MONEY_AMOUNT = 'job_payment.money_amount';
 
     /**
-     * the column name for the phone_number field
+     * the column name for the is_online_pay field
      */
-    const COL_PHONE_NUMBER = 'contact_info.phone_number';
+    const COL_IS_ONLINE_PAY = 'job_payment.is_online_pay';
 
     /**
-     * the column name for the facebook field
+     * the column name for the is_in_person_payment field
      */
-    const COL_FACEBOOK = 'contact_info.facebook';
+    const COL_IS_IN_PERSON_PAYMENT = 'job_payment.is_in_person_payment';
 
     /**
-     * the column name for the twitter field
+     * the column name for the is_barter field
      */
-    const COL_TWITTER = 'contact_info.twitter';
+    const COL_IS_BARTER = 'job_payment.is_barter';
 
     /**
-     * the column name for the instagram field
+     * the column name for the barter_item field
      */
-    const COL_INSTAGRAM = 'contact_info.instagram';
+    const COL_BARTER_ITEM = 'job_payment.barter_item';
 
     /**
      * The default string format for model objects of the related table
@@ -113,10 +113,10 @@ class ContactInfoTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('UserId', 'Email', 'PhoneNumber', 'Facebook', 'Twitter', 'Instagram', ),
-        self::TYPE_CAMELNAME     => array('userId', 'email', 'phoneNumber', 'facebook', 'twitter', 'instagram', ),
-        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID, ContactInfoTableMap::COL_EMAIL, ContactInfoTableMap::COL_PHONE_NUMBER, ContactInfoTableMap::COL_FACEBOOK, ContactInfoTableMap::COL_TWITTER, ContactInfoTableMap::COL_INSTAGRAM, ),
-        self::TYPE_FIELDNAME     => array('user_id', 'email', 'phone_number', 'facebook', 'twitter', 'instagram', ),
+        self::TYPE_PHPNAME       => array('JobId', 'MoneyAmount', 'IsOnlinePay', 'IsInPersonPayment', 'IsBarter', 'BarterItem', ),
+        self::TYPE_CAMELNAME     => array('jobId', 'moneyAmount', 'isOnlinePay', 'isInPersonPayment', 'isBarter', 'barterItem', ),
+        self::TYPE_COLNAME       => array(JobPaymentTableMap::COL_JOB_ID, JobPaymentTableMap::COL_MONEY_AMOUNT, JobPaymentTableMap::COL_IS_ONLINE_PAY, JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT, JobPaymentTableMap::COL_IS_BARTER, JobPaymentTableMap::COL_BARTER_ITEM, ),
+        self::TYPE_FIELDNAME     => array('job_id', 'money_amount', 'is_online_pay', 'is_in_person_payment', 'is_barter', 'barter_item', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
@@ -127,10 +127,10 @@ class ContactInfoTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('UserId' => 0, 'Email' => 1, 'PhoneNumber' => 2, 'Facebook' => 3, 'Twitter' => 4, 'Instagram' => 5, ),
-        self::TYPE_CAMELNAME     => array('userId' => 0, 'email' => 1, 'phoneNumber' => 2, 'facebook' => 3, 'twitter' => 4, 'instagram' => 5, ),
-        self::TYPE_COLNAME       => array(ContactInfoTableMap::COL_USER_ID => 0, ContactInfoTableMap::COL_EMAIL => 1, ContactInfoTableMap::COL_PHONE_NUMBER => 2, ContactInfoTableMap::COL_FACEBOOK => 3, ContactInfoTableMap::COL_TWITTER => 4, ContactInfoTableMap::COL_INSTAGRAM => 5, ),
-        self::TYPE_FIELDNAME     => array('user_id' => 0, 'email' => 1, 'phone_number' => 2, 'facebook' => 3, 'twitter' => 4, 'instagram' => 5, ),
+        self::TYPE_PHPNAME       => array('JobId' => 0, 'MoneyAmount' => 1, 'IsOnlinePay' => 2, 'IsInPersonPayment' => 3, 'IsBarter' => 4, 'BarterItem' => 5, ),
+        self::TYPE_CAMELNAME     => array('jobId' => 0, 'moneyAmount' => 1, 'isOnlinePay' => 2, 'isInPersonPayment' => 3, 'isBarter' => 4, 'barterItem' => 5, ),
+        self::TYPE_COLNAME       => array(JobPaymentTableMap::COL_JOB_ID => 0, JobPaymentTableMap::COL_MONEY_AMOUNT => 1, JobPaymentTableMap::COL_IS_ONLINE_PAY => 2, JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT => 3, JobPaymentTableMap::COL_IS_BARTER => 4, JobPaymentTableMap::COL_BARTER_ITEM => 5, ),
+        self::TYPE_FIELDNAME     => array('job_id' => 0, 'money_amount' => 1, 'is_online_pay' => 2, 'is_in_person_payment' => 3, 'is_barter' => 4, 'barter_item' => 5, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
@@ -144,19 +144,19 @@ class ContactInfoTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('contact_info');
-        $this->setPhpName('ContactInfo');
+        $this->setName('job_payment');
+        $this->setPhpName('JobPayment');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\ContactInfo');
+        $this->setClassName('\\JobPayment');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addForeignPrimaryKey('user_id', 'UserId', 'INTEGER' , 'user', 'id', true, null, null);
-        $this->addColumn('email', 'Email', 'VARCHAR', true, 64, null);
-        $this->addColumn('phone_number', 'PhoneNumber', 'VARCHAR', true, 32, null);
-        $this->addColumn('facebook', 'Facebook', 'VARCHAR', true, 64, null);
-        $this->addColumn('twitter', 'Twitter', 'VARCHAR', true, 64, null);
-        $this->addColumn('instagram', 'Instagram', 'VARCHAR', true, 64, null);
+        $this->addForeignPrimaryKey('job_id', 'JobId', 'INTEGER' , 'job', 'id', true, null, null);
+        $this->addColumn('money_amount', 'MoneyAmount', 'DOUBLE', true, 8, null);
+        $this->addColumn('is_online_pay', 'IsOnlinePay', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_in_person_payment', 'IsInPersonPayment', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_barter', 'IsBarter', 'BOOLEAN', true, 1, null);
+        $this->addColumn('barter_item', 'BarterItem', 'VARCHAR', true, 32, null);
     } // initialize()
 
     /**
@@ -164,10 +164,10 @@ class ContactInfoTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('User', '\\User', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('Job', '\\Job', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':user_id',
+    0 => ':job_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -189,11 +189,11 @@ class ContactInfoTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -213,7 +213,7 @@ class ContactInfoTableMap extends TableMap
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
 
@@ -230,7 +230,7 @@ class ContactInfoTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? ContactInfoTableMap::CLASS_DEFAULT : ContactInfoTableMap::OM_CLASS;
+        return $withPrefix ? JobPaymentTableMap::CLASS_DEFAULT : JobPaymentTableMap::OM_CLASS;
     }
 
     /**
@@ -244,22 +244,22 @@ class ContactInfoTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (ContactInfo object, last column rank)
+     * @return array           (JobPayment object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = ContactInfoTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = ContactInfoTableMap::getInstanceFromPool($key))) {
+        $key = JobPaymentTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = JobPaymentTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + ContactInfoTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + JobPaymentTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ContactInfoTableMap::OM_CLASS;
-            /** @var ContactInfo $obj */
+            $cls = JobPaymentTableMap::OM_CLASS;
+            /** @var JobPayment $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            ContactInfoTableMap::addInstanceToPool($obj, $key);
+            JobPaymentTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -282,18 +282,18 @@ class ContactInfoTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = ContactInfoTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = ContactInfoTableMap::getInstanceFromPool($key))) {
+            $key = JobPaymentTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = JobPaymentTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var ContactInfo $obj */
+                /** @var JobPayment $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ContactInfoTableMap::addInstanceToPool($obj, $key);
+                JobPaymentTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -314,19 +314,19 @@ class ContactInfoTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_USER_ID);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_EMAIL);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_PHONE_NUMBER);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_FACEBOOK);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_TWITTER);
-            $criteria->addSelectColumn(ContactInfoTableMap::COL_INSTAGRAM);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_JOB_ID);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_MONEY_AMOUNT);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_IS_ONLINE_PAY);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_IS_BARTER);
+            $criteria->addSelectColumn(JobPaymentTableMap::COL_BARTER_ITEM);
         } else {
-            $criteria->addSelectColumn($alias . '.user_id');
-            $criteria->addSelectColumn($alias . '.email');
-            $criteria->addSelectColumn($alias . '.phone_number');
-            $criteria->addSelectColumn($alias . '.facebook');
-            $criteria->addSelectColumn($alias . '.twitter');
-            $criteria->addSelectColumn($alias . '.instagram');
+            $criteria->addSelectColumn($alias . '.job_id');
+            $criteria->addSelectColumn($alias . '.money_amount');
+            $criteria->addSelectColumn($alias . '.is_online_pay');
+            $criteria->addSelectColumn($alias . '.is_in_person_payment');
+            $criteria->addSelectColumn($alias . '.is_barter');
+            $criteria->addSelectColumn($alias . '.barter_item');
         }
     }
 
@@ -339,7 +339,7 @@ class ContactInfoTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(ContactInfoTableMap::DATABASE_NAME)->getTable(ContactInfoTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(JobPaymentTableMap::DATABASE_NAME)->getTable(JobPaymentTableMap::TABLE_NAME);
     }
 
     /**
@@ -347,16 +347,16 @@ class ContactInfoTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(ContactInfoTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(ContactInfoTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new ContactInfoTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(JobPaymentTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(JobPaymentTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new JobPaymentTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a ContactInfo or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a JobPayment or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or ContactInfo object or primary key or array of primary keys
+     * @param mixed               $values Criteria or JobPayment object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -367,27 +367,27 @@ class ContactInfoTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \ContactInfo) { // it's a model object
+        } elseif ($values instanceof \JobPayment) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ContactInfoTableMap::DATABASE_NAME);
-            $criteria->add(ContactInfoTableMap::COL_USER_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(JobPaymentTableMap::DATABASE_NAME);
+            $criteria->add(JobPaymentTableMap::COL_JOB_ID, (array) $values, Criteria::IN);
         }
 
-        $query = ContactInfoQuery::create()->mergeWith($criteria);
+        $query = JobPaymentQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            ContactInfoTableMap::clearInstancePool();
+            JobPaymentTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                ContactInfoTableMap::removeInstanceFromPool($singleval);
+                JobPaymentTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -395,20 +395,20 @@ class ContactInfoTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the contact_info table.
+     * Deletes all rows from the job_payment table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return ContactInfoQuery::create()->doDeleteAll($con);
+        return JobPaymentQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a ContactInfo or Criteria object.
+     * Performs an INSERT on the database, given a JobPayment or Criteria object.
      *
-     * @param mixed               $criteria Criteria or ContactInfo object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or JobPayment object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -417,18 +417,18 @@ class ContactInfoTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ContactInfoTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(JobPaymentTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from ContactInfo object
+            $criteria = $criteria->buildCriteria(); // build Criteria from JobPayment object
         }
 
 
         // Set the correct dbName
-        $query = ContactInfoQuery::create()->mergeWith($criteria);
+        $query = JobPaymentQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -437,7 +437,7 @@ class ContactInfoTableMap extends TableMap
         });
     }
 
-} // ContactInfoTableMap
+} // JobPaymentTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-ContactInfoTableMap::buildTableMap();
+JobPaymentTableMap::buildTableMap();

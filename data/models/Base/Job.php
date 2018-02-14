@@ -2,9 +2,9 @@
 
 namespace Base;
 
+use \JobPayment as ChildJobPayment;
+use \JobPaymentQuery as ChildJobPaymentQuery;
 use \JobQuery as ChildJobQuery;
-use \Payment as ChildPayment;
-use \PaymentQuery as ChildPaymentQuery;
 use \User as ChildUser;
 use \UserQuery as ChildUserQuery;
 use \Exception;
@@ -130,9 +130,9 @@ abstract class Job implements ActiveRecordInterface
     protected $aAcceptedByUser;
 
     /**
-     * @var        ChildPayment one-to-one related ChildPayment object
+     * @var        ChildJobPayment one-to-one related ChildJobPayment object
      */
-    protected $singlePayment;
+    protected $singleJobPayment;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -769,7 +769,7 @@ abstract class Job implements ActiveRecordInterface
 
             $this->aPostedByUser = null;
             $this->aAcceptedByUser = null;
-            $this->singlePayment = null;
+            $this->singleJobPayment = null;
 
         } // if (deep)
     }
@@ -904,9 +904,9 @@ abstract class Job implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->singlePayment !== null) {
-                if (!$this->singlePayment->isDeleted() && ($this->singlePayment->isNew() || $this->singlePayment->isModified())) {
-                    $affectedRows += $this->singlePayment->save($con);
+            if ($this->singleJobPayment !== null) {
+                if (!$this->singleJobPayment->isDeleted() && ($this->singleJobPayment->isNew() || $this->singleJobPayment->isModified())) {
+                    $affectedRows += $this->singleJobPayment->save($con);
                 }
             }
 
@@ -1156,20 +1156,20 @@ abstract class Job implements ActiveRecordInterface
 
                 $result[$key] = $this->aAcceptedByUser->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->singlePayment) {
+            if (null !== $this->singleJobPayment) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'payment';
+                        $key = 'jobPayment';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'payment';
+                        $key = 'job_payment';
                         break;
                     default:
-                        $key = 'Payment';
+                        $key = 'JobPayment';
                 }
 
-                $result[$key] = $this->singlePayment->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+                $result[$key] = $this->singleJobPayment->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
             }
         }
 
@@ -1443,9 +1443,9 @@ abstract class Job implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            $relObj = $this->getPayment();
+            $relObj = $this->getJobPayment();
             if ($relObj) {
-                $copyObj->setPayment($relObj->copy($deepCopy));
+                $copyObj->setJobPayment($relObj->copy($deepCopy));
             }
 
         } // if ($deepCopy)
@@ -1594,34 +1594,34 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
-     * Gets a single ChildPayment object, which is related to this object by a one-to-one relationship.
+     * Gets a single ChildJobPayment object, which is related to this object by a one-to-one relationship.
      *
      * @param  ConnectionInterface $con optional connection object
-     * @return ChildPayment
+     * @return ChildJobPayment
      * @throws PropelException
      */
-    public function getPayment(ConnectionInterface $con = null)
+    public function getJobPayment(ConnectionInterface $con = null)
     {
 
-        if ($this->singlePayment === null && !$this->isNew()) {
-            $this->singlePayment = ChildPaymentQuery::create()->findPk($this->getPrimaryKey(), $con);
+        if ($this->singleJobPayment === null && !$this->isNew()) {
+            $this->singleJobPayment = ChildJobPaymentQuery::create()->findPk($this->getPrimaryKey(), $con);
         }
 
-        return $this->singlePayment;
+        return $this->singleJobPayment;
     }
 
     /**
-     * Sets a single ChildPayment object as related to this object by a one-to-one relationship.
+     * Sets a single ChildJobPayment object as related to this object by a one-to-one relationship.
      *
-     * @param  ChildPayment $v ChildPayment
+     * @param  ChildJobPayment $v ChildJobPayment
      * @return $this|\Job The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setPayment(ChildPayment $v = null)
+    public function setJobPayment(ChildJobPayment $v = null)
     {
-        $this->singlePayment = $v;
+        $this->singleJobPayment = $v;
 
-        // Make sure that that the passed-in ChildPayment isn't already associated with this object
+        // Make sure that that the passed-in ChildJobPayment isn't already associated with this object
         if ($v !== null && $v->getJob(null, false) === null) {
             $v->setJob($this);
         }
@@ -1668,12 +1668,12 @@ abstract class Job implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->singlePayment) {
-                $this->singlePayment->clearAllReferences($deep);
+            if ($this->singleJobPayment) {
+                $this->singleJobPayment->clearAllReferences($deep);
             }
         } // if ($deep)
 
-        $this->singlePayment = null;
+        $this->singleJobPayment = null;
         $this->aPostedByUser = null;
         $this->aAcceptedByUser = null;
     }

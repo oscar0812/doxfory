@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
-  <table name="contact_info" idMethod="native" phpName="ContactInfo" allowPkInsert="true">
-    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="email" phpName="Email" type="VARCHAR" size="64" required="true"/>
-    <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="32" required="true"/>
-    <column name="facebook" phpName="Facebook" type="VARCHAR" size="64" required="true"/>
-    <column name="twitter" phpName="Twitter" type="VARCHAR" size="64" required="true"/>
-    <column name="instagram" phpName="Instagram" type="VARCHAR" size="64" required="true"/>
-    <foreign-key foreignTable="user" name="contact_info_ibfk_1">
-      <reference local="user_id" foreign="id"/>
-    </foreign-key>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
   <table name="job" idMethod="native" phpName="Job">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="time_posted" phpName="TimePosted" type="INTEGER" size="16" required="true"/>
@@ -39,14 +25,14 @@
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
-  <table name="payment" idMethod="native" phpName="Payment">
+  <table name="job_payment" idMethod="native" phpName="JobPayment" allowPkInsert="true">
     <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="money_amount" phpName="MoneyAmount" type="DOUBLE" size="8" scale="2" required="true"/>
     <column name="is_online_pay" phpName="IsOnlinePay" type="BOOLEAN" size="1" required="true"/>
     <column name="is_in_person_payment" phpName="IsInPersonPayment" type="BOOLEAN" size="1" required="true"/>
     <column name="is_barter" phpName="IsBarter" type="BOOLEAN" size="1" required="true"/>
     <column name="barter_item" phpName="BarterItem" type="VARCHAR" size="32" required="true"/>
-    <foreign-key foreignTable="job" name="payment_ibfk_1">
+    <foreign-key foreignTable="job" name="job_payment_ibfk_1">
       <reference local="job_id" foreign="id"/>
     </foreign-key>
     <vendor type="mysql">
@@ -72,5 +58,19 @@
       <parameter name="rule2" value="{column: first_name, validator: Length, options: {min: 1}}"/>
       <parameter name="rule3" value="{column: last_name, validator: Length, options: {min: 1}}"/>
     </behavior>
+  </table>
+  <table name="user_contact_info" idMethod="native" phpName="UserContactInfo" allowPkInsert="true">
+    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="64" required="true"/>
+    <column name="phone_number" phpName="PhoneNumber" type="VARCHAR" size="32" required="true"/>
+    <column name="facebook" phpName="Facebook" type="VARCHAR" size="64" required="true"/>
+    <column name="twitter" phpName="Twitter" type="VARCHAR" size="64" required="true"/>
+    <column name="instagram" phpName="Instagram" type="VARCHAR" size="64" required="true"/>
+    <foreign-key foreignTable="user" name="user_contact_info_ibfk_1">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
   </table>
 </database>
