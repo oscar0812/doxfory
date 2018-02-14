@@ -3,54 +3,33 @@ namespace App\Helpers;
 
 class ImageUpload
 {
-    public static function createDir($target_dir)
+    private static function createDir($target_dir)
     {
         if (!file_exists($target_dir)) {
             mkdir($target_dir);
         }
     }
 
-    public static function uploadPfp($id, $home)
+    private static function createDirs($target_dir)
     {
         $dir ='img/';
         ImageUpload::createDir($dir);
         $dir .= 'uploads/';
         ImageUpload::createDir($dir);
-        $dir .='pfp/';
+        $dir .=$target_dir;
         ImageUpload::createDir($dir);
-        return ImageUpload::uploadToServer($dir, $id, $home, 'pfpUpload');
+        return $dir;
     }
 
-    public static function uploadJobImage($id, $home){
-      $dir ='img/';
-      ImageUpload::createDir($dir);
-      $dir .= 'uploads/';
-      ImageUpload::createDir($dir);
-      $dir .='job/';
-      ImageUpload::createDir($dir);
-      return ImageUpload::uploadToServer($dir, $id, $home, 'jobImageUpload');
-    }
-
-    protected static function uploadToServer($target_dir, $id, $home, $fileName)
+    public static function uploadPfp($id, $home)
     {
+        $target_dir = ImageUpload::createDirs('pfp/');
+        $fileName = 'pfpUpload';
         $target_file = $target_dir . basename($_FILES[$fileName]["name"]);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        // Check if image file is a actual image or fake image
-        if (isset($_POST["submit"])) {
-            $check = getimagesize($_FILES[$fileName]["tmp_name"]);
-            if ($check == false) {
-                return ['success'=>false, 'msg'=>'File is not an image'];
-            }
-        }
 
-        // Check file size
-        if ($_FILES[$fileName]["size"] > 500000) {
-            return ['success'=>false, 'msg'=>'File is too large'];
-        }
-        // Allow certain file formats
-        if ($imageFileType != "jpg" && $imageFileType != "png" &&
-        $imageFileType != "jpeg" && $imageFileType != "gif") {
-            return ['success'=>false, 'msg'=>'Only JPG, JPEG, PNG & GIF files are allowed'];
+        $errors = ImageUpload::checkForErrors($fileName, $target_dir);
+        if (!$errors['success']) {
+            return $errors;
         }
 
         // change image name to ($user->id).jpg
@@ -64,5 +43,52 @@ class ImageUpload
         } else {
             return ['success'=>false, 'msg'=>'There was an error uploading your file'];
         }
+    }
+
+    public static function uploadJobImage($id, $home)
+    {
+        ImageUpload::createDirs('job/');
+
+        if (isset($_SESSION['jobImageUpload'])) {
+            $data = $_SESSION['jobImageUpload'];
+
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+
+            $target_dir = 'img/uploads/job/';
+            $url = $home.'img/uploads/job/'.$id.'.jpg';
+            $target_file = $target_dir.$id.'.jpg';
+
+            file_put_contents($target_file, $data);
+
+            return ['success'=>true, 'msg'=>'File uploaded', 'path'=>$url];
+        }
+        return ['success'=>false, 'msg'=>'There was an error uploading job image'];
+    }
+
+    public static function checkForErrors($fileName, $target_dir)
+    {
+        $errors = ['success'=>true];
+        $target_file = $target_dir . basename($_FILES[$fileName]["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        // Check if image file is a actual image or fake image
+        if (isset($_POST["submit"])) {
+            $check = getimagesize($_FILES[$fileName]["tmp_name"]);
+            if ($check == false) {
+                $errors = ['success'=>false, 'msg'=>'File is not an image'];
+            }
+        }
+        // Check file size
+        if ($_FILES[$fileName]["size"] > 500000) {
+            $errors = ['success'=>false, 'msg'=>'File is too large'];
+        }
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" &&
+            $imageFileType != "jpeg" && $imageFileType != "gif") {
+            $errors = ['success'=>false, 'msg'=>'Only JPG, JPEG, PNG & GIF files are allowed'];
+        }
+
+        return $errors;
     }
 }
