@@ -41,9 +41,11 @@
   </table>
   <table name="payment" idMethod="native" phpName="Payment">
     <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="amount" phpName="Amount" type="DOUBLE" size="8" scale="2" required="true"/>
-    <column name="online_pay" phpName="OnlinePay" type="BOOLEAN" size="1" required="true"/>
-    <column name="barter" phpName="Barter" type="BOOLEAN" size="1" required="true"/>
+    <column name="money_amount" phpName="MoneyAmount" type="DOUBLE" size="8" scale="2" required="true"/>
+    <column name="is_online_pay" phpName="IsOnlinePay" type="BOOLEAN" size="1" required="true"/>
+    <column name="is_in_person_payment" phpName="IsInPersonPayment" type="BOOLEAN" size="1" required="true"/>
+    <column name="is_barter" phpName="IsBarter" type="BOOLEAN" size="1" required="true"/>
+    <column name="barter_item" phpName="BarterItem" type="VARCHAR" size="32" required="true"/>
     <foreign-key foreignTable="job" name="payment_ibfk_1">
       <reference local="job_id" foreign="id"/>
     </foreign-key>

@@ -59,7 +59,7 @@ class PaymentTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class PaymentTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the job_id field
@@ -77,19 +77,29 @@ class PaymentTableMap extends TableMap
     const COL_JOB_ID = 'payment.job_id';
 
     /**
-     * the column name for the amount field
+     * the column name for the money_amount field
      */
-    const COL_AMOUNT = 'payment.amount';
+    const COL_MONEY_AMOUNT = 'payment.money_amount';
 
     /**
-     * the column name for the online_pay field
+     * the column name for the is_online_pay field
      */
-    const COL_ONLINE_PAY = 'payment.online_pay';
+    const COL_IS_ONLINE_PAY = 'payment.is_online_pay';
 
     /**
-     * the column name for the barter field
+     * the column name for the is_in_person_payment field
      */
-    const COL_BARTER = 'payment.barter';
+    const COL_IS_IN_PERSON_PAYMENT = 'payment.is_in_person_payment';
+
+    /**
+     * the column name for the is_barter field
+     */
+    const COL_IS_BARTER = 'payment.is_barter';
+
+    /**
+     * the column name for the barter_item field
+     */
+    const COL_BARTER_ITEM = 'payment.barter_item';
 
     /**
      * The default string format for model objects of the related table
@@ -103,11 +113,11 @@ class PaymentTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('JobId', 'Amount', 'OnlinePay', 'Barter', ),
-        self::TYPE_CAMELNAME     => array('jobId', 'amount', 'onlinePay', 'barter', ),
-        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID, PaymentTableMap::COL_AMOUNT, PaymentTableMap::COL_ONLINE_PAY, PaymentTableMap::COL_BARTER, ),
-        self::TYPE_FIELDNAME     => array('job_id', 'amount', 'online_pay', 'barter', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('JobId', 'MoneyAmount', 'IsOnlinePay', 'IsInPersonPayment', 'IsBarter', 'BarterItem', ),
+        self::TYPE_CAMELNAME     => array('jobId', 'moneyAmount', 'isOnlinePay', 'isInPersonPayment', 'isBarter', 'barterItem', ),
+        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID, PaymentTableMap::COL_MONEY_AMOUNT, PaymentTableMap::COL_IS_ONLINE_PAY, PaymentTableMap::COL_IS_IN_PERSON_PAYMENT, PaymentTableMap::COL_IS_BARTER, PaymentTableMap::COL_BARTER_ITEM, ),
+        self::TYPE_FIELDNAME     => array('job_id', 'money_amount', 'is_online_pay', 'is_in_person_payment', 'is_barter', 'barter_item', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -117,11 +127,11 @@ class PaymentTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('JobId' => 0, 'Amount' => 1, 'OnlinePay' => 2, 'Barter' => 3, ),
-        self::TYPE_CAMELNAME     => array('jobId' => 0, 'amount' => 1, 'onlinePay' => 2, 'barter' => 3, ),
-        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID => 0, PaymentTableMap::COL_AMOUNT => 1, PaymentTableMap::COL_ONLINE_PAY => 2, PaymentTableMap::COL_BARTER => 3, ),
-        self::TYPE_FIELDNAME     => array('job_id' => 0, 'amount' => 1, 'online_pay' => 2, 'barter' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('JobId' => 0, 'MoneyAmount' => 1, 'IsOnlinePay' => 2, 'IsInPersonPayment' => 3, 'IsBarter' => 4, 'BarterItem' => 5, ),
+        self::TYPE_CAMELNAME     => array('jobId' => 0, 'moneyAmount' => 1, 'isOnlinePay' => 2, 'isInPersonPayment' => 3, 'isBarter' => 4, 'barterItem' => 5, ),
+        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID => 0, PaymentTableMap::COL_MONEY_AMOUNT => 1, PaymentTableMap::COL_IS_ONLINE_PAY => 2, PaymentTableMap::COL_IS_IN_PERSON_PAYMENT => 3, PaymentTableMap::COL_IS_BARTER => 4, PaymentTableMap::COL_BARTER_ITEM => 5, ),
+        self::TYPE_FIELDNAME     => array('job_id' => 0, 'money_amount' => 1, 'is_online_pay' => 2, 'is_in_person_payment' => 3, 'is_barter' => 4, 'barter_item' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -142,9 +152,11 @@ class PaymentTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addForeignPrimaryKey('job_id', 'JobId', 'INTEGER' , 'job', 'id', true, null, null);
-        $this->addColumn('amount', 'Amount', 'DOUBLE', true, 8, null);
-        $this->addColumn('online_pay', 'OnlinePay', 'BOOLEAN', true, 1, null);
-        $this->addColumn('barter', 'Barter', 'BOOLEAN', true, 1, null);
+        $this->addColumn('money_amount', 'MoneyAmount', 'DOUBLE', true, 8, null);
+        $this->addColumn('is_online_pay', 'IsOnlinePay', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_in_person_payment', 'IsInPersonPayment', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_barter', 'IsBarter', 'BOOLEAN', true, 1, null);
+        $this->addColumn('barter_item', 'BarterItem', 'VARCHAR', true, 32, null);
     } // initialize()
 
     /**
@@ -303,14 +315,18 @@ class PaymentTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(PaymentTableMap::COL_JOB_ID);
-            $criteria->addSelectColumn(PaymentTableMap::COL_AMOUNT);
-            $criteria->addSelectColumn(PaymentTableMap::COL_ONLINE_PAY);
-            $criteria->addSelectColumn(PaymentTableMap::COL_BARTER);
+            $criteria->addSelectColumn(PaymentTableMap::COL_MONEY_AMOUNT);
+            $criteria->addSelectColumn(PaymentTableMap::COL_IS_ONLINE_PAY);
+            $criteria->addSelectColumn(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT);
+            $criteria->addSelectColumn(PaymentTableMap::COL_IS_BARTER);
+            $criteria->addSelectColumn(PaymentTableMap::COL_BARTER_ITEM);
         } else {
             $criteria->addSelectColumn($alias . '.job_id');
-            $criteria->addSelectColumn($alias . '.amount');
-            $criteria->addSelectColumn($alias . '.online_pay');
-            $criteria->addSelectColumn($alias . '.barter');
+            $criteria->addSelectColumn($alias . '.money_amount');
+            $criteria->addSelectColumn($alias . '.is_online_pay');
+            $criteria->addSelectColumn($alias . '.is_in_person_payment');
+            $criteria->addSelectColumn($alias . '.is_barter');
+            $criteria->addSelectColumn($alias . '.barter_item');
         }
     }
 

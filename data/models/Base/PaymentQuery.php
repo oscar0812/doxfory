@@ -21,14 +21,18 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildPaymentQuery orderByJobId($order = Criteria::ASC) Order by the job_id column
- * @method     ChildPaymentQuery orderByAmount($order = Criteria::ASC) Order by the amount column
- * @method     ChildPaymentQuery orderByOnlinePay($order = Criteria::ASC) Order by the online_pay column
- * @method     ChildPaymentQuery orderByBarter($order = Criteria::ASC) Order by the barter column
+ * @method     ChildPaymentQuery orderByMoneyAmount($order = Criteria::ASC) Order by the money_amount column
+ * @method     ChildPaymentQuery orderByIsOnlinePay($order = Criteria::ASC) Order by the is_online_pay column
+ * @method     ChildPaymentQuery orderByIsInPersonPayment($order = Criteria::ASC) Order by the is_in_person_payment column
+ * @method     ChildPaymentQuery orderByIsBarter($order = Criteria::ASC) Order by the is_barter column
+ * @method     ChildPaymentQuery orderByBarterItem($order = Criteria::ASC) Order by the barter_item column
  *
  * @method     ChildPaymentQuery groupByJobId() Group by the job_id column
- * @method     ChildPaymentQuery groupByAmount() Group by the amount column
- * @method     ChildPaymentQuery groupByOnlinePay() Group by the online_pay column
- * @method     ChildPaymentQuery groupByBarter() Group by the barter column
+ * @method     ChildPaymentQuery groupByMoneyAmount() Group by the money_amount column
+ * @method     ChildPaymentQuery groupByIsOnlinePay() Group by the is_online_pay column
+ * @method     ChildPaymentQuery groupByIsInPersonPayment() Group by the is_in_person_payment column
+ * @method     ChildPaymentQuery groupByIsBarter() Group by the is_barter column
+ * @method     ChildPaymentQuery groupByBarterItem() Group by the barter_item column
  *
  * @method     ChildPaymentQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildPaymentQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -54,23 +58,29 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPayment findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPayment matching the query, or a new ChildPayment object populated from the query conditions when no match is found
  *
  * @method     ChildPayment findOneByJobId(int $job_id) Return the first ChildPayment filtered by the job_id column
- * @method     ChildPayment findOneByAmount(double $amount) Return the first ChildPayment filtered by the amount column
- * @method     ChildPayment findOneByOnlinePay(boolean $online_pay) Return the first ChildPayment filtered by the online_pay column
- * @method     ChildPayment findOneByBarter(boolean $barter) Return the first ChildPayment filtered by the barter column *
+ * @method     ChildPayment findOneByMoneyAmount(double $money_amount) Return the first ChildPayment filtered by the money_amount column
+ * @method     ChildPayment findOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildPayment filtered by the is_online_pay column
+ * @method     ChildPayment findOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildPayment filtered by the is_in_person_payment column
+ * @method     ChildPayment findOneByIsBarter(boolean $is_barter) Return the first ChildPayment filtered by the is_barter column
+ * @method     ChildPayment findOneByBarterItem(string $barter_item) Return the first ChildPayment filtered by the barter_item column *
 
  * @method     ChildPayment requirePk($key, ConnectionInterface $con = null) Return the ChildPayment by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPayment requireOne(ConnectionInterface $con = null) Return the first ChildPayment matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPayment requireOneByJobId(int $job_id) Return the first ChildPayment filtered by the job_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByAmount(double $amount) Return the first ChildPayment filtered by the amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByOnlinePay(boolean $online_pay) Return the first ChildPayment filtered by the online_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPayment requireOneByBarter(boolean $barter) Return the first ChildPayment filtered by the barter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPayment requireOneByMoneyAmount(double $money_amount) Return the first ChildPayment filtered by the money_amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPayment requireOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildPayment filtered by the is_online_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPayment requireOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildPayment filtered by the is_in_person_payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPayment requireOneByIsBarter(boolean $is_barter) Return the first ChildPayment filtered by the is_barter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPayment requireOneByBarterItem(string $barter_item) Return the first ChildPayment filtered by the barter_item column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPayment[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPayment objects based on current ModelCriteria
  * @method     ChildPayment[]|ObjectCollection findByJobId(int $job_id) Return ChildPayment objects filtered by the job_id column
- * @method     ChildPayment[]|ObjectCollection findByAmount(double $amount) Return ChildPayment objects filtered by the amount column
- * @method     ChildPayment[]|ObjectCollection findByOnlinePay(boolean $online_pay) Return ChildPayment objects filtered by the online_pay column
- * @method     ChildPayment[]|ObjectCollection findByBarter(boolean $barter) Return ChildPayment objects filtered by the barter column
+ * @method     ChildPayment[]|ObjectCollection findByMoneyAmount(double $money_amount) Return ChildPayment objects filtered by the money_amount column
+ * @method     ChildPayment[]|ObjectCollection findByIsOnlinePay(boolean $is_online_pay) Return ChildPayment objects filtered by the is_online_pay column
+ * @method     ChildPayment[]|ObjectCollection findByIsInPersonPayment(boolean $is_in_person_payment) Return ChildPayment objects filtered by the is_in_person_payment column
+ * @method     ChildPayment[]|ObjectCollection findByIsBarter(boolean $is_barter) Return ChildPayment objects filtered by the is_barter column
+ * @method     ChildPayment[]|ObjectCollection findByBarterItem(string $barter_item) Return ChildPayment objects filtered by the barter_item column
  * @method     ChildPayment[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -169,7 +179,7 @@ abstract class PaymentQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT job_id, amount, online_pay, barter FROM payment WHERE job_id = :p0';
+        $sql = 'SELECT job_id, money_amount, is_online_pay, is_in_person_payment, is_barter, barter_item FROM payment WHERE job_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -303,16 +313,16 @@ abstract class PaymentQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the amount column
+     * Filter the query on the money_amount column
      *
      * Example usage:
      * <code>
-     * $query->filterByAmount(1234); // WHERE amount = 1234
-     * $query->filterByAmount(array(12, 34)); // WHERE amount IN (12, 34)
-     * $query->filterByAmount(array('min' => 12)); // WHERE amount > 12
+     * $query->filterByMoneyAmount(1234); // WHERE money_amount = 1234
+     * $query->filterByMoneyAmount(array(12, 34)); // WHERE money_amount IN (12, 34)
+     * $query->filterByMoneyAmount(array('min' => 12)); // WHERE money_amount > 12
      * </code>
      *
-     * @param     mixed $amount The value to use as filter.
+     * @param     mixed $moneyAmount The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -320,16 +330,16 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @return $this|ChildPaymentQuery The current query, for fluid interface
      */
-    public function filterByAmount($amount = null, $comparison = null)
+    public function filterByMoneyAmount($moneyAmount = null, $comparison = null)
     {
-        if (is_array($amount)) {
+        if (is_array($moneyAmount)) {
             $useMinMax = false;
-            if (isset($amount['min'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_AMOUNT, $amount['min'], Criteria::GREATER_EQUAL);
+            if (isset($moneyAmount['min'])) {
+                $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($amount['max'])) {
-                $this->addUsingAlias(PaymentTableMap::COL_AMOUNT, $amount['max'], Criteria::LESS_EQUAL);
+            if (isset($moneyAmount['max'])) {
+                $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -340,19 +350,19 @@ abstract class PaymentQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_AMOUNT, $amount, $comparison);
+        return $this->addUsingAlias(PaymentTableMap::COL_MONEY_AMOUNT, $moneyAmount, $comparison);
     }
 
     /**
-     * Filter the query on the online_pay column
+     * Filter the query on the is_online_pay column
      *
      * Example usage:
      * <code>
-     * $query->filterByOnlinePay(true); // WHERE online_pay = true
-     * $query->filterByOnlinePay('yes'); // WHERE online_pay = true
+     * $query->filterByIsOnlinePay(true); // WHERE is_online_pay = true
+     * $query->filterByIsOnlinePay('yes'); // WHERE is_online_pay = true
      * </code>
      *
-     * @param     boolean|string $onlinePay The value to use as filter.
+     * @param     boolean|string $isOnlinePay The value to use as filter.
      *              Non-boolean arguments are converted using the following rules:
      *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
@@ -361,25 +371,25 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @return $this|ChildPaymentQuery The current query, for fluid interface
      */
-    public function filterByOnlinePay($onlinePay = null, $comparison = null)
+    public function filterByIsOnlinePay($isOnlinePay = null, $comparison = null)
     {
-        if (is_string($onlinePay)) {
-            $onlinePay = in_array(strtolower($onlinePay), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        if (is_string($isOnlinePay)) {
+            $isOnlinePay = in_array(strtolower($isOnlinePay), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_ONLINE_PAY, $onlinePay, $comparison);
+        return $this->addUsingAlias(PaymentTableMap::COL_IS_ONLINE_PAY, $isOnlinePay, $comparison);
     }
 
     /**
-     * Filter the query on the barter column
+     * Filter the query on the is_in_person_payment column
      *
      * Example usage:
      * <code>
-     * $query->filterByBarter(true); // WHERE barter = true
-     * $query->filterByBarter('yes'); // WHERE barter = true
+     * $query->filterByIsInPersonPayment(true); // WHERE is_in_person_payment = true
+     * $query->filterByIsInPersonPayment('yes'); // WHERE is_in_person_payment = true
      * </code>
      *
-     * @param     boolean|string $barter The value to use as filter.
+     * @param     boolean|string $isInPersonPayment The value to use as filter.
      *              Non-boolean arguments are converted using the following rules:
      *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
@@ -388,13 +398,65 @@ abstract class PaymentQuery extends ModelCriteria
      *
      * @return $this|ChildPaymentQuery The current query, for fluid interface
      */
-    public function filterByBarter($barter = null, $comparison = null)
+    public function filterByIsInPersonPayment($isInPersonPayment = null, $comparison = null)
     {
-        if (is_string($barter)) {
-            $barter = in_array(strtolower($barter), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        if (is_string($isInPersonPayment)) {
+            $isInPersonPayment = in_array(strtolower($isInPersonPayment), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(PaymentTableMap::COL_BARTER, $barter, $comparison);
+        return $this->addUsingAlias(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $isInPersonPayment, $comparison);
+    }
+
+    /**
+     * Filter the query on the is_barter column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIsBarter(true); // WHERE is_barter = true
+     * $query->filterByIsBarter('yes'); // WHERE is_barter = true
+     * </code>
+     *
+     * @param     boolean|string $isBarter The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     */
+    public function filterByIsBarter($isBarter = null, $comparison = null)
+    {
+        if (is_string($isBarter)) {
+            $isBarter = in_array(strtolower($isBarter), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(PaymentTableMap::COL_IS_BARTER, $isBarter, $comparison);
+    }
+
+    /**
+     * Filter the query on the barter_item column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBarterItem('fooValue');   // WHERE barter_item = 'fooValue'
+     * $query->filterByBarterItem('%fooValue%', Criteria::LIKE); // WHERE barter_item LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $barterItem The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildPaymentQuery The current query, for fluid interface
+     */
+    public function filterByBarterItem($barterItem = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($barterItem)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PaymentTableMap::COL_BARTER_ITEM, $barterItem, $comparison);
     }
 
     /**

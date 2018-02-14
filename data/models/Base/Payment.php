@@ -69,25 +69,39 @@ abstract class Payment implements ActiveRecordInterface
     protected $job_id;
 
     /**
-     * The value for the amount field.
+     * The value for the money_amount field.
      *
      * @var        double
      */
-    protected $amount;
+    protected $money_amount;
 
     /**
-     * The value for the online_pay field.
+     * The value for the is_online_pay field.
      *
      * @var        boolean
      */
-    protected $online_pay;
+    protected $is_online_pay;
 
     /**
-     * The value for the barter field.
+     * The value for the is_in_person_payment field.
      *
      * @var        boolean
      */
-    protected $barter;
+    protected $is_in_person_payment;
+
+    /**
+     * The value for the is_barter field.
+     *
+     * @var        boolean
+     */
+    protected $is_barter;
+
+    /**
+     * The value for the barter_item field.
+     *
+     * @var        string
+     */
+    protected $barter_item;
 
     /**
      * @var        ChildJob
@@ -338,53 +352,83 @@ abstract class Payment implements ActiveRecordInterface
     }
 
     /**
-     * Get the [amount] column value.
+     * Get the [money_amount] column value.
      *
      * @return double
      */
-    public function getAmount()
+    public function getMoneyAmount()
     {
-        return $this->amount;
+        return $this->money_amount;
     }
 
     /**
-     * Get the [online_pay] column value.
+     * Get the [is_online_pay] column value.
      *
      * @return boolean
      */
-    public function getOnlinePay()
+    public function getIsOnlinePay()
     {
-        return $this->online_pay;
+        return $this->is_online_pay;
     }
 
     /**
-     * Get the [online_pay] column value.
+     * Get the [is_online_pay] column value.
      *
      * @return boolean
      */
     public function isOnlinePay()
     {
-        return $this->getOnlinePay();
+        return $this->getIsOnlinePay();
     }
 
     /**
-     * Get the [barter] column value.
+     * Get the [is_in_person_payment] column value.
      *
      * @return boolean
      */
-    public function getBarter()
+    public function getIsInPersonPayment()
     {
-        return $this->barter;
+        return $this->is_in_person_payment;
     }
 
     /**
-     * Get the [barter] column value.
+     * Get the [is_in_person_payment] column value.
+     *
+     * @return boolean
+     */
+    public function isInPersonPayment()
+    {
+        return $this->getIsInPersonPayment();
+    }
+
+    /**
+     * Get the [is_barter] column value.
+     *
+     * @return boolean
+     */
+    public function getIsBarter()
+    {
+        return $this->is_barter;
+    }
+
+    /**
+     * Get the [is_barter] column value.
      *
      * @return boolean
      */
     public function isBarter()
     {
-        return $this->getBarter();
+        return $this->getIsBarter();
+    }
+
+    /**
+     * Get the [barter_item] column value.
+     *
+     * @return string
+     */
+    public function getBarterItem()
+    {
+        return $this->barter_item;
     }
 
     /**
@@ -412,27 +456,27 @@ abstract class Payment implements ActiveRecordInterface
     } // setJobId()
 
     /**
-     * Set the value of [amount] column.
+     * Set the value of [money_amount] column.
      *
      * @param double $v new value
      * @return $this|\Payment The current object (for fluent API support)
      */
-    public function setAmount($v)
+    public function setMoneyAmount($v)
     {
         if ($v !== null) {
             $v = (double) $v;
         }
 
-        if ($this->amount !== $v) {
-            $this->amount = $v;
-            $this->modifiedColumns[PaymentTableMap::COL_AMOUNT] = true;
+        if ($this->money_amount !== $v) {
+            $this->money_amount = $v;
+            $this->modifiedColumns[PaymentTableMap::COL_MONEY_AMOUNT] = true;
         }
 
         return $this;
-    } // setAmount()
+    } // setMoneyAmount()
 
     /**
-     * Sets the value of the [online_pay] column.
+     * Sets the value of the [is_online_pay] column.
      * Non-boolean arguments are converted using the following rules:
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
@@ -441,7 +485,7 @@ abstract class Payment implements ActiveRecordInterface
      * @param  boolean|integer|string $v The new value
      * @return $this|\Payment The current object (for fluent API support)
      */
-    public function setOnlinePay($v)
+    public function setIsOnlinePay($v)
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -451,16 +495,16 @@ abstract class Payment implements ActiveRecordInterface
             }
         }
 
-        if ($this->online_pay !== $v) {
-            $this->online_pay = $v;
-            $this->modifiedColumns[PaymentTableMap::COL_ONLINE_PAY] = true;
+        if ($this->is_online_pay !== $v) {
+            $this->is_online_pay = $v;
+            $this->modifiedColumns[PaymentTableMap::COL_IS_ONLINE_PAY] = true;
         }
 
         return $this;
-    } // setOnlinePay()
+    } // setIsOnlinePay()
 
     /**
-     * Sets the value of the [barter] column.
+     * Sets the value of the [is_in_person_payment] column.
      * Non-boolean arguments are converted using the following rules:
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
@@ -469,7 +513,7 @@ abstract class Payment implements ActiveRecordInterface
      * @param  boolean|integer|string $v The new value
      * @return $this|\Payment The current object (for fluent API support)
      */
-    public function setBarter($v)
+    public function setIsInPersonPayment($v)
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -479,13 +523,61 @@ abstract class Payment implements ActiveRecordInterface
             }
         }
 
-        if ($this->barter !== $v) {
-            $this->barter = $v;
-            $this->modifiedColumns[PaymentTableMap::COL_BARTER] = true;
+        if ($this->is_in_person_payment !== $v) {
+            $this->is_in_person_payment = $v;
+            $this->modifiedColumns[PaymentTableMap::COL_IS_IN_PERSON_PAYMENT] = true;
         }
 
         return $this;
-    } // setBarter()
+    } // setIsInPersonPayment()
+
+    /**
+     * Sets the value of the [is_barter] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\Payment The current object (for fluent API support)
+     */
+    public function setIsBarter($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->is_barter !== $v) {
+            $this->is_barter = $v;
+            $this->modifiedColumns[PaymentTableMap::COL_IS_BARTER] = true;
+        }
+
+        return $this;
+    } // setIsBarter()
+
+    /**
+     * Set the value of [barter_item] column.
+     *
+     * @param string $v new value
+     * @return $this|\Payment The current object (for fluent API support)
+     */
+    public function setBarterItem($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->barter_item !== $v) {
+            $this->barter_item = $v;
+            $this->modifiedColumns[PaymentTableMap::COL_BARTER_ITEM] = true;
+        }
+
+        return $this;
+    } // setBarterItem()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -526,14 +618,20 @@ abstract class Payment implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PaymentTableMap::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->job_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PaymentTableMap::translateFieldName('Amount', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->amount = (null !== $col) ? (double) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PaymentTableMap::translateFieldName('MoneyAmount', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->money_amount = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PaymentTableMap::translateFieldName('OnlinePay', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->online_pay = (null !== $col) ? (boolean) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PaymentTableMap::translateFieldName('IsOnlinePay', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_online_pay = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PaymentTableMap::translateFieldName('Barter', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->barter = (null !== $col) ? (boolean) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PaymentTableMap::translateFieldName('IsInPersonPayment', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_in_person_payment = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PaymentTableMap::translateFieldName('IsBarter', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->is_barter = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : PaymentTableMap::translateFieldName('BarterItem', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->barter_item = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -542,7 +640,7 @@ abstract class Payment implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = PaymentTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = PaymentTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Payment'), 0, $e);
@@ -758,14 +856,20 @@ abstract class Payment implements ActiveRecordInterface
         if ($this->isColumnModified(PaymentTableMap::COL_JOB_ID)) {
             $modifiedColumns[':p' . $index++]  = 'job_id';
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_AMOUNT)) {
-            $modifiedColumns[':p' . $index++]  = 'amount';
+        if ($this->isColumnModified(PaymentTableMap::COL_MONEY_AMOUNT)) {
+            $modifiedColumns[':p' . $index++]  = 'money_amount';
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_ONLINE_PAY)) {
-            $modifiedColumns[':p' . $index++]  = 'online_pay';
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_ONLINE_PAY)) {
+            $modifiedColumns[':p' . $index++]  = 'is_online_pay';
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_BARTER)) {
-            $modifiedColumns[':p' . $index++]  = 'barter';
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
+            $modifiedColumns[':p' . $index++]  = 'is_in_person_payment';
+        }
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_BARTER)) {
+            $modifiedColumns[':p' . $index++]  = 'is_barter';
+        }
+        if ($this->isColumnModified(PaymentTableMap::COL_BARTER_ITEM)) {
+            $modifiedColumns[':p' . $index++]  = 'barter_item';
         }
 
         $sql = sprintf(
@@ -781,14 +885,20 @@ abstract class Payment implements ActiveRecordInterface
                     case 'job_id':
                         $stmt->bindValue($identifier, $this->job_id, PDO::PARAM_INT);
                         break;
-                    case 'amount':
-                        $stmt->bindValue($identifier, $this->amount, PDO::PARAM_STR);
+                    case 'money_amount':
+                        $stmt->bindValue($identifier, $this->money_amount, PDO::PARAM_STR);
                         break;
-                    case 'online_pay':
-                        $stmt->bindValue($identifier, (int) $this->online_pay, PDO::PARAM_INT);
+                    case 'is_online_pay':
+                        $stmt->bindValue($identifier, (int) $this->is_online_pay, PDO::PARAM_INT);
                         break;
-                    case 'barter':
-                        $stmt->bindValue($identifier, (int) $this->barter, PDO::PARAM_INT);
+                    case 'is_in_person_payment':
+                        $stmt->bindValue($identifier, (int) $this->is_in_person_payment, PDO::PARAM_INT);
+                        break;
+                    case 'is_barter':
+                        $stmt->bindValue($identifier, (int) $this->is_barter, PDO::PARAM_INT);
+                        break;
+                    case 'barter_item':
+                        $stmt->bindValue($identifier, $this->barter_item, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -849,13 +959,19 @@ abstract class Payment implements ActiveRecordInterface
                 return $this->getJobId();
                 break;
             case 1:
-                return $this->getAmount();
+                return $this->getMoneyAmount();
                 break;
             case 2:
-                return $this->getOnlinePay();
+                return $this->getIsOnlinePay();
                 break;
             case 3:
-                return $this->getBarter();
+                return $this->getIsInPersonPayment();
+                break;
+            case 4:
+                return $this->getIsBarter();
+                break;
+            case 5:
+                return $this->getBarterItem();
                 break;
             default:
                 return null;
@@ -888,9 +1004,11 @@ abstract class Payment implements ActiveRecordInterface
         $keys = PaymentTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getJobId(),
-            $keys[1] => $this->getAmount(),
-            $keys[2] => $this->getOnlinePay(),
-            $keys[3] => $this->getBarter(),
+            $keys[1] => $this->getMoneyAmount(),
+            $keys[2] => $this->getIsOnlinePay(),
+            $keys[3] => $this->getIsInPersonPayment(),
+            $keys[4] => $this->getIsBarter(),
+            $keys[5] => $this->getBarterItem(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -951,13 +1069,19 @@ abstract class Payment implements ActiveRecordInterface
                 $this->setJobId($value);
                 break;
             case 1:
-                $this->setAmount($value);
+                $this->setMoneyAmount($value);
                 break;
             case 2:
-                $this->setOnlinePay($value);
+                $this->setIsOnlinePay($value);
                 break;
             case 3:
-                $this->setBarter($value);
+                $this->setIsInPersonPayment($value);
+                break;
+            case 4:
+                $this->setIsBarter($value);
+                break;
+            case 5:
+                $this->setBarterItem($value);
                 break;
         } // switch()
 
@@ -989,13 +1113,19 @@ abstract class Payment implements ActiveRecordInterface
             $this->setJobId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setAmount($arr[$keys[1]]);
+            $this->setMoneyAmount($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setOnlinePay($arr[$keys[2]]);
+            $this->setIsOnlinePay($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setBarter($arr[$keys[3]]);
+            $this->setIsInPersonPayment($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setIsBarter($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setBarterItem($arr[$keys[5]]);
         }
     }
 
@@ -1041,14 +1171,20 @@ abstract class Payment implements ActiveRecordInterface
         if ($this->isColumnModified(PaymentTableMap::COL_JOB_ID)) {
             $criteria->add(PaymentTableMap::COL_JOB_ID, $this->job_id);
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_AMOUNT)) {
-            $criteria->add(PaymentTableMap::COL_AMOUNT, $this->amount);
+        if ($this->isColumnModified(PaymentTableMap::COL_MONEY_AMOUNT)) {
+            $criteria->add(PaymentTableMap::COL_MONEY_AMOUNT, $this->money_amount);
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_ONLINE_PAY)) {
-            $criteria->add(PaymentTableMap::COL_ONLINE_PAY, $this->online_pay);
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_ONLINE_PAY)) {
+            $criteria->add(PaymentTableMap::COL_IS_ONLINE_PAY, $this->is_online_pay);
         }
-        if ($this->isColumnModified(PaymentTableMap::COL_BARTER)) {
-            $criteria->add(PaymentTableMap::COL_BARTER, $this->barter);
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
+            $criteria->add(PaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $this->is_in_person_payment);
+        }
+        if ($this->isColumnModified(PaymentTableMap::COL_IS_BARTER)) {
+            $criteria->add(PaymentTableMap::COL_IS_BARTER, $this->is_barter);
+        }
+        if ($this->isColumnModified(PaymentTableMap::COL_BARTER_ITEM)) {
+            $criteria->add(PaymentTableMap::COL_BARTER_ITEM, $this->barter_item);
         }
 
         return $criteria;
@@ -1144,9 +1280,11 @@ abstract class Payment implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setJobId($this->getJobId());
-        $copyObj->setAmount($this->getAmount());
-        $copyObj->setOnlinePay($this->getOnlinePay());
-        $copyObj->setBarter($this->getBarter());
+        $copyObj->setMoneyAmount($this->getMoneyAmount());
+        $copyObj->setIsOnlinePay($this->getIsOnlinePay());
+        $copyObj->setIsInPersonPayment($this->getIsInPersonPayment());
+        $copyObj->setIsBarter($this->getIsBarter());
+        $copyObj->setBarterItem($this->getBarterItem());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1230,9 +1368,11 @@ abstract class Payment implements ActiveRecordInterface
             $this->aJob->removePayment($this);
         }
         $this->job_id = null;
-        $this->amount = null;
-        $this->online_pay = null;
-        $this->barter = null;
+        $this->money_amount = null;
+        $this->is_online_pay = null;
+        $this->is_in_person_payment = null;
+        $this->is_barter = null;
+        $this->barter_item = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
