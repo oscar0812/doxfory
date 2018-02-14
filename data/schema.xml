@@ -24,6 +24,10 @@
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
+    <behavior name="validate">
+      <parameter name="rule1" value="{column: title, validator: Length, options: {min: 1}}"/>
+      <parameter name="rule2" value="{column: description, validator: Length, options: {min: 1}}"/>
+    </behavior>
   </table>
   <table name="job_payment" idMethod="native" phpName="JobPayment" allowPkInsert="true">
     <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
