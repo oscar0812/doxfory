@@ -26,7 +26,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method     ChildJobQuery orderByImage($order = Criteria::ASC) Order by the image column
- * @method     ChildJobQuery orderByPayment($order = Criteria::ASC) Order by the payment column
  * @method     ChildJobQuery orderByPostedById($order = Criteria::ASC) Order by the posted_by_id column
  * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
  *
@@ -36,7 +35,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery groupByTitle() Group by the title column
  * @method     ChildJobQuery groupByDescription() Group by the description column
  * @method     ChildJobQuery groupByImage() Group by the image column
- * @method     ChildJobQuery groupByPayment() Group by the payment column
  * @method     ChildJobQuery groupByPostedById() Group by the posted_by_id column
  * @method     ChildJobQuery groupByAcceptedById() Group by the accepted_by_id column
  *
@@ -68,7 +66,17 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery rightJoinWithAcceptedByUser() Adds a RIGHT JOIN clause and with to the query using the AcceptedByUser relation
  * @method     ChildJobQuery innerJoinWithAcceptedByUser() Adds a INNER JOIN clause and with to the query using the AcceptedByUser relation
  *
- * @method     \UserQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildJobQuery leftJoinPayment($relationAlias = null) Adds a LEFT JOIN clause to the query using the Payment relation
+ * @method     ChildJobQuery rightJoinPayment($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Payment relation
+ * @method     ChildJobQuery innerJoinPayment($relationAlias = null) Adds a INNER JOIN clause to the query using the Payment relation
+ *
+ * @method     ChildJobQuery joinWithPayment($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Payment relation
+ *
+ * @method     ChildJobQuery leftJoinWithPayment() Adds a LEFT JOIN clause and with to the query using the Payment relation
+ * @method     ChildJobQuery rightJoinWithPayment() Adds a RIGHT JOIN clause and with to the query using the Payment relation
+ * @method     ChildJobQuery innerJoinWithPayment() Adds a INNER JOIN clause and with to the query using the Payment relation
+ *
+ * @method     \UserQuery|\PaymentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJob findOne(ConnectionInterface $con = null) Return the first ChildJob matching the query
  * @method     ChildJob findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJob matching the query, or a new ChildJob object populated from the query conditions when no match is found
@@ -79,7 +87,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneByTitle(string $title) Return the first ChildJob filtered by the title column
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
  * @method     ChildJob findOneByImage(string $image) Return the first ChildJob filtered by the image column
- * @method     ChildJob findOneByPayment(int $payment) Return the first ChildJob filtered by the payment column
  * @method     ChildJob findOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column
  * @method     ChildJob findOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column *
 
@@ -92,7 +99,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOneByTitle(string $title) Return the first ChildJob filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByImage(string $image) Return the first ChildJob filtered by the image column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJob requireOneByPayment(int $payment) Return the first ChildJob filtered by the payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -103,7 +109,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob[]|ObjectCollection findByTitle(string $title) Return ChildJob objects filtered by the title column
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
  * @method     ChildJob[]|ObjectCollection findByImage(string $image) Return ChildJob objects filtered by the image column
- * @method     ChildJob[]|ObjectCollection findByPayment(int $payment) Return ChildJob objects filtered by the payment column
  * @method     ChildJob[]|ObjectCollection findByPostedById(int $posted_by_id) Return ChildJob objects filtered by the posted_by_id column
  * @method     ChildJob[]|ObjectCollection findByAcceptedById(int $accepted_by_id) Return ChildJob objects filtered by the accepted_by_id column
  * @method     ChildJob[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -204,7 +209,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, time_posted, is_completed, title, description, image, payment, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, time_posted, is_completed, title, description, image, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -479,47 +484,6 @@ abstract class JobQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the payment column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByPayment(1234); // WHERE payment = 1234
-     * $query->filterByPayment(array(12, 34)); // WHERE payment IN (12, 34)
-     * $query->filterByPayment(array('min' => 12)); // WHERE payment > 12
-     * </code>
-     *
-     * @param     mixed $payment The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildJobQuery The current query, for fluid interface
-     */
-    public function filterByPayment($payment = null, $comparison = null)
-    {
-        if (is_array($payment)) {
-            $useMinMax = false;
-            if (isset($payment['min'])) {
-                $this->addUsingAlias(JobTableMap::COL_PAYMENT, $payment['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($payment['max'])) {
-                $this->addUsingAlias(JobTableMap::COL_PAYMENT, $payment['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(JobTableMap::COL_PAYMENT, $payment, $comparison);
-    }
-
-    /**
      * Filter the query on the posted_by_id column
      *
      * Example usage:
@@ -757,6 +721,79 @@ abstract class JobQuery extends ModelCriteria
         return $this
             ->joinAcceptedByUser($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'AcceptedByUser', '\UserQuery');
+    }
+
+    /**
+     * Filter the query by a related \Payment object
+     *
+     * @param \Payment|ObjectCollection $payment the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByPayment($payment, $comparison = null)
+    {
+        if ($payment instanceof \Payment) {
+            return $this
+                ->addUsingAlias(JobTableMap::COL_ID, $payment->getJobId(), $comparison);
+        } elseif ($payment instanceof ObjectCollection) {
+            return $this
+                ->usePaymentQuery()
+                ->filterByPrimaryKeys($payment->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByPayment() only accepts arguments of type \Payment or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Payment relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function joinPayment($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Payment');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Payment');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Payment relation Payment object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \PaymentQuery A secondary query class using the current class as primary query
+     */
+    public function usePaymentQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinPayment($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Payment', '\PaymentQuery');
     }
 
     /**

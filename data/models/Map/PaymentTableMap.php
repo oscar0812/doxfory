@@ -2,8 +2,8 @@
 
 namespace Map;
 
-use \Job;
-use \JobQuery;
+use \Payment;
+use \PaymentQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'job' table.
+ * This class defines the structure of the 'payment' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class JobTableMap extends TableMap
+class PaymentTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class JobTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = '.Map.JobTableMap';
+    const CLASS_NAME = '.Map.PaymentTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class JobTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'job';
+    const TABLE_NAME = 'payment';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Job';
+    const OM_CLASS = '\\Payment';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Job';
+    const CLASS_DEFAULT = 'Payment';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 4;
 
     /**
      * The number of lazy-loaded columns
@@ -69,47 +69,27 @@ class JobTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /**
-     * the column name for the id field
+     * the column name for the job_id field
      */
-    const COL_ID = 'job.id';
+    const COL_JOB_ID = 'payment.job_id';
 
     /**
-     * the column name for the time_posted field
+     * the column name for the amount field
      */
-    const COL_TIME_POSTED = 'job.time_posted';
+    const COL_AMOUNT = 'payment.amount';
 
     /**
-     * the column name for the is_completed field
+     * the column name for the online_pay field
      */
-    const COL_IS_COMPLETED = 'job.is_completed';
+    const COL_ONLINE_PAY = 'payment.online_pay';
 
     /**
-     * the column name for the title field
+     * the column name for the barter field
      */
-    const COL_TITLE = 'job.title';
-
-    /**
-     * the column name for the description field
-     */
-    const COL_DESCRIPTION = 'job.description';
-
-    /**
-     * the column name for the image field
-     */
-    const COL_IMAGE = 'job.image';
-
-    /**
-     * the column name for the posted_by_id field
-     */
-    const COL_POSTED_BY_ID = 'job.posted_by_id';
-
-    /**
-     * the column name for the accepted_by_id field
-     */
-    const COL_ACCEPTED_BY_ID = 'job.accepted_by_id';
+    const COL_BARTER = 'payment.barter';
 
     /**
      * The default string format for model objects of the related table
@@ -123,11 +103,11 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'TimePosted', 'IsCompleted', 'Title', 'Description', 'Image', 'PostedById', 'AcceptedById', ),
-        self::TYPE_CAMELNAME     => array('id', 'timePosted', 'isCompleted', 'title', 'description', 'image', 'postedById', 'acceptedById', ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_TIME_POSTED, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGE, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'time_posted', 'is_completed', 'title', 'description', 'image', 'posted_by_id', 'accepted_by_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('JobId', 'Amount', 'OnlinePay', 'Barter', ),
+        self::TYPE_CAMELNAME     => array('jobId', 'amount', 'onlinePay', 'barter', ),
+        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID, PaymentTableMap::COL_AMOUNT, PaymentTableMap::COL_ONLINE_PAY, PaymentTableMap::COL_BARTER, ),
+        self::TYPE_FIELDNAME     => array('job_id', 'amount', 'online_pay', 'barter', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -137,11 +117,11 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'TimePosted' => 1, 'IsCompleted' => 2, 'Title' => 3, 'Description' => 4, 'Image' => 5, 'PostedById' => 6, 'AcceptedById' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'timePosted' => 1, 'isCompleted' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'postedById' => 6, 'acceptedById' => 7, ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_TIME_POSTED => 1, JobTableMap::COL_IS_COMPLETED => 2, JobTableMap::COL_TITLE => 3, JobTableMap::COL_DESCRIPTION => 4, JobTableMap::COL_IMAGE => 5, JobTableMap::COL_POSTED_BY_ID => 6, JobTableMap::COL_ACCEPTED_BY_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'time_posted' => 1, 'is_completed' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'posted_by_id' => 6, 'accepted_by_id' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('JobId' => 0, 'Amount' => 1, 'OnlinePay' => 2, 'Barter' => 3, ),
+        self::TYPE_CAMELNAME     => array('jobId' => 0, 'amount' => 1, 'onlinePay' => 2, 'barter' => 3, ),
+        self::TYPE_COLNAME       => array(PaymentTableMap::COL_JOB_ID => 0, PaymentTableMap::COL_AMOUNT => 1, PaymentTableMap::COL_ONLINE_PAY => 2, PaymentTableMap::COL_BARTER => 3, ),
+        self::TYPE_FIELDNAME     => array('job_id' => 0, 'amount' => 1, 'online_pay' => 2, 'barter' => 3, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, )
     );
 
     /**
@@ -154,21 +134,17 @@ class JobTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('job');
-        $this->setPhpName('Job');
+        $this->setName('payment');
+        $this->setPhpName('Payment');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Job');
+        $this->setClassName('\\Payment');
         $this->setPackage('');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('time_posted', 'TimePosted', 'INTEGER', true, 16, null);
-        $this->addColumn('is_completed', 'IsCompleted', 'BOOLEAN', true, 1, null);
-        $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
-        $this->addColumn('description', 'Description', 'VARCHAR', true, 4098, null);
-        $this->addColumn('image', 'Image', 'VARCHAR', true, 4098, null);
-        $this->addForeignKey('posted_by_id', 'PostedById', 'INTEGER', 'user', 'id', true, null, null);
-        $this->addForeignKey('accepted_by_id', 'AcceptedById', 'INTEGER', 'user', 'id', true, null, null);
+        $this->addForeignPrimaryKey('job_id', 'JobId', 'INTEGER' , 'job', 'id', true, null, null);
+        $this->addColumn('amount', 'Amount', 'DOUBLE', true, 8, null);
+        $this->addColumn('online_pay', 'OnlinePay', 'BOOLEAN', true, 1, null);
+        $this->addColumn('barter', 'Barter', 'BOOLEAN', true, 1, null);
     } // initialize()
 
     /**
@@ -176,21 +152,7 @@ class JobTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('PostedByUser', '\\User', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':posted_by_id',
-    1 => ':id',
-  ),
-), null, null, null, false);
-        $this->addRelation('AcceptedByUser', '\\User', RelationMap::MANY_TO_ONE, array (
-  0 =>
-  array (
-    0 => ':accepted_by_id',
-    1 => ':id',
-  ),
-), null, null, null, false);
-        $this->addRelation('Payment', '\\Payment', RelationMap::ONE_TO_ONE, array (
+        $this->addRelation('Job', '\\Job', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
     0 => ':job_id',
@@ -215,11 +177,11 @@ class JobTableMap extends TableMap
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
         // If the PK cannot be derived from the row, return NULL.
-        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] === null) {
             return null;
         }
 
-        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -239,7 +201,7 @@ class JobTableMap extends TableMap
         return (int) $row[
             $indexType == TableMap::TYPE_NUM
                 ? 0 + $offset
-                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
+                : self::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)
         ];
     }
 
@@ -256,7 +218,7 @@ class JobTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? JobTableMap::CLASS_DEFAULT : JobTableMap::OM_CLASS;
+        return $withPrefix ? PaymentTableMap::CLASS_DEFAULT : PaymentTableMap::OM_CLASS;
     }
 
     /**
@@ -270,22 +232,22 @@ class JobTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Job object, last column rank)
+     * @return array           (Payment object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = JobTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = JobTableMap::getInstanceFromPool($key))) {
+        $key = PaymentTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = PaymentTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + JobTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + PaymentTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = JobTableMap::OM_CLASS;
-            /** @var Job $obj */
+            $cls = PaymentTableMap::OM_CLASS;
+            /** @var Payment $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            JobTableMap::addInstanceToPool($obj, $key);
+            PaymentTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -308,18 +270,18 @@ class JobTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = JobTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = JobTableMap::getInstanceFromPool($key))) {
+            $key = PaymentTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = PaymentTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Job $obj */
+                /** @var Payment $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                JobTableMap::addInstanceToPool($obj, $key);
+                PaymentTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -340,23 +302,15 @@ class JobTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(JobTableMap::COL_ID);
-            $criteria->addSelectColumn(JobTableMap::COL_TIME_POSTED);
-            $criteria->addSelectColumn(JobTableMap::COL_IS_COMPLETED);
-            $criteria->addSelectColumn(JobTableMap::COL_TITLE);
-            $criteria->addSelectColumn(JobTableMap::COL_DESCRIPTION);
-            $criteria->addSelectColumn(JobTableMap::COL_IMAGE);
-            $criteria->addSelectColumn(JobTableMap::COL_POSTED_BY_ID);
-            $criteria->addSelectColumn(JobTableMap::COL_ACCEPTED_BY_ID);
+            $criteria->addSelectColumn(PaymentTableMap::COL_JOB_ID);
+            $criteria->addSelectColumn(PaymentTableMap::COL_AMOUNT);
+            $criteria->addSelectColumn(PaymentTableMap::COL_ONLINE_PAY);
+            $criteria->addSelectColumn(PaymentTableMap::COL_BARTER);
         } else {
-            $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.time_posted');
-            $criteria->addSelectColumn($alias . '.is_completed');
-            $criteria->addSelectColumn($alias . '.title');
-            $criteria->addSelectColumn($alias . '.description');
-            $criteria->addSelectColumn($alias . '.image');
-            $criteria->addSelectColumn($alias . '.posted_by_id');
-            $criteria->addSelectColumn($alias . '.accepted_by_id');
+            $criteria->addSelectColumn($alias . '.job_id');
+            $criteria->addSelectColumn($alias . '.amount');
+            $criteria->addSelectColumn($alias . '.online_pay');
+            $criteria->addSelectColumn($alias . '.barter');
         }
     }
 
@@ -369,7 +323,7 @@ class JobTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(JobTableMap::DATABASE_NAME)->getTable(JobTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(PaymentTableMap::DATABASE_NAME)->getTable(PaymentTableMap::TABLE_NAME);
     }
 
     /**
@@ -377,16 +331,16 @@ class JobTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(JobTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(JobTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new JobTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(PaymentTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(PaymentTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new PaymentTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Job or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Payment or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Job object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Payment object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -397,27 +351,27 @@ class JobTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PaymentTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Job) { // it's a model object
+        } elseif ($values instanceof \Payment) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(JobTableMap::DATABASE_NAME);
-            $criteria->add(JobTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(PaymentTableMap::DATABASE_NAME);
+            $criteria->add(PaymentTableMap::COL_JOB_ID, (array) $values, Criteria::IN);
         }
 
-        $query = JobQuery::create()->mergeWith($criteria);
+        $query = PaymentQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            JobTableMap::clearInstancePool();
+            PaymentTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                JobTableMap::removeInstanceFromPool($singleval);
+                PaymentTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -425,20 +379,20 @@ class JobTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the job table.
+     * Deletes all rows from the payment table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return JobQuery::create()->doDeleteAll($con);
+        return PaymentQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Job or Criteria object.
+     * Performs an INSERT on the database, given a Payment or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Job object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Payment object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -447,22 +401,18 @@ class JobTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(JobTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(PaymentTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Job object
-        }
-
-        if ($criteria->containsKey(JobTableMap::COL_ID) && $criteria->keyContainsValue(JobTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.JobTableMap::COL_ID.')');
+            $criteria = $criteria->buildCriteria(); // build Criteria from Payment object
         }
 
 
         // Set the correct dbName
-        $query = JobQuery::create()->mergeWith($criteria);
+        $query = PaymentQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -471,7 +421,7 @@ class JobTableMap extends TableMap
         });
     }
 
-} // JobTableMap
+} // PaymentTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-JobTableMap::buildTableMap();
+PaymentTableMap::buildTableMap();

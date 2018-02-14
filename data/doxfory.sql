@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 11, 2018 at 07:08 AM
+-- Generation Time: Feb 14, 2018 at 02:36 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -50,9 +50,21 @@ CREATE TABLE `job` (
   `title` varchar(255) NOT NULL,
   `description` varchar(4098) NOT NULL,
   `image` varchar(4098) NOT NULL,
-  `payment` int(11) NOT NULL,
   `posted_by_id` int(11) NOT NULL,
   `accepted_by_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `job_id` int(11) NOT NULL,
+  `amount` double(8,2) NOT NULL,
+  `online_pay` tinyint(1) NOT NULL,
+  `barter` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -91,6 +103,12 @@ ALTER TABLE `job`
   ADD PRIMARY KEY (`id`),
   ADD KEY `posted_by_id` (`posted_by_id`),
   ADD KEY `accepted_by_id` (`accepted_by_id`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`job_id`);
 
 --
 -- Indexes for table `user`
@@ -136,6 +154,12 @@ ALTER TABLE `contact_info`
 ALTER TABLE `job`
   ADD CONSTRAINT `job_ibfk_1` FOREIGN KEY (`posted_by_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `job_ibfk_2` FOREIGN KEY (`accepted_by_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `payment`
+--
+ALTER TABLE `payment`
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

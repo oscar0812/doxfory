@@ -21,7 +21,6 @@
     <column name="title" phpName="Title" type="VARCHAR" size="255" required="true"/>
     <column name="description" phpName="Description" type="VARCHAR" size="4098" required="true"/>
     <column name="image" phpName="Image" type="VARCHAR" size="4098" required="true"/>
-    <column name="payment" phpName="Payment" type="INTEGER" required="true"/>
     <column name="posted_by_id" phpName="PostedById" type="INTEGER" required="true"/>
     <column name="accepted_by_id" phpName="AcceptedById" type="INTEGER" required="true"/>
     <foreign-key foreignTable="user" name="job_ibfk_1" phpName="PostedByUser">
@@ -36,6 +35,18 @@
     <index name="accepted_by_id">
       <index-column name="accepted_by_id"/>
     </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="payment" idMethod="native" phpName="Payment">
+    <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="amount" phpName="Amount" type="DOUBLE" size="8" scale="2" required="true"/>
+    <column name="online_pay" phpName="OnlinePay" type="BOOLEAN" size="1" required="true"/>
+    <column name="barter" phpName="Barter" type="BOOLEAN" size="1" required="true"/>
+    <foreign-key foreignTable="job" name="payment_ibfk_1">
+      <reference local="job_id" foreign="id"/>
+    </foreign-key>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
