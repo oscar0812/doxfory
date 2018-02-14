@@ -6,8 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 use \UserQuery;
 use \User;
 use \JobQuery;
-use \ContactInfo;
-use \ContactInfoQuery;
+use \UserContactInfo;
+use \UserContactInfoQuery;
 
 // takes care of routing index page and /register
 class HomeController
@@ -46,7 +46,7 @@ class HomeController
             $post = $request->getParsedBody();
             if ($post['type'] == 'login') {
                 // check if valid login credentials, if yes, sign in
-                $contact_info = ContactInfoQuery::create()->findOneByEmail($post['email']);
+                $contact_info = UserContactInfoQuery::create()->findOneByEmail($post['email']);
                 $pass = $post['password'];
 
                 if ($contact_info == null || !$contact_info->getUser()->login($pass)) {
@@ -75,7 +75,7 @@ class HomeController
                     $user->setConfirmationKey(md5(rand(0, 1000)));
 
                     // set a row of contact_info, each user should have a row
-                    $contact_info = new ContactInfo();
+                    $contact_info = new UserContactInfo();
                     $contact_info->setEmail($email);
                     $contact_info->setUser($user);
 
@@ -103,14 +103,14 @@ class HomeController
 
             $app->post('/username', function ($request, $response) {
                 $post = $request->getParsedBody();
-                $info = ContactInfoQuery::create()->findOneByUsername($post['username']);
+                $info = UserContactInfoQuery::create()->findOneByUsername($post['username']);
 
                 echo ($info== null)?"true":"false";
             });
 
             $app->post('/email', function ($request, $response) {
                 $post = $request->getParsedBody();
-                $info = ContactInfoQuery::create()->findOneByEmail($post['email']);
+                $info = UserContactInfoQuery::create()->findOneByEmail($post['email']);
 
                 echo ($info== null)?"true":"false";
             });
