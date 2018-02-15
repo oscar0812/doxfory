@@ -32,10 +32,10 @@ class ImageUpload
             return $errors;
         }
 
-        // change image name to ($user->id).jpg
+        // change image name to ($user->id).png
         //$ext = substr($target_file, strripos($target_file, '.'));
-        $url = $home.'img/uploads/pfp/'.$id.'.jpg';
-        $target_file = $target_dir.$id.'.jpg';
+        $url = $home.'img/uploads/pfp/'.$id.'.png';
+        $target_file = $target_dir.$id.'.png';
 
         if (move_uploaded_file($_FILES[$fileName]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES[$fileName]["name"]). " has been uploaded.";
@@ -58,8 +58,8 @@ class ImageUpload
                 $data = base64_decode($data);
 
                 $target_dir = 'img/uploads/job/';
-                $url = $home.'img/uploads/job/'.$id.'.jpg';
-                $target_file = $target_dir.$id.'.jpg';
+                $url = $home.'img/uploads/job/'.$id.'.png';
+                $target_file = $target_dir.$id.'.png';
 
                 file_put_contents($target_file, $data);
 
