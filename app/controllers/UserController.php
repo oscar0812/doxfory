@@ -208,7 +208,7 @@ class UserController
             //    /jobs/all
             $app->get('/all', function ($request, $response) {
                 $arr = UserController::getVars($this);
-                $arr['jobs'] = JobQuery::create()->find();
+                $arr['jobs'] = JobQuery::create()->notCompleted()->newestToOldest()->find();
                 return $this->view->render($response, "jobs.php", $arr);
             })->setName('jobs');
         });
