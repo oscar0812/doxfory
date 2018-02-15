@@ -40,7 +40,7 @@
       <li class="has-dropdown"><a href="<?=$router->pathFor('jobs')?>">Jobs</a>
         <ul class="dropdown">
           <li><a href="<?=$router->pathFor('jobs')?>">All</a></li>
-          <li><a href="<?=$router->pathFor('create_job_get')?>">Post New</a></li>
+          <li><a href="<?=$router->pathFor('create_job')?>">Post New</a></li>
         </ul>
       </li>
       <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
