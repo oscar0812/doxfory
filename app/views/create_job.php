@@ -65,37 +65,60 @@
       <div class="row">
 
         <!-- Section-header -->
-        <div class="section-header text-center">
+        <div class="text-center">
           <h2 class="title">Post a new job</h2>
         </div>
         <!-- /Section-header -->
 
-        <!-- info form -->
+        <!-- main form -->
         <div class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
-          <form class="contact-form">
+          <form class="contact-form" id="main_form" method="post" action="<?=$router->pathFor('create_job')?>" enctype="multipart/form-data">
 
-						<div class="row">
-							<img src="" alt="">
+						<div class="row bottom-padding">
+							<img src="" alt="" id="image" height="120px;">
 							<label>
                 <button type="button" class="btn btn-primary" name="button" id="upload">Upload image</button>
               </label>
 						</div>
 
             <div class="row">
-              <input type="text" class="input" placeholder="Title">
+              <input type="text" class="input" name="title" placeholder="Title">
 
             </div>
             <div class="row">
-              <textarea class="input" placeholder="Job Description"></textarea>
+              <textarea class="input" name="description" placeholder="Job Description"></textarea>
             </div>
 
+						<div class="row bottom-padding">
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-3">
+								<span>Payment:</span>
+								<select name="payment_select">
+									<option value="IsOnlinePay">Online Pay</option>
+									<option value="IsInPersonPay">Person to Person</option>
+									<option value="IsBarter">Barter</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<input type="text" class="input" name="payment_info" placeholder="$10.00">
+							</div>
+							<div class="col-md-2">
+							</div>
+
+						</div>
+
+						<div class="row">
+							<input type="checkbox" name="notify" checked>
+							<span> Notify me when someone accepts my job</span>
+						</div>
 
             <div class="row">
               <button class="main-btn">Post Job</button>
             </div>
           </form>
         </div>
-        <!-- /info form -->
+        <!-- /main form -->
 
       </div>
       <!-- /Row -->
@@ -127,7 +150,7 @@
 	<div id="back-to-top"></div>
 	<!-- /Back to top -->
 
-	<div class="modal fade" id="jobPicModal" data-id="" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+	<div class="modal fade" id="jobImageModal" data-id="" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -142,7 +165,7 @@
 
 					</div>
 
-					<form method="post" action="<?=$router->pathFor('upload_job_image')?>" enctype="multipart/form-data" id="pfpForm">
+					<form method="post" action="<?=$router->pathFor('upload_job_image')?>" enctype="multipart/form-data" id="jobImageForm">
 						<label class="btn btn-default">
     							<input type="file" accept="image/*" name="jobImageUpload" id="jobImageUpload" hidden>
 
@@ -164,7 +187,9 @@
 	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/jquery.inputmask.bundle.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+	<script src="<?=$home?>js/main/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/create_job.js"></script>
 
 	</script>
