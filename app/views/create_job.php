@@ -107,7 +107,7 @@
 							</div>
 							<div class="col-md-4">
 								<input type="text" class="input" name="payment_info" placeholder="$10.00">
-								
+
 								<br>
 								<span class="text-danger"></span>
 							</div>
@@ -124,6 +124,9 @@
             <div class="row">
               <button class="main-btn">Post Job</button>
             </div>
+
+						<br>
+						<span class="text-danger" id="small-alert" data-url="<?=$router->pathFor('jobs')?>"></span>
           </form>
         </div>
         <!-- /main form -->

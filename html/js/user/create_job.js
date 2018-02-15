@@ -101,7 +101,23 @@ $(function() {
         data: data,
         processData: false,
         success: function(data) {
-          console.log(data);
+          alert = $('#small-alert');
+          if (data['success']) {
+            alert.removeClass('text-danger');
+            alert.addClass('text-success');
+            alert.text('Successfully submitted job, redirecting to all jobs...');
+
+            setTimeout(
+              function() {
+                // wait a little to let user see message
+                window.location.href = alert.attr('data-url');
+              }, 500);
+
+          } else {
+            alert.addClass('text-danger');
+            alert.removeClass('text-success');
+            alert.text('Error while submitting job');
+          }
         }
       })
     }
