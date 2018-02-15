@@ -83,10 +83,15 @@
 
             <div class="row">
               <input type="text" class="input" name="title" placeholder="Title">
+							<br>
+							<span class="text-danger"></span>
 
             </div>
             <div class="row">
               <textarea class="input" name="description" placeholder="Job Description"></textarea>
+							<br>
+							<span class="text-danger"></span>
+
             </div>
 
 						<div class="row bottom-padding">
@@ -102,6 +107,9 @@
 							</div>
 							<div class="col-md-4">
 								<input type="text" class="input" name="payment_info" placeholder="$10.00">
+								
+								<br>
+								<span class="text-danger"></span>
 							</div>
 							<div class="col-md-2">
 							</div>
