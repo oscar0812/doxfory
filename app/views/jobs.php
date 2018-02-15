@@ -57,23 +57,30 @@
 	<!-- /Header -->
 
 	<!-- Main Div -->
-	<div class="section sm-padding" id="main_div">
+	<div id="main_div" class="section md-padding">
 
-		<div>
-			<div class="container">
-        <?php foreach ($jobs as $job) { ?>
-				<div class="row" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
-					<!-- blog author -->
-					<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
-						<div class="media">
-							<div class="media-left">
-								<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
-							</div>
-							<div class="media-body">
-								<div class="media-heading">
-									<h3><?=$job->getTitle()?></h3>
-									<div class="author-social">
-                    <!--
+		<!-- Container -->
+		<div class="container">
+
+			<!-- Row -->
+			<div class="row">
+
+				<!-- Main -->
+				<main id="main" class="col-md-9">
+					<h2 class="title">Current Jobs</h2>
+					<?php foreach ($jobs as $job) { ?>
+					<div class="row" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
+						<!-- blog author -->
+						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
+							<div class="media">
+								<div class="media-left">
+									<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+								</div>
+								<div class="media-body">
+									<div class="media-heading">
+										<h3><?=$job->getTitle()?></h3>
+										<div class="author-social">
+											<!--
 										<a>
 											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?//=$contact->getPhoneNumber()?>"></i>
 										</a>
@@ -82,17 +89,102 @@
 										</a>
                     -->
 
+										</div>
 									</div>
+									<p>
+										<?=$job->getDescription()?>
+									</p>
 								</div>
-								<p>
-									<?=$job->getDescription()?>
-								</p>
 							</div>
 						</div>
+						<!-- /blog author -->
 					</div>
-					<!-- /blog author -->
-				</div>
-      <?php } // end of $jobs foreach loop ?>
+					<?php } // end of $jobs foreach loop ?>
+				</main>
+
+				<!-- Aside -->
+				<aside id="aside" class="col-md-3">
+
+					<!-- Search -->
+					<div class="widget">
+						<div class="widget-search">
+							<input class="search-input" type="text" placeholder="search">
+							<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+					<!-- /Search -->
+
+					<!-- Category -->
+					<div class="widget">
+						<h3 class="title">Category</h3>
+						<div class="widget-category">
+							<a href="#">Web Design<span>(7)</span></a>
+							<a href="#">Marketing<span>(142)</span></a>
+							<a href="#">Web Development<span>(74)</span></a>
+							<a href="#">Branding<span>(60)</span></a>
+							<a href="#">Photography<span>(5)</span></a>
+						</div>
+					</div>
+					<!-- /Category -->
+
+					<!-- Posts sidebar -->
+					<div class="widget">
+						<h3 class="title">Populare Posts</h3>
+
+						<!-- single post -->
+						<div class="widget-post">
+							<a href="#">
+									<img src="<?=$home?>img/post1.jpg" alt=""> Blog title goes here
+								</a>
+							<ul class="blog-meta">
+								<li>Oct 18, 2017</li>
+							</ul>
+						</div>
+						<!-- /single post -->
+
+						<!-- single post -->
+						<div class="widget-post">
+							<a href="#">
+									<img src="<?=$home?>img/post2.jpg" alt=""> Blog title goes here
+								</a>
+							<ul class="blog-meta">
+								<li>Oct 18, 2017</li>
+							</ul>
+						</div>
+						<!-- /single post -->
+
+
+						<!-- single post -->
+						<div class="widget-post">
+							<a href="#">
+									<img src="<?=$home?>img/post3.jpg" alt=""> Blog title goes here
+								</a>
+							<ul class="blog-meta">
+								<li>Oct 18, 2017</li>
+							</ul>
+						</div>
+						<!-- /single post -->
+
+					</div>
+					<!-- /Posts sidebar -->
+
+					<!-- Tags -->
+					<div class="widget">
+						<h3 class="title">Tags</h3>
+						<div class="widget-tags">
+							<a href="#">Web</a>
+							<a href="#">Design</a>
+							<a href="#">Graphic</a>
+							<a href="#">Marketing</a>
+							<a href="#">Development</a>
+							<a href="#">Branding</a>
+							<a href="#">Photography</a>
+						</div>
+					</div>
+					<!-- /Tags -->
+
+				</aside>
+				<!-- /Aside -->
 			</div>
 		</div>
 	</div>
@@ -126,7 +218,7 @@
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-  <script type="text/javascript" src="<?=$home?>js/user/jobs.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/user/jobs.js"></script>
 
 </body>
 
