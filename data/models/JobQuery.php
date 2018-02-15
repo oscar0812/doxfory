@@ -12,10 +12,23 @@ use Base\JobQuery as BaseJobQuery;
  * long as it does not already exist in the output directory.
  *
  */
+ use Propel\Runtime\ActiveQuery\Criteria;
+
+
 class JobQuery extends BaseJobQuery
 {
     public function completed()
     {
         return $this->filterByIsCompleted('yes');
+    }
+
+    public function notCompleted()
+    {
+        return $this->filterByIsCompleted('no');
+    }
+
+    public function newestToOldest()
+    {
+        return $this->orderByTimePosted(Criteria::DESC);
     }
 }
