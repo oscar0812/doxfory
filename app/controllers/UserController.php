@@ -7,7 +7,9 @@ use App\Helpers\ImageUpload;
 use App\Helpers\Mail;
 use \UserQuery;
 use \User;
+use \Job;
 use \JobQuery;
+use \JobPayment;
 use Slim\Exception\NotFoundException;
 
 class UserController
@@ -125,15 +127,62 @@ class UserController
             //    /job/create
             // if get request, simply show the view to create a new job
             $app->get('/create', function ($request, $response) {
+                // reset previous job image
+                unset($_SESSION['jobImageUpload']);
                 return $this->view->render($response, "create_job.php", UserController::getVars($this));
-            })->setName('create_job_get');
+            })->setName('create_job');
 
             // if post request, new job data is coming in
             // save to database if valid
-            // TODO: finish
             $app->post('/create', function ($request, $response) {
-                //return $this->view->render($response, "create_job.php", UserController::getVars($this));
-            })->setName('create_job_post');
+                $post = $request->getParsedBody();
+                if (isset($post['title']) && isset($post['description'])) {
+                    $title = $post['title'];
+                    $description = $post['description'];
+
+                    $job = new Job();
+                    $job->setTitle($title);
+                    $job->setDescription($description);
+
+                    $job->setNotify(isset($post['notify']));
+                    $job->setTimePosted(getCurrentTime());
+
+                    $job->setPostedById(currentUser()->getId());
+                    $job->setAcceptedById(currentUser()->getId());
+
+
+                    if (!$job->validate()) {
+                        // error
+                        $response = $response->withJson(['success'=>false]);
+                    } else {
+                        // passed validation, its good data
+                        $payment = new JobPayment();
+                        $payment->setByName($post['payment_select'], true);
+
+                        if ($payment->isBarter()) {
+                            $payment->setBarterItem($post['payment_info']);
+                        } else {
+                            // substring to remove the leading $
+                            $payment->setMoneyAmount(substr($post['payment_info'], 1));
+                        }
+
+                        $payment->setJob($job);
+                        $payment->save();
+
+                        $job->save();
+                        ImageUpload::uploadJobImage(
+                            $job->getId(),
+                          $this->router->pathFor('home')
+                        );
+
+                        $response = $response->withJson(['success'=>true]);
+                    }
+                } else {
+                    // info wasnt passed correctly
+                    $response = $response->withJson(['success'=>false]);
+                }
+                return $response;
+            });
 
             //    /job/ID
             $app->get('/{id:[0-9]+}', function ($request, $response, $args) {
@@ -191,6 +240,23 @@ class UserController
             })->setName('upload_pfp');
 
             $app->post('/job', function ($request, $response) {
+                $imageName = 'jobImageUpload';
+                $post = $request->getParsedBody();
+                $imageArr = ImageUpload::checkForErrors($imageName, 'img/uploads/job/');
+
+                if ($imageArr['success']) {
+                    // no errors while uploading job image
+                    $aExtraInfo = getimagesize($_FILES[$imageName]['tmp_name']);
+                    $sImage = "data:" . $aExtraInfo["mime"] . ";base64," . base64_encode(file_get_contents($_FILES[$imageName]['tmp_name']));
+
+                    $response = $response->withJson(['success'=>true, 'img'=>$sImage]);
+                    session_start_safe();
+                    $_SESSION[$imageName] = $sImage;
+                } else {
+                    $response = $response->withJson($imageArr);
+                }
+
+                return $response;
             })->setName('upload_job_image');
         });
     }
