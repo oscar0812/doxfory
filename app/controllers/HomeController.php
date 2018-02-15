@@ -85,7 +85,7 @@ class HomeController
                     $user->save();
                     logUserIn($user->getId());
 
-                    // change path from profile to confirm once confirm logic is finished
+                    // change path from profile to confirm
                     $response = $response->withJson(['success'=>true, 'path'=>$this->router->pathFor('profile')]);
                 }
             }
