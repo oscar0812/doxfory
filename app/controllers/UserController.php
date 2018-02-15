@@ -169,11 +169,16 @@ class UserController
                         $payment->setJob($job);
                         $payment->save();
 
-                        $job->save();
-                        ImageUpload::uploadJobImage(
+                        $arr = ImageUpload::uploadJobImage(
                             $job->getId(),
                           $this->router->pathFor('home')
                         );
+
+                        if ($arr['success']) {
+                            $job->setImage($arr['path']);
+                        }
+
+                        $job->save();
 
                         $response = $response->withJson(['success'=>true]);
                     }
