@@ -84,12 +84,12 @@ abstract class JobPayment implements ActiveRecordInterface
     protected $is_online_pay;
 
     /**
-     * The value for the is_in_person_payment field.
+     * The value for the is_in_person_pay field.
      *
      * Note: this column has a database default value of: false
      * @var        boolean
      */
-    protected $is_in_person_payment;
+    protected $is_in_person_pay;
 
     /**
      * The value for the is_barter field.
@@ -128,7 +128,7 @@ abstract class JobPayment implements ActiveRecordInterface
     public function applyDefaultValues()
     {
         $this->is_online_pay = false;
-        $this->is_in_person_payment = false;
+        $this->is_in_person_pay = false;
         $this->is_barter = false;
     }
 
@@ -400,17 +400,17 @@ abstract class JobPayment implements ActiveRecordInterface
     }
 
     /**
-     * Get the [is_in_person_payment] column value.
+     * Get the [is_in_person_pay] column value.
      *
      * @return boolean
      */
     public function getIsInPersonPayment()
     {
-        return $this->is_in_person_payment;
+        return $this->is_in_person_pay;
     }
 
     /**
-     * Get the [is_in_person_payment] column value.
+     * Get the [is_in_person_pay] column value.
      *
      * @return boolean
      */
@@ -522,7 +522,7 @@ abstract class JobPayment implements ActiveRecordInterface
     } // setIsOnlinePay()
 
     /**
-     * Sets the value of the [is_in_person_payment] column.
+     * Sets the value of the [is_in_person_pay] column.
      * Non-boolean arguments are converted using the following rules:
      *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
      *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
@@ -541,9 +541,9 @@ abstract class JobPayment implements ActiveRecordInterface
             }
         }
 
-        if ($this->is_in_person_payment !== $v) {
-            $this->is_in_person_payment = $v;
-            $this->modifiedColumns[JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT] = true;
+        if ($this->is_in_person_pay !== $v) {
+            $this->is_in_person_pay = $v;
+            $this->modifiedColumns[JobPaymentTableMap::COL_IS_IN_PERSON_PAY] = true;
         }
 
         return $this;
@@ -611,7 +611,7 @@ abstract class JobPayment implements ActiveRecordInterface
                 return false;
             }
 
-            if ($this->is_in_person_payment !== false) {
+            if ($this->is_in_person_pay !== false) {
                 return false;
             }
 
@@ -655,7 +655,7 @@ abstract class JobPayment implements ActiveRecordInterface
             $this->is_online_pay = (null !== $col) ? (boolean) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobPaymentTableMap::translateFieldName('IsInPersonPayment', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->is_in_person_payment = (null !== $col) ? (boolean) $col : null;
+            $this->is_in_person_pay = (null !== $col) ? (boolean) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobPaymentTableMap::translateFieldName('IsBarter', TableMap::TYPE_PHPNAME, $indexType)];
             $this->is_barter = (null !== $col) ? (boolean) $col : null;
@@ -892,8 +892,8 @@ abstract class JobPayment implements ActiveRecordInterface
         if ($this->isColumnModified(JobPaymentTableMap::COL_IS_ONLINE_PAY)) {
             $modifiedColumns[':p' . $index++]  = 'is_online_pay';
         }
-        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
-            $modifiedColumns[':p' . $index++]  = 'is_in_person_payment';
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAY)) {
+            $modifiedColumns[':p' . $index++]  = 'is_in_person_pay';
         }
         if ($this->isColumnModified(JobPaymentTableMap::COL_IS_BARTER)) {
             $modifiedColumns[':p' . $index++]  = 'is_barter';
@@ -921,8 +921,8 @@ abstract class JobPayment implements ActiveRecordInterface
                     case 'is_online_pay':
                         $stmt->bindValue($identifier, (int) $this->is_online_pay, PDO::PARAM_INT);
                         break;
-                    case 'is_in_person_payment':
-                        $stmt->bindValue($identifier, (int) $this->is_in_person_payment, PDO::PARAM_INT);
+                    case 'is_in_person_pay':
+                        $stmt->bindValue($identifier, (int) $this->is_in_person_pay, PDO::PARAM_INT);
                         break;
                     case 'is_barter':
                         $stmt->bindValue($identifier, (int) $this->is_barter, PDO::PARAM_INT);
@@ -1207,8 +1207,8 @@ abstract class JobPayment implements ActiveRecordInterface
         if ($this->isColumnModified(JobPaymentTableMap::COL_IS_ONLINE_PAY)) {
             $criteria->add(JobPaymentTableMap::COL_IS_ONLINE_PAY, $this->is_online_pay);
         }
-        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT)) {
-            $criteria->add(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $this->is_in_person_payment);
+        if ($this->isColumnModified(JobPaymentTableMap::COL_IS_IN_PERSON_PAY)) {
+            $criteria->add(JobPaymentTableMap::COL_IS_IN_PERSON_PAY, $this->is_in_person_pay);
         }
         if ($this->isColumnModified(JobPaymentTableMap::COL_IS_BARTER)) {
             $criteria->add(JobPaymentTableMap::COL_IS_BARTER, $this->is_barter);
@@ -1400,7 +1400,7 @@ abstract class JobPayment implements ActiveRecordInterface
         $this->job_id = null;
         $this->money_amount = null;
         $this->is_online_pay = null;
-        $this->is_in_person_payment = null;
+        $this->is_in_person_pay = null;
         $this->is_barter = null;
         $this->barter_item = null;
         $this->alreadyInSave = false;

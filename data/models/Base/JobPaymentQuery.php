@@ -23,14 +23,14 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPaymentQuery orderByJobId($order = Criteria::ASC) Order by the job_id column
  * @method     ChildJobPaymentQuery orderByMoneyAmount($order = Criteria::ASC) Order by the money_amount column
  * @method     ChildJobPaymentQuery orderByIsOnlinePay($order = Criteria::ASC) Order by the is_online_pay column
- * @method     ChildJobPaymentQuery orderByIsInPersonPayment($order = Criteria::ASC) Order by the is_in_person_payment column
+ * @method     ChildJobPaymentQuery orderByIsInPersonPayment($order = Criteria::ASC) Order by the is_in_person_pay column
  * @method     ChildJobPaymentQuery orderByIsBarter($order = Criteria::ASC) Order by the is_barter column
  * @method     ChildJobPaymentQuery orderByBarterItem($order = Criteria::ASC) Order by the barter_item column
  *
  * @method     ChildJobPaymentQuery groupByJobId() Group by the job_id column
  * @method     ChildJobPaymentQuery groupByMoneyAmount() Group by the money_amount column
  * @method     ChildJobPaymentQuery groupByIsOnlinePay() Group by the is_online_pay column
- * @method     ChildJobPaymentQuery groupByIsInPersonPayment() Group by the is_in_person_payment column
+ * @method     ChildJobPaymentQuery groupByIsInPersonPayment() Group by the is_in_person_pay column
  * @method     ChildJobPaymentQuery groupByIsBarter() Group by the is_barter column
  * @method     ChildJobPaymentQuery groupByBarterItem() Group by the barter_item column
  *
@@ -60,7 +60,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPayment findOneByJobId(int $job_id) Return the first ChildJobPayment filtered by the job_id column
  * @method     ChildJobPayment findOneByMoneyAmount(double $money_amount) Return the first ChildJobPayment filtered by the money_amount column
  * @method     ChildJobPayment findOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildJobPayment filtered by the is_online_pay column
- * @method     ChildJobPayment findOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildJobPayment filtered by the is_in_person_payment column
+ * @method     ChildJobPayment findOneByIsInPersonPayment(boolean $is_in_person_pay) Return the first ChildJobPayment filtered by the is_in_person_pay column
  * @method     ChildJobPayment findOneByIsBarter(boolean $is_barter) Return the first ChildJobPayment filtered by the is_barter column
  * @method     ChildJobPayment findOneByBarterItem(string $barter_item) Return the first ChildJobPayment filtered by the barter_item column *
 
@@ -70,7 +70,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPayment requireOneByJobId(int $job_id) Return the first ChildJobPayment filtered by the job_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobPayment requireOneByMoneyAmount(double $money_amount) Return the first ChildJobPayment filtered by the money_amount column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobPayment requireOneByIsOnlinePay(boolean $is_online_pay) Return the first ChildJobPayment filtered by the is_online_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildJobPayment requireOneByIsInPersonPayment(boolean $is_in_person_payment) Return the first ChildJobPayment filtered by the is_in_person_payment column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJobPayment requireOneByIsInPersonPayment(boolean $is_in_person_pay) Return the first ChildJobPayment filtered by the is_in_person_pay column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobPayment requireOneByIsBarter(boolean $is_barter) Return the first ChildJobPayment filtered by the is_barter column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJobPayment requireOneByBarterItem(string $barter_item) Return the first ChildJobPayment filtered by the barter_item column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -78,7 +78,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobPayment[]|ObjectCollection findByJobId(int $job_id) Return ChildJobPayment objects filtered by the job_id column
  * @method     ChildJobPayment[]|ObjectCollection findByMoneyAmount(double $money_amount) Return ChildJobPayment objects filtered by the money_amount column
  * @method     ChildJobPayment[]|ObjectCollection findByIsOnlinePay(boolean $is_online_pay) Return ChildJobPayment objects filtered by the is_online_pay column
- * @method     ChildJobPayment[]|ObjectCollection findByIsInPersonPayment(boolean $is_in_person_payment) Return ChildJobPayment objects filtered by the is_in_person_payment column
+ * @method     ChildJobPayment[]|ObjectCollection findByIsInPersonPayment(boolean $is_in_person_pay) Return ChildJobPayment objects filtered by the is_in_person_pay column
  * @method     ChildJobPayment[]|ObjectCollection findByIsBarter(boolean $is_barter) Return ChildJobPayment objects filtered by the is_barter column
  * @method     ChildJobPayment[]|ObjectCollection findByBarterItem(string $barter_item) Return ChildJobPayment objects filtered by the barter_item column
  * @method     ChildJobPayment[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -179,7 +179,7 @@ abstract class JobPaymentQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT job_id, money_amount, is_online_pay, is_in_person_payment, is_barter, barter_item FROM job_payment WHERE job_id = :p0';
+        $sql = 'SELECT job_id, money_amount, is_online_pay, is_in_person_pay, is_barter, barter_item FROM job_payment WHERE job_id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -381,12 +381,12 @@ abstract class JobPaymentQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the is_in_person_payment column
+     * Filter the query on the is_in_person_pay column
      *
      * Example usage:
      * <code>
-     * $query->filterByIsInPersonPayment(true); // WHERE is_in_person_payment = true
-     * $query->filterByIsInPersonPayment('yes'); // WHERE is_in_person_payment = true
+     * $query->filterByIsInPersonPayment(true); // WHERE is_in_person_pay = true
+     * $query->filterByIsInPersonPayment('yes'); // WHERE is_in_person_pay = true
      * </code>
      *
      * @param     boolean|string $isInPersonPayment The value to use as filter.
@@ -404,7 +404,7 @@ abstract class JobPaymentQuery extends ModelCriteria
             $isInPersonPayment = in_array(strtolower($isInPersonPayment), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
         }
 
-        return $this->addUsingAlias(JobPaymentTableMap::COL_IS_IN_PERSON_PAYMENT, $isInPersonPayment, $comparison);
+        return $this->addUsingAlias(JobPaymentTableMap::COL_IS_IN_PERSON_PAY, $isInPersonPayment, $comparison);
     }
 
     /**
