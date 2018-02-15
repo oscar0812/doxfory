@@ -50,21 +50,25 @@ class ImageUpload
         ImageUpload::createDirs('job/');
 
         if (isset($_SESSION['jobImageUpload'])) {
-            $data = $_SESSION['jobImageUpload'];
+            try {
+                $data = $_SESSION['jobImageUpload'];
 
-            list($type, $data) = explode(';', $data);
-            list(, $data)      = explode(',', $data);
-            $data = base64_decode($data);
+                list($type, $data) = explode(';', $data);
+                list(, $data)      = explode(',', $data);
+                $data = base64_decode($data);
 
-            $target_dir = 'img/uploads/job/';
-            $url = $home.'img/uploads/job/'.$id.'.jpg';
-            $target_file = $target_dir.$id.'.jpg';
+                $target_dir = 'img/uploads/job/';
+                $url = $home.'img/uploads/job/'.$id.'.jpg';
+                $target_file = $target_dir.$id.'.jpg';
 
-            file_put_contents($target_file, $data);
+                file_put_contents($target_file, $data);
 
-            return ['success'=>true, 'msg'=>'File uploaded', 'path'=>$url];
+                return ['success'=>true, 'has_file' => true, 'msg'=>'File uploaded', 'path'=>$url];
+            } catch (\Exception $e) {
+                return ['success'=>false, 'has_file' => false, 'msg'=>'There was an error uploading job image'];
+            }
         }
-        return ['success'=>false, 'msg'=>'There was an error uploading job image'];
+        return ['success'=>true, 'has_file' => false];
     }
 
     public static function checkForErrors($fileName, $target_dir)
