@@ -65,10 +65,11 @@ class ImageUpload
 
                 return ['success'=>true, 'has_file' => true, 'msg'=>'File uploaded', 'path'=>$url];
             } catch (\Exception $e) {
-                return ['success'=>false, 'has_file' => false, 'msg'=>'There was an error uploading job image'];
+                return ['success'=>false, 'has_file' => false, 'msg'=>'There was an error uploading job image', 'path'=>''];
             }
         }
-        return ['success'=>true, 'has_file' => false];
+
+        return ['success'=>true, 'has_file' => false, 'path'=>''];
     }
 
     public static function checkForErrors($fileName, $target_dir)
