@@ -39,34 +39,19 @@ $(function() {
     })
   });
 
-  // -- job form upload through ajax --
-  $(mainForm).on('submit', function(e) {
-    e.preventDefault();
-    var form = e.target;
-    var data = new FormData(form);
-    $.ajax({
-      url: form.action,
-      method: form.method,
-      processData: false,
-      contentType: false,
-      data: data,
-      processData: false,
-      success: function(data) {
-        console.log(data);
-      }
-    })
-  });
 
   payment_input = $('input[name="payment_info"]');
   setNumMask(payment_input);
 
   $('select[name="payment_select"]').on('change', function() {
-    if ($(this).val() == 2) {
+    payment_input.val('');
+    if ($(this).val() == "IsBarter") {
       // barter
       payment_input.inputmask('remove');
       payment_input.attr('placeholder', 'Couch');
     } else {
       setNumMask(payment_input);
+      payment_input.attr('placeholder', '$10.00');
     }
   });
 
@@ -77,5 +62,49 @@ $(function() {
       greedy: false
     });
   }
+
+  mainForm.validate({
+    // Specify validation rules
+    rules: {
+      title: {
+        required: true,
+      },
+      description: {
+        required: true,
+      },
+      payment_info: {
+        required: true,
+      }
+    },
+    messages: {
+      title: {
+        required: "Please provide a title",
+      },
+      description: {
+        required: "Please provide a description",
+      },
+      payment_info: {
+        required: "Please fill out payment"
+      }
+    },
+    errorPlacement: function(error, element) {
+      error.appendTo(element.parent().find('span'));
+    },
+    submitHandler: function(form) {
+      // only submit the form if all is good
+      var data = new FormData(form);
+      $.ajax({
+        url: form.action,
+        method: form.method,
+        processData: false,
+        contentType: false,
+        data: data,
+        processData: false,
+        success: function(data) {
+          console.log(data);
+        }
+      })
+    }
+  });
 
 });
