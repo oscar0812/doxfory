@@ -59,7 +59,7 @@ class JobTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 9;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class JobTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /**
      * the column name for the id field
@@ -102,6 +102,11 @@ class JobTableMap extends TableMap
     const COL_IMAGE = 'job.image';
 
     /**
+     * the column name for the notify field
+     */
+    const COL_NOTIFY = 'job.notify';
+
+    /**
      * the column name for the posted_by_id field
      */
     const COL_POSTED_BY_ID = 'job.posted_by_id';
@@ -123,11 +128,11 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'TimePosted', 'IsCompleted', 'Title', 'Description', 'Image', 'PostedById', 'AcceptedById', ),
-        self::TYPE_CAMELNAME     => array('id', 'timePosted', 'isCompleted', 'title', 'description', 'image', 'postedById', 'acceptedById', ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_TIME_POSTED, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGE, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'time_posted', 'is_completed', 'title', 'description', 'image', 'posted_by_id', 'accepted_by_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'TimePosted', 'IsCompleted', 'Title', 'Description', 'Image', 'Notify', 'PostedById', 'AcceptedById', ),
+        self::TYPE_CAMELNAME     => array('id', 'timePosted', 'isCompleted', 'title', 'description', 'image', 'notify', 'postedById', 'acceptedById', ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID, JobTableMap::COL_TIME_POSTED, JobTableMap::COL_IS_COMPLETED, JobTableMap::COL_TITLE, JobTableMap::COL_DESCRIPTION, JobTableMap::COL_IMAGE, JobTableMap::COL_NOTIFY, JobTableMap::COL_POSTED_BY_ID, JobTableMap::COL_ACCEPTED_BY_ID, ),
+        self::TYPE_FIELDNAME     => array('id', 'time_posted', 'is_completed', 'title', 'description', 'image', 'notify', 'posted_by_id', 'accepted_by_id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -137,11 +142,11 @@ class JobTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'TimePosted' => 1, 'IsCompleted' => 2, 'Title' => 3, 'Description' => 4, 'Image' => 5, 'PostedById' => 6, 'AcceptedById' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'timePosted' => 1, 'isCompleted' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'postedById' => 6, 'acceptedById' => 7, ),
-        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_TIME_POSTED => 1, JobTableMap::COL_IS_COMPLETED => 2, JobTableMap::COL_TITLE => 3, JobTableMap::COL_DESCRIPTION => 4, JobTableMap::COL_IMAGE => 5, JobTableMap::COL_POSTED_BY_ID => 6, JobTableMap::COL_ACCEPTED_BY_ID => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'time_posted' => 1, 'is_completed' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'posted_by_id' => 6, 'accepted_by_id' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'TimePosted' => 1, 'IsCompleted' => 2, 'Title' => 3, 'Description' => 4, 'Image' => 5, 'Notify' => 6, 'PostedById' => 7, 'AcceptedById' => 8, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'timePosted' => 1, 'isCompleted' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'notify' => 6, 'postedById' => 7, 'acceptedById' => 8, ),
+        self::TYPE_COLNAME       => array(JobTableMap::COL_ID => 0, JobTableMap::COL_TIME_POSTED => 1, JobTableMap::COL_IS_COMPLETED => 2, JobTableMap::COL_TITLE => 3, JobTableMap::COL_DESCRIPTION => 4, JobTableMap::COL_IMAGE => 5, JobTableMap::COL_NOTIFY => 6, JobTableMap::COL_POSTED_BY_ID => 7, JobTableMap::COL_ACCEPTED_BY_ID => 8, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'time_posted' => 1, 'is_completed' => 2, 'title' => 3, 'description' => 4, 'image' => 5, 'notify' => 6, 'posted_by_id' => 7, 'accepted_by_id' => 8, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -163,10 +168,11 @@ class JobTableMap extends TableMap
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('time_posted', 'TimePosted', 'INTEGER', true, 16, null);
-        $this->addColumn('is_completed', 'IsCompleted', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_completed', 'IsCompleted', 'BOOLEAN', true, 1, false);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
         $this->addColumn('description', 'Description', 'VARCHAR', true, 4098, null);
         $this->addColumn('image', 'Image', 'VARCHAR', true, 4098, null);
+        $this->addColumn('notify', 'Notify', 'BOOLEAN', true, 1, false);
         $this->addForeignKey('posted_by_id', 'PostedById', 'INTEGER', 'user', 'id', true, null, null);
         $this->addForeignKey('accepted_by_id', 'AcceptedById', 'INTEGER', 'user', 'id', true, null, null);
     } // initialize()
@@ -359,6 +365,7 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn(JobTableMap::COL_TITLE);
             $criteria->addSelectColumn(JobTableMap::COL_DESCRIPTION);
             $criteria->addSelectColumn(JobTableMap::COL_IMAGE);
+            $criteria->addSelectColumn(JobTableMap::COL_NOTIFY);
             $criteria->addSelectColumn(JobTableMap::COL_POSTED_BY_ID);
             $criteria->addSelectColumn(JobTableMap::COL_ACCEPTED_BY_ID);
         } else {
@@ -368,6 +375,7 @@ class JobTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.description');
             $criteria->addSelectColumn($alias . '.image');
+            $criteria->addSelectColumn($alias . '.notify');
             $criteria->addSelectColumn($alias . '.posted_by_id');
             $criteria->addSelectColumn($alias . '.accepted_by_id');
         }

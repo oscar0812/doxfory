@@ -3,10 +3,11 @@
   <table name="job" idMethod="native" phpName="Job">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="time_posted" phpName="TimePosted" type="INTEGER" size="16" required="true"/>
-    <column name="is_completed" phpName="IsCompleted" type="BOOLEAN" size="1" required="true"/>
+    <column name="is_completed" phpName="IsCompleted" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="title" phpName="Title" type="VARCHAR" size="255" required="true"/>
     <column name="description" phpName="Description" type="VARCHAR" size="4098" required="true"/>
     <column name="image" phpName="Image" type="VARCHAR" size="4098" required="true"/>
+    <column name="notify" phpName="Notify" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="posted_by_id" phpName="PostedById" type="INTEGER" required="true"/>
     <column name="accepted_by_id" phpName="AcceptedById" type="INTEGER" required="true"/>
     <foreign-key foreignTable="user" name="job_ibfk_1" phpName="PostedByUser">
@@ -32,9 +33,9 @@
   <table name="job_payment" idMethod="native" phpName="JobPayment" allowPkInsert="true">
     <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="money_amount" phpName="MoneyAmount" type="DOUBLE" size="8" scale="2" required="true"/>
-    <column name="is_online_pay" phpName="IsOnlinePay" type="BOOLEAN" size="1" required="true"/>
-    <column name="is_in_person_payment" phpName="IsInPersonPayment" type="BOOLEAN" size="1" required="true"/>
-    <column name="is_barter" phpName="IsBarter" type="BOOLEAN" size="1" required="true"/>
+    <column name="is_online_pay" phpName="IsOnlinePay" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="is_in_person_payment" phpName="IsInPersonPayment" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="is_barter" phpName="IsBarter" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="barter_item" phpName="BarterItem" type="VARCHAR" size="32" required="true"/>
     <foreign-key foreignTable="job" name="job_payment_ibfk_1">
       <reference local="job_id" foreign="id"/>

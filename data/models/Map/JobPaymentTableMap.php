@@ -153,9 +153,9 @@ class JobPaymentTableMap extends TableMap
         // columns
         $this->addForeignPrimaryKey('job_id', 'JobId', 'INTEGER' , 'job', 'id', true, null, null);
         $this->addColumn('money_amount', 'MoneyAmount', 'DOUBLE', true, 8, null);
-        $this->addColumn('is_online_pay', 'IsOnlinePay', 'BOOLEAN', true, 1, null);
-        $this->addColumn('is_in_person_payment', 'IsInPersonPayment', 'BOOLEAN', true, 1, null);
-        $this->addColumn('is_barter', 'IsBarter', 'BOOLEAN', true, 1, null);
+        $this->addColumn('is_online_pay', 'IsOnlinePay', 'BOOLEAN', true, 1, false);
+        $this->addColumn('is_in_person_payment', 'IsInPersonPayment', 'BOOLEAN', true, 1, false);
+        $this->addColumn('is_barter', 'IsBarter', 'BOOLEAN', true, 1, false);
         $this->addColumn('barter_item', 'BarterItem', 'VARCHAR', true, 32, null);
     } // initialize()
 

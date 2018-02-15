@@ -78,6 +78,7 @@ abstract class JobPayment implements ActiveRecordInterface
     /**
      * The value for the is_online_pay field.
      *
+     * Note: this column has a database default value of: false
      * @var        boolean
      */
     protected $is_online_pay;
@@ -85,6 +86,7 @@ abstract class JobPayment implements ActiveRecordInterface
     /**
      * The value for the is_in_person_payment field.
      *
+     * Note: this column has a database default value of: false
      * @var        boolean
      */
     protected $is_in_person_payment;
@@ -92,6 +94,7 @@ abstract class JobPayment implements ActiveRecordInterface
     /**
      * The value for the is_barter field.
      *
+     * Note: this column has a database default value of: false
      * @var        boolean
      */
     protected $is_barter;
@@ -117,10 +120,25 @@ abstract class JobPayment implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->is_online_pay = false;
+        $this->is_in_person_payment = false;
+        $this->is_barter = false;
+    }
+
+    /**
      * Initializes internal state of Base\JobPayment object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -589,6 +607,18 @@ abstract class JobPayment implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->is_online_pay !== false) {
+                return false;
+            }
+
+            if ($this->is_in_person_payment !== false) {
+                return false;
+            }
+
+            if ($this->is_barter !== false) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -1375,6 +1405,7 @@ abstract class JobPayment implements ActiveRecordInterface
         $this->barter_item = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

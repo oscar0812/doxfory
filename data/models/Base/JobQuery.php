@@ -26,6 +26,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method     ChildJobQuery orderByImage($order = Criteria::ASC) Order by the image column
+ * @method     ChildJobQuery orderByNotify($order = Criteria::ASC) Order by the notify column
  * @method     ChildJobQuery orderByPostedById($order = Criteria::ASC) Order by the posted_by_id column
  * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
  *
@@ -35,6 +36,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery groupByTitle() Group by the title column
  * @method     ChildJobQuery groupByDescription() Group by the description column
  * @method     ChildJobQuery groupByImage() Group by the image column
+ * @method     ChildJobQuery groupByNotify() Group by the notify column
  * @method     ChildJobQuery groupByPostedById() Group by the posted_by_id column
  * @method     ChildJobQuery groupByAcceptedById() Group by the accepted_by_id column
  *
@@ -87,6 +89,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneByTitle(string $title) Return the first ChildJob filtered by the title column
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
  * @method     ChildJob findOneByImage(string $image) Return the first ChildJob filtered by the image column
+ * @method     ChildJob findOneByNotify(boolean $notify) Return the first ChildJob filtered by the notify column
  * @method     ChildJob findOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column
  * @method     ChildJob findOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column *
 
@@ -99,6 +102,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOneByTitle(string $title) Return the first ChildJob filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByImage(string $image) Return the first ChildJob filtered by the image column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByNotify(boolean $notify) Return the first ChildJob filtered by the notify column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -109,6 +113,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob[]|ObjectCollection findByTitle(string $title) Return ChildJob objects filtered by the title column
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
  * @method     ChildJob[]|ObjectCollection findByImage(string $image) Return ChildJob objects filtered by the image column
+ * @method     ChildJob[]|ObjectCollection findByNotify(boolean $notify) Return ChildJob objects filtered by the notify column
  * @method     ChildJob[]|ObjectCollection findByPostedById(int $posted_by_id) Return ChildJob objects filtered by the posted_by_id column
  * @method     ChildJob[]|ObjectCollection findByAcceptedById(int $accepted_by_id) Return ChildJob objects filtered by the accepted_by_id column
  * @method     ChildJob[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -209,7 +214,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, time_posted, is_completed, title, description, image, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, time_posted, is_completed, title, description, image, notify, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -481,6 +486,33 @@ abstract class JobQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobTableMap::COL_IMAGE, $image, $comparison);
+    }
+
+    /**
+     * Filter the query on the notify column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByNotify(true); // WHERE notify = true
+     * $query->filterByNotify('yes'); // WHERE notify = true
+     * </code>
+     *
+     * @param     boolean|string $notify The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByNotify($notify = null, $comparison = null)
+    {
+        if (is_string($notify)) {
+            $notify = in_array(strtolower($notify), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(JobTableMap::COL_NOTIFY, $notify, $comparison);
     }
 
     /**

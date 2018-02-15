@@ -90,6 +90,7 @@ abstract class Job implements ActiveRecordInterface
     /**
      * The value for the is_completed field.
      *
+     * Note: this column has a database default value of: false
      * @var        boolean
      */
     protected $is_completed;
@@ -114,6 +115,14 @@ abstract class Job implements ActiveRecordInterface
      * @var        string
      */
     protected $image;
+
+    /**
+     * The value for the notify field.
+     *
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $notify;
 
     /**
      * The value for the posted_by_id field.
@@ -170,10 +179,24 @@ abstract class Job implements ActiveRecordInterface
     protected $validationFailures;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->is_completed = false;
+        $this->notify = false;
+    }
+
+    /**
      * Initializes internal state of Base\Job object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -465,6 +488,26 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
+     * Get the [notify] column value.
+     *
+     * @return boolean
+     */
+    public function getNotify()
+    {
+        return $this->notify;
+    }
+
+    /**
+     * Get the [notify] column value.
+     *
+     * @return boolean
+     */
+    public function isNotify()
+    {
+        return $this->getNotify();
+    }
+
+    /**
      * Get the [posted_by_id] column value.
      *
      * @return int
@@ -613,6 +656,34 @@ abstract class Job implements ActiveRecordInterface
     } // setImage()
 
     /**
+     * Sets the value of the [notify] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\Job The current object (for fluent API support)
+     */
+    public function setNotify($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->notify !== $v) {
+            $this->notify = $v;
+            $this->modifiedColumns[JobTableMap::COL_NOTIFY] = true;
+        }
+
+        return $this;
+    } // setNotify()
+
+    /**
      * Set the value of [posted_by_id] column.
      *
      * @param int $v new value
@@ -670,6 +741,14 @@ abstract class Job implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->is_completed !== false) {
+                return false;
+            }
+
+            if ($this->notify !== false) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -714,10 +793,13 @@ abstract class Job implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : JobTableMap::translateFieldName('Image', TableMap::TYPE_PHPNAME, $indexType)];
             $this->image = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('Notify', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->notify = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posted_by_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->accepted_by_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -727,7 +809,7 @@ abstract class Job implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = JobTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 9; // 9 = JobTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Job'), 0, $e);
@@ -981,6 +1063,9 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_IMAGE)) {
             $modifiedColumns[':p' . $index++]  = 'image';
         }
+        if ($this->isColumnModified(JobTableMap::COL_NOTIFY)) {
+            $modifiedColumns[':p' . $index++]  = 'notify';
+        }
         if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
             $modifiedColumns[':p' . $index++]  = 'posted_by_id';
         }
@@ -1015,6 +1100,9 @@ abstract class Job implements ActiveRecordInterface
                         break;
                     case 'image':
                         $stmt->bindValue($identifier, $this->image, PDO::PARAM_STR);
+                        break;
+                    case 'notify':
+                        $stmt->bindValue($identifier, (int) $this->notify, PDO::PARAM_INT);
                         break;
                     case 'posted_by_id':
                         $stmt->bindValue($identifier, $this->posted_by_id, PDO::PARAM_INT);
@@ -1103,9 +1191,12 @@ abstract class Job implements ActiveRecordInterface
                 return $this->getImage();
                 break;
             case 6:
-                return $this->getPostedById();
+                return $this->getNotify();
                 break;
             case 7:
+                return $this->getPostedById();
+                break;
+            case 8:
                 return $this->getAcceptedById();
                 break;
             default:
@@ -1144,8 +1235,9 @@ abstract class Job implements ActiveRecordInterface
             $keys[3] => $this->getTitle(),
             $keys[4] => $this->getDescription(),
             $keys[5] => $this->getImage(),
-            $keys[6] => $this->getPostedById(),
-            $keys[7] => $this->getAcceptedById(),
+            $keys[6] => $this->getNotify(),
+            $keys[7] => $this->getPostedById(),
+            $keys[8] => $this->getAcceptedById(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1251,9 +1343,12 @@ abstract class Job implements ActiveRecordInterface
                 $this->setImage($value);
                 break;
             case 6:
-                $this->setPostedById($value);
+                $this->setNotify($value);
                 break;
             case 7:
+                $this->setPostedById($value);
+                break;
+            case 8:
                 $this->setAcceptedById($value);
                 break;
         } // switch()
@@ -1301,10 +1396,13 @@ abstract class Job implements ActiveRecordInterface
             $this->setImage($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setPostedById($arr[$keys[6]]);
+            $this->setNotify($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setAcceptedById($arr[$keys[7]]);
+            $this->setPostedById($arr[$keys[7]]);
+        }
+        if (array_key_exists($keys[8], $arr)) {
+            $this->setAcceptedById($arr[$keys[8]]);
         }
     }
 
@@ -1364,6 +1462,9 @@ abstract class Job implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobTableMap::COL_IMAGE)) {
             $criteria->add(JobTableMap::COL_IMAGE, $this->image);
+        }
+        if ($this->isColumnModified(JobTableMap::COL_NOTIFY)) {
+            $criteria->add(JobTableMap::COL_NOTIFY, $this->notify);
         }
         if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
             $criteria->add(JobTableMap::COL_POSTED_BY_ID, $this->posted_by_id);
@@ -1462,6 +1563,7 @@ abstract class Job implements ActiveRecordInterface
         $copyObj->setTitle($this->getTitle());
         $copyObj->setDescription($this->getDescription());
         $copyObj->setImage($this->getImage());
+        $copyObj->setNotify($this->getNotify());
         $copyObj->setPostedById($this->getPostedById());
         $copyObj->setAcceptedById($this->getAcceptedById());
 
@@ -1675,10 +1777,12 @@ abstract class Job implements ActiveRecordInterface
         $this->title = null;
         $this->description = null;
         $this->image = null;
+        $this->notify = null;
         $this->posted_by_id = null;
         $this->accepted_by_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
