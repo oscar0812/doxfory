@@ -1449,7 +1449,7 @@ header {
   margin-top: 40px;
 }
 
-.contact-form .input {
+.contact-form .input, .bottom-padding {
   margin-bottom: 20px;
 }
 
