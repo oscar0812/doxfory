@@ -1,6 +1,6 @@
 ### Do X for Y - The Revival Project
 
-TO:DO
+TODO:
   - Add email system (DONE)
   - Add confirm email route (DONE)
   - Add reset password route
@@ -10,7 +10,9 @@ TO:DO
   - Add Profile Page info
   - Add Page to view other users
   - That's it for now
-
+  - jobs/all route needs to have search working, tags, etc.
+  - finish profile by replacing the timeline with posted jobs
+  - fill job/{id} page with real info
 
 NOTES:
 1) To upgrade PHP on digital ocean use [this](https://jakelprice.com/article/how-to-upgrade-from-php-70-to-php-71)
