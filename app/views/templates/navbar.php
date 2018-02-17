@@ -33,10 +33,11 @@
         </ul>
       </li>
       <li><a href="#contact">Contact</a></li>
+      <li><a href="<?=$router->pathFor('register')?>">Account</a></li>
     <?php } else {
         // if signed in
       ?>
-
+      <li><a href="<?=$router->pathFor('profile')?>"><?=$current_user->getFirstName()?></a>
       <li class="has-dropdown"><a href="<?=$router->pathFor('jobs')?>">Jobs</a>
         <ul class="dropdown">
           <li><a href="<?=$router->pathFor('jobs')?>">All</a></li>

@@ -54,4 +54,13 @@ class User extends BaseUser
         }
         return $pfp;
     }
+
+    public function getAboutMe()
+    {
+        $am = parent::getAboutMe();
+        if ($am == null || $am == "") {
+            $am = "Nothing about me yet...";
+        }
+        return $am;
+    }
 }

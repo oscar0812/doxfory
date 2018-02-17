@@ -196,9 +196,16 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<h3 class="blue">Posted Jobs</h3>
+							<?php $jobs = $current_user->getPostedJobs()->newestToOldest();
+							if($jobs->count() == 0){
+								echo "No jobs posted yet";
+							}
+
+							else {
+							?>
 							<ul class="timeline">
 
-								<?php foreach ($current_user->getPostedJobs()->newestToOldest() as $job){ ?>
+								<?php foreach ($jobs as $job){ ?>
 
 									<li class="timeline-inverted url" data-url="<?=$router->pathFor('job', ["id"=>$job->getId()])?>">
 										<div class="timeline-badge <?=jobTagColor()?>"><?=$job->getDatePosted()->format('M')?></div>
@@ -216,6 +223,8 @@
 
 
 							</ul>
+
+						<?php } // end of else ?>
 						</div>
 					</div>
 
