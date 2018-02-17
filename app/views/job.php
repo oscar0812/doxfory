@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<?php $home = $router->pathFor('home')?>
+<?php $home = $router->pathFor('home');
+			$poster = $job->getPostedByUser();
+			$accepter = $job->getAcceptedByUser();
+?>
 
 <html lang="en">
 
@@ -63,14 +66,14 @@
 			<div class="row">
 
 				<!-- Main -->
-				<main id="main" class="col-md-10 col-md-offset-1 col-xs-10 col-xs-offset-1">
+				<main id="main" class="col-md-9">
 					<div class="blog">
 						<div class="blog-img">
-							<img id="pfp" class="media-object hand" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+							<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i><?=$job->getPostedByUser()->getFullName()?></li>
+								<li class="url hand" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$poster->getId()])?>"><i class="fa fa-user"></i><?=$poster->getFullName()?></li>
 								<li><i class="fa fa-clock-o"></i><?=$job->getDatePosted()->format('d M')?></li>
 								<!--li><i class="fa fa-comments"></i>57</li-->
 							</ul>
@@ -90,49 +93,7 @@
 						</div>
 						<!-- blog tags -->
 
-						<!-- blog author -->
-						<div class="agency-box">
-							<div class="media">
-								<div class="media-left">
-									<img id="pfp" class="media-object" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
-								</div>
-								<div class="media-body">
-									<div class="media-heading">
-										<h3><?=$current_user->getFullName()?></h3>
-										<div class="author-social" id="contact-buttons">
-											<?$contact = $current_user->getContactInfo()?>
-											<?php // comments for below if statements
-														// show buttons only if youre not visiting
-														// or if you're visiting someone has info
-														// per button
-											?>
-											<?php if($contact->hasPhoneNumber()){ ?>
-											<a data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>">
-												<!-- put a tooltip on phone number -->
-												<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>"></i>
-											</a>
-											<?php } if ($contact->hasFacebook()) { ?>
-											<a>
-												<i class="fa fa-facebook" data-url="https://www.facebook.com/" data-name="Facebook" data-value="<?=$contact->getFacebook()?>"></i>
-											</a>
-											<?php } if($contact->hasTwitter()) { ?>
-											<a>
-												<i class="fa fa-twitter" data-url="https://twitter.com/" data-name="Twitter" data-value="<?=$contact->getTwitter()?>"></i>
-											</a>
-											<?php } if($contact->hasInstagram()) { ?>
-											<a>
-												<i class="fa fa-instagram" data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>"></i>
-											</a>
-											<?php } ?>
-										</div>
-									</div>
-									<p>About
-										<?=$current_user->getFullName()?>
-									</p>
-								</div>
-							</div>
-						</div>
-						<!-- /blog author -->
+						<hr>
 
 						<!-- blog comments -->
 						<div class="blog-comments">
@@ -217,7 +178,10 @@
 					</div>
 				</main>
 				<!-- /Main -->
-
+				<!-- Aside -->
+				<aside id="aside" class="col-md-3">
+				</aside>
+				<!-- /Aside -- >
 			</div>
 			<!-- /Row -->
 
@@ -281,8 +245,9 @@
 	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-
+	<script type="text/javascript" src="<?=$home?>js/user/job.js"></script>
 </body>
 
 </html>

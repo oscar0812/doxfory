@@ -11,32 +11,22 @@ $(function() {
   // -- job image upload through ajax --
   $('#jobImageForm').on('submit', function(e) {
     e.preventDefault();
-    var form = e.target;
-    var data = new FormData(form);
-    $.ajax({
-      url: form.action,
-      method: form.method,
-      processData: false,
-      contentType: false,
-      data: data,
-      processData: false,
-      success: function(data) {
-        if (data['success']) {
-          // successfully posted
-          jobModalAlert.addClass('invisible');
-          jobModalAlert.modal('hide');
+    ajaxForm(e.target, function(data) {
+      if (data['success']) {
+        // successfully posted
+        jobModalAlert.addClass('invisible');
+        jobModalAlert.modal('hide');
 
-          // show image
-          $('#image').attr('src', data['img']);
-          jobImageModal.modal('hide');
+        // show image
+        $('#image').attr('src', data['img']);
+        jobImageModal.modal('hide');
 
-        } else {
-          jobModalAlert.removeClass('invisible');
-          jobModalAlert.addClass('alert-danger');
-          jobModalAlert.text(data['msg']);
-        }
+      } else {
+        jobModalAlert.removeClass('invisible');
+        jobModalAlert.addClass('alert-danger');
+        jobModalAlert.text(data['msg']);
       }
-    })
+    });
   });
 
 
@@ -92,34 +82,25 @@ $(function() {
     },
     submitHandler: function(form) {
       // only submit the form if all is good
-      var data = new FormData(form);
-      $.ajax({
-        url: form.action,
-        method: form.method,
-        processData: false,
-        contentType: false,
-        data: data,
-        processData: false,
-        success: function(data) {
-          alert = $('#small-alert');
-          if (data['success']) {
-            alert.removeClass('text-danger');
-            alert.addClass('text-success');
-            alert.text('Successfully submitted job, redirecting to all jobs...');
+      ajaxForm(form, function(data) {
+        alert = $('#small-alert');
+        if (data['success']) {
+          alert.removeClass('text-danger');
+          alert.addClass('text-success');
+          alert.text('Successfully submitted job, redirecting to all jobs...');
 
-            setTimeout(
-              function() {
-                // wait a little to let user see message
-                window.location.href = alert.attr('data-url');
-              }, 500);
+          setTimeout(
+            function() {
+              // wait a little to let user see message
+              window.location.href = alert.attr('data-url');
+            }, 500);
 
-          } else {
-            alert.addClass('text-danger');
-            alert.removeClass('text-success');
-            alert.text('Error while submitting job');
-          }
+        } else {
+          alert.addClass('text-danger');
+          alert.removeClass('text-success');
+          alert.text('Error while submitting job');
         }
-      })
+      });
     }
   });
 

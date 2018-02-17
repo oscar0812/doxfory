@@ -343,6 +343,7 @@
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.inputmask.bundle.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/profile.js"></script>
 

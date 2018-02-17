@@ -199,8 +199,9 @@
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.inputmask.bundle.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-	<script src="<?=$home?>js/main/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/create_job.js"></script>
 
 	</script>
