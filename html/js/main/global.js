@@ -16,3 +16,9 @@ function ajaxForm(form, callback) {
     success: callback
   });
 }
+
+// return true if all contains substring
+// ex: true if contains('hello', 'hell');
+function contains(all, substring) {
+  return all.toUpperCase().indexOf(substring.toUpperCase()) != -1;
+}

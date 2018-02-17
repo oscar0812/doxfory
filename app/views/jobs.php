@@ -74,11 +74,11 @@
 						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
 							<div class="media">
 								<div class="media-left">
-									<img id="pfp" class="media-object hand" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+									<img class="media-object hand pfp" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
-										<h3><?=$job->getTitle()?></h3>
+										<h3 class="job-title"><?=$job->getTitle()?></h3>
 										<div class="author-social">
 											<!--
 										<a>
@@ -91,7 +91,7 @@
 
 										</div>
 									</div>
-									<p>
+									<p class="job-description">
 										<?=$job->getDescription()?>
 									</p>
 								</div>
@@ -108,7 +108,7 @@
 					<!-- Search -->
 					<div class="widget">
 						<div class="widget-search">
-							<input class="search-input" type="text" placeholder="search">
+							<input class="search-input" id="search" type="text" placeholder="search">
 							<button class="search-btn" type="button"><i class="fa fa-search"></i></button>
 						</div>
 					</div>
@@ -217,6 +217,7 @@
 	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/jobs.js"></script>
 

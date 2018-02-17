@@ -1,7 +1,7 @@
 $(function() {
 
   // -- PFP FORM --
-  pfp = $('#pfp');
+  pfp = $('.pfp').eq(0);
   pfpModal = $('#pfpModal');
   pfpAlert = pfpModal.find('.alert').eq(0);
 

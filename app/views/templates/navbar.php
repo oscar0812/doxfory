@@ -37,7 +37,7 @@
     <?php } else {
         // if signed in
       ?>
-      <li><a href="<?=$router->pathFor('profile')?>"><?=$current_user->getFirstName()?></a>
+      <li><a href="<?=$router->pathFor('profile')?>"><?=currentUser()->getFirstName()?></a>
       <li class="has-dropdown"><a href="<?=$router->pathFor('jobs')?>">Jobs</a>
         <ul class="dropdown">
           <li><a href="<?=$router->pathFor('jobs')?>">All</a></li>
