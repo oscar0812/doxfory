@@ -14,6 +14,18 @@ use Base\Job as BaseJob;
  */
 class Job extends BaseJob
 {
+    public function getPaymentString()
+    {
+        // returns either the amount or barter item
+        $str = "";
+        $p = $this->getPayment();
+        if ($p->isBarter()) {
+            $str = $p->getBarterItem();
+        } else {
+            $str = "$".$p->getMoneyAmount();
+        }
+        return $str;
+    }
     public function getPayment()
     {
         return $this->getJobPayment();

@@ -78,6 +78,10 @@ Table OF Contents
   margin-bottom: -8px !important;
 }
 
+.md-neg-btm {
+  margin-bottom: -16px !important;
+}
+
 body {
   font-family: 'Varela Round', sans-serif;
   font-size: 16px;

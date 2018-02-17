@@ -80,6 +80,7 @@
 									<div class="media-heading">
 										<h3 class="job-title"><?=$job->getTitle()?></h3>
 										<div class="author-social">
+										<p><?=$job->getPaymentString()?></p>
 											<!--
 										<a>
 											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?//=$contact->getPhoneNumber()?>"></i>
