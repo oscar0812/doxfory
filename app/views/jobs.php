@@ -69,9 +69,9 @@
 				<main id="main" class="col-md-9">
 					<h2 class="title">Current Jobs</h2>
 					<?php foreach ($jobs as $job) { ?>
-					<div class="row" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
+					<div class="row">
 						<!-- blog author -->
-						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
+						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
 							<div class="media">
 								<div class="media-left">
 									<img id="pfp" class="media-object hand" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
