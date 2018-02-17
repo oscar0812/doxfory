@@ -14,7 +14,9 @@
 	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title><?=websiteName()?></title>
+	<title>
+		<?=websiteName()?>
+	</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
@@ -57,7 +59,7 @@
 	<!-- /Header -->
 
 	<!-- Blog -->
-	<div id="blog" class="section md-padding">
+	<div id="main_div" class="section sm-padding md-neg-btm">
 
 		<!-- Container -->
 		<div class="container">
@@ -68,17 +70,25 @@
 				<!-- Main -->
 				<main id="main" class="col-md-9">
 					<div class="blog">
+
 						<div class="blog-img">
-							<img id="pfp" class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+							<img class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 						</div>
+
 						<div class="blog-content">
 							<ul class="blog-meta">
-								<li class="url hand" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$poster->getId()])?>"><i class="fa fa-user"></i><?=$poster->getFullName()?></li>
-								<li><i class="fa fa-clock-o"></i><?=$job->getDatePosted()->format('d M')?></li>
+								<li class="url hand" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$poster->getId()])?>"><i class="fa fa-user"></i>
+									<?=$poster->getFullName()?>
+								</li>
+								<li><i class="fa fa-clock-o"></i>
+									<?=$job->getDatePosted()->format('d M')?>
+								</li>
 								<!--li><i class="fa fa-comments"></i>57</li-->
 							</ul>
 							<h3><?=$job->getTitle()?></h3>
-							<p><?=$job->getDescription()?></p>
+							<p>
+								<?=$job->getDescription()?>
+							</p>
 						</div>
 
 						<!-- blog tags -->
@@ -97,6 +107,7 @@
 
 						<!-- blog comments -->
 						<div class="blog-comments">
+
 							<h3 class="title">(13) Comments</h3>
 
 							<!-- comment -->
@@ -148,7 +159,6 @@
 							</div>
 							<!-- /comment -->
 
-
 							<!-- comment -->
 							<div class="media">
 								<div class="media-left">
@@ -175,79 +185,54 @@
 							</form>
 						</div>
 						<!-- /reply form -->
+
 					</div>
 				</main>
 				<!-- /Main -->
+
 				<!-- Aside -->
 				<aside id="aside" class="col-md-3">
 				</aside>
 				<!-- /Aside -- >
+
 			</div>
 			<!-- /Row -->
 
+			</div>
+			<!-- /Container -->
 		</div>
-		<!-- /Container -->
-
 	</div>
-	<!-- /Blog -->
+		<!-- /Blog -->
 
-	<!-- Footer -->
-	<footer id="footer" class="sm-padding bg-dark">
 
-		<!-- Container -->
-		<div class="container">
+			<!-- Footer -->
+			<footer>
+				<div class="container">
+					<div class="row">
 
-			<!-- Row -->
-			<div class="row">
+						<div class="col-sm-12">
+							<p class="text-center">
+								<?=copyright()?>
+							</p>
+						</div>
 
-				<div class="col-md-12">
-
-					<!-- footer logo -->
-					<div class="footer-logo">
-						<a href="index.html"><img src="<?=$home?>img/logo-alt.png" alt="logo"></a>
 					</div>
-					<!-- /footer logo -->
-
-					<!-- footer follow -->
-					<ul class="footer-follow">
-						<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-						<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-						<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-						<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-					</ul>
-					<!-- /footer follow -->
-
-					<!-- footer copyright -->
-					<div class="footer-copyright">
-						<p><?=copyright()?></a></p>
-					</div>
-					<!-- /footer copyright -->
-
 				</div>
+			</footer>
+			<!-- /Footer -->
 
-			</div>
-			<!-- /Row -->
+		<!-- Back to top -->
+		<div id="back-to-top"></div>
+		<!-- /Back to top -->
 
-		</div>
-		<!-- /Container -->
-
-	</footer>
-	<!-- /Footer -->
-
-	<!-- Back to top -->
-	<div id="back-to-top"></div>
-	<!-- /Back to top -->
-
-	<!-- jQuery Plugins -->
-	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/user/job.js"></script>
+		<!-- jQuery Plugins -->
+		<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/user/job.js"></script>
 </body>
 
 </html>
