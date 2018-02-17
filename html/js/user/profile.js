@@ -29,7 +29,7 @@ $(function() {
   contactModal = $('#contactModal');
   contactAlert = contactModal.find('.alert').eq(0);
   startingUrl = contactModal.find('#startingUrl');
-  $('#contact-buttons').on('click', '.fa', function() {
+  $('#contact-buttons').on('click', '.show-modal', function() {
     // show a modal or send to link, depeding on visiting status
     name = $(this).attr('data-name');
     url = $(this).attr('data-url');

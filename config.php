@@ -11,6 +11,12 @@ function copyright()
     return "Copyright © 2018. All Rights Reserved.";
 }
 
+function jobTagColor()
+{
+    $arr = array("warning", "danger", "info", "success");
+    return $arr[array_rand($arr)];
+}
+
 function session_start_safe()
 {
     if (!isset($_SESSION)) {
