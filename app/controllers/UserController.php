@@ -213,6 +213,14 @@ class UserController
             })->setName('jobs');
         });
     }
+
+    public function users($app){
+      $app->get('/users', function ($request, $response) {
+          $arr = UserController::getVars($this);
+          $arr['users'] = UserQuery::create()->find();
+          return $this->view->render($response, "users.php", $arr);
+      })->setName('users');
+    }
     // sign out route
     public function signOut($app)
     {
@@ -274,6 +282,7 @@ class UserController
         $app->group('/user', function () use ($app, $controller) {
             $controller->profile($app);
             $controller->jobs($app);
+            $controller->users($app);
             $controller->confirmUser($app);
             $controller->uploadImg($app);
         })->add(function ($request, $response, $next) {

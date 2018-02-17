@@ -67,20 +67,20 @@
 
 				<!-- Main -->
 				<main id="main" class="col-md-9">
-					<h2 class="title">Jobs</h2>
-					<?php foreach ($jobs as $job) { ?>
+					<h2 class="title">Users</h2>
+					<?php foreach ($users as $user) { ?>
 					<div class="row">
 						<!-- blog author -->
-						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm" data-url="<?=$router->pathFor('job', ['id'=>$job->getId()])?>">
+						<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user->getId()])?>">
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object hand pfp" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+									<img class="media-object hand pfp" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
-										<h3 class="job-title"><?=$job->getTitle()?></h3>
+										<h3 class="search-title"><?=$user->getFullName()?></h3>
 										<div class="author-social">
-										<p><?=$job->getPaymentString()?></p>
+										<p></p>
 											<!--
 										<a>
 											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?//=$contact->getPhoneNumber()?>"></i>
@@ -92,8 +92,8 @@
 
 										</div>
 									</div>
-									<p class="job-description">
-										<?=$job->getDescription()?>
+									<p class="search-description">
+										<?=$user->getAboutMe()?>
 									</p>
 								</div>
 							</div>

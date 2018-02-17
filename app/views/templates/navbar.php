@@ -44,6 +44,7 @@
           <li><a href="<?=$router->pathFor('create_job')?>">Post New</a></li>
         </ul>
       </li>
+      <li><a href="<?=$router->pathFor('users')?>">Users</a></li>
       <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
 
     <?php } ?>

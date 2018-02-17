@@ -66,7 +66,7 @@
 					<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
 						<div class="media">
 							<div class="media-left">
-								<img id="pfp" class="media-object" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
+								<img class="media-object pfp" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 							</div>
 							<div class="media-body">
 								<div class="media-heading">
