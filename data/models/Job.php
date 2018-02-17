@@ -18,4 +18,9 @@ class Job extends BaseJob
     {
         return $this->getJobPayment();
     }
+
+    public function getDatePosted()
+    {
+        return (new DateTime())->setTimestamp($this->getTimePosted());
+    }
 }
