@@ -79,95 +79,36 @@
 													// per button
 										?>
 										<?php if(!$visiting || $contact->hasPhoneNumber()){ ?>
-										<a data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>">
+										<a class="show-modal" data-toggle="tooltip" data-placement="top" title="<?=$contact->getPhoneNumber()?>" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>">
 											<!-- put a tooltip on phone number -->
-											<i class="fa fa-phone" data-url="Phone Number:" data-name="Phone Number" data-value="<?=$contact->getPhoneNumber()?>"></i>
+											<i class="fa fa-phone"></i>
 										</a>
 										<?php } if (!$visiting || $contact->hasFacebook()) { ?>
-										<a>
-											<i class="fa fa-facebook" data-url="https://www.facebook.com/" data-name="Facebook" data-value="<?=$contact->getFacebook()?>"></i>
+										<a class="show-modal" data-url="https://www.facebook.com/" data-name="Facebook" data-value="<?=$contact->getFacebook()?>">
+											<i class="fa fa-facebook"></i>
 										</a>
 										<?php } if(!$visiting || $contact->hasTwitter()) { ?>
-										<a>
-											<i class="fa fa-twitter" data-url="https://twitter.com/" data-name="Twitter" data-value="<?=$contact->getTwitter()?>"></i>
+										<a class="show-modal" data-url="https://twitter.com/" data-name="Twitter" data-value="<?=$contact->getTwitter()?>">
+											<i class="fa fa-twitter"></i>
 										</a>
 										<?php } if(!$visiting || $contact->hasInstagram()) { ?>
-										<a>
-											<i class="fa fa-instagram" data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>"></i>
+										<a class="show-modal"  data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>">
+											<i class="fa fa-instagram"></i>
 										</a>
 										<?php } ?>
 									</div>
 								</div>
-								<p>About
-									<?=$current_user->getFullName()?>
+								<p>
+									<?=$current_user->getAboutMe()?>
 								</p>
 							</div>
 						</div>
 					</div>
 					<!-- /blog author -->
 				</div>
-				<div class="row">
-					<div class="col-xs-12">
-						<div class="box">
-							<h3 class="blue">#Education</h3>
-							<ul class="timeline">
-								<li class="timeline-inverted">
-									<div class="timeline-badge warning">1989</div>
-									<div class="timeline-panel">
-										<div class="timeline-heading">
-											<h4 class="timeline-title">I was born in New Jersey</h4>
-										</div>
-										<div class="timeline-body">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit
-												amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
-										</div>
-									</div>
-								</li>
-								<li class="timeline-inverted">
-									<div class="timeline-badge danger">2004</div>
-									<div class="timeline-panel">
-										<div class="timeline-heading">
-											<h4 class="timeline-title">Secondary Schooling</h4>
-											<p><small class="text-muted"><i class="fa fa-time"></i> From 1992 - 2004</small></p>
-										</div>
-										<div class="timeline-body">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit
-												amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
-										</div>
-									</div>
-								</li>
-								<li class="timeline-inverted">
-									<div class="timeline-badge">2006</div>
-									<div class="timeline-panel">
-										<div class="timeline-heading">
-											<h4 class="timeline-title">High School</h4>
-											<p><small class="text-muted"><i class="fa fa-time"></i> From 2004 - 2006</small></p>
-										</div>
-										<div class="timeline-body">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit
-												amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
-										</div>
-									</div>
-								</li>
-								<li class="timeline-inverted">
-									<div class="timeline-badge success">2010</div>
-									<div class="timeline-panel">
-										<div class="timeline-heading">
-											<h4 class="timeline-title">University</h4>
-											<p><small class="text-muted"><i class="fa fa-time"></i> From 2006 - 2010</small></p>
-										</div>
-										<div class="timeline-body">
-											<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi. Lorem ipsum dolor sit
-												amet, consectetur adipisicing elit. Repellendus, non, dolorem, cumque distinctio magni quam expedita velit laborum sunt amet facere tempora ut fuga aliquam ad asperiores voluptatem dolorum! Quasi.</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
 
-				</div>
 				<div class="row">
+
 					<div class="col-sm-12 col-md-4 col-lg-4">
 						<div class="box">
 							<h3 class="blue">#Skills</h3>
@@ -220,6 +161,7 @@
 							</ul>
 						</div>
 					</div>
+
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="box hobbies">
 							<h3 class="blue">#Hobbies</h3>
@@ -247,6 +189,36 @@
 							</div>
 						</div>
 					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<h3 class="blue">Posted Jobs</h3>
+							<ul class="timeline">
+
+								<?php foreach ($current_user->getPostedJobs()->newestToOldest() as $job){ ?>
+
+									<li class="timeline-inverted url" data-url="<?=$router->pathFor('job', ["id"=>$job->getId()])?>">
+										<div class="timeline-badge <?=jobTagColor()?>"><?=$job->getDatePosted()->format('M')?></div>
+										<div class="timeline-panel">
+											<div class="timeline-heading">
+												<h4 class="timeline-title"><?=$job->getTitle()?></h4>
+											</div>
+											<div class="timeline-body">
+												<p><?=$job->getDescription()?></p>
+											</div>
+										</div>
+									</li>
+
+								<?php } ?>
+
+
+							</ul>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
