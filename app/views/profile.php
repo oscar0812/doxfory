@@ -118,16 +118,6 @@
 								</div>
 							</div>
 							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">
-									<div class="skill-item">HTML</div>
-								</div>
-							</div>
-							<div class="progress">
-								<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
-									<div class="skill-item">CSS</div>
-								</div>
-							</div>
-							<div class="progress">
 								<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
 									<div class="skill-item">JAVA</div>
 								</div>
@@ -166,7 +156,7 @@
 						<div class="box hobbies">
 							<h3 class="blue">#Hobbies</h3>
 							<div class="row bigger-110">
-								<div class="col-xs-6">
+								<div class="col-xs-12">
 									<ul class="list-unstyled">
 										<li>
 											<span class="label label-danger">Photography <i class="fa fa-heart"></i></span>
@@ -174,10 +164,6 @@
 										<li>
 											<span class="label label-primary">Movies <i class="fa fa-heart"></i></span>
 										</li>
-									</ul>
-								</div>
-								<div class="col-xs-6">
-									<ul class="list-unstyled">
 										<li>
 											<span class="label label-default">Music <i class="fa fa-heart"></i></span>
 										</li>
