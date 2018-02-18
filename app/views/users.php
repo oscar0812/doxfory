@@ -78,7 +78,7 @@
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
-										<h3 class="search-title"><?=$user->getFullName()?></h3>
+										<h3 class="search-name"><?=$user->getFullName()?></h3>
 										<div class="author-social">
 										<p></p>
 											<!--
@@ -92,7 +92,7 @@
 
 										</div>
 									</div>
-									<p class="search-description">
+									<p class="search-about">
 										<?=$user->getAboutMe()?>
 									</p>
 								</div>
@@ -220,7 +220,7 @@
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
-	<script type="text/javascript" src="<?=$home?>js/user/jobs.js"></script>
+	<script type="text/javascript" src="<?=$home?>js/user/users.js"></script>
 
 </body>
 
