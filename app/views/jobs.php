@@ -12,7 +12,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>
-		<?=websiteName()?>
+		<?=websiteName()?> | all jobs
 	</title>
 
 	<!-- Google font -->

@@ -12,7 +12,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>
-		<?=websiteName()?>
+		<?=websiteName()?> | <?=$user->getFullName()?>
 	</title>
 
 	<!-- Google font -->
@@ -66,13 +66,13 @@
 					<div class="agency-box col-sm-12 col-md-12 col-lg-12 sm-neg-btm">
 						<div class="media">
 							<div class="media-left">
-								<img class="media-object pfp" src="<?=$current_user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
+								<img class="media-object pfp" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 							</div>
 							<div class="media-body">
 								<div class="media-heading">
-									<h3><?=$current_user->getFullName()?></h3>
+									<h3><?=$user->getFullName()?></h3>
 									<div class="author-social" id="contact-buttons">
-										<?$contact = $current_user->getContactInfo()?>
+										<?$contact = $user->getContactInfo()?>
 										<?php // comments for below if statements
 													// show buttons only if youre not visiting
 													// or if you're visiting someone has info
@@ -99,7 +99,7 @@
 									</div>
 								</div>
 								<p>
-									<?=$current_user->getAboutMe()?>
+									<?=$user->getAboutMe()?>
 								</p>
 							</div>
 						</div>
@@ -182,7 +182,7 @@
 					<div class="col-xs-12">
 						<div class="box">
 							<h3 class="blue">Posted Jobs</h3>
-							<?php $jobs = $current_user->getPostedJobs()->newestToOldest();
+							<?php $jobs = $user->getPostedJobs()->newestToOldest();
 							if($jobs->count() == 0){
 								echo "No jobs posted yet";
 							}

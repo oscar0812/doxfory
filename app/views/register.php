@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="<?=$home?>img/logo.png" type="image/x-icon">
   	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
     <title>
-      <?=websiteName()?>
+      <?=websiteName()?> | register
     </title>
 
     <!-- CSS -->

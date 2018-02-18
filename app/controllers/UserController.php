@@ -17,36 +17,36 @@ class UserController
     // takes care of routing all routes in /user/{}/{}/...
     public static function getVars($app)
     {
-        return ['logged_in'=>true, 'router'=> $app->router, 'current_user' => currentUser()];
+        return ['logged_in'=>true, 'router'=> $app->router, 'user' => currentUser()];
     }
 
     public function confirmUser($app)
     {
         $app->get('/confirm', function ($request, $response) use ($app) {
-            $current_user = currentUser();
+            $user = currentUser();
             // check if has key in url, if so, confirm user and
             // redirect to profile
             $get = $request->getQueryParams();
             if (isset($get['key']) && isset($get['email'])) {
                 // trying to confirm account
-                $key = $current_user->getConfirmationKey();
+                $key = $user->getConfirmationKey();
                 if ($get['key'] == $key && $get['email'] ==
-                                    $current_user->getContactInfo()->getEmail()) {
+                                    $user->getContactInfo()->getEmail()) {
                     // correct key
-                    $current_user->setConfirmationKey("");
-                    $current_user->save();
+                    $user->setConfirmationKey("");
+                    $user->save();
                     return $response->withRedirect($this->router->pathFor('profile'));
                 } else {
                     // incorrect key, set a new key to the user and log out
-                    $current_user->setConfirmationKey(md5(rand(0, 1000)));
-                    $current_user->save();
+                    $user->setConfirmationKey(md5(rand(0, 1000)));
+                    $user->save();
                     return $response->withRedirect($this->router->pathFor('signout'));
                 }
             }
 
             // if haven't confirmed email
             // show confirm view
-            if (!$current_user->isConfirmed()) {
+            if (!$user->isConfirmed()) {
                 return $this->view->render($response, "confirm.php", UserController::getVars($this));
             }
             // else, send them to profile page
@@ -87,7 +87,7 @@ class UserController
                     $user = UserQuery::create()->findPk($args['id']);
                     if ($user != null) {
                         // if id is valid
-                        $arr['current_user'] = $user;
+                        $arr['user'] = $user;
                         $arr['visiting'] = true;
                     } else {
                         // invalid user, throw 404
@@ -239,15 +239,15 @@ class UserController
 
             // trying to upload a pfp
             $app->post('/pfp', function ($request, $response) {
-                $current_user = currentUser();
+                $user = currentUser();
                 // call ImageUpload which returns an array with flags and data
-                $arr = ImageUpload::uploadPfp($current_user->getId(), $this->router->pathFor('home'));
+                $arr = ImageUpload::uploadPfp($user->getId(), $this->router->pathFor('home'));
 
                 if ($arr['success']) {
                     // successfully uploaded image, so set the path as the
                     // users pfp url in db
-                    $current_user->setProfilePicture($arr['path']);
-                    $current_user->save();
+                    $user->setProfilePicture($arr['path']);
+                    $user->save();
                 }
                 return $response->withJson($arr);
             })->setName('upload_pfp');
@@ -287,12 +287,12 @@ class UserController
             $controller->uploadImg($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
-            $current_user = currentUser();
+            $user = currentUser();
             $path = $request->getUri()->getPath();
 
-            if ($current_user != null) {
+            if ($user != null) {
                 // to avoid infinite recursion
-                if (!$current_user->isConfirmed() && !endsWith($path, "user/confirm")) {
+                if (!$user->isConfirmed() && !endsWith($path, "user/confirm")) {
                     $response = $response->withRedirect($this->router->pathFor('confirm'));
                 } else {
                     $response = $next($request, $response);

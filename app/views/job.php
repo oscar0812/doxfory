@@ -15,7 +15,7 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>
-		<?=websiteName()?>
+		<?=websiteName()?> | <?=$job->getTitle()?>
 	</title>
 
 	<!-- Google font -->

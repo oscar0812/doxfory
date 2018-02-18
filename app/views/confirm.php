@@ -10,7 +10,7 @@
 	<link rel="icon" href="<?=$home?>img/logo.png" type="image/x-icon">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<title><?=websiteName()?></title>
+	<title><?=websiteName()?> | confirm page</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CVarela+Round" rel="stylesheet">
