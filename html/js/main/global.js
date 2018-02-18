@@ -45,8 +45,7 @@ function search(search_bar, search_object, fields) {
 
       // show_object == true only when any of the fields
       // contains the search text
-      if (show_object) obj.show();
-      else obj.hide();
+      show_object ? obj.show() : obj.hide();
 
     });
   });

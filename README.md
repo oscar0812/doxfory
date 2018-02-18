@@ -4,14 +4,13 @@ TODO:
   - Add email system (DONE)
   - Add confirm email route (DONE)
   - Add reset password route
-  - Add Job Search page
-  - Add Job view page
+  - Add Job Search page (DONE)
+  - Add Job view page (DONE)
   - Add propel validation (DONE)
-  - Add Profile Page info
-  - Add Page to view other users
-  - That's it for now
+  - Add Profile Page info (ALMOST DONE)
+  - Add Page to view other users (DONE)
   - jobs/all route needs to have search working, tags, etc.
-  - finish profile by replacing the timeline with posted jobs
+  - finish profile by replacing the timeline with posted jobs (DONE)
   - fill job/{id} page with real info
 
 NOTES:
