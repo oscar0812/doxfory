@@ -72,7 +72,7 @@
 								<div class="media-heading">
 									<h3><?=$user->getFullName()?></h3>
 									<div class="author-social" id="contact-buttons">
-										<?$contact = $user->getContactInfo()?>
+										<?php $contact = $user->getContactInfo()?>
 										<?php // comments for below if statements
 													// show buttons only if youre not visiting
 													// or if you're visiting someone has info
