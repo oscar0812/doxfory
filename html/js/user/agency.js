@@ -45,6 +45,13 @@
   // Mobile dropdown
   $('.has-dropdown a').on('click', function() {
     $(this).parent().toggleClass('open-drop');
+    return false;
+  });
+
+  // if its a link inside the ul and then inside the li, then its valid,
+  // change the page to the link
+  $('.has-dropdown ul li a').on('click', function() {
+    window.location.href = $(this).attr('href');
   });
 
   ///////////////////////////
