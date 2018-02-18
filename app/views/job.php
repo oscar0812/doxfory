@@ -72,13 +72,18 @@
 					<div class="blog">
 
 						<div class="blog-img">
-							<img class="media-object" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
+							<img class="media-object pfp" src="<?=$job->getImage()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_job.png';">
 						</div>
 
 						<div class="blog-content">
 							<ul class="blog-meta">
 								<li class="url hand" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$poster->getId()])?>"><i class="fa fa-user"></i>
-									<?=$poster->getFullName()?>
+									<?php if($posted_by_user){
+										echo "You";
+									} else{
+										echo $user->getFullName();
+									}
+									?>
 								</li>
 								<li><i class="fa fa-clock-o"></i>
 									<?=$job->getDatePosted()->format('d M')?>

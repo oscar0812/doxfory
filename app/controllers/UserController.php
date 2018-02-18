@@ -82,17 +82,18 @@ class UserController
                 $arr = UserController::getVars($this);
                 $arr['visiting'] = false;
 
-                if (isset($args['id'])) {
-                    // if id was passed
-                    $user = UserQuery::create()->findPk($args['id']);
-                    if ($user != null) {
-                        // if id is valid
-                        $arr['user'] = $user;
-                        $arr['visiting'] = true;
-                    } else {
-                        // invalid user, throw 404
-                        throw new \Slim\Exception\NotFoundException($request, $response);
-                    }
+                $user = UserQuery::create()->findPk($args['id']);
+                if ($user != null) {
+                    // if id is valid
+                    $arr['user'] = $user;
+                    $arr['visiting'] = true;
+                } else {
+                    // invalid user, throw 404
+                    throw new \Slim\Exception\NotFoundException($request, $response);
+                }
+                // check if trying to visit themselves through url
+                if ($user->getId() == currentUser()->getId()) {
+                    return $response->withRedirect($this->router->pathFor('profile'));
                 }
                 return $this->view->render($response, "profile.php", $arr);
             })->setName('visiting_profile');
@@ -198,6 +199,8 @@ class UserController
                     // valid job
                     $arr = UserController::getVars($this);
                     $arr['job'] = $job;
+                    // if job was posted by currently signed in user
+                    $arr['posted_by_user'] = $job->getPostedById() == currentUser()->getId();
                     return $this->view->render($response, "job.php", $arr);
                 } else {
                     // show 404 not found
@@ -214,12 +217,13 @@ class UserController
         });
     }
 
-    public function users($app){
-      $app->get('/users', function ($request, $response) {
-          $arr = UserController::getVars($this);
-          $arr['users'] = UserQuery::create()->find();
-          return $this->view->render($response, "users.php", $arr);
-      })->setName('users');
+    public function users($app)
+    {
+        $app->get('/users', function ($request, $response) {
+            $arr = UserController::getVars($this);
+            $arr['users'] = UserQuery::create()->find();
+            return $this->view->render($response, "users.php", $arr);
+        })->setName('users');
     }
     // sign out route
     public function signOut($app)

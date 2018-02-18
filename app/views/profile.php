@@ -194,7 +194,7 @@
 								<?php foreach ($jobs as $job){ ?>
 
 									<li class="timeline-inverted url" data-url="<?=$router->pathFor('job', ["id"=>$job->getId()])?>">
-										<div class="timeline-badge <?=jobTagColor()?>"><?=$job->getDatePosted()->format('M')?></div>
+										<div class="timeline-badge hand <?=jobTagColor()?>"><?=$job->getDatePosted()->format('M')?></div>
 										<div class="timeline-panel">
 											<div class="timeline-heading">
 												<h4 class="timeline-title"><?=$job->getTitle()?></h4>
