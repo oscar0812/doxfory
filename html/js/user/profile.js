@@ -46,6 +46,8 @@ $(function() {
     input = contactModal.find('#contactInput');
     if (name == 'Phone Number') {
       input.inputmask('(999) 999-9999');
+    } else {
+      input.inputmask('remove');
     }
     input.val(value);
 
