@@ -96,4 +96,9 @@ $(function() {
     });
   }
 
+  editInput(".edit", function(text){
+    console.log(text);
+  });
+
+
 });

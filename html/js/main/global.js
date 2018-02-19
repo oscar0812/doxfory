@@ -50,3 +50,56 @@ function search(search_bar, search_object, fields) {
     });
   });
 }
+
+// this function simply puts a click listener to input and then calls
+// editInputOn, callback will be called when the editing is done
+function editInput(input, callback) {
+  $(input).click(function() {
+    editInputOn(this, callback);
+  });
+}
+
+// when this function is called, an input mask will cover the text
+// making an input appear
+function editInputOn(input, callback) {
+  text = $(input).text();
+
+  elt = $("<textarea rows='3' cols='90' class='form-control'>");
+  elt.val($(input).text());
+
+  // get on text changed listener
+  $(elt).on("input", function() {
+    str = $(this).val();
+
+    // max 512 letters on column in db
+    if (str.length > 511) {
+      str = str.substring(0, 512);
+      $(elt).val(this);
+    }
+  });
+
+  elt.on("blur", function() {
+    editInputOff($(this), callback);
+  });
+
+  $(input).text('');
+  $(input).append(elt);
+  $(elt).focus();
+  $(input).off('click');
+}
+
+// once the input is done, this will be called
+function editInputOff(child, callback) {
+
+  parent = $(child).parent();
+  parent.text($(child).val());
+  parent.on('click', function() {
+    editInput(parent, callback);
+  });
+
+  text = $(parent).text();
+
+  $(child).remove();
+
+  callback(text);
+}
