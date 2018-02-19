@@ -78,7 +78,7 @@
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
-										<h3 class="search-name"><?=$user->getFullName()?></h3>
+										<h3 class="search-item"><?=$user->getFullName()?></h3>
 										<div class="author-social">
 										<p></p>
 											<!--
@@ -92,7 +92,7 @@
 
 										</div>
 									</div>
-									<p class="search-about">
+									<p class="search-item">
 										<?=$user->getAboutMe()?>
 									</p>
 								</div>

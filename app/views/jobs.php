@@ -78,7 +78,7 @@
 								</div>
 								<div class="media-body">
 									<div class="media-heading">
-										<h3 class="job-title"><?=$job->getTitle()?></h3>
+										<h3 class="search-item"><?=$job->getTitle()?></h3>
 										<div class="author-social">
 										<p><?=$job->getPaymentString()?></p>
 											<!--
@@ -92,7 +92,7 @@
 
 										</div>
 									</div>
-									<p class="job-description">
+									<p class="search-item">
 										<?=$job->getDescription()?>
 									</p>
 								</div>

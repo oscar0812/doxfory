@@ -1,3 +1,3 @@
 $(function() {
-  search($('#search'), $('#main>.row'), ['.job-title', '.job-description']);
+  search('#search', '#main>.row', '.search-item');
 });
