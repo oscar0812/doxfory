@@ -3,15 +3,18 @@ namespace App\Helpers;
 
 class IpInfo
 {
-    public $key = '';
     public $url = "";
     public $json = [];
+    public $country;
+    public $location;
     public function __construct($ip)
     {
-        $this->url = ("http://api.ipinfodb.com/v3/ip-city/?key=$this->key&ip=$ip&format=json");
+        $this->url = "http://geoip.nekudo.com/api/$ip";
 
         $contents = file_get_contents($this->url);
         $this->json = json_decode($contents, true);
+        $this->country = new Country($this->json['country']);
+        $this->location = new Location($this->json['location']);
     }
 
     public static function getUserIp()
@@ -37,58 +40,81 @@ class IpInfo
     }
 
     // helper methods
-    public function getStatusCode()
+    public function getCity()
     {
-        return $this->json['statusCode'];
+        return $this->json['city'];
     }
 
-    public function getStatusMessage()
+    public function getCountry()
     {
-        return $this->json['statusMessage'];
+        return $this->country;
     }
 
-    public function getIpAddress()
+    public function getLocation()
     {
-        return $this->json['ipAddress'];
+        return $this->location;
     }
 
-    public function getCountryCode()
+    public function getIp()
     {
-        return $this->json['countryCode'];
+        return $this->json['ip'];
+    }
+}
+
+// helper wrapping classes
+class Country
+{
+    public $name = "";
+    public $code = "";
+    public function __construct($array)
+    {
+        $this->name = $array['name'];
+        $this->code = $array['code'];
     }
 
-    public function getCountryName()
+    public function getName()
     {
-        return $this->json['countryName'];
+        return $this->name;
     }
 
-    public function getRegionName()
+    public function getCode()
     {
-        return $this->json['regionName'];
+        return $this->code;
+    }
+}
+
+class Location
+{
+    public $accuracy_radius = 0;
+    public $latitude = 0;
+    public $longitude = 0;
+    public $time_zone = "";
+
+    public function __construct($array)
+    {
+        $this->accuracy_radius = $array['accuracy_radius'];
+        $this->latitude = $array['latitude'];
+        $this->longitude = $array['longitude'];
+        $this->time_zone = $array['time_zone'];
     }
 
-    public function getCityName()
+    public function getAccuracyRadius()
     {
-        return $this->json['cityName'];
-    }
-
-    public function getZipCode()
-    {
-        return $this->json['zipCode'];
+        return $this->accuracy_radius;
     }
 
     public function getLatitude()
     {
-        return $this->json['latitude'];
+        return $this->latitude;
     }
 
     public function getLongitude()
     {
-        return $this->json['longitude'];
+        return $this->longitude;
     }
 
-    public function getTimeZone()
+    public function getTimezone()
     {
-        return $this->json['timeZone'];
+        return $this->time_zone;
     }
 }
