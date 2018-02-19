@@ -1,7 +1,7 @@
 <?php
 namespace App\Helpers;
 
-class IpInfoDB
+class IpInfo
 {
     public $key = '';
     public $url = "";
