@@ -4,17 +4,27 @@ namespace App\Helpers;
 class IpInfo
 {
     public $url = "";
+    public $success = true;
     public $json = [];
     public $country;
     public $location;
-    public function __construct($ip)
+    public function __construct($ip = null)
     {
-        $this->url = "http://geoip.nekudo.com/api/$ip";
+        if ($ip == null) {
+            $ip = IpInfo::getUserIp();
+        }
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+            // invalid ip
+            $this->success = false;
+        } else {
+            $this->success = true;
+            $this->url = "http://geoip.nekudo.com/api/$ip";
 
-        $contents = file_get_contents($this->url);
-        $this->json = json_decode($contents, true);
-        $this->country = new Country($this->json['country']);
-        $this->location = new Location($this->json['location']);
+            $contents = file_get_contents($this->url);
+            $this->json = json_decode($contents, true);
+            $this->country = new Country($this->json['country']);
+            $this->location = new Location($this->json['location']);
+        }
     }
 
     public static function getUserIp()
@@ -27,6 +37,11 @@ class IpInfo
             $ip = $_SERVER['REMOTE_ADDR'];
         }
         return $ip;
+    }
+
+    public function success()
+    {
+        return $this->success;
     }
 
     public function getJSON()
