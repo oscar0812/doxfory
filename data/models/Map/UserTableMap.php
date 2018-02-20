@@ -59,7 +59,7 @@ class UserTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 11;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class UserTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 11;
 
     /**
      * the column name for the id field
@@ -85,6 +85,11 @@ class UserTableMap extends TableMap
      * the column name for the last_name field
      */
     const COL_LAST_NAME = 'user.last_name';
+
+    /**
+     * the column name for the occupation field
+     */
+    const COL_OCCUPATION = 'user.occupation';
 
     /**
      * the column name for the password field
@@ -133,11 +138,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'FirstName', 'LastName', 'Password', 'ProfilePicture', 'AboutMe', 'UpVotes', 'DateJoined', 'ConfirmationKey', 'ResetKey', ),
-        self::TYPE_CAMELNAME     => array('id', 'firstName', 'lastName', 'password', 'profilePicture', 'aboutMe', 'upVotes', 'dateJoined', 'confirmationKey', 'resetKey', ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_FIRST_NAME, UserTableMap::COL_LAST_NAME, UserTableMap::COL_PASSWORD, UserTableMap::COL_PROFILE_PICTURE, UserTableMap::COL_ABOUT_ME, UserTableMap::COL_UP_VOTES, UserTableMap::COL_DATE_JOINED, UserTableMap::COL_CONFIRMATION_KEY, UserTableMap::COL_RESET_KEY, ),
-        self::TYPE_FIELDNAME     => array('id', 'first_name', 'last_name', 'password', 'profile_picture', 'about_me', 'up_votes', 'date_joined', 'confirmation_key', 'reset_key', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id', 'FirstName', 'LastName', 'Occupation', 'Password', 'ProfilePicture', 'AboutMe', 'UpVotes', 'DateJoined', 'ConfirmationKey', 'ResetKey', ),
+        self::TYPE_CAMELNAME     => array('id', 'firstName', 'lastName', 'occupation', 'password', 'profilePicture', 'aboutMe', 'upVotes', 'dateJoined', 'confirmationKey', 'resetKey', ),
+        self::TYPE_COLNAME       => array(UserTableMap::COL_ID, UserTableMap::COL_FIRST_NAME, UserTableMap::COL_LAST_NAME, UserTableMap::COL_OCCUPATION, UserTableMap::COL_PASSWORD, UserTableMap::COL_PROFILE_PICTURE, UserTableMap::COL_ABOUT_ME, UserTableMap::COL_UP_VOTES, UserTableMap::COL_DATE_JOINED, UserTableMap::COL_CONFIRMATION_KEY, UserTableMap::COL_RESET_KEY, ),
+        self::TYPE_FIELDNAME     => array('id', 'first_name', 'last_name', 'occupation', 'password', 'profile_picture', 'about_me', 'up_votes', 'date_joined', 'confirmation_key', 'reset_key', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -147,11 +152,11 @@ class UserTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'FirstName' => 1, 'LastName' => 2, 'Password' => 3, 'ProfilePicture' => 4, 'AboutMe' => 5, 'UpVotes' => 6, 'DateJoined' => 7, 'ConfirmationKey' => 8, 'ResetKey' => 9, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'firstName' => 1, 'lastName' => 2, 'password' => 3, 'profilePicture' => 4, 'aboutMe' => 5, 'upVotes' => 6, 'dateJoined' => 7, 'confirmationKey' => 8, 'resetKey' => 9, ),
-        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_FIRST_NAME => 1, UserTableMap::COL_LAST_NAME => 2, UserTableMap::COL_PASSWORD => 3, UserTableMap::COL_PROFILE_PICTURE => 4, UserTableMap::COL_ABOUT_ME => 5, UserTableMap::COL_UP_VOTES => 6, UserTableMap::COL_DATE_JOINED => 7, UserTableMap::COL_CONFIRMATION_KEY => 8, UserTableMap::COL_RESET_KEY => 9, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'first_name' => 1, 'last_name' => 2, 'password' => 3, 'profile_picture' => 4, 'about_me' => 5, 'up_votes' => 6, 'date_joined' => 7, 'confirmation_key' => 8, 'reset_key' => 9, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'FirstName' => 1, 'LastName' => 2, 'Occupation' => 3, 'Password' => 4, 'ProfilePicture' => 5, 'AboutMe' => 6, 'UpVotes' => 7, 'DateJoined' => 8, 'ConfirmationKey' => 9, 'ResetKey' => 10, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'firstName' => 1, 'lastName' => 2, 'occupation' => 3, 'password' => 4, 'profilePicture' => 5, 'aboutMe' => 6, 'upVotes' => 7, 'dateJoined' => 8, 'confirmationKey' => 9, 'resetKey' => 10, ),
+        self::TYPE_COLNAME       => array(UserTableMap::COL_ID => 0, UserTableMap::COL_FIRST_NAME => 1, UserTableMap::COL_LAST_NAME => 2, UserTableMap::COL_OCCUPATION => 3, UserTableMap::COL_PASSWORD => 4, UserTableMap::COL_PROFILE_PICTURE => 5, UserTableMap::COL_ABOUT_ME => 6, UserTableMap::COL_UP_VOTES => 7, UserTableMap::COL_DATE_JOINED => 8, UserTableMap::COL_CONFIRMATION_KEY => 9, UserTableMap::COL_RESET_KEY => 10, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'first_name' => 1, 'last_name' => 2, 'occupation' => 3, 'password' => 4, 'profile_picture' => 5, 'about_me' => 6, 'up_votes' => 7, 'date_joined' => 8, 'confirmation_key' => 9, 'reset_key' => 10, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -174,6 +179,7 @@ class UserTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('first_name', 'FirstName', 'VARCHAR', true, 16, null);
         $this->addColumn('last_name', 'LastName', 'VARCHAR', true, 16, null);
+        $this->addColumn('occupation', 'Occupation', 'VARCHAR', true, 64, null);
         $this->addColumn('password', 'Password', 'VARCHAR', true, 255, null);
         $this->addColumn('profile_picture', 'ProfilePicture', 'VARCHAR', true, 255, null);
         $this->addColumn('about_me', 'AboutMe', 'VARCHAR', true, 4098, null);
@@ -368,6 +374,7 @@ class UserTableMap extends TableMap
             $criteria->addSelectColumn(UserTableMap::COL_ID);
             $criteria->addSelectColumn(UserTableMap::COL_FIRST_NAME);
             $criteria->addSelectColumn(UserTableMap::COL_LAST_NAME);
+            $criteria->addSelectColumn(UserTableMap::COL_OCCUPATION);
             $criteria->addSelectColumn(UserTableMap::COL_PASSWORD);
             $criteria->addSelectColumn(UserTableMap::COL_PROFILE_PICTURE);
             $criteria->addSelectColumn(UserTableMap::COL_ABOUT_ME);
@@ -379,6 +386,7 @@ class UserTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.first_name');
             $criteria->addSelectColumn($alias . '.last_name');
+            $criteria->addSelectColumn($alias . '.occupation');
             $criteria->addSelectColumn($alias . '.password');
             $criteria->addSelectColumn($alias . '.profile_picture');
             $criteria->addSelectColumn($alias . '.about_me');
