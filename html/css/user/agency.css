@@ -45,6 +45,11 @@ Table OF Contents
 
 /* CSS used here will be applied after bootstrap.css */
 
+.job-medium {
+  width: 100%;
+  height: 200px;
+}
+
 .qlt-confirmation .panel-body {
   width: 99%;
   margin: 0 auto;
