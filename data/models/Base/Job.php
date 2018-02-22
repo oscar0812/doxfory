@@ -125,6 +125,20 @@ abstract class Job implements ActiveRecordInterface
     protected $notify;
 
     /**
+     * The value for the latitude field.
+     *
+     * @var        string
+     */
+    protected $latitude;
+
+    /**
+     * The value for the longitude field.
+     *
+     * @var        string
+     */
+    protected $longitude;
+
+    /**
      * The value for the posted_by_id field.
      *
      * @var        int
@@ -508,6 +522,26 @@ abstract class Job implements ActiveRecordInterface
     }
 
     /**
+     * Get the [latitude] column value.
+     *
+     * @return string
+     */
+    public function getLatitude()
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * Get the [longitude] column value.
+     *
+     * @return string
+     */
+    public function getLongitude()
+    {
+        return $this->longitude;
+    }
+
+    /**
      * Get the [posted_by_id] column value.
      *
      * @return int
@@ -684,6 +718,46 @@ abstract class Job implements ActiveRecordInterface
     } // setNotify()
 
     /**
+     * Set the value of [latitude] column.
+     *
+     * @param string $v new value
+     * @return $this|\Job The current object (for fluent API support)
+     */
+    public function setLatitude($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->latitude !== $v) {
+            $this->latitude = $v;
+            $this->modifiedColumns[JobTableMap::COL_LATITUDE] = true;
+        }
+
+        return $this;
+    } // setLatitude()
+
+    /**
+     * Set the value of [longitude] column.
+     *
+     * @param string $v new value
+     * @return $this|\Job The current object (for fluent API support)
+     */
+    public function setLongitude($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->longitude !== $v) {
+            $this->longitude = $v;
+            $this->modifiedColumns[JobTableMap::COL_LONGITUDE] = true;
+        }
+
+        return $this;
+    } // setLongitude()
+
+    /**
      * Set the value of [posted_by_id] column.
      *
      * @param int $v new value
@@ -796,10 +870,16 @@ abstract class Job implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : JobTableMap::translateFieldName('Notify', TableMap::TYPE_PHPNAME, $indexType)];
             $this->notify = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : JobTableMap::translateFieldName('Latitude', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->latitude = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobTableMap::translateFieldName('Longitude', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->longitude = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : JobTableMap::translateFieldName('PostedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->posted_by_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : JobTableMap::translateFieldName('AcceptedById', TableMap::TYPE_PHPNAME, $indexType)];
             $this->accepted_by_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -809,7 +889,7 @@ abstract class Job implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 9; // 9 = JobTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 11; // 11 = JobTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Job'), 0, $e);
@@ -1066,6 +1146,12 @@ abstract class Job implements ActiveRecordInterface
         if ($this->isColumnModified(JobTableMap::COL_NOTIFY)) {
             $modifiedColumns[':p' . $index++]  = 'notify';
         }
+        if ($this->isColumnModified(JobTableMap::COL_LATITUDE)) {
+            $modifiedColumns[':p' . $index++]  = 'latitude';
+        }
+        if ($this->isColumnModified(JobTableMap::COL_LONGITUDE)) {
+            $modifiedColumns[':p' . $index++]  = 'longitude';
+        }
         if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
             $modifiedColumns[':p' . $index++]  = 'posted_by_id';
         }
@@ -1103,6 +1189,12 @@ abstract class Job implements ActiveRecordInterface
                         break;
                     case 'notify':
                         $stmt->bindValue($identifier, (int) $this->notify, PDO::PARAM_INT);
+                        break;
+                    case 'latitude':
+                        $stmt->bindValue($identifier, $this->latitude, PDO::PARAM_STR);
+                        break;
+                    case 'longitude':
+                        $stmt->bindValue($identifier, $this->longitude, PDO::PARAM_STR);
                         break;
                     case 'posted_by_id':
                         $stmt->bindValue($identifier, $this->posted_by_id, PDO::PARAM_INT);
@@ -1194,9 +1286,15 @@ abstract class Job implements ActiveRecordInterface
                 return $this->getNotify();
                 break;
             case 7:
-                return $this->getPostedById();
+                return $this->getLatitude();
                 break;
             case 8:
+                return $this->getLongitude();
+                break;
+            case 9:
+                return $this->getPostedById();
+                break;
+            case 10:
                 return $this->getAcceptedById();
                 break;
             default:
@@ -1236,8 +1334,10 @@ abstract class Job implements ActiveRecordInterface
             $keys[4] => $this->getDescription(),
             $keys[5] => $this->getImage(),
             $keys[6] => $this->getNotify(),
-            $keys[7] => $this->getPostedById(),
-            $keys[8] => $this->getAcceptedById(),
+            $keys[7] => $this->getLatitude(),
+            $keys[8] => $this->getLongitude(),
+            $keys[9] => $this->getPostedById(),
+            $keys[10] => $this->getAcceptedById(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1346,9 +1446,15 @@ abstract class Job implements ActiveRecordInterface
                 $this->setNotify($value);
                 break;
             case 7:
-                $this->setPostedById($value);
+                $this->setLatitude($value);
                 break;
             case 8:
+                $this->setLongitude($value);
+                break;
+            case 9:
+                $this->setPostedById($value);
+                break;
+            case 10:
                 $this->setAcceptedById($value);
                 break;
         } // switch()
@@ -1399,10 +1505,16 @@ abstract class Job implements ActiveRecordInterface
             $this->setNotify($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setPostedById($arr[$keys[7]]);
+            $this->setLatitude($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setAcceptedById($arr[$keys[8]]);
+            $this->setLongitude($arr[$keys[8]]);
+        }
+        if (array_key_exists($keys[9], $arr)) {
+            $this->setPostedById($arr[$keys[9]]);
+        }
+        if (array_key_exists($keys[10], $arr)) {
+            $this->setAcceptedById($arr[$keys[10]]);
         }
     }
 
@@ -1465,6 +1577,12 @@ abstract class Job implements ActiveRecordInterface
         }
         if ($this->isColumnModified(JobTableMap::COL_NOTIFY)) {
             $criteria->add(JobTableMap::COL_NOTIFY, $this->notify);
+        }
+        if ($this->isColumnModified(JobTableMap::COL_LATITUDE)) {
+            $criteria->add(JobTableMap::COL_LATITUDE, $this->latitude);
+        }
+        if ($this->isColumnModified(JobTableMap::COL_LONGITUDE)) {
+            $criteria->add(JobTableMap::COL_LONGITUDE, $this->longitude);
         }
         if ($this->isColumnModified(JobTableMap::COL_POSTED_BY_ID)) {
             $criteria->add(JobTableMap::COL_POSTED_BY_ID, $this->posted_by_id);
@@ -1564,6 +1682,8 @@ abstract class Job implements ActiveRecordInterface
         $copyObj->setDescription($this->getDescription());
         $copyObj->setImage($this->getImage());
         $copyObj->setNotify($this->getNotify());
+        $copyObj->setLatitude($this->getLatitude());
+        $copyObj->setLongitude($this->getLongitude());
         $copyObj->setPostedById($this->getPostedById());
         $copyObj->setAcceptedById($this->getAcceptedById());
 
@@ -1778,6 +1898,8 @@ abstract class Job implements ActiveRecordInterface
         $this->description = null;
         $this->image = null;
         $this->notify = null;
+        $this->latitude = null;
+        $this->longitude = null;
         $this->posted_by_id = null;
         $this->accepted_by_id = null;
         $this->alreadyInSave = false;

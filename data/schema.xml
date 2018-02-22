@@ -8,6 +8,8 @@
     <column name="description" phpName="Description" type="VARCHAR" size="4098" required="true"/>
     <column name="image" phpName="Image" type="VARCHAR" size="4098" required="true"/>
     <column name="notify" phpName="Notify" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="latitude" phpName="Latitude" type="DECIMAL" size="32" scale="16" required="true"/>
+    <column name="longitude" phpName="Longitude" type="DECIMAL" size="32" scale="16" required="true"/>
     <column name="posted_by_id" phpName="PostedById" type="INTEGER" required="true"/>
     <column name="accepted_by_id" phpName="AcceptedById" type="INTEGER" required="true"/>
     <foreign-key foreignTable="user" name="job_ibfk_1" phpName="PostedByUser">

@@ -27,6 +27,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method     ChildJobQuery orderByImage($order = Criteria::ASC) Order by the image column
  * @method     ChildJobQuery orderByNotify($order = Criteria::ASC) Order by the notify column
+ * @method     ChildJobQuery orderByLatitude($order = Criteria::ASC) Order by the latitude column
+ * @method     ChildJobQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
  * @method     ChildJobQuery orderByPostedById($order = Criteria::ASC) Order by the posted_by_id column
  * @method     ChildJobQuery orderByAcceptedById($order = Criteria::ASC) Order by the accepted_by_id column
  *
@@ -37,6 +39,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery groupByDescription() Group by the description column
  * @method     ChildJobQuery groupByImage() Group by the image column
  * @method     ChildJobQuery groupByNotify() Group by the notify column
+ * @method     ChildJobQuery groupByLatitude() Group by the latitude column
+ * @method     ChildJobQuery groupByLongitude() Group by the longitude column
  * @method     ChildJobQuery groupByPostedById() Group by the posted_by_id column
  * @method     ChildJobQuery groupByAcceptedById() Group by the accepted_by_id column
  *
@@ -90,6 +94,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob findOneByDescription(string $description) Return the first ChildJob filtered by the description column
  * @method     ChildJob findOneByImage(string $image) Return the first ChildJob filtered by the image column
  * @method     ChildJob findOneByNotify(boolean $notify) Return the first ChildJob filtered by the notify column
+ * @method     ChildJob findOneByLatitude(string $latitude) Return the first ChildJob filtered by the latitude column
+ * @method     ChildJob findOneByLongitude(string $longitude) Return the first ChildJob filtered by the longitude column
  * @method     ChildJob findOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column
  * @method     ChildJob findOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column *
 
@@ -103,6 +109,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob requireOneByDescription(string $description) Return the first ChildJob filtered by the description column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByImage(string $image) Return the first ChildJob filtered by the image column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByNotify(boolean $notify) Return the first ChildJob filtered by the notify column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByLatitude(string $latitude) Return the first ChildJob filtered by the latitude column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildJob requireOneByLongitude(string $longitude) Return the first ChildJob filtered by the longitude column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByPostedById(int $posted_by_id) Return the first ChildJob filtered by the posted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildJob requireOneByAcceptedById(int $accepted_by_id) Return the first ChildJob filtered by the accepted_by_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -114,6 +122,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJob[]|ObjectCollection findByDescription(string $description) Return ChildJob objects filtered by the description column
  * @method     ChildJob[]|ObjectCollection findByImage(string $image) Return ChildJob objects filtered by the image column
  * @method     ChildJob[]|ObjectCollection findByNotify(boolean $notify) Return ChildJob objects filtered by the notify column
+ * @method     ChildJob[]|ObjectCollection findByLatitude(string $latitude) Return ChildJob objects filtered by the latitude column
+ * @method     ChildJob[]|ObjectCollection findByLongitude(string $longitude) Return ChildJob objects filtered by the longitude column
  * @method     ChildJob[]|ObjectCollection findByPostedById(int $posted_by_id) Return ChildJob objects filtered by the posted_by_id column
  * @method     ChildJob[]|ObjectCollection findByAcceptedById(int $accepted_by_id) Return ChildJob objects filtered by the accepted_by_id column
  * @method     ChildJob[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
@@ -214,7 +224,7 @@ abstract class JobQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, time_posted, is_completed, title, description, image, notify, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
+        $sql = 'SELECT id, time_posted, is_completed, title, description, image, notify, latitude, longitude, posted_by_id, accepted_by_id FROM job WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -513,6 +523,88 @@ abstract class JobQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(JobTableMap::COL_NOTIFY, $notify, $comparison);
+    }
+
+    /**
+     * Filter the query on the latitude column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLatitude(1234); // WHERE latitude = 1234
+     * $query->filterByLatitude(array(12, 34)); // WHERE latitude IN (12, 34)
+     * $query->filterByLatitude(array('min' => 12)); // WHERE latitude > 12
+     * </code>
+     *
+     * @param     mixed $latitude The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByLatitude($latitude = null, $comparison = null)
+    {
+        if (is_array($latitude)) {
+            $useMinMax = false;
+            if (isset($latitude['min'])) {
+                $this->addUsingAlias(JobTableMap::COL_LATITUDE, $latitude['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($latitude['max'])) {
+                $this->addUsingAlias(JobTableMap::COL_LATITUDE, $latitude['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobTableMap::COL_LATITUDE, $latitude, $comparison);
+    }
+
+    /**
+     * Filter the query on the longitude column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLongitude(1234); // WHERE longitude = 1234
+     * $query->filterByLongitude(array(12, 34)); // WHERE longitude IN (12, 34)
+     * $query->filterByLongitude(array('min' => 12)); // WHERE longitude > 12
+     * </code>
+     *
+     * @param     mixed $longitude The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByLongitude($longitude = null, $comparison = null)
+    {
+        if (is_array($longitude)) {
+            $useMinMax = false;
+            if (isset($longitude['min'])) {
+                $this->addUsingAlias(JobTableMap::COL_LONGITUDE, $longitude['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($longitude['max'])) {
+                $this->addUsingAlias(JobTableMap::COL_LONGITUDE, $longitude['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(JobTableMap::COL_LONGITUDE, $longitude, $comparison);
     }
 
     /**
