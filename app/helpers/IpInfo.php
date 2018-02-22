@@ -1,6 +1,8 @@
 <?php
 namespace App\Helpers;
 
+use App\Helpers\IpInfo;
+
 class IpInfo
 {
     public $url = "";
@@ -8,24 +10,6 @@ class IpInfo
     public $json = [];
     public $country;
     public $location;
-    public function __construct($ip = null)
-    {
-        if ($ip == null) {
-            $ip = IpInfo::getUserIp();
-        }
-        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
-            // invalid ip
-            $this->success = false;
-        } else {
-            $this->success = true;
-            $this->url = "http://geoip.nekudo.com/api/$ip";
-
-            $contents = file_get_contents($this->url);
-            $this->json = json_decode($contents, true);
-            $this->country = new Country($this->json['country']);
-            $this->location = new Location($this->json['location']);
-        }
-    }
 
     public static function getUserIp()
     {
@@ -38,6 +22,50 @@ class IpInfo
         }
         return $ip;
     }
+
+    public static function createFromIp($ip = null)
+    {
+        $object = new IpInfo();
+        if ($ip == null) {
+            $ip = IpInfo::getUserIp();
+        }
+
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+            // invalid ip
+            $object->success = false;
+        } else {
+            $object->success = true;
+            $object->url = "http://geoip.nekudo.com/api/$ip";
+
+            $contents = file_get_contents($object->url);
+            $object->json = json_decode($contents, true);
+
+            if ($object->json == null) {
+                $object->success = false; // an error occured
+            } else {
+                $object->country = new Country($object->json['country']);
+                $object->location = new Location($object->json['location']);
+            }
+        }
+
+        return $object;
+    }
+
+    public static function createFromJSON($json)
+    {
+        $object = new IpInfo();
+
+        $object->json = json_decode($json, true);
+        if (json_last_error() != JSON_ERROR_NONE) {
+            $object->success = false; // error in json
+        } else {
+            $object->success = true;
+            $object->country = new Country($object->json['country']);
+            $object->location = new Location($object->json['location']);
+        }
+        return $object;
+    }
+
 
     public function success()
     {
@@ -131,5 +159,10 @@ class Location
     public function getTimezone()
     {
         return $this->time_zone;
+    }
+
+    public function toString()
+    {
+        return "obj";
     }
 }
