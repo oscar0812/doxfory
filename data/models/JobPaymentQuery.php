@@ -12,7 +12,17 @@ use Base\JobPaymentQuery as BaseJobPaymentQuery;
  * long as it does not already exist in the output directory.
  *
  */
+
+use Propel\Runtime\ActiveQuery\Criteria;
+
 class JobPaymentQuery extends BaseJobPaymentQuery
 {
-
+    public function getAllMoney()
+    {
+        $amount = 0;
+        foreach ($this as $jp_) {
+            $amount += $jp_->getMoneyAmount();
+        }
+        return $amount;
+    }
 }
