@@ -37,35 +37,19 @@ class IpInfo
             $object->success = true;
             $object->url = "http://geoip.nekudo.com/api/$ip";
 
-            $contents = file_get_contents($object->url);
-            $object->json = json_decode($contents, true);
+            $object->json = file_get_contents($object->url);
 
-            if ($object->json == null) {
+            if ($object->json == null || $object->json == "") {
                 $object->success = false; // an error occured
             } else {
-                $object->country = new Country($object->json['country']);
-                $object->location = new Location($object->json['location']);
+                $arr = json_decode($object->json, true);
+                $object->country = new Country($arr['country']);
+                $object->location = Location::createFromArr($arr['location']);
             }
         }
 
         return $object;
     }
-
-    public static function createFromJSON($json)
-    {
-        $object = new IpInfo();
-
-        $object->json = json_decode($json, true);
-        if (json_last_error() != JSON_ERROR_NONE) {
-            $object->success = false; // error in json
-        } else {
-            $object->success = true;
-            $object->country = new Country($object->json['country']);
-            $object->location = new Location($object->json['location']);
-        }
-        return $object;
-    }
-
 
     public function success()
     {
@@ -74,7 +58,7 @@ class IpInfo
 
     public function getJSON()
     {
-        return $this->json;
+        return json_encode($this->json);
     }
 
     public function getUrl()
@@ -128,22 +112,22 @@ class Country
 
 class Location
 {
-    public $accuracy_radius = 0;
+    public $json;
+    public $success = true;
     public $latitude = 0;
     public $longitude = 0;
-    public $time_zone = "";
 
-    public function __construct($array)
+    public function __construct($array, $success = true)
     {
-        $this->accuracy_radius = $array['accuracy_radius'];
+        $this->json = $array;
         $this->latitude = $array['latitude'];
         $this->longitude = $array['longitude'];
-        $this->time_zone = $array['time_zone'];
+        $this->success = $success;
     }
 
-    public function getAccuracyRadius()
+    public function success()
     {
-        return $this->accuracy_radius;
+        return $this->success;
     }
 
     public function getLatitude()
@@ -156,13 +140,20 @@ class Location
         return $this->longitude;
     }
 
-    public function getTimezone()
+    public function getJSON()
     {
-        return $this->time_zone;
+        return json_encode(['latitude'=>$this->latitude, 'longitude'=>$this->longitude]);
     }
 
-    public function toString()
+    public static function createFromJSON($json)
     {
-        return "obj";
+        $arr = json_decode($json, true);
+        $success = (json_last_error() != JSON_ERROR_NONE);
+        return self::createFromArr($arr, $success);
+    }
+
+    public static function createFromArr($arr, $success = true)
+    {
+        return new Location($arr, $success);
     }
 }
