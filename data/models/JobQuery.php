@@ -35,6 +35,16 @@ use Map\JobTableMap;
          return $this->orderByTimePosted(Criteria::DESC);
      }
 
+     public function orderByMoneyAmount()
+     {
+         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.MoneyAmount');
+     }
+
+     public function orderByPaymentType()
+     {
+         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.IsBarter');
+     }
+
      public static function orderByProximity($lat, $lon)
      {
          $sf = M_PI / 180; // scaling factor
@@ -50,6 +60,39 @@ use Map\JobTableMap;
          $formatter = new ObjectFormatter();
          $formatter->setClass('\Job'); //full qualified class name
          $jobs = $formatter->format($con->getDataFetcher($stmt));
+         return $jobs;
+     }
+
+     // helper function for /jobs/all
+     // return a list of jobs in a particular order
+     // depending on the get request and 'order' param
+     // $get['order'] will be proximity, title, description, price or payment
+     public static function getJobOrder($get)
+     {
+         $jobs = JobQuery::create()->notCompleted()->newestToOldest()->find();
+         if (isset($get['order'])) {
+             switch ($get['order']) {
+           case 'proximity':
+             $jobs = JobQuery::orderByProximity(26, -98);
+           break;
+
+           case 'title':
+             $jobs = JobQuery::create()->orderByTitle();
+           break;
+
+           case 'description':
+             $jobs = JobQuery::create()->orderByDescription();
+           break;
+
+           case 'price':
+             $jobs = JobQuery::create()->orderByMoneyAmount();
+           break;
+
+           case 'payment':
+             $jobs = JobQuery::create()->orderByPaymentType();
+           break;
+         }
+         }
          return $jobs;
      }
  }

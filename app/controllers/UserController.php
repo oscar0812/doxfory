@@ -219,8 +219,12 @@ class UserController
                 // set a cookie with IpInfo class with the users ip
                 // this in order to show closer jobs first
                 // (using latitude and longitude)
+                $get = $request->getQueryParams();
                 $arr = UserController::getVars($this);
-                $arr['jobs'] = JobQuery::create()->notCompleted()->newestToOldest()->find();
+
+                // $get['order'] will be proximity, title, description, price or payment
+                $arr['jobs'] = JobQuery::getJobOrder($get);
+
                 return $this->view->render($response, "jobs.php", $arr);
             })->setName('jobs');
 
