@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use \UserQuery;
 use \User;
 use \JobQuery;
+use \JobPaymentQuery;
 use \UserContactInfo;
 use \UserContactInfoQuery;
 
@@ -23,9 +24,11 @@ class HomeController
                 "home.php",
             ['router' => $this->router,
             'logged_in'=>false,
-            'users'=>UserQuery::create()->find(),
-            'jobs'=>JobQuery::create()->find(),
-            'jobs_completed'=>JobQuery::create()->completed()->find()]
+            'users'=>UserQuery::create(),
+            'jobs'=>JobQuery::create(),
+            'jobs_completed'=>JobQuery::create()->completed()->find(),
+            'jobs_recent'=>JobQuery::create()->newestToOldest()->limit(3),
+            'total_money'=>round((JobPaymentQuery::create()->getAllMoney())/1000, 2)]
             );
         })->setName('home');
     }
