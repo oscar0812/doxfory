@@ -122,7 +122,9 @@ class Location
         $this->json = $array;
         $this->latitude = $array['latitude'];
         $this->longitude = $array['longitude'];
-        $this->success = $success;
+        // is only successful if both values are numeric
+        $this->success = $success &&
+        (is_numeric($this->latitude) && is_numeric($this->longitude));
     }
 
     public function success()
