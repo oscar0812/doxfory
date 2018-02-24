@@ -5,6 +5,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\Helpers\ImageUpload;
 use App\Helpers\Mail;
+use App\Helpers\IpInfo;
 use \UserQuery;
 use \User;
 use \Job;
@@ -178,6 +179,11 @@ class UserController
                         if ($arr['success']) {
                             $job->setImage($arr['path']);
                         }
+                        // set the job location
+                        $location = IpInfo::createFromIp()->getLocation();
+
+                        $job->setLatitude($location->getLatitude());
+                        $job->setLongitude($location->getLongitude());
 
                         $job->save();
 
@@ -210,10 +216,37 @@ class UserController
 
             //    /jobs/all
             $app->get('/all', function ($request, $response) {
+                // set a cookie with IpInfo class with the users ip
+                // this in order to show closer jobs first
+                // (using latitude and longitude)
                 $arr = UserController::getVars($this);
                 $arr['jobs'] = JobQuery::create()->notCompleted()->newestToOldest()->find();
                 return $this->view->render($response, "jobs.php", $arr);
             })->setName('jobs');
+
+            $app->get('/test', function ($request, $response) {
+                $str = 'user_location';
+                if (!isset($_COOKIE[$str])) {
+                    $obj = IpInfo::createFromIp();
+                    if ($obj->success() && $obj->getLocation()->success()) {
+                        // IpInfo was successfully created with good data
+                        $arr = $obj->getLocation()->getJSON();
+                        setcookie($str, $arr, (time()+(86400*30)));
+                        var_dump($obj);
+                    }
+                } else {
+                    // cookie already set
+                    $obj = \App\Helpers\Location::createFromJSON($_COOKIE[$str]);
+                    $jobs = JobQuery::orderByProximity($obj->getLatitude(), $obj->getLongitude());
+                    foreach ($jobs as $job) {
+                        var_dump($job->getTitle());
+                        echo "<br><br>";
+                    }
+
+                    echo $jobs->count();
+                    //return $response->withJSON($obj->getJSON());
+                }
+            });
         });
     }
 
