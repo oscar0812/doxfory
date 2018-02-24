@@ -171,7 +171,7 @@
 				<div class="col-sm-3 col-xs-6">
 					<div class="number">
 						<i class="fa fa-usd"></i>
-						<h3 class="white-text"><span class="counter">154</span>K</h3>
+						<h3 class="white-text"><span class="counter"><?=$total_money?></span>K</h3>
 						<span class="white-text">Dollars contributed</span>
 					</div>
 				</div>
@@ -295,65 +295,27 @@
 				</div>
 				<!-- /Section header -->
 
+				<?php foreach ($jobs_recent as $job) {
+					$poster = $job->getPostedByUser()?>
 				<!-- blog -->
 				<div class="col-md-4">
 					<div class="blog">
 						<div class="blog-img">
-							<img class="img-responsive" src="<?=$home?>img/blog1.jpg" alt="">
+							<img class="img-responsive job-medium" src="<?=$job->getImage()?>" alt="">
 						</div>
 						<div class="blog-content">
 							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-comments"></i>57</li>
+								<li><i class="fa fa-user"></i><?=$poster->getFullName()?></li>
+								<li><i class="fa fa-clock-o"></i><?=$job->getDatePosted()->format('d M')?></li>
 							</ul>
-							<h3>Molestie at elementum eu facilisis sed odio</h3>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
+							<h3><?=$job->getTitle()?></h3>
+							<p><?=$job->getDescription()?></p>
 							<a href="blog-single.html">Read more</a>
 						</div>
 					</div>
 				</div>
 				<!-- /blog -->
-
-				<!-- blog -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive" src="<?=$home?>img/blog2.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h3>Molestie at elementum eu facilisis sed odio</h3>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">Read more</a>
-						</div>
-					</div>
-				</div>
-				<!-- /blog -->
-
-				<!-- blog -->
-				<div class="col-md-4">
-					<div class="blog">
-						<div class="blog-img">
-							<img class="img-responsive"  src="<?=$home?>img/blog3.jpg" alt="">
-						</div>
-						<div class="blog-content">
-							<ul class="blog-meta">
-								<li><i class="fa fa-user"></i>John doe</li>
-								<li><i class="fa fa-clock-o"></i>18 Oct</li>
-								<li><i class="fa fa-comments"></i>57</li>
-							</ul>
-							<h3>Molestie at elementum eu facilisis sed odio</h3>
-							<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-							<a href="blog-single.html">Read more</a>
-						</div>
-					</div>
-				</div>
-				<!-- /blog -->
+				<?php } ?>
 
 			</div>
 			<!-- /Row -->
@@ -383,49 +345,18 @@
 				<div class="col-md-10 col-md-offset-1">
 					<div id="testimonial-slider" class="owl-carousel owl-theme">
 
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="<?=$home?>img/perso1.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Author</span>
+						<?php foreach ($users->limit(4) as $user) { ?>
+							<!-- testimonial -->
+							<div class="testimonial">
+								<div class="testimonial-meta">
+									<img src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
+									<h3 class="white-text"><?=$user->getFullName()?></h3>
+									<span>Author</span>
+								</div>
+								<p class="white-text"><?=$user->getAboutMe()?></p>
 							</div>
-							<p class="white-text">Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</p>
-						</div>
-						<!-- /testimonial -->
-
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="<?=$home?>img/perso2.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Web Designer</span>
-							</div>
-							<p class="white-text">Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</p>
-						</div>
-						<!-- /testimonial -->
-
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="<?=$home?>img/perso1.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Author</span>
-							</div>
-							<p class="white-text">Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</p>
-						</div>
-						<!-- /testimonial -->
-
-						<!-- testimonial -->
-						<div class="testimonial">
-							<div class="testimonial-meta">
-								<img src="<?=$home?>img/perso2.jpg" alt="">
-								<h3 class="white-text">John Doe</h3>
-								<span>Web Designer</span>
-							</div>
-							<p class="white-text">Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</p>
-						</div>
-						<!-- /testimonial -->
+							<!-- /testimonial -->
+						<?php }?>
 
 					</div>
 				</div>
