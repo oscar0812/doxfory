@@ -35,26 +35,34 @@ use Map\JobTableMap;
          return $this->orderByTimePosted(Criteria::DESC);
      }
 
-     public function orderByMoneyAmount()
+     public function orderByMoneyAmount($sort = 'asc')
      {
-         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.MoneyAmount');
+         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.MoneyAmount', $sort);
      }
 
-     public function orderByPaymentType()
+     public function orderByPaymentType($sort = 'asc')
      {
-         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.IsBarter');
+         return $this->joinWith('Job.JobPayment')->orderBy('JobPayment.IsBarter', $sort);
      }
 
-     public static function orderByProximity($lat, $lon)
+     public static function orderByProximity($lat, $lon, $sort = 'ASC')
      {
+         $sort = strtoupper($sort);
+         if ($sort != 'ASC' && $sort != 'DESC') {
+             // avoid SQL injection
+             $sort = 'ASC';
+         }
          $sf = M_PI / 180; // scaling factor
 
          $con = Propel::getWriteConnection(\Map\JobTableMap::DATABASE_NAME);
          // dist = acos[ sin(lat1)*sin(lat2)+cos(lat1)*cos(lat2)*cos(lng1-lng2) ]
          $sql = "SELECT * FROM job
-         ORDER BY ACOS(SIN(latitude*$sf)*SIN($lat*$sf) + COS(latitude*$sf)*COS($lat*$sf)*COS((longitude-$lon)*$sf))";
+         ORDER BY ACOS(SIN(latitude*$sf)*SIN(:lat*$sf) +
+         COS(latitude*$sf)*COS(:lat*$sf)*COS((longitude-:lon)*$sf)) $sort";
 
          $stmt = $con->prepare($sql);
+         $stmt->bindParam(':lat', $lat);
+         $stmt->bindParam(':lon', $lon);
          $stmt->execute();
 
          $formatter = new ObjectFormatter();
@@ -69,30 +77,38 @@ use Map\JobTableMap;
      // $get['order'] will be proximity, title, description, price or payment
      public static function allJobsOrder($get)
      {
-         $jobs = JobQuery::create()->notCompleted()->newestToOldest();
+         $sort = 'asc';
+         if (isset($get['sort'])) {
+             $sort = strtolower($get['sort']);
+             if ($sort != 'asc' && $sort != 'desc') {
+                 $sort = 'asc';
+             }
+         }
+         // by default, $jobs = all non complete jobs from newest to oldest
+         $jobs = JobQuery::create()->notCompleted()->newestToOldest()->find();
          if (isset($get['order'])) {
              switch ($get['order']) {
            case 'date':
-            JobQuery::create()->orderByTimePosted();
+             $jobs = JobQuery::create()->orderByTimePosted($sort)->find();
            break;
            case 'proximity':
-             $jobs = JobQuery::orderByProximity(26, -98);
+             $jobs = JobQuery::orderByProximity(26, -98, $sort);
            break;
 
            case 'title':
-             $jobs = JobQuery::create()->orderByTitle();
+             $jobs = JobQuery::create()->orderByTitle($sort)->find();
            break;
 
            case 'description':
-             $jobs = JobQuery::create()->orderByDescription();
+             $jobs = JobQuery::create()->orderByDescription($sort)->find();
            break;
 
            case 'price':
-             $jobs = JobQuery::create()->orderByMoneyAmount();
+             $jobs = JobQuery::create()->orderByMoneyAmount($sort)->find();
            break;
 
            case 'payment':
-             $jobs = JobQuery::create()->orderByPaymentType();
+             $jobs = JobQuery::create()->orderByPaymentType($sort)->find();
            break;
          }
          }
