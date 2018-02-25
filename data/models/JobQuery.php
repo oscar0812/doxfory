@@ -67,11 +67,14 @@ use Map\JobTableMap;
      // return a list of jobs in a particular order
      // depending on the get request and 'order' param
      // $get['order'] will be proximity, title, description, price or payment
-     public static function getJobOrder($get)
+     public static function allJobsOrder($get)
      {
-         $jobs = JobQuery::create()->notCompleted()->newestToOldest()->find();
+         $jobs = JobQuery::create()->notCompleted()->newestToOldest();
          if (isset($get['order'])) {
              switch ($get['order']) {
+           case 'date':
+            JobQuery::create()->orderByTimePosted();
+           break;
            case 'proximity':
              $jobs = JobQuery::orderByProximity(26, -98);
            break;
