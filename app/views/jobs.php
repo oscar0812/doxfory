@@ -116,15 +116,15 @@
 					<!-- /Search -->
 
 					<!-- Order -->
-					<?php $j = $router->PathFor('jobs')?>
 					<div class="widget">
 						<h3 class="title">Order By</h3>
 						<div class="widget-category">
-							<a href="<?=modifyUrl($j, array('order'=>'title'))?>">Title</a>
-							<a href="<?=modifyUrl($j, array('order'=>'proximity'))?>">Proximity</a>
-							<a href="<?=modifyUrl($j, array('order'=>'price'))?>">Price</a>
-							<a href="<?=modifyUrl($j, array('order'=>'payment'))?>">Payment Type</a>
-							<a href="<?=modifyUrl($j, array('order'=>'description'))?>">Description</a>
+							<a href="<?=modifyUrl(array('order'=>'date'))?>">Date Posted</a>
+							<a href="<?=modifyUrl(array('order'=>'title'))?>">Title</a>
+							<a href="<?=modifyUrl(array('order'=>'proximity'))?>">Proximity</a>
+							<a href="<?=modifyUrl(array('order'=>'price'))?>">Price</a>
+							<a href="<?=modifyUrl(array('order'=>'payment'))?>">Payment Type</a>
+							<a href="<?=modifyUrl(array('order'=>'description'))?>">Description</a>
 						</div>
 					</div>
 					<!-- /Order -->
