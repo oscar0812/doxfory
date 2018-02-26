@@ -92,7 +92,8 @@ use Map\JobTableMap;
              $jobs = JobQuery::create()->orderByTimePosted($sort)->find();
            break;
            case 'proximity':
-             $jobs = JobQuery::orderByProximity(26, -98, $sort);
+             $l = getUserLocation();
+             $jobs = JobQuery::orderByProximity($l->getLatitude(), $l->getLongitude(), $sort);
            break;
 
            case 'title':
