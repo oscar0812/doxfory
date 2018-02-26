@@ -219,37 +219,18 @@ class UserController
                 // set a cookie with IpInfo class with the users ip
                 // this in order to show closer jobs first
                 // (using latitude and longitude)
+                setLocationCookie(false);
                 $get = $request->getQueryParams();
                 $arr = UserController::getVars($this);
 
-                // $get['order'] will be proximity, title, description, price or payment
-                $arr['jobs'] = JobQuery::getJobOrder($get);
+                $arr['jobs'] = JobQuery::allJobsOrder($get);
 
                 return $this->view->render($response, "jobs.php", $arr);
             })->setName('jobs');
 
             $app->get('/test', function ($request, $response) {
-                $str = 'user_location';
-                if (!isset($_COOKIE[$str])) {
-                    $obj = IpInfo::createFromIp();
-                    if ($obj->success() && $obj->getLocation()->success()) {
-                        // IpInfo was successfully created with good data
-                        $arr = $obj->getLocation()->getJSON();
-                        setcookie($str, $arr, (time()+(86400*30)));
-                        var_dump($obj);
-                    }
-                } else {
-                    // cookie already set
-                    $obj = \App\Helpers\Location::createFromJSON($_COOKIE[$str]);
-                    $jobs = JobQuery::orderByProximity($obj->getLatitude(), $obj->getLongitude());
-                    foreach ($jobs as $job) {
-                        var_dump($job->getTitle());
-                        echo "<br><br>";
-                    }
-
-                    echo $jobs->count();
-                    //return $response->withJSON($obj->getJSON());
-                }
+                $l = getUserLocation();
+                var_dump($l);
             });
         });
     }
