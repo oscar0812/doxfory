@@ -150,7 +150,7 @@ class Location
     public static function createFromJSON($json)
     {
         $arr = json_decode($json, true);
-        $success = (json_last_error() != JSON_ERROR_NONE);
+        $success = (json_last_error() == JSON_ERROR_NONE);
         return self::createFromArr($arr, $success);
     }
 
