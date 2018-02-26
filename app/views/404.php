@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title><?=websiteName()?> | 404</title>
 
   <link type="text/css" rel="stylesheet" href="<?=$home?>css/main/bootstrap.min.css" />
   <link rel="stylesheet" href="<?=$home?>css/main/font-awesome.min.css">
