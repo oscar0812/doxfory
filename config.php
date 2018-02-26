@@ -96,6 +96,41 @@ function modifyUrl($mod = array(), $url = false)
 
     return $url_array['scheme'].'://'.$url_array['host'].$url_array['path'].'?'.http_build_query($query_array);
 }
+// for user location cookie
+function setLocationCookie($override = true)
+{
+    $str = 'user_location';
+
+    if (isset($_COOKIE[$str]) && !$override) {
+        // is already set and not going to ovveride, just exit function
+        return;
+    }
+
+    $obj = \App\Helpers\IpInfo::createFromIp();
+    if ($obj->success() && $obj->getLocation()->success()) {
+        // IpInfo was successfully created with good data
+        $arr = $obj->getLocation()->getJSON();
+        setcookie($str, $arr, (time()+(86400*30)));
+        var_dump($obj);
+    }
+}
+
+function getUserLocation()
+{
+    $str = 'user_location';
+    $default = \App\Helpers\Location::createFromArr(['latitude'=>0, 'longitude'=>0]);
+    if (!isset($_COOKIE[$str])) {
+        return $default;
+    } else {
+        // cookie is set
+        $location = \App\Helpers\Location::createFromJSON($_COOKIE[$str]);
+
+        if (!$location->success()) {
+            return $default;
+        }
+        return $location;
+    }
+}
 
 // date functions
 function getCurrentDateTime()
