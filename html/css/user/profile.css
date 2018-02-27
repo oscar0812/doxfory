@@ -24,6 +24,11 @@ body {
   width: block;
 }
 
+.small-pfp {
+  height: 75px;
+  width: block;
+}
+
 .box {
   border: 1px solid #EEE;
   background: white;
