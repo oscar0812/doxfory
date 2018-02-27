@@ -72,6 +72,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery rightJoinWithAcceptedByUser() Adds a RIGHT JOIN clause and with to the query using the AcceptedByUser relation
  * @method     ChildJobQuery innerJoinWithAcceptedByUser() Adds a INNER JOIN clause and with to the query using the AcceptedByUser relation
  *
+ * @method     ChildJobQuery leftJoinComment($relationAlias = null) Adds a LEFT JOIN clause to the query using the Comment relation
+ * @method     ChildJobQuery rightJoinComment($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Comment relation
+ * @method     ChildJobQuery innerJoinComment($relationAlias = null) Adds a INNER JOIN clause to the query using the Comment relation
+ *
+ * @method     ChildJobQuery joinWithComment($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Comment relation
+ *
+ * @method     ChildJobQuery leftJoinWithComment() Adds a LEFT JOIN clause and with to the query using the Comment relation
+ * @method     ChildJobQuery rightJoinWithComment() Adds a RIGHT JOIN clause and with to the query using the Comment relation
+ * @method     ChildJobQuery innerJoinWithComment() Adds a INNER JOIN clause and with to the query using the Comment relation
+ *
  * @method     ChildJobQuery leftJoinJobPayment($relationAlias = null) Adds a LEFT JOIN clause to the query using the JobPayment relation
  * @method     ChildJobQuery rightJoinJobPayment($relationAlias = null) Adds a RIGHT JOIN clause to the query using the JobPayment relation
  * @method     ChildJobQuery innerJoinJobPayment($relationAlias = null) Adds a INNER JOIN clause to the query using the JobPayment relation
@@ -82,7 +92,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildJobQuery rightJoinWithJobPayment() Adds a RIGHT JOIN clause and with to the query using the JobPayment relation
  * @method     ChildJobQuery innerJoinWithJobPayment() Adds a INNER JOIN clause and with to the query using the JobPayment relation
  *
- * @method     \UserQuery|\JobPaymentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \UserQuery|\CommentQuery|\JobPaymentQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildJob findOne(ConnectionInterface $con = null) Return the first ChildJob matching the query
  * @method     ChildJob findOneOrCreate(ConnectionInterface $con = null) Return the first ChildJob matching the query, or a new ChildJob object populated from the query conditions when no match is found
@@ -845,6 +855,79 @@ abstract class JobQuery extends ModelCriteria
         return $this
             ->joinAcceptedByUser($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'AcceptedByUser', '\UserQuery');
+    }
+
+    /**
+     * Filter the query by a related \Comment object
+     *
+     * @param \Comment|ObjectCollection $comment the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildJobQuery The current query, for fluid interface
+     */
+    public function filterByComment($comment, $comparison = null)
+    {
+        if ($comment instanceof \Comment) {
+            return $this
+                ->addUsingAlias(JobTableMap::COL_ID, $comment->getJobId(), $comparison);
+        } elseif ($comment instanceof ObjectCollection) {
+            return $this
+                ->useCommentQuery()
+                ->filterByPrimaryKeys($comment->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByComment() only accepts arguments of type \Comment or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Comment relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildJobQuery The current query, for fluid interface
+     */
+    public function joinComment($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Comment');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Comment');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Comment relation Comment object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \CommentQuery A secondary query class using the current class as primary query
+     */
+    public function useCommentQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinComment($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Comment', '\CommentQuery');
     }
 
     /**

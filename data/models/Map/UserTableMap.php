@@ -194,6 +194,13 @@ class UserTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Comment', '\\Comment', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':user_id',
+    1 => ':id',
+  ),
+), null, null, 'Comments', false);
         $this->addRelation('JobRelatedByPostedById', '\\Job', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
