@@ -109,25 +109,32 @@
 						<!-- blog tags -->
 
 						<hr>
-
+						<?php if($comments->count() != 0) { ?>
 						<!-- blog comments -->
 						<div class="blog-comments">
 
-							<h3 class="title">(13) Comments</h3>
+							<h3 class="title">(<?=$comments->count()?>) Comments</h3>
 
+							<?php foreach ($comments as $comment) {
+								$user = $comment->getUser();
+								$date1 = timestampToDate($comment->getTimestamp());
+								$date2 = getCurrentDateTime();
+								$minutes_ago = dateMinuteDifference($date1, $date2);
+						  ?>
 							<!-- comment -->
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
+									<img class="media-object small-pfp" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 								</div>
 								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
+									<h4 class="media-heading"><?=$user->getFullName()?><span class="time"><?=$minutes_ago?> min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
+									<p><?=$comment->getBody()?></p>
 								</div>
 							</div>
 							<!-- /comment -->
+							<?php } // /foreach?>
 
-							<!-- comment -->
+							<!-- comment
 							<div class="media">
 								<div class="media-left">
 									<img class="media-object" src="<?=$home?>img/perso1.jpg" alt="">
@@ -137,7 +144,6 @@
 									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
 								</div>
 
-								<!-- author reply comment -->
 								<div class="media author">
 									<div class="media-left">
 										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
@@ -147,9 +153,7 @@
 										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
 									</div>
 								</div>
-								<!-- /comment -->
 
-								<!-- reply comment -->
 								<div class="media">
 									<div class="media-left">
 										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
@@ -159,32 +163,18 @@
 										<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
 									</div>
 								</div>
-								<!-- /comment -->
 
 							</div>
-							<!-- /comment -->
-
-							<!-- comment -->
-							<div class="media">
-								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
-									<p>Nec feugiat nisl pretium fusce id velit ut tortor pretium. Nisl purus in mollis nunc sed. Nunc non blandit massa enim nec.</p>
-								</div>
-							</div>
-							<!-- /comment -->
+							</comment -->
 
 						</div>
 						<!-- /blog comments -->
+						<?php } // /if?>
 
 						<!-- reply form -->
 						<div class="reply-form">
 							<h3 class="title">Leave a reply</h3>
 							<form>
-								<input class="input" type="text" placeholder="Name">
-								<input class="input" type="email" placeholder="Email">
 								<textarea placeholder="Add Your Commment"></textarea>
 								<button type="submit" class="main-btn">Submit</button>
 							</form>
