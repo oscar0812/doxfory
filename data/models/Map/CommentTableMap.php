@@ -9,7 +9,6 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
-use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
@@ -60,7 +59,7 @@ class CommentTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -70,17 +69,12 @@ class CommentTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
      */
     const COL_ID = 'comment.id';
-
-    /**
-     * the column name for the title field
-     */
-    const COL_TITLE = 'comment.title';
 
     /**
      * the column name for the body field
@@ -114,11 +108,11 @@ class CommentTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Title', 'Body', 'Timestamp', 'UserId', 'JobId', ),
-        self::TYPE_CAMELNAME     => array('id', 'title', 'body', 'timestamp', 'userId', 'jobId', ),
-        self::TYPE_COLNAME       => array(CommentTableMap::COL_ID, CommentTableMap::COL_TITLE, CommentTableMap::COL_BODY, CommentTableMap::COL_TIMESTAMP, CommentTableMap::COL_USER_ID, CommentTableMap::COL_JOB_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'title', 'body', 'timestamp', 'user_id', 'job_id', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'Body', 'Timestamp', 'UserId', 'JobId', ),
+        self::TYPE_CAMELNAME     => array('id', 'body', 'timestamp', 'userId', 'jobId', ),
+        self::TYPE_COLNAME       => array(CommentTableMap::COL_ID, CommentTableMap::COL_BODY, CommentTableMap::COL_TIMESTAMP, CommentTableMap::COL_USER_ID, CommentTableMap::COL_JOB_ID, ),
+        self::TYPE_FIELDNAME     => array('id', 'body', 'timestamp', 'user_id', 'job_id', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -128,11 +122,11 @@ class CommentTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Body' => 2, 'Timestamp' => 3, 'UserId' => 4, 'JobId' => 5, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'title' => 1, 'body' => 2, 'timestamp' => 3, 'userId' => 4, 'jobId' => 5, ),
-        self::TYPE_COLNAME       => array(CommentTableMap::COL_ID => 0, CommentTableMap::COL_TITLE => 1, CommentTableMap::COL_BODY => 2, CommentTableMap::COL_TIMESTAMP => 3, CommentTableMap::COL_USER_ID => 4, CommentTableMap::COL_JOB_ID => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'body' => 2, 'timestamp' => 3, 'user_id' => 4, 'job_id' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Body' => 1, 'Timestamp' => 2, 'UserId' => 3, 'JobId' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'body' => 1, 'timestamp' => 2, 'userId' => 3, 'jobId' => 4, ),
+        self::TYPE_COLNAME       => array(CommentTableMap::COL_ID => 0, CommentTableMap::COL_BODY => 1, CommentTableMap::COL_TIMESTAMP => 2, CommentTableMap::COL_USER_ID => 3, CommentTableMap::COL_JOB_ID => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'body' => 1, 'timestamp' => 2, 'user_id' => 3, 'job_id' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -150,10 +144,9 @@ class CommentTableMap extends TableMap
         $this->setIdentifierQuoting(false);
         $this->setClassName('\\Comment');
         $this->setPackage('');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
-        $this->addColumn('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('title', 'Title', 'VARCHAR', true, 64, null);
+        $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('body', 'Body', 'VARCHAR', true, 256, null);
         $this->addColumn('timestamp', 'Timestamp', 'INTEGER', true, 16, null);
         $this->addForeignKey('user_id', 'UserId', 'INTEGER', 'user', 'id', true, null, null);
@@ -196,7 +189,12 @@ class CommentTableMap extends TableMap
      */
     public static function getPrimaryKeyHashFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return null;
+        // If the PK cannot be derived from the row, return NULL.
+        if ($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] === null) {
+            return null;
+        }
+
+        return null === $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] || is_scalar($row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)]) || is_callable([$row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)], '__toString']) ? (string) $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)] : $row[TableMap::TYPE_NUM == $indexType ? 0 + $offset : static::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
     }
 
     /**
@@ -213,7 +211,11 @@ class CommentTableMap extends TableMap
      */
     public static function getPrimaryKeyFromRow($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        return '';
+        return (int) $row[
+            $indexType == TableMap::TYPE_NUM
+                ? 0 + $offset
+                : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
+        ];
     }
 
     /**
@@ -314,14 +316,12 @@ class CommentTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(CommentTableMap::COL_ID);
-            $criteria->addSelectColumn(CommentTableMap::COL_TITLE);
             $criteria->addSelectColumn(CommentTableMap::COL_BODY);
             $criteria->addSelectColumn(CommentTableMap::COL_TIMESTAMP);
             $criteria->addSelectColumn(CommentTableMap::COL_USER_ID);
             $criteria->addSelectColumn(CommentTableMap::COL_JOB_ID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.body');
             $criteria->addSelectColumn($alias . '.timestamp');
             $criteria->addSelectColumn($alias . '.user_id');
@@ -373,10 +373,11 @@ class CommentTableMap extends TableMap
             // rename for clarity
             $criteria = $values;
         } elseif ($values instanceof \Comment) { // it's a model object
-            // create criteria based on pk value
-            $criteria = $values->buildCriteria();
+            // create criteria based on pk values
+            $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            throw new LogicException('The Comment object has no primary key');
+            $criteria = new Criteria(CommentTableMap::DATABASE_NAME);
+            $criteria->add(CommentTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
         $query = CommentQuery::create()->mergeWith($criteria);
@@ -422,6 +423,10 @@ class CommentTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from Comment object
+        }
+
+        if ($criteria->containsKey(CommentTableMap::COL_ID) && $criteria->keyContainsValue(CommentTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.CommentTableMap::COL_ID.')');
         }
 
 

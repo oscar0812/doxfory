@@ -71,13 +71,6 @@ abstract class Comment implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the title field.
-     *
-     * @var        string
-     */
-    protected $title;
-
-    /**
      * The value for the body field.
      *
      * @var        string
@@ -359,16 +352,6 @@ abstract class Comment implements ActiveRecordInterface
     }
 
     /**
-     * Get the [title] column value.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * Get the [body] column value.
      *
      * @return string
@@ -427,26 +410,6 @@ abstract class Comment implements ActiveRecordInterface
 
         return $this;
     } // setId()
-
-    /**
-     * Set the value of [title] column.
-     *
-     * @param string $v new value
-     * @return $this|\Comment The current object (for fluent API support)
-     */
-    public function setTitle($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->title !== $v) {
-            $this->title = $v;
-            $this->modifiedColumns[CommentTableMap::COL_TITLE] = true;
-        }
-
-        return $this;
-    } // setTitle()
 
     /**
      * Set the value of [body] column.
@@ -575,19 +538,16 @@ abstract class Comment implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : CommentTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CommentTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->title = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CommentTableMap::translateFieldName('Body', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : CommentTableMap::translateFieldName('Body', TableMap::TYPE_PHPNAME, $indexType)];
             $this->body = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : CommentTableMap::translateFieldName('Timestamp', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : CommentTableMap::translateFieldName('Timestamp', TableMap::TYPE_PHPNAME, $indexType)];
             $this->timestamp = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CommentTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : CommentTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->user_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : CommentTableMap::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : CommentTableMap::translateFieldName('JobId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->job_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -597,7 +557,7 @@ abstract class Comment implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = CommentTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = CommentTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Comment'), 0, $e);
@@ -819,13 +779,14 @@ abstract class Comment implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[CommentTableMap::COL_ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . CommentTableMap::COL_ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(CommentTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
-        }
-        if ($this->isColumnModified(CommentTableMap::COL_TITLE)) {
-            $modifiedColumns[':p' . $index++]  = 'title';
         }
         if ($this->isColumnModified(CommentTableMap::COL_BODY)) {
             $modifiedColumns[':p' . $index++]  = 'body';
@@ -853,9 +814,6 @@ abstract class Comment implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'title':
-                        $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
-                        break;
                     case 'body':
                         $stmt->bindValue($identifier, $this->body, PDO::PARAM_STR);
                         break;
@@ -875,6 +833,13 @@ abstract class Comment implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -927,18 +892,15 @@ abstract class Comment implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getTitle();
-                break;
-            case 2:
                 return $this->getBody();
                 break;
-            case 3:
+            case 2:
                 return $this->getTimestamp();
                 break;
-            case 4:
+            case 3:
                 return $this->getUserId();
                 break;
-            case 5:
+            case 4:
                 return $this->getJobId();
                 break;
             default:
@@ -972,11 +934,10 @@ abstract class Comment implements ActiveRecordInterface
         $keys = CommentTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getTitle(),
-            $keys[2] => $this->getBody(),
-            $keys[3] => $this->getTimestamp(),
-            $keys[4] => $this->getUserId(),
-            $keys[5] => $this->getJobId(),
+            $keys[1] => $this->getBody(),
+            $keys[2] => $this->getTimestamp(),
+            $keys[3] => $this->getUserId(),
+            $keys[4] => $this->getJobId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1052,18 +1013,15 @@ abstract class Comment implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setTitle($value);
-                break;
-            case 2:
                 $this->setBody($value);
                 break;
-            case 3:
+            case 2:
                 $this->setTimestamp($value);
                 break;
-            case 4:
+            case 3:
                 $this->setUserId($value);
                 break;
-            case 5:
+            case 4:
                 $this->setJobId($value);
                 break;
         } // switch()
@@ -1096,19 +1054,16 @@ abstract class Comment implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setTitle($arr[$keys[1]]);
+            $this->setBody($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setBody($arr[$keys[2]]);
+            $this->setTimestamp($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setTimestamp($arr[$keys[3]]);
+            $this->setUserId($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setUserId($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setJobId($arr[$keys[5]]);
+            $this->setJobId($arr[$keys[4]]);
         }
     }
 
@@ -1154,9 +1109,6 @@ abstract class Comment implements ActiveRecordInterface
         if ($this->isColumnModified(CommentTableMap::COL_ID)) {
             $criteria->add(CommentTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(CommentTableMap::COL_TITLE)) {
-            $criteria->add(CommentTableMap::COL_TITLE, $this->title);
-        }
         if ($this->isColumnModified(CommentTableMap::COL_BODY)) {
             $criteria->add(CommentTableMap::COL_BODY, $this->body);
         }
@@ -1185,7 +1137,8 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        throw new LogicException('The Comment object has no primary key');
+        $criteria = ChildCommentQuery::create();
+        $criteria->add(CommentTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1198,7 +1151,7 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = false;
+        $validPk = null !== $this->getId();
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1213,27 +1166,23 @@ abstract class Comment implements ActiveRecordInterface
     }
 
     /**
-     * Returns NULL since this table doesn't have a primary key.
-     * This method exists only for BC and is deprecated!
-     * @return null
+     * Returns the primary key for this object (row).
+     * @return int
      */
     public function getPrimaryKey()
     {
-        return null;
+        return $this->getId();
     }
 
     /**
-     * Dummy primary key setter.
+     * Generic method to set the primary key (id column).
      *
-     * This function only exists to preserve backwards compatibility.  It is no longer
-     * needed or required by the Persistent interface.  It will be removed in next BC-breaking
-     * release of Propel.
-     *
-     * @deprecated
+     * @param       int $key Primary key.
+     * @return void
      */
-    public function setPrimaryKey($pk)
+    public function setPrimaryKey($key)
     {
-        // do nothing, because this object doesn't have any primary keys
+        $this->setId($key);
     }
 
     /**
@@ -1242,7 +1191,7 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return ;
+        return null === $this->getId();
     }
 
     /**
@@ -1258,14 +1207,13 @@ abstract class Comment implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
-        $copyObj->setTitle($this->getTitle());
         $copyObj->setBody($this->getBody());
         $copyObj->setTimestamp($this->getTimestamp());
         $copyObj->setUserId($this->getUserId());
         $copyObj->setJobId($this->getJobId());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1407,7 +1355,6 @@ abstract class Comment implements ActiveRecordInterface
             $this->aJob->removeComment($this);
         }
         $this->id = null;
-        $this->title = null;
         $this->body = null;
         $this->timestamp = null;
         $this->user_id = null;

@@ -5,6 +5,7 @@ namespace Base;
 use \Comment as ChildComment;
 use \CommentQuery as ChildCommentQuery;
 use \Exception;
+use \PDO;
 use Map\CommentTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -12,7 +13,6 @@ use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
-use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Exception\PropelException;
 
 /**
@@ -21,14 +21,12 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildCommentQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildCommentQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildCommentQuery orderByBody($order = Criteria::ASC) Order by the body column
  * @method     ChildCommentQuery orderByTimestamp($order = Criteria::ASC) Order by the timestamp column
  * @method     ChildCommentQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method     ChildCommentQuery orderByJobId($order = Criteria::ASC) Order by the job_id column
  *
  * @method     ChildCommentQuery groupById() Group by the id column
- * @method     ChildCommentQuery groupByTitle() Group by the title column
  * @method     ChildCommentQuery groupByBody() Group by the body column
  * @method     ChildCommentQuery groupByTimestamp() Group by the timestamp column
  * @method     ChildCommentQuery groupByUserId() Group by the user_id column
@@ -68,7 +66,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildComment findOneOrCreate(ConnectionInterface $con = null) Return the first ChildComment matching the query, or a new ChildComment object populated from the query conditions when no match is found
  *
  * @method     ChildComment findOneById(int $id) Return the first ChildComment filtered by the id column
- * @method     ChildComment findOneByTitle(string $title) Return the first ChildComment filtered by the title column
  * @method     ChildComment findOneByBody(string $body) Return the first ChildComment filtered by the body column
  * @method     ChildComment findOneByTimestamp(int $timestamp) Return the first ChildComment filtered by the timestamp column
  * @method     ChildComment findOneByUserId(int $user_id) Return the first ChildComment filtered by the user_id column
@@ -78,7 +75,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildComment requireOne(ConnectionInterface $con = null) Return the first ChildComment matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildComment requireOneById(int $id) Return the first ChildComment filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildComment requireOneByTitle(string $title) Return the first ChildComment filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildComment requireOneByBody(string $body) Return the first ChildComment filtered by the body column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildComment requireOneByTimestamp(int $timestamp) Return the first ChildComment filtered by the timestamp column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildComment requireOneByUserId(int $user_id) Return the first ChildComment filtered by the user_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -86,7 +82,6 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildComment[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildComment objects based on current ModelCriteria
  * @method     ChildComment[]|ObjectCollection findById(int $id) Return ChildComment objects filtered by the id column
- * @method     ChildComment[]|ObjectCollection findByTitle(string $title) Return ChildComment objects filtered by the title column
  * @method     ChildComment[]|ObjectCollection findByBody(string $body) Return ChildComment objects filtered by the body column
  * @method     ChildComment[]|ObjectCollection findByTimestamp(int $timestamp) Return ChildComment objects filtered by the timestamp column
  * @method     ChildComment[]|ObjectCollection findByUserId(int $user_id) Return ChildComment objects filtered by the user_id column
@@ -150,13 +145,89 @@ abstract class CommentQuery extends ModelCriteria
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
-        throw new LogicException('The Comment object has no primary key');
+        if ($key === null) {
+            return null;
+        }
+
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection(CommentTableMap::DATABASE_NAME);
+        }
+
+        $this->basePreSelect($con);
+
+        if (
+            $this->formatter || $this->modelAlias || $this->with || $this->select
+            || $this->selectColumns || $this->asColumns || $this->selectModifiers
+            || $this->map || $this->having || $this->joins
+        ) {
+            return $this->findPkComplex($key, $con);
+        }
+
+        if ((null !== ($obj = CommentTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+            // the object is already in the instance pool
+            return $obj;
+        }
+
+        return $this->findPkSimple($key, $con);
+    }
+
+    /**
+     * Find object by primary key using raw SQL to go fast.
+     * Bypass doSelect() and the object formatter by using generated code.
+     *
+     * @param     mixed $key Primary key to use for the query
+     * @param     ConnectionInterface $con A connection object
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildComment A model object, or null if the key is not found
+     */
+    protected function findPkSimple($key, ConnectionInterface $con)
+    {
+        $sql = 'SELECT id, body, timestamp, user_id, job_id FROM comment WHERE id = :p0';
+        try {
+            $stmt = $con->prepare($sql);
+            $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch (Exception $e) {
+            Propel::log($e->getMessage(), Propel::LOG_ERR);
+            throw new PropelException(sprintf('Unable to execute SELECT statement [%s]', $sql), 0, $e);
+        }
+        $obj = null;
+        if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
+            /** @var ChildComment $obj */
+            $obj = new ChildComment();
+            $obj->hydrate($row);
+            CommentTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+        }
+        $stmt->closeCursor();
+
+        return $obj;
+    }
+
+    /**
+     * Find object by primary key.
+     *
+     * @param     mixed $key Primary key to use for the query
+     * @param     ConnectionInterface $con A connection object
+     *
+     * @return ChildComment|array|mixed the result, formatted by the current formatter
+     */
+    protected function findPkComplex($key, ConnectionInterface $con)
+    {
+        // As the query uses a PK condition, no limit(1) is necessary.
+        $criteria = $this->isKeepQuery() ? clone $this : $this;
+        $dataFetcher = $criteria
+            ->filterByPrimaryKey($key)
+            ->doSelect($con);
+
+        return $criteria->getFormatter()->init($criteria)->formatOne($dataFetcher);
     }
 
     /**
      * Find objects by primary key
      * <code>
-     * $objs = $c->findPks(array(array(12, 56), array(832, 123), array(123, 456)), $con);
+     * $objs = $c->findPks(array(12, 56, 832), $con);
      * </code>
      * @param     array $keys Primary keys to use for the query
      * @param     ConnectionInterface $con an optional connection object
@@ -165,7 +236,16 @@ abstract class CommentQuery extends ModelCriteria
      */
     public function findPks($keys, ConnectionInterface $con = null)
     {
-        throw new LogicException('The Comment object has no primary key');
+        if (null === $con) {
+            $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
+        }
+        $this->basePreSelect($con);
+        $criteria = $this->isKeepQuery() ? clone $this : $this;
+        $dataFetcher = $criteria
+            ->filterByPrimaryKeys($keys)
+            ->doSelect($con);
+
+        return $criteria->getFormatter()->init($criteria)->format($dataFetcher);
     }
 
     /**
@@ -177,7 +257,8 @@ abstract class CommentQuery extends ModelCriteria
      */
     public function filterByPrimaryKey($key)
     {
-        throw new LogicException('The Comment object has no primary key');
+
+        return $this->addUsingAlias(CommentTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -189,7 +270,8 @@ abstract class CommentQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
-        throw new LogicException('The Comment object has no primary key');
+
+        return $this->addUsingAlias(CommentTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -231,31 +313,6 @@ abstract class CommentQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CommentTableMap::COL_ID, $id, $comparison);
-    }
-
-    /**
-     * Filter the query on the title column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByTitle('fooValue');   // WHERE title = 'fooValue'
-     * $query->filterByTitle('%fooValue%', Criteria::LIKE); // WHERE title LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $title The value to use as filter.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildCommentQuery The current query, for fluid interface
-     */
-    public function filterByTitle($title = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($title)) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(CommentTableMap::COL_TITLE, $title, $comparison);
     }
 
     /**
@@ -574,8 +631,7 @@ abstract class CommentQuery extends ModelCriteria
     public function prune($comment = null)
     {
         if ($comment) {
-            throw new LogicException('Comment object has no primary key');
-
+            $this->addUsingAlias(CommentTableMap::COL_ID, $comment->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
