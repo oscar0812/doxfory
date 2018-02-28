@@ -124,7 +124,7 @@
 								</div>
 								<div class="media-body">
 									<?php $name = ($user_c == $user)?$user->getFirstName()." (you)":$user_c->getFullName();?>
-									<h4 class="media-heading"><?=$name?><span class="time"><?=commentTimestamp($comment)?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
+									<h4 class="media-heading"><?=$name?><span class="time"><?=timeAgo($comment->getTimestamp())?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
 									<p><?=$comment->getBody()?></p>
 								</div>
 							</div>
