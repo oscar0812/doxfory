@@ -113,8 +113,8 @@ class JobPaymentTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('JobId', 'MoneyAmount', 'IsOnlinePay', 'IsInPersonPayment', 'IsBarter', 'BarterItem', ),
-        self::TYPE_CAMELNAME     => array('jobId', 'moneyAmount', 'isOnlinePay', 'isInPersonPayment', 'isBarter', 'barterItem', ),
+        self::TYPE_PHPNAME       => array('JobId', 'MoneyAmount', 'IsOnlinePay', 'IsInPersonPay', 'IsBarter', 'BarterItem', ),
+        self::TYPE_CAMELNAME     => array('jobId', 'moneyAmount', 'isOnlinePay', 'isInPersonPay', 'isBarter', 'barterItem', ),
         self::TYPE_COLNAME       => array(JobPaymentTableMap::COL_JOB_ID, JobPaymentTableMap::COL_MONEY_AMOUNT, JobPaymentTableMap::COL_IS_ONLINE_PAY, JobPaymentTableMap::COL_IS_IN_PERSON_PAY, JobPaymentTableMap::COL_IS_BARTER, JobPaymentTableMap::COL_BARTER_ITEM, ),
         self::TYPE_FIELDNAME     => array('job_id', 'money_amount', 'is_online_pay', 'is_in_person_pay', 'is_barter', 'barter_item', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
@@ -127,8 +127,8 @@ class JobPaymentTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('JobId' => 0, 'MoneyAmount' => 1, 'IsOnlinePay' => 2, 'IsInPersonPayment' => 3, 'IsBarter' => 4, 'BarterItem' => 5, ),
-        self::TYPE_CAMELNAME     => array('jobId' => 0, 'moneyAmount' => 1, 'isOnlinePay' => 2, 'isInPersonPayment' => 3, 'isBarter' => 4, 'barterItem' => 5, ),
+        self::TYPE_PHPNAME       => array('JobId' => 0, 'MoneyAmount' => 1, 'IsOnlinePay' => 2, 'IsInPersonPay' => 3, 'IsBarter' => 4, 'BarterItem' => 5, ),
+        self::TYPE_CAMELNAME     => array('jobId' => 0, 'moneyAmount' => 1, 'isOnlinePay' => 2, 'isInPersonPay' => 3, 'isBarter' => 4, 'barterItem' => 5, ),
         self::TYPE_COLNAME       => array(JobPaymentTableMap::COL_JOB_ID => 0, JobPaymentTableMap::COL_MONEY_AMOUNT => 1, JobPaymentTableMap::COL_IS_ONLINE_PAY => 2, JobPaymentTableMap::COL_IS_IN_PERSON_PAY => 3, JobPaymentTableMap::COL_IS_BARTER => 4, JobPaymentTableMap::COL_BARTER_ITEM => 5, ),
         self::TYPE_FIELDNAME     => array('job_id' => 0, 'money_amount' => 1, 'is_online_pay' => 2, 'is_in_person_pay' => 3, 'is_barter' => 4, 'barter_item' => 5, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
@@ -154,7 +154,7 @@ class JobPaymentTableMap extends TableMap
         $this->addForeignPrimaryKey('job_id', 'JobId', 'INTEGER' , 'job', 'id', true, null, null);
         $this->addColumn('money_amount', 'MoneyAmount', 'DOUBLE', true, 8, null);
         $this->addColumn('is_online_pay', 'IsOnlinePay', 'BOOLEAN', true, 1, false);
-        $this->addColumn('is_in_person_pay', 'IsInPersonPayment', 'BOOLEAN', true, 1, false);
+        $this->addColumn('is_in_person_pay', 'IsInPersonPay', 'BOOLEAN', true, 1, false);
         $this->addColumn('is_barter', 'IsBarter', 'BOOLEAN', true, 1, false);
         $this->addColumn('barter_item', 'BarterItem', 'VARCHAR', true, 32, null);
     } // initialize()

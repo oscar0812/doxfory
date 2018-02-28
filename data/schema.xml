@@ -58,7 +58,7 @@
     <column name="job_id" phpName="JobId" type="INTEGER" primaryKey="true" required="true"/>
     <column name="money_amount" phpName="MoneyAmount" type="DOUBLE" size="8" scale="2" required="true"/>
     <column name="is_online_pay" phpName="IsOnlinePay" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
-    <column name="is_in_person_pay" phpName="IsInPersonPayment" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="is_in_person_pay" phpName="IsInPersonPay" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="is_barter" phpName="IsBarter" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
     <column name="barter_item" phpName="BarterItem" type="VARCHAR" size="32" required="true"/>
     <foreign-key foreignTable="job" name="job_payment_ibfk_1">

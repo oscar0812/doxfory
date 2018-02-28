@@ -404,7 +404,7 @@ abstract class JobPayment implements ActiveRecordInterface
      *
      * @return boolean
      */
-    public function getIsInPersonPayment()
+    public function getIsInPersonPay()
     {
         return $this->is_in_person_pay;
     }
@@ -414,9 +414,9 @@ abstract class JobPayment implements ActiveRecordInterface
      *
      * @return boolean
      */
-    public function isInPersonPayment()
+    public function isInPersonPay()
     {
-        return $this->getIsInPersonPayment();
+        return $this->getIsInPersonPay();
     }
 
     /**
@@ -531,7 +531,7 @@ abstract class JobPayment implements ActiveRecordInterface
      * @param  boolean|integer|string $v The new value
      * @return $this|\JobPayment The current object (for fluent API support)
      */
-    public function setIsInPersonPayment($v)
+    public function setIsInPersonPay($v)
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -547,7 +547,7 @@ abstract class JobPayment implements ActiveRecordInterface
         }
 
         return $this;
-    } // setIsInPersonPayment()
+    } // setIsInPersonPay()
 
     /**
      * Sets the value of the [is_barter] column.
@@ -654,7 +654,7 @@ abstract class JobPayment implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : JobPaymentTableMap::translateFieldName('IsOnlinePay', TableMap::TYPE_PHPNAME, $indexType)];
             $this->is_online_pay = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobPaymentTableMap::translateFieldName('IsInPersonPayment', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : JobPaymentTableMap::translateFieldName('IsInPersonPay', TableMap::TYPE_PHPNAME, $indexType)];
             $this->is_in_person_pay = (null !== $col) ? (boolean) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : JobPaymentTableMap::translateFieldName('IsBarter', TableMap::TYPE_PHPNAME, $indexType)];
@@ -995,7 +995,7 @@ abstract class JobPayment implements ActiveRecordInterface
                 return $this->getIsOnlinePay();
                 break;
             case 3:
-                return $this->getIsInPersonPayment();
+                return $this->getIsInPersonPay();
                 break;
             case 4:
                 return $this->getIsBarter();
@@ -1036,7 +1036,7 @@ abstract class JobPayment implements ActiveRecordInterface
             $keys[0] => $this->getJobId(),
             $keys[1] => $this->getMoneyAmount(),
             $keys[2] => $this->getIsOnlinePay(),
-            $keys[3] => $this->getIsInPersonPayment(),
+            $keys[3] => $this->getIsInPersonPay(),
             $keys[4] => $this->getIsBarter(),
             $keys[5] => $this->getBarterItem(),
         );
@@ -1105,7 +1105,7 @@ abstract class JobPayment implements ActiveRecordInterface
                 $this->setIsOnlinePay($value);
                 break;
             case 3:
-                $this->setIsInPersonPayment($value);
+                $this->setIsInPersonPay($value);
                 break;
             case 4:
                 $this->setIsBarter($value);
@@ -1149,7 +1149,7 @@ abstract class JobPayment implements ActiveRecordInterface
             $this->setIsOnlinePay($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setIsInPersonPayment($arr[$keys[3]]);
+            $this->setIsInPersonPay($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
             $this->setIsBarter($arr[$keys[4]]);
@@ -1312,7 +1312,7 @@ abstract class JobPayment implements ActiveRecordInterface
         $copyObj->setJobId($this->getJobId());
         $copyObj->setMoneyAmount($this->getMoneyAmount());
         $copyObj->setIsOnlinePay($this->getIsOnlinePay());
-        $copyObj->setIsInPersonPayment($this->getIsInPersonPayment());
+        $copyObj->setIsInPersonPay($this->getIsInPersonPay());
         $copyObj->setIsBarter($this->getIsBarter());
         $copyObj->setBarterItem($this->getBarterItem());
         if ($makeNew) {
