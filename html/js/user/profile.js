@@ -85,7 +85,8 @@ $(function() {
           contactAlert.addClass('alert-success');
           contactAlert.removeClass('alert-danger');
           contactAlert.text("Successfully changed " + name);
-
+          change = $('[data-name="' + name + '"]');
+          change.attr('data-value', value).attr('data-original-title', value);
         } else {
           // an error occured
           contactAlert.addClass('alert-danger');
@@ -96,7 +97,7 @@ $(function() {
     });
   }
 
-  editInput(".edit", function(text){
+  editInput(".edit", function(text) {
     console.log(text);
   });
 
