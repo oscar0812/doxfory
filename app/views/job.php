@@ -115,15 +115,15 @@
 							<h3 class="title">(<span id="number"><?=$comments->count()?></span>) Comments</h3>
 
 							<?php foreach ($comments as $comment) {
-								$user = $comment->getUser();
+								$user_c = $comment->getUser();
 							?>
 							<!-- comment -->
-							<div class="media <?php if($job->getPostedById() == $user->getId()) echo "author"?>">
+							<div class="media <?php if($job->getPostedById() == $user_c->getId()) echo "author"?>">
 								<div class="media-left">
-									<img class="media-object small-pfp url hand" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user->getId()])?>">
+									<img class="media-object small-pfp url hand" src="<?=$user_c->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user_c->getId()])?>">
 								</div>
 								<div class="media-body">
-									<h4 class="media-heading"><?=$user->getFullName()?><span class="time"><?=commentTimestamp($comment)?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
+									<h4 class="media-heading"><?=$user->getFirstName()." "?><?php if($user_c == $user) echo "(You)";?><span class="time"><?=commentTimestamp($comment)?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
 									<p><?=$comment->getBody()?></p>
 								</div>
 							</div>
