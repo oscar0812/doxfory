@@ -98,7 +98,7 @@
 										<?php } ?>
 									</div>
 								</div>
-								<span class="edit"><?=$user->getAboutMe()?></span>
+								<span <?php if(!$visiting) { ?>class="edit" <?php } ?>><?=$user->getAboutMe()?></span>
 							</div>
 						</div>
 					</div>
