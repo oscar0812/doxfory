@@ -185,6 +185,7 @@
 							<form id="commentForm" method="POST" action="<?=$router->pathFor('comment', ['id'=>$job->getId()])?>">
 								<textarea name="text" placeholder="Add Your Commment"></textarea>
 								<button type="submit" class="main-btn">Submit</button>
+								<span class="text-danger"></span>
 							</form>
 						</div>
 						<!-- /reply form -->
@@ -235,6 +236,7 @@
 		<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
 		<script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
 		<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+		<script type="text/javascript" src="<?=$home?>js/main/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?=$home?>js/user/job.js"></script>
 </body>
 

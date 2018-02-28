@@ -223,7 +223,7 @@ class UserController
             $app->post('/comment', function ($request, $response, $args) {
                 $post = $request->getParsedBody();
 
-                if (!isset($_COOKIE['job'])) {
+                if (!isset($_COOKIE['job']) || !isset($post['text']) || $post['text'] == '') {
                     // invalid job
                     return $response->withJSON(['success'=>false]);
                 }
