@@ -118,7 +118,7 @@
 								$user = $comment->getUser();
 							?>
 							<!-- comment -->
-							<div class="media">
+							<div class="media <?php if($posted_by_user) echo "author"?>">
 								<div class="media-left">
 									<img class="media-object small-pfp url hand" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user->getId()])?>">
 								</div>
@@ -127,13 +127,14 @@
 									<p><?=$comment->getBody()?></p>
 								</div>
 							</div>
+
 							<!-- /comment -->
 							<?php } // /foreach?>
 
 							<!-- comment
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="<?=$home?>img/perso1.jpg" alt="">
+									<img class="media-object" src="<?php//=$home?>img/perso1.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -142,7 +143,7 @@
 
 								<div class="media author">
 									<div class="media-left">
-										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
+										<img class="media-object" src="<?php//=$home?>img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -152,7 +153,7 @@
 
 								<div class="media">
 									<div class="media-left">
-										<img class="media-object" src="<?=$home?>img/perso2.jpg" alt="">
+										<img class="media-object" src="<?php//=$home?>img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -164,8 +165,9 @@
 							</comment -->
 
 						<!-- /blog comments -->
+						</div>
 
-						<div id="commentTemplate" class="media invisible">
+						<div class="media author invisible">
 							<div class="media-left">
 								<img class="media-object small-pfp" src="" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 							</div>
@@ -175,7 +177,7 @@
 							</div>
 						</div>
 
-					</div>
+
 
 						<!-- reply form -->
 						<div class="reply-form">

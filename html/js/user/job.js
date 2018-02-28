@@ -1,6 +1,6 @@
 $(function() {
   commentForm = $('#commentForm');
-  template = $('#commentTemplate');
+  template = $('.media.invisible');
 
   commentForm.on('submit', function(e) {
     e.preventDefault();
