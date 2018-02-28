@@ -109,9 +109,8 @@
 						<!-- blog tags -->
 
 						<hr>
-						<?php if($comments->count() != 0) { ?>
 						<!-- blog comments -->
-						<div class="blog-comments">
+						<div class="blog-comments <?php if($comments->count() == 0) echo "invisible"?>">
 
 							<h3 class="title">(<span id="number"><?=$comments->count()?></span>) Comments</h3>
 
@@ -164,9 +163,7 @@
 							</div>
 							</comment -->
 
-						</div>
 						<!-- /blog comments -->
-						<?php } // /if?>
 
 						<div id="commentTemplate" class="media invisible">
 							<div class="media-left">
@@ -177,6 +174,8 @@
 								<p></p>
 							</div>
 						</div>
+
+					</div>
 
 						<!-- reply form -->
 						<div class="reply-form">

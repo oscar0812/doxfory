@@ -228,7 +228,7 @@ class UserController
                     return $response->withJSON(['success'=>false]);
                 }
 
-                $job = JobQuery::create()->findOneById($_SESSION['job_id']);
+                $job = JobQuery::create()->findOneById($_COOKIE['job']);
 
                 $comment = new \Comment();
                 $comment->setBody($post['text']);
@@ -239,6 +239,7 @@ class UserController
 
                 $arr = $comment->toArray();
                 $arr['success']= true;
+                $arr['job_id'] = $job->getId();
                 $user_arr = $comment->getUser()->toArray();
 
                 // dont return sensitive info

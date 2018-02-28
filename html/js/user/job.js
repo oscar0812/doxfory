@@ -30,7 +30,7 @@ $(function() {
         num = $("#number").text();
         $('#number').text(++num);
 
-        $(".blog-comments").append(comment);
+        $(".blog-comments").removeClass('invisible').append(comment);
 
       } else {
         console.log('no success');
