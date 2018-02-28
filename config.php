@@ -11,12 +11,6 @@ function copyright()
     return "Copyright © 2018. All Rights Reserved.";
 }
 
-function jobTagColor()
-{
-    $arr = array("warning", "danger", "info", "success");
-    return $arr[array_rand($arr)];
-}
-
 function session_start_safe()
 {
     if (!isset($_SESSION)) {
@@ -45,7 +39,14 @@ function logUserOut()
     unset($_SESSION['user_id']);
 }
 
-// for sending email, to send with whole url and not just a path
+// job functions
+function jobTagColor()
+{
+    $arr = array("warning", "danger", "info", "success");
+    return $arr[array_rand($arr)];
+}
+
+// To get whole url and not just the path
 function url()
 {
     if (isset($_SERVER['HTTPS'])) {
@@ -133,6 +134,39 @@ function getUserLocation()
 }
 
 // date functions
+// returns "x min ago, x hours ago, x days ago, etc"
+function commentTimestamp($comment)
+{
+    $date1 = timestampToDate($comment->getTimestamp());
+    $date2 = getCurrentDateTime();
+    $diff = dateDifference($date1, $date2);
+
+    if ($diff->y > 0) {
+        return $diff->y." years ago";
+    }
+
+    if ($diff->m > 0) {
+        return $diff->m." months ago";
+    }
+
+    if ($diff->d > 0) {
+        return $diff->d." days ago";
+    }
+
+    if ($diff->h > 0) {
+        return $diff->h." hours ago";
+    }
+
+    if ($diff->i >= 0) {
+        if ($diff->i < 5) {
+            return "just now";
+        }
+        return $diff->i." minutes ago";
+    }
+
+    return "unknown";
+}
+
 function getCurrentDateTime()
 {
     $dt = new DateTime();
@@ -159,8 +193,9 @@ function timestampToDate($time)
     return $dt;
 }
 
-// get the difference between 2 dates in minutes
-function dateMinuteDifference($date1, $date2)
+// get the difference between 2 dates
+// $date2 >= $date1
+function dateDifference($date1, $date2, $interval = 'm')
 {
     if (is_int($date1)) {
         $date1 = timestampToDate($date1);
@@ -168,9 +203,8 @@ function dateMinuteDifference($date1, $date2)
     if (is_int($date2)) {
         $date2 = timestampToDate($date2);
     }
-    $interval = new DateInterval("PT1M");
-    $periods = new DatePeriod($date1, $interval, $date2);
-    return ((int)iterator_count($periods));
+
+    return $date1->diff($date2);
 }
 
 // the functions below take strings such as "1/30/2017"
