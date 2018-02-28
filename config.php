@@ -135,26 +135,26 @@ function getUserLocation()
 
 // date functions
 // returns "x min ago, x hours ago, x days ago, etc"
-function commentTimestamp($comment)
+function timeAgo($timestamp)
 {
-    $date1 = timestampToDate($comment->getTimestamp());
+    $date1 = timestampToDate($timestamp);
     $date2 = getCurrentDateTime();
     $diff = dateDifference($date1, $date2);
 
     if ($diff->y > 0) {
-        return $diff->y." years ago";
+        return $diff->y." year".(($diff->y>1)?"s":""). " ago";
     }
 
     if ($diff->m > 0) {
-        return $diff->m." months ago";
+        return $diff->m." month".(($diff->m>1)?"s":""). " ago";
     }
 
     if ($diff->d > 0) {
-        return $diff->d." days ago";
+        return $diff->d." day".(($diff->d>1)?"s":""). " ago";
     }
 
     if ($diff->h > 0) {
-        return $diff->h." hours ago";
+        return $diff->h." hour".(($diff->h>1)?"s":""). " ago";
     }
 
     if ($diff->i >= 0) {
