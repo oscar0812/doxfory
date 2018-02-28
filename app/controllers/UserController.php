@@ -203,8 +203,13 @@ class UserController
 
                 if ($job != null) {
                     // valid job
+                    setcookie('job', $job->getId(), (time()+(86400*30)));
+
                     $arr = UserController::getVars($this);
                     $arr['job'] = $job;
+                    $arr['comments'] = \CommentQuery::create()
+                        ->filterByJob($job)
+                        ->oldestToNewest()->find();
                     // if job was posted by currently signed in user
                     $arr['posted_by_user'] = $job->getPostedById() == currentUser()->getId();
                     return $this->view->render($response, "job.php", $arr);
@@ -213,6 +218,39 @@ class UserController
                     throw new \Slim\Exception\NotFoundException($request, $response);
                 }
             })->setName('job');
+
+            // if posting to job/comment, means posting a comment
+            $app->post('/comment', function ($request, $response, $args) {
+                $post = $request->getParsedBody();
+
+                if (!isset($_COOKIE['job'])) {
+                    // invalid job
+                    return $response->withJSON(['success'=>false]);
+                }
+
+                $job = JobQuery::create()->findOneById($_SESSION['job_id']);
+
+                $comment = new \Comment();
+                $comment->setBody($post['text']);
+                $comment->setTimestamp(getCurrentTime());
+                $comment->setUser(currentUser());
+                $comment->setJob($job);
+                $comment->save();
+
+                $arr = $comment->toArray();
+                $arr['success']= true;
+                $user_arr = $comment->getUser()->toArray();
+
+                // dont return sensitive info
+                unset($user_arr['Password']);
+                unset($user_arr['ConfirmationKey']);
+                unset($user_arr['ResetKey']);
+                unset($user_arr['DateJoined']);
+
+                $arr['User'] = $user_arr;
+
+                return $response->withJSON($arr);
+            })->setName('comment');
 
             //    /jobs/all
             $app->get('/all', function ($request, $response) {
@@ -229,8 +267,12 @@ class UserController
             })->setName('jobs');
 
             $app->get('/test', function ($request, $response) {
-                $l = getUserLocation();
-                var_dump($l);
+                $job = JobQuery::create()->findOneById(1);
+                $comments = $job->getComments();
+                foreach ($comments as $comment) {
+                    var_dump($comment);
+                    echo "<br /><br />";
+                }
             });
         });
     }
@@ -317,6 +359,13 @@ class UserController
                 if (!$user->isConfirmed() && !endsWith($path, "user/confirm")) {
                     $response = $response->withRedirect($this->router->pathFor('confirm'));
                 } else {
+                    if (!endsWith($path, 'user/jobs/comment')) {
+                        // unset the job id, for safety, only needed when commenting
+                        if (isset($_COOKIE['job'])) {
+                            unset($_COOKIE['job']);
+                            setcookie('job', '', 0);
+                        }
+                    }
                     $response = $next($request, $response);
                 }
             } else {
