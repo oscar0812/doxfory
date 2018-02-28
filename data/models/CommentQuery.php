@@ -14,5 +14,8 @@ use Base\CommentQuery as BaseCommentQuery;
  */
 class CommentQuery extends BaseCommentQuery
 {
-
+    public function oldestToNewest()
+    {
+        return $this->orderByTimestamp('asc');
+    }
 }
