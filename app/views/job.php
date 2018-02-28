@@ -118,7 +118,7 @@
 								$user = $comment->getUser();
 							?>
 							<!-- comment -->
-							<div class="media <?php if($posted_by_user) echo "author"?>">
+							<div class="media <?php if($job->getPostedById() == $user->getId()) echo "author"?>">
 								<div class="media-left">
 									<img class="media-object small-pfp url hand" src="<?=$user->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user->getId()])?>">
 								</div>
@@ -167,7 +167,7 @@
 						<!-- /blog comments -->
 						</div>
 
-						<div class="media author invisible">
+						<div class="media invisible <?php if($job->getPostedById() == $user->getId()) echo "author"?>">
 							<div class="media-left">
 								<img class="media-object small-pfp" src="" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';">
 							</div>
