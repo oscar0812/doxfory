@@ -123,7 +123,8 @@
 									<img class="media-object small-pfp url hand" src="<?=$user_c->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user_c->getId()])?>">
 								</div>
 								<div class="media-body">
-									<h4 class="media-heading"><?=$user->getFirstName()." "?><?php if($user_c == $user) echo "(You)";?><span class="time"><?=commentTimestamp($comment)?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
+									<?php $name = ($user_c == $user)?$user->getFirstName()." (you)":$user_c->getFullName();?>
+									<h4 class="media-heading"><?=$name?><span class="time"><?=commentTimestamp($comment)?></span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
 									<p><?=$comment->getBody()?></p>
 								</div>
 							</div>
