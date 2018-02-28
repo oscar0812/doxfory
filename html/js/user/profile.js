@@ -74,6 +74,7 @@ $(function() {
     $.ajax({
       type: "POST",
       data: {
+        column: "contact",
         key: key,
         value: value
       },
@@ -98,7 +99,14 @@ $(function() {
   }
 
   editInput(".edit", function(text) {
-    console.log(text);
+    $.ajax({
+      type: "POST",
+      data: {
+        column: "about",
+        text: text
+      },
+      url: window.location.href
+    });
   });
 
 });

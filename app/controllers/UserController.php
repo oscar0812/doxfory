@@ -100,24 +100,38 @@ class UserController
             })->setName('visiting_profile');
 
             // when posting to profile, that means the user wants to change
-            // some of their contact information
+            // some of their information
             $app->post('', function ($request, $response) {
                 $post = $request->getParsedBody();
-                // key will be PhoneNumber, Facebook, Twitter, Instagram
-                $key = $post['key'];
-                $value = $post['value'];
+                if ($post['column'] == 'contact') {
+                    // key will be PhoneNumber, Facebook, Twitter, Instagram
+                    $key = $post['key'];
+                    $value = $post['value'];
 
-                // put it in a try block since the jquery could be
-                // modified when posting
-                try {
-                    $contact = currentUser()->getContactInfo();
-                    $contact->setByName($key, $value);
-                    $contact->save();
-                    $response = $response->withJson(['success'=>true]);
-                } catch (\Exception $e) {
-                    $response = $response->withJson(['success'=>false]);
+                    // put it in a try block since the jquery could be
+                    // modified when posting
+                    try {
+                        $contact = currentUser()->getContactInfo();
+                        $contact->setByName($key, $value);
+                        $contact->save();
+                        $response = $response->withJson(['success'=>true]);
+                    } catch (\Exception $e) {
+                        $response = $response->withJson(['success'=>false]);
+                    }
+                    return $response;
+                } elseif ($post['column'] == 'about') {
+                    // trying to change about me
+                    $user = currentUser();
+                    if ($post['text'] == '' || $post['text'] == null) {
+                        $response = $response->withJson(['success'=>false]);
+                    } else {
+                        $user->setAboutMe($post['text']);
+                        $user->save();
+                        $response = $response->withJson(['success'=>true]);
+                    }
+                    return $response;
                 }
-                return $response;
+                return $response->withJson(['success'=>false]);
             });
         });
     }

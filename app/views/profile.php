@@ -98,7 +98,7 @@
 										<?php } ?>
 									</div>
 								</div>
-								<span class="edit"><?=$user->getAboutMe()?></span> <a class="trigger-edit" data-for="edit" href="#"><i class="fa fa-pencil"></i></a>
+								<span class="edit"><?=$user->getAboutMe()?></span>
 							</div>
 						</div>
 					</div>
