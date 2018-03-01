@@ -139,4 +139,9 @@ $(function() {
       }
     });
   });
+
+  // get list of languages from languages.json
+  $.getJSON('../../app/languages.json', function(json){
+    console.log(json);
+  });
 });
