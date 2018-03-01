@@ -106,7 +106,7 @@
 										</a>
 									<?php } ?>
 								</span>
-								
+
 							</div>
 						</div>
 					</div>
@@ -117,7 +117,7 @@
 
 					<div class="col-sm-12 col-md-4 col-lg-4">
 						<div class="box">
-							<h3 class="blue">#Skills</h3>
+							<h3 class="title">Skills</h3>
 							<div class="progress">
 								<div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 80%;">
 									<div class="skill-item">Ruby On Rails</div>
@@ -143,7 +143,7 @@
 
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="box">
-							<h3 class="blue">#Languages</h3>
+							<h3 class="title">Languages</h3>
 							<ul class="list-group">
 								<li class="list-group-item">
 									<span class="badge badge-green">Fluent</span> English
@@ -160,7 +160,7 @@
 
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="box hobbies">
-							<h3 class="blue">#Hobbies</h3>
+							<h3 class="title">Hobbies</h3>
 							<div class="row bigger-110">
 								<div class="col-xs-12">
 									<ul class="list-unstyled">
@@ -187,7 +187,8 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="box">
-							<h3 class="blue">Posted Jobs</h3>
+							<h3 class="title">Posted Jobs</h3>
+
 							<?php $jobs = $user->getPostedJobs()->newestToOldest();
 							if($jobs->count() == 0){
 								echo "No jobs posted yet";

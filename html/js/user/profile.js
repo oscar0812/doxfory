@@ -126,7 +126,7 @@ $(function() {
           pencil = $('#edit-about').clone();
 
           // set the text to about on profile page
-          $('#about-section').text(text) + "";
+          $('#about-section').text(text);
 
           // add the pencil back
           $('#about-section').append(' ').append(pencil);
