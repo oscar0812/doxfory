@@ -115,7 +115,7 @@
 
 				<div class="row">
 
-					<div class="col-sm-12 col-md-4 col-lg-4">
+					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="box">
 							<h3 class="title">Skills</h3>
 							<div class="progress">
@@ -141,7 +141,7 @@
 						</div>
 					</div>
 
-					<div class="col-sm-6 col-md-4 col-lg-4">
+					<div class="col-sm-6 col-md-6 col-lg-6">
 						<div class="box">
 							<h3 class="title">Languages</h3>
 							<ul class="list-group">
@@ -158,6 +158,7 @@
 						</div>
 					</div>
 
+					<!--
 					<div class="col-sm-6 col-md-4 col-lg-4">
 						<div class="box hobbies">
 							<h3 class="title">Hobbies</h3>
@@ -181,6 +182,7 @@
 							</div>
 						</div>
 					</div>
+					-->
 
 				</div>
 
