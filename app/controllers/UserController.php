@@ -64,6 +64,12 @@ class UserController
         });
     }
 
+    public function resetPassword($app){
+      $app->get('/reset', function ($request, $response) use ($app) {
+        return $this->view->render($response, "reset_password.php", UserController::getVars($this));
+      });
+    }
+
     // profile page
     public function profile($app)
     {
@@ -356,6 +362,7 @@ class UserController
             $controller->jobs($app);
             $controller->users($app);
             $controller->confirmUser($app);
+            $controller->resetPassword($app);
             $controller->uploadImg($app);
         })->add(function ($request, $response, $next) {
             // can only visit /user/{url} if signed in
