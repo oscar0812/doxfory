@@ -233,16 +233,15 @@ class UserController
                 }
             })->setName('job');
 
-            // if posting to job/comment, means posting a comment
-            $app->post('/comment', function ($request, $response, $args) {
+            // if posting to job/id, means posting a comment
+            $app->post('/{id:[0-9]+}', function ($request, $response, $args) {
                 $post = $request->getParsedBody();
 
                 if (!isset($_COOKIE['job']) || !isset($post['text']) || $post['text'] == '') {
                     // invalid job
                     return $response->withJSON(['success'=>false]);
                 }
-
-                $job = JobQuery::create()->findOneById($_COOKIE['job']);
+                $job = JobQuery::create()->findPk($args['id']);
 
                 $comment = new \Comment();
                 $comment->setBody($post['text']);
@@ -282,7 +281,6 @@ class UserController
             })->setName('jobs');
 
             $app->get('/test', function ($request, $response) {
-                
             });
         });
     }
@@ -369,13 +367,6 @@ class UserController
                 if (!$user->isConfirmed() && !endsWith($path, "user/confirm")) {
                     $response = $response->withRedirect($this->router->pathFor('confirm'));
                 } else {
-                    if (!endsWith($path, 'user/jobs/comment')) {
-                        // unset the job id, for safety, only needed when commenting
-                        if (isset($_COOKIE['job'])) {
-                            unset($_COOKIE['job']);
-                            setcookie('job', '', 0);
-                        }
-                    }
                     $response = $next($request, $response);
                 }
             } else {
