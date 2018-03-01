@@ -127,7 +127,7 @@ class UserController
                     } else {
                         $user->setAboutMe($post['text']);
                         $user->save();
-                        $response = $response->withJson(['success'=>true]);
+                        $response = $response->withJson(['success'=>true, 'text'=>$post['text']]);
                     }
                     return $response;
                 }
@@ -282,12 +282,7 @@ class UserController
             })->setName('jobs');
 
             $app->get('/test', function ($request, $response) {
-                $job = JobQuery::create()->findOneById(1);
-                $comments = $job->getComments();
-                foreach ($comments as $comment) {
-                    var_dump($comment);
-                    echo "<br /><br />";
-                }
+                
             });
         });
     }

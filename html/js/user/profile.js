@@ -98,15 +98,45 @@ $(function() {
     });
   }
 
-  editInput(".edit", function(text) {
+  aboutModal = $('#aboutModal');
+  // about me pencil clicked
+  $('span').on('click', '#edit-about', function(e) {
+    e.preventDefault();
+
+    // set the textarea text (user about me)
+    aboutModal.find('textarea').val(aboutModal.attr('data-text'));
+    aboutModal.modal('show');
+  });
+
+  aboutModal.find('.submit').on('click', function() {
+    // about me modal submit button clicked
+    text = aboutModal.find('textarea').val();
+
     $.ajax({
       type: "POST",
       data: {
         column: "about",
         text: text
       },
-      url: window.location.href
+      url: window.location.href,
+      success: function(data) {
+        if (data['success']) {
+          text = data['text'];
+          // clone the pencil or it'll get lost when setting the about text
+          pencil = $('#edit-about').clone();
+
+          // set the text to about on profile page
+          $('#about-section').text(text) + "";
+
+          // add the pencil back
+          $('#about-section').append(' ').append(pencil);
+
+          // set the attr for when the pencil is clicked again
+          aboutModal.attr('data-text', text);
+        } else {
+          console.log(data);
+        }
+      }
     });
   });
-
 });

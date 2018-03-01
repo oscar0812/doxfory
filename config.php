@@ -229,3 +229,19 @@ function lastSecondOfDayString($date_str)
     $date->sub(new DateInterval("PT1S"));
     return $date;
 }
+
+function haversine($user_lat, $user_lon, $job_lat, $job_lon)
+{
+    // ACOS(SIN(latitude*$sf)*SIN(:lat*$sf) +
+    // COS(latitude*$sf)*COS(:lat*$sf)*COS((longitude-:lon)*$sf))
+
+
+    $sf = M_PI / 180; // scaling factor
+
+    $distance = ACOS(SIN($job_lat*$sf)*SIN($user_lat*$sf) +
+   COS($job_lat*$sf)*COS($user_lat*$sf)*COS(($job_lon-$user_lon)*$sf));
+
+    //echo "User:: [lat= $user_lat], [lon= $user_lon]<br />Job:: [lat= $job_lat], [lon= $job_lon]<br />distance=$distance<br /><br />";
+
+    return $distance;
+}

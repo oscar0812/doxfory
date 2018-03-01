@@ -12,7 +12,8 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 	<title>
-		<?=websiteName()?> | <?=$user->getFullName()?>
+		<?=websiteName()?> |
+			<?=$user->getFullName()?>
 	</title>
 
 	<!-- Google font -->
@@ -92,13 +93,20 @@
 											<i class="fa fa-twitter"></i>
 										</a>
 										<?php } if(!$visiting || $contact->hasInstagram()) { ?>
-										<a class="show-modal"  data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>">
+										<a class="show-modal" data-url="https://www.instagram.com/" data-name="Instagram" data-value="<?=$contact->getInstagram()?>">
 											<i class="fa fa-instagram"></i>
 										</a>
 										<?php } ?>
 									</div>
 								</div>
-								<span <?php if(!$visiting) { ?>class="edit" <?php } ?>><?=$user->getAboutMe()?></span>
+
+								<span id="about-section"><?=$user->getAboutMe()?>
+									<?php if(!$visiting) { ?>
+										<a href="#" id="edit-about"><i class="fa fa-pencil" aria-hidden="true"></i>
+										</a>
+									<?php } ?>
+								</span>
+								
 							</div>
 						</div>
 					</div>
@@ -191,24 +199,28 @@
 
 								<?php foreach ($jobs as $job){ ?>
 
-									<li class="timeline-inverted url" data-url="<?=$router->pathFor('job', ["id"=>$job->getId()])?>">
-										<div class="timeline-badge hand <?=jobTagColor()?>"><?=$job->getDatePosted()->format('M')?></div>
-										<div class="timeline-panel">
-											<div class="timeline-heading">
-												<h4 class="timeline-title"><?=$job->getTitle()?></h4>
-											</div>
-											<div class="timeline-body">
-												<p><?=$job->getDescription()?></p>
-											</div>
+								<li class="timeline-inverted url" data-url="<?=$router->pathFor('job', ["id"=>$job->getId()])?>">
+									<div class="timeline-badge hand <?=jobTagColor()?>">
+										<?=$job->getDatePosted()->format('M')?>
+									</div>
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h4 class="timeline-title"><?=$job->getTitle()?></h4>
 										</div>
-									</li>
+										<div class="timeline-body">
+											<p>
+												<?=$job->getDescription()?>
+											</p>
+										</div>
+									</div>
+								</li>
 
 								<?php } ?>
 
 
 							</ul>
 
-						<?php } // end of else ?>
+							<?php } // end of else ?>
 						</div>
 					</div>
 
@@ -300,7 +312,35 @@
 		</div>
 	</div>
 
-<?php }?>
+	<div class="modal fade" id="aboutModal" data-text="<?=$user->getAboutMe()?>" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<strong class="modal-title">Tell the world about you</strong>
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+				</div>
+
+				<div class="modal-body">
+
+					<div class="alert alert-danger invisible">
+
+					</div>
+
+					<div class="input-group">
+						<textarea name="text" class="form-control" rows="4" cols="80"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary submit" type="button" data-dismiss="modal">Change</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<?php }?>
 
 	<!-- jQuery Plugins -->
 	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
