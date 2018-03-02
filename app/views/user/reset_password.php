@@ -57,16 +57,17 @@
           <div class="col-xs-2 col-md-3">
           </div>
 
+          <!-- Form -->
           <div class="col-xs-8 col-md-6">
             <div class="panel panel-default">
               <div class="panel-body">
                 <h3><i class="fa fa-lock fa-4x"></i></h3>
-                <p>You can reset your password here</p>
+                <p>Hello <?=$user->getFirstName()?>, You can reset your password here</p>
                 <div class="panel-body">
 
                   <div class="login-card">
                     <div class="form">
-                      <form class="login-form">
+                      <form method="POST" target="<?=$router->pathFor('reset_password')?>" class="reset-form">
 
                         <div class="form-group">
                           <div class="input-group">
@@ -92,6 +93,7 @@
               </div>
             </div>
           </div>
+          <!-- /Form -->
 
           <div class="col-xs-2 col-md-3">
           </div>
@@ -101,14 +103,45 @@
     </div>
 
 
-
-
     <!-- jQuery Plugins -->
   	<script type="text/javascript" src="<?=$home?>js/main/jquery.min.js"></script>
   	<script type="text/javascript" src="<?=$home?>js/main/bootstrap.min.js"></script>
   	<script type="text/javascript" src="<?=$home?>js/main/owl.carousel.min.js"></script>
   	<script type="text/javascript" src="<?=$home?>js/main/jquery.magnific-popup.js"></script>
+    <script src="<?=$home?>js/main/jquery.validate.min.js"></script>
   	<script type="text/javascript" src="<?=$home?>js/user/agency.js"></script>
+    <script type="text/javascript" src="<?=$home?>js/main/global.js"></script>
+    <script type="text/javascript">
+    $(function(){
+      $('.reset-form').validate({
+        // Specify validation rules
+        rules: {
+          password: {
+            required: true,
+          }
+        },
+        messages: {
+          password: {
+            required: "Password can't be empty",
+          }
+        },
+        errorPlacement: function(error, element) {
+          error.appendTo(element.parent().find('span'));
+        },
+        submitHandler: function(form) {
+          // only submit the form if all is good
+        }
+      });
+      $('.reset-form').on('submit', function(e){
+        e.preventDefault();
+        ajaxForm(e.target, function(data) {
+          console.log(data);
+        });
+        return false;
+      });
+
+    });
+    </script>
 
   </body>
 

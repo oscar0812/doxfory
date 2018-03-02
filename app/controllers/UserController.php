@@ -48,7 +48,7 @@ class UserController
             // if haven't confirmed email
             // show confirm view
             if (!$user->isConfirmed()) {
-                return $this->view->render($response, "confirm.php", UserController::getVars($this));
+                return $this->view->render($response, "user/confirm.php", UserController::getVars($this));
             }
             // else, send them to profile page
             else {
@@ -66,7 +66,12 @@ class UserController
 
     public function resetPassword($app){
       $app->get('/reset', function ($request, $response) use ($app) {
-        return $this->view->render($response, "reset_password.php", UserController::getVars($this));
+        return $this->view->render($response, "user/reset_password.php", UserController::getVars($this));
+      })->setName('reset_password');
+
+      // if posting, it means that new password is coming in
+      $app->post('/reset', function ($request, $response) use ($app) {
+        echo "hi";
       });
     }
 
@@ -81,7 +86,7 @@ class UserController
             $app->get('', function ($request, $response, $args) {
                 $arr = UserController::getVars($this);
                 $arr['visiting'] = false;
-                return $this->view->render($response, "profile.php", $arr);
+                return $this->view->render($response, "user/profile.php", $arr);
             })->setName('profile');
 
             // visiting another user profile
@@ -102,7 +107,7 @@ class UserController
                 if ($user->getId() == currentUser()->getId()) {
                     return $response->withRedirect($this->router->pathFor('profile'));
                 }
-                return $this->view->render($response, "profile.php", $arr);
+                return $this->view->render($response, "user/profile.php", $arr);
             })->setName('visiting_profile');
 
             // when posting to profile, that means the user wants to change
@@ -151,7 +156,7 @@ class UserController
             $app->get('/create', function ($request, $response) {
                 // reset previous job image
                 unset($_SESSION['jobImageUpload']);
-                return $this->view->render($response, "create_job.php", UserController::getVars($this));
+                return $this->view->render($response, "user/create_job.php", UserController::getVars($this));
             })->setName('create_job');
 
             // if post request, new job data is coming in
@@ -232,7 +237,7 @@ class UserController
                         ->oldestToNewest()->find();
                     // if job was posted by currently signed in user
                     $arr['posted_by_user'] = $job->getPostedById() == currentUser()->getId();
-                    return $this->view->render($response, "job.php", $arr);
+                    return $this->view->render($response, "user/job.php", $arr);
                 } else {
                     // show 404 not found
                     throw new \Slim\Exception\NotFoundException($request, $response);
@@ -283,7 +288,7 @@ class UserController
 
                 $arr['jobs'] = JobQuery::allJobsOrder($get);
 
-                return $this->view->render($response, "jobs.php", $arr);
+                return $this->view->render($response, "user/jobs.php", $arr);
             })->setName('jobs');
 
             $app->get('/test', function ($request, $response) {
@@ -296,7 +301,7 @@ class UserController
         $app->get('/users', function ($request, $response) {
             $arr = UserController::getVars($this);
             $arr['users'] = UserQuery::create()->find();
-            return $this->view->render($response, "users.php", $arr);
+            return $this->view->render($response, "user/users.php", $arr);
         })->setName('users');
     }
     // sign out route

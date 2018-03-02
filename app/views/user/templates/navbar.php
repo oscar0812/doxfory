@@ -1,13 +1,12 @@
 <!-- Nav -->
-<nav id="nav" class="navbar <?php if(!$logged_in) echo "nav-transparent"; else echo"fixed-nav"?>">
+<nav id="nav" class="navbar fixed-nav">
   <div class="container">
 
     <div class="navbar-header">
       <!-- Logo -->
       <div class="navbar-brand">
-        <a class="<?php if(!$logged_in) echo "scroll"?>"
-          href="<?php if(!$logged_in) echo "#home";
-          else echo $router->pathFor('profile')?>">
+        <a
+          href="<?=$router->pathFor('profile')?>">
           <img class="logo" src="<?=$home?>img/logo.png" alt="logo">
           <img class="logo-alt" src="<?=$home?>img/logo-alt.png" alt="logo">
         </a>
@@ -23,20 +22,6 @@
 
     <!--  Main navigation  -->
     <ul class="main-nav nav navbar-nav navbar-right">
-      <?php if(!$logged_in) { ?>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li class="has-dropdown"><a href="#featured">Jobs</a>
-        <ul class="dropdown">
-          <li><a href="#featured">Featured</a></li>
-          <li><a href="#recent">Recent</a></li>
-        </ul>
-      </li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="<?=$router->pathFor('register')?>">Account</a></li>
-    <?php } else {
-        // if signed in
-      ?>
       <li><a href="<?=$router->pathFor('profile')?>"><?=currentUser()->getFirstName()?></a>
       <li class="has-dropdown"><a href="<?=$router->pathFor('jobs')?>">Jobs</a>
         <ul class="dropdown">
@@ -47,7 +32,6 @@
       <li><a href="<?=$router->pathFor('users')?>">Users</a></li>
       <li><a href="<?=$router->pathFor('signout')?>" id="signout">Sign Out</a></li>
 
-    <?php } ?>
     </ul>
     <!-- /Main navigation -->
 
