@@ -81,7 +81,7 @@
 									<?php if($posted_by_user){
 										echo "You";
 									} else{
-										echo $user->getFullName();
+										echo $poster->getFullName();
 									}
 									?>
 								</li>
@@ -120,7 +120,8 @@
 							<!-- comment -->
 							<div class="media <?php if($job->getPostedById() == $user_c->getId()) echo "author"?>">
 								<div class="media-left">
-									<img class="media-object small-pfp url hand" src="<?=$user_c->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="<?=$router->pathFor('visiting_profile', ['id'=>$user_c->getId()])?>">
+									<img class="media-object small-pfp url hand" src="<?=$user_c->getProfilePicture()?>" onerror="this.onerror=null;this.src='<?=$home?>img/blank_pfp.png';" data-url="
+									<?=$router->pathFor('visiting_profile', ['id'=>$user_c->getId()])?>">
 								</div>
 								<div class="media-body">
 									<?php $name = ($user_c == $user)?$user->getFirstName()." (you)":$user_c->getFullName();?>
@@ -135,7 +136,7 @@
 							<!-- comment
 							<div class="media">
 								<div class="media-left">
-									<img class="media-object" src="<?php//=$home?>img/perso1.jpg" alt="">
+									<img class="media-object" src="img/perso1.jpg" alt="">
 								</div>
 								<div class="media-body">
 									<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -144,7 +145,7 @@
 
 								<div class="media author">
 									<div class="media-left">
-										<img class="media-object" src="<?php//=$home?>img/perso2.jpg" alt="">
+										<img class="media-object" src="img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
@@ -154,7 +155,7 @@
 
 								<div class="media">
 									<div class="media-left">
-										<img class="media-object" src="<?php//=$home?>img/perso2.jpg" alt="">
+										<img class="media-object" src="img/perso2.jpg" alt="">
 									</div>
 									<div class="media-body">
 										<h4 class="media-heading">Joe Doe<span class="time">2 min ago</span><a href="#" class="reply">Reply <i class="fa fa-reply"></i></a></h4>
